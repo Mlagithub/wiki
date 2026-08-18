@@ -1,0 +1,37 @@
+created: 20240908015416457
+creator: one
+modified: 20240908023430280
+modifier: one
+revision: 0
+tags: geogram
+title: Attribute
+type: text/vnd.tiddlywiki
+
+[[plantuml [
+@startuml
+
+class Attribute
+interface AttributeStoreCreator
+
+AttributesManager --* AttributeStore 
+
+Attribute --|> AttributeBase
+
+AttributeBase --* AttributesManager
+AttributeBase --|> AttributeStoreObserver
+AttributeBase --* AttributeStore
+
+AttributeStore ..> AttributeStoreObserver
+AttributeStore ..> AttributeStoreCreator
+
+AttributeStoreObserver ..> AttributeStore
+
+TypedAttributeStoreCreator --|> AttributeStoreCreator
+TypedAttributeStore --|> AttributeStore
+
+ScalarAttributeAdapterBase --|> AttributeStoreObserver
+ReadWriteScalarAttributeAdapter --|> AttributeStoreObserver
+
+
+@enduml
+]]]

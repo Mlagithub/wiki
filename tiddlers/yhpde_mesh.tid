@@ -1,0 +1,117 @@
+created: 20240911073408656
+modified: 20240911081540907
+revision: 0
+tags: yhpde mesh
+title: yhpde_mesh
+type: text/vnd.tiddlywiki
+
+!! 数据结构设计
+* element_list, face_list, node_list, bounday_list 等数据应该放在哪个类中？
+* 多个域的情况下，每个域的 element 是单独编号吗？不是
+* 域之间的共享几何元素：面，边，点
+* 不考虑自适应网格加密的情况下，如何高效地、低内存占用的生成该数据结构
+** 哪些是不需要的：点的母面，点的母单元，点的母边界？
+** 只要有从顶到下(cell -> face -> edge -> node)的信息，就可以随时计算出从下到上的信息(node->edge->face->cell)，不过从下到上的信息计算是昂贵的。
+
+!! 类图
+[[plantuml class="pretty" [
+@startuml
+
+title "Mesh 类图"
+
+enum DomainType {
+Solid
+Fluid
+}
+
+enum BoundaryType{
+Interface
+Process
+Iterator
+}
+
+enum ElementType
+
+class Mesh {
++ node() Node
++ Face() Face
++ element() Element
++ boundary() Boundary
++ domain() Domain
+---
+- std::vector<Node> _node_list
+- std::vector<Face> _face_list
+- std::vector<Element> _element_list
+- std::vector<Boundary> _boundary_list
+- std::vector<Domain> _domain_list
+}
+
+class Boundary{
++ type() BoundaryType
++ node() Node*
++ Face() Face*
++ element() Element*
+---
+- BoundaryType _type
+---
+- std::vector<Node*> _node_list
+- std::vector<Face*> _face_list
+- std::vector<Element*> _element_list
+}
+
+class Element{
++ node() Node*
++ Face() Face*
++ nbr() Element*
+---
+- std::vector<Node*> _node_list
+- std::vector<Face*> _face_list
+- std::vector<Element*> _nbr_list
+}
+
+class Face{
++ node() Node*
++ parent_element() Element*
+---
+- std::vector<Node*> _node_list
+- std::vector<Element*> _parent_element_list
+}
+
+class Node{
++ node() Node*
++ parent_element() Element*
+---
+- Vector _coordinate
+- std::vector<Element*> _parent_element_list
+}
+
+class Domain{
++ node() Node*
++ Face() Face*
++ element() Element*
++ boundary() Boundary*
+---
+- std::vector<Node*> _node_list
+- std::vector<Face*> _face_list
+- std::vector<Element*> _element_list
+- std::vector<Boundary*> _boundary_list
+}
+
+Mesh --* Node
+Mesh --* Face
+Mesh --* Element
+Mesh --* Boundary
+Mesh --* Domain
+
+Domain --* DomainType
+
+Boundary --* BoundaryType
+
+Element --* ElementType
+
+Face --* ElementType
+
+Node --* ElementType
+
+@enduml
+]]]

@@ -1,0 +1,69 @@
+created: 20240917134656518
+creator: one
+modified: 20260818031933814
+modifier: one
+tags: tiddlywiki
+title: TiddlyWiki 安装配置
+type: text/vnd.tiddlywiki
+
+* [[阿里云服务器]] 安装 TiddlyServer
+
+** 安装方法参考大佬 Arlen22 的[[官方说明|https://arlen22.github.io/tiddlyserver/docs/gettingstarted.html]]
+
+** 安装需要注意的地方
+*** 现在用的配置文件 `setting.json` 是这个 [[TiddlyServer_settings.json]] 参考官方的说明文档即可明白其设置方法
+
+*** 登录需要按作者给出的[[视频|https://www.youtube.com/watch?v=UfAiyubP8nY&t=21s]]来操作，不然很容易怀自已安装方法不对。这一步其实能劝退很多人。
+
+*** 登录页面如下 <<image-center caption:"login" width:"50%" tiddlyServer-login.png>>
+
+*** 登录成功后，进入上述任意一个目录，点击 Data Folder 将新建一个 tiddlywiki 项目文件夹，点击即打开熟悉的 TiddlyWiki 界面了，至此就算完成了初步安装。后续就可以装插件，进行配置了。
+
+** 插件
+*** 推荐 [[TiddlyWiki 安装插件]] 介始的方法
+*** Trashbin
+*** KaTex 
+*** Viz 
+*** plantuml
+*** crazko/Krystal：模仿 Andy 的水平排版
+*** edit-comptext：自动补全 tiddler 名
+*** Relink
+
+** 宏
+*** 从 [[这里|https://talk.tiddlywiki.org/t/floating-images-howto/7393]] 下载的处理图片浮动的宏
+*** 在 TiddlyWiki 中使用 Import 按扭导入即可
+
+* windows 安装 server 版 tiddlywiki
+** 需要安装 nvm for windows，下载地址在[[这里|https://github.com/coreybutler/nvm-windows/releases]]
+** 注意 nvm 的使用，好像只有 `nvm install --lts` 才能同时安装 npm 和 node
+** 切换到想要安装 TW  的目录，执行安装 `npm install tiddlywiki`
+** 完毕 
+
+* windows 下用 powershell 脚本实现自动化管理
+** [[windows 11 开机自启动 tiddlywiki server]]
+** [[windows 11 实时备份 tiddlywiki 数据]]
+
+* 首页的宏
+
+<<<
+```
+<$list filter="[tag[project]tag[todo]sort[created]]">
+
+<div class="myDiv" style="margin-top: 200px">
+<<interstitial-ui caption:"!!<$link to=<<currentTiddler>>>{{!!title}}</$link>" width:"100%" base:"$(currentTiddler)$">>
+</div>
+
+</$list>
+
+<$let  now_date=<<now YYYY0MM0DD>> >
+<$vars rb="[get[end]compare:date:gteq<now_date>]">
+<$vars lb="[get[start]compare:date:lteq<now_date>]">
+<$list filter="[tag[timeline]has[start]has[end]filter<lb>filter<rb>]">
+
+<div class="myDiv">
+<$transclude $variable=interstitial-ui caption="!!<$link to=<<currentTiddler>>>{{!!title}}</$link>" base=<<currentTiddler>> />
+</div>
+ 
+</$list>
+```
+<<<

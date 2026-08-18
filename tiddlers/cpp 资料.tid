@@ -1,0 +1,8 @@
+created: 20240915001627597
+modified: 20240915001842847
+revision: 0
+tags: cpp
+title: cpp 资料
+type: text/vnd.tiddlywiki
+
+* 博客 [[belay|https://belaycpp.com/]] 旨在向读者介绍 C++ 中常见的不良做法，解释不良做法的原因以及避免不良做法的方法。 

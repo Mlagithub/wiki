@@ -1,0 +1,8 @@
+created: 20240920080155158
+modified: 20240920084642920
+revision: 0
+tags: 
+title: windows 11 task scheduler 创建定时任务
+type: text/vnd.tiddlywiki
+
+<<alert danger """经过多次尝试，都不能成功将 [[检查 windows 10 的电量并弹窗提示]] 、[[windows 11 实时备份 tiddlywiki 数据]] 等脚本设置为定时任务""" >>

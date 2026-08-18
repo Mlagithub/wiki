@@ -1,0 +1,48 @@
+created: 20240918012609690
+modified: 20240918012750031
+revision: 0
+tags: cpp
+title: std::unordered_map 键为 std::set<int> 类型时的哈希函数
+type: text/vnd.tiddlywiki
+
+```cpp
+#include <iostream>
+#include <set>
+#include <unordered_map>
+#include <functional> // For std::hash
+#include <iterator> // For std::begin, std::end
+
+// Custom hash function for std::set<int>
+struct SetHash {
+    size_t operator()(const std::set<int>& s) const {
+        size_t seed = 0;
+        for (int value : s) {
+            seed ^= std::hash<int>()(value) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        }
+        return seed;
+    }
+};
+
+// Custom equality function for std::set<int>
+struct SetEqual {
+    bool operator()(const std::set<int>& lhs, const std::set<int>& rhs) const {
+        return lhs == rhs;
+    }
+};
+
+int main() {
+    // Define the unordered_map with custom hash and equality functions
+    std::unordered_map<std::set<int>, int, SetHash, SetEqual> myMap;
+
+    // Insert some values
+    myMap[std::set<int>{1, 2, 3}] = 10;
+    myMap[std::set<int>{4, 5, 6}] = 20;
+
+    // Access and print values
+    std::cout << "Value for {1, 2, 3}: " << myMap[std::set<int>{1, 2, 3}] << std::endl;
+    std::cout << "Value for {4, 5, 6}: " << myMap[std::set<int>{4, 5, 6}] << std::endl;
+
+    return 0;
+}
+
+```

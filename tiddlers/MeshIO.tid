@@ -1,0 +1,46 @@
+created: 20240908014156546
+creator: one
+modified: 20240908024216105
+modifier: one
+revision: 0
+tags: geogram
+title: MeshIO
+type: text/vnd.tiddlywiki
+
+[[plantuml [
+@startuml
+
+enum MeshElementsFlags {
+    MESH_NONE = 0
+    MESH_VERTICES = 1
+    MESH_FACETS = 2
+    MESH_EDGES  = 4
+    MESH_CELLS  = 8
+    MESH_ALL_ELEMENTS = 15
+    MESH_FACET_CORNERS = 16
+    MESH_CELL_CORNERS = 32
+    MESH_CELL_FACETS = 64
+    MESH_ALL_SUBELEMENTS = 65
+}
+
+enum MeshAttributesFlags {
+    MESH_NO_ATTRIBUTES = 0,
+    MESH_VERTEX_REGION = 1,
+    MESH_VERTEX_TEX_COORD = 2,
+    MESH_VERTEX_COLOR = 4,
+    MESH_FACET_REGION = 8,
+    MESH_CELL_REGION = 16,
+    MESH_EDGE_REGION = 32,
+    MESH_ALL_ATTRIBUTES = 255
+}
+
+MeshIOFlags --> MeshElementsFlags 
+MeshIOFlags --> MeshAttributesFlags 
+
+MeshIOHandler ..> MeshIOFlags
+
+GeogramIOHandler --|> MeshIOHandler
+
+
+@enduml
+]]]

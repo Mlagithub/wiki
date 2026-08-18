@@ -1,0 +1,16 @@
+created: 20220322083544220
+modified: 20220322150059349
+revision: 0
+tags: 
+title: TiddlyTools/Time/Tabs/Template
+type: text/vnd.tiddlywiki
+
+\define show()
+<$tiddler tiddler=<<currentTab>>>
+<div class="tt-shadowbox inset" style="margin:-1em 0;height:calc($(height)$ - 2.5em);">
+   <$button class="tc-btn-invisible" style="width:100%;height:100%;padding:0.5em;overflow:auto;cursor:default;outline:none;">
+      <div style="display:inline-block;text-align:left;"><$transclude mode=block/></div>
+   </$button>
+</div>
+\end
+<<show>>

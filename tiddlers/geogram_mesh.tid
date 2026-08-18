@@ -1,0 +1,46 @@
+created: 20240908014105133
+creator: one
+modified: 20240911073513111
+modifier: one
+revision: 0
+tags: geogram mesh
+title: geogram_mesh
+type: text/vnd.tiddlywiki
+
+[[plantuml class="pretty" [
+@startuml
+
+title "Mesh 类图"
+
+MeshSubElementsStore --* AttributeManager
+
+MeshEdges --|> MeshSubElementsStore
+MeshEdges --|> MeshElements
+
+MeshVertices --|> MeshSubElementsStore
+MeshVertices --|> MeshElements
+
+MeshFacetsStore --|> MeshSubElementsStore
+MeshFacetCornersStore --|> MeshSubElementsStore
+
+
+MeshFacets --|> MeshFacetsStore 
+MeshFacets --|> MeshElements
+
+MeshCellsStore--|> MeshSubElementsStore
+MeshCellCornersStore--|> MeshSubElementsStore
+MeshCellFacetsStore--|> MeshSubElementsStore
+
+MeshCells--|> MeshElements
+MeshCells--|> MeshCellsStore
+
+Mesh --* MeshVertices
+Mesh --* MeshEdges
+Mesh --* MeshFacets
+Mesh --* MeshFacetCornersStore
+Mesh --* MeshCells
+Mesh --* MeshCellCornersStore
+Mesh --* MeshCellFacetsStore
+
+@enduml
+]]]

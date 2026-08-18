@@ -1,0 +1,10 @@
+created: 20240919122753394
+modified: 20240919124804691
+revision: 0
+tags: cpp cpp_cheat_sheets
+title: cpp_binary_search_of_sorted_ranges
+type: text/vnd.tiddlywiki
+
+[img width=600px [cpp_binary_search_of_sorted_ranges.png]]
+
+[img width=600px [cpp_binary_search_of_sorted_ranges_cpp20.png]]

@@ -1,0 +1,64 @@
+created: 20240907014851399
+creator: one
+modified: 20260818011309690
+modifier: one
+tags: 
+title: 🏠
+type: text/vnd.tiddlywiki
+
+\define createTodo()
+<$action-sendmessage 
+  $message="tm-new-tiddler" 
+  title="New Todo" 
+  tags="todo" 
+  text=""
+  due-date=""
+  priority="normal"
+  status="not started"
+  />
+\end
+
+\define newTodo()
+<$button actions=<<createTodo>> class="btn btn-sm btn-info" >创建任务
+</$button>
+\end
+
+<style>
+.myDiv {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.flexs {
+    display: flex; justify-content: space-between; align-items: center;
+}
+</style>
+
+
+<div style="margin-top:40px; display: flex; justify-content: space-between; align-items: center;">
+<div>
+搜索 <$edit-text tiddler="$:/temp/todo/dtable/search" filed=text tag=input default=""/>
+</div>
+<<newTodo>>
+</div>
+<$macrocall $name=table-dynamic filter="[tag[todo]search{$:/temp/todo/dtable/search}]" fields="tbl-checkbox tbl-expand title priority status created" class="w-100" stateTiddler="your-state-tid"/>
+
+
+<div class="myDiv">
+<<interstitial-ui caption:"!!随手记" width:"100%" base:"$(currentTiddler)$">>
+</div>
+
+
+<div class="myDiv">
+<$transclude $variable="todolist-ui" caption="!!待办"  base="base" />
+</div>
+
+
+<div class="myDiv">
+<h2>项目待办</h2>
+<<project-todos-summary>>
+</div>
+
+
+<span style="border: none; border-top: 0.5px dashed grey; width: 100%; margin-bottom: 200px;"> </span>
+
+

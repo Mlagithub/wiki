@@ -1,0 +1,10 @@
+{
+    "title": "windows 11 开机自启动 twiddlywiki server",
+    "created": "20240920081604153",
+    "modified": "20240920081701622",
+    "revision": "0",
+    "tags": "tiddlywiki powershell",
+    "type": "text/vnd.tiddlywiki",
+    "text": "```powershell\nSet-Location -Path \"C:\\Users\\keep_\\work\\story\\data\\tiddlywiki_note\"\n\nnode.exe ..\\..\\node_modules\\tiddlywiki\\tiddlywiki.js --listen port=5678\n```",
+    "bag": "default"
+}

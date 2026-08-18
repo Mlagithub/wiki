@@ -1,0 +1,9 @@
+dependents: 
+description: Browser feature detection
+list: readme usage
+name: Browser Sniff
+plugin-type: plugin
+revision: 0
+title: $:/plugins/tiddlywiki/browser-sniff
+type: application/json
+version: 5.3.3

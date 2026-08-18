@@ -1,0 +1,12 @@
+{
+    "title": "recursive-variant-box",
+    "created": "20240910063830918",
+    "creator": "one",
+    "modified": "20260315102559099",
+    "modifier": "one",
+    "revision": "0",
+    "tags": "WTD cpp",
+    "type": "text/vnd.tiddlywiki",
+    "text": "[ext[https://www.foonathan.net/2022/05/recursive-variant-box/#content]]\n\n!!! 递归变体，运行时多态值类型\n\n> c++ 不支持运行时值类型多态\n> ",
+    "bag": "default"
+}

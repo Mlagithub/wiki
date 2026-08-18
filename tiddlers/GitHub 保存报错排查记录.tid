@@ -1,0 +1,43 @@
+created: 20260818111355919
+creator: one
+modified: 20260818111355919
+modifier: one
+revision: 0
+title: GitHub 保存报错排查记录
+type: text/vnd.tiddlywiki
+
+! GitHub 保存报错排查（XMLHttpRequest 错误代码 0）
+
+日期：2026-08-18
+
+!! 现象
+
+Ctrl+S 保存时报错：「保存时，发生错误：XMLHttpRequest 错误代码：0」
+
+!! 结论
+
+GitHub saver 机制与配置均正常，问题在浏览器网络层：Edge 走本地系统代理 127.0.0.1:6789，该代理对 GitHub 不稳定，XHR 偶发网络层失败（status 0）。
+
+!! 排查过程
+
+# 确认接管保存的是 GitHub saver（wiki 内无 upload/custom 等其他 saver 配置；未设密码会直接跳过 saver、不会出现该 XHR 报错 → 说明浏览器 localStorage 中密码已设置）。
+# 机制逐项验证通过：
+#* GET ''https://api.github.com/repos/Mlagithub/wiki/contents/?ref=main'' → 200
+#* CORS 预检 → 204，allow-headers 含 Authorization/Content-Type/If-None-Match，allow-methods 含 PUT
+#* PUT（无效凭据）→ 404（正常拒绝，非网络错误）
+# 复现：带 Authorization/Content-Type/If-None-Match 头的完整流程，headless Edge 先跑出 GET/PUT 均 status 0（与用户一致），几分钟后连续 13 次全部 200 → 间歇性网络层失败。
+# 根因定位：WinHTTP 直连无代理，但 Edge 走 IE/代理设置 ProxyServer=127.0.0.1:6789；该代理访问 google.com 失败（000）；20MB 上传实测 28 秒。实际保存需上传约 36MB（27MB wiki 的 base64），约 1 分钟，期间代理节点抖动即 status 0。直连 api.github.com 稳定 200。
+
+!! 解决办法
+
+# 代理客户端把 GitHub 域名加入直连（DIRECT）：''api.github.com''、''github.com''、''codeload.github.com''、''objects.githubusercontent.com''
+# 或保存时临时关闭系统代理（设置 → 网络和 Internet → 代理）
+# 密码自查：F12 → ''localStorage.getItem("tw5-password-github")'' 非 null 即已设置；若后续出现 401/404 错误，为 PAT 失效，需重新生成（public_repo 权限）并在 控制台 → 保存 → GitHub 重设。
+
+!! 配置备忘
+
+* ''$:/GitHub/Username'' = Mlagithub
+* ''$:/GitHub/Repo'' = wiki
+* ''$:/GitHub/Path'' = /
+* ''$:/GitHub/Filename'' = index.html
+* 分支默认 main

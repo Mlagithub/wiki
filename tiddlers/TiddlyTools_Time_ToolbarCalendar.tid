@@ -1,0 +1,75 @@
+caption: &#x1F4C5; Calendar
+created: 20220224204653234
+description: Show ~TiddlyTools Calendar
+modified: 20220301174251032
+revision: 0
+tags: $:/tags/ViewToolbar
+title: TiddlyTools/Time/ToolbarCalendar
+type: text/vnd.tiddlywiki
+
+\define tt_time_config() $:/config/TiddlyTools/Time
+
+\define calendar_toolbar_popid() $:/state/popup/calendar/toolbar/$(currentTiddler)$
+
+\define calendar_toolbar_button()
+\whitespace trim
+\import TiddlyTools/Time/Calendar
+<style>
+.calendar_dropdown button       { display:inline;width:auto;padding:0;line-height:1.2em;outline:none;color:inherit !important; }
+.calendar_dropdown button svg   { fill:inherit !important; }
+.calendar_dropdown .tc-btn-invisible:hover { background-color:inherit; }
+</style>
+<$vars popid=<<qualify "$(calendar_toolbar_popid)$">>>
+<$button popup=<<popid>> class={{{ [<tv-config-toolbar-class>addsuffix[ tc-popup-keep]] }}} selectedClass="tc-selected" tooltip="show TiddlyTools calendar">
+   <$list filter="[<tv-config-toolbar-icons>match[yes]]"> <span style="font-size:70%;">&#x1F4C5;</span> </$list>
+   <$list filter="[<tv-config-toolbar-text>match[yes]] "> <span class="tc-btn-text">calendar</span>     </$list>
+</$button>
+<$reveal state=<<popid>> type="popup" position="belowleft" animate="yes">
+   <div class="tc-drop-down tt-shadowbox calendar_dropdown tc-popup-keep" style="min-width:auto;padding:0.5em;text-align:center;font-size:initial;">
+      <div class="tt-shadowbox inset"><<calendar_toolbar_popup>></div>
+   </div>
+</$reveal>
+\end
+
+\define calendar_toolbar_popup()
+<$vars here=<<calendar_toolbar_popid>> calendar_state=<<calendar_toolbar_popid>>
+   tid=<<currentTiddler>> created={{{ [<currentTiddler>get[created]] }}} modified={{{ [<currentTiddler>get[modified]] }}}
+   calendar_size={{{ [<tt_time_config>get[toolbar_calendar_size]] ~[[100]] }}} calendar_popup_pos="belowleft"
+   thisyear=<<now "YYYY">> thismonth=<<now "MM">>>
+<$tiddler tiddler=<<calendar_state>>>
+   <$vars yyyy={{{ [{!!year}!match[]else<thisyear>] }}} mm={{{ [{!!month}!match[]else<thismonth>] }}}>
+   <div style={{{ [[font-size:]addsuffix<calendar_size>addsuffix[%;]] }}}>
+      <$macrocall $name="showmonth" yyyy=<<yyyy>> mm=<<mm>> view="month_only" />
+      <<calendar_toolbar_info>>
+   </div>
+   </$vars>
+</$tiddler>
+\end
+
+\define calendar_toolbar_info()
+\whitespace trim
+<$list filter="[<created>!match[]] [<modified>!match[]] +[limit[1]]" variable="has_created_or_modified">
+<div style="width:$(calendar_listhmax)$;margin:0.25em auto 0 auto;white-space:nowrap;">
+   <div style="font-size:70%;">
+   <div style="overflow:hidden;text-overflow:ellipsis;" title=<<tid>>>''<$text text=<<tid>>/>''</div>
+   <$list filter="[<created>!match[]]" variable="has_created">
+      <$vars yyyy={{{ [<created>split[]first[4]join[]]      }}}  mm={{{ [<created>split[]rest[4]first[2]join[]trim:prefix[0]] }}}
+            label={{{ [<created>format:date[mmm DDth YYYY]] }}} tip={{{ [<created>format:date[view MMM YYYY]] }}}>
+      <$button style="padding:0 0.25em;width:50%;text-align:center;" tooltip=<<tip>>>
+         created&nbsp;''<$text text=<<label>>/><$action-setfield year=<<yyyy>> month=<<mm>>/>''
+      </$button>
+      </$vars>
+   </$list>
+   <$list filter="[<modified>!match[]]" variable="has_created">
+      <$vars yyyy={{{ [<modified>split[]first[4]join[]]      }}}  mm={{{ [<modified>split[]rest[4]first[2]join[]trim:prefix[0]] }}}
+            label={{{ [<modified>format:date[mmm DDth YYYY]] }}} tip={{{ [<modified>format:date[view MMM YYYY]] }}}>
+      <$button style="padding:0 0.25em;width:50%;text-align:center;" tooltip=<<tip>>>
+         modified&nbsp;''<$text text=<<label>>/><$action-setfield year=<<yyyy>> month=<<mm>>/>''
+      </$button>
+      </$vars>
+   </$list>
+   </div>
+</div>
+\end
+
+<<calendar_toolbar_button>>

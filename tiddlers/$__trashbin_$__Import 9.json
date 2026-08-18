@@ -1,0 +1,7 @@
+{
+    "title": "$:/Import",
+    "type": "application/json",
+    "plugin-type": "import",
+    "status": "pending",
+    "text": "{\n    \"tiddlers\": {\n        \"Untitled text/plain\": {\n            \"title\": \"Untitled text/plain\",\n            \"text\": \"我想利用 openclaw 心跳机制实现它可以不定时的找我聊天，就像一个真的朋友一样。这样做的目的是逼我思考，提升我的批判思维、创造力、带我突破认知、升级思维架构等。它可以通过网页搜索获取世界上最新的动态，可以看我笔记内容，可以浏览我的工作目录，或者其它可能的渠道、方法。基于这些，它后向我发问，逼我思考。聊天的主题是开放的，不设限的，有深度的、有意义的。\",\n            \"type\": \"text/plain\"\n        },\n        \"Untitled text/html\": {\n            \"title\": \"Untitled text/html\",\n            \"text\": \"<html>\\r\\n<body>\\r\\n<!--StartFragment--><span style=\\\"color: rgb(10, 10, 10); font-family: Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; background-color: rgb(240, 242, 245); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\\\">我想利用 openclaw 心跳机制实现它可以不定时的找我聊天，就像一个真的朋友一样。这样做的目的是逼我思考，提升我的批判思维、创造力、带我突破认知、升级思维架构等。它可以通过网页搜索获取世界上最新的动态，可以看我笔记内容，可以浏览我的工作目录，或者其它可能的渠道、方法。基于这些，它后向我发问，逼我思考。聊天的主题是开放的，不设限的，有深度的、有意义的。</span><!--EndFragment-->\\r\\n</body>\\r\\n</html>\",\n            \"type\": \"text/html\"\n        }\n    }\n}"
+}

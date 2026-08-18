@@ -1,0 +1,12 @@
+created: 20240908030041885
+creator: one
+modified: 20240908030159234
+modifier: one
+revision: 0
+tags: demangle cpp
+title: c++filt
+type: text/vnd.tiddlywiki
+
+
+* https://gcc.gnu.org/onlinedocs/libstdc++/manual/ext_demangling.html
+* https://web.mit.edu/gnu/doc/html/binutils_10.html

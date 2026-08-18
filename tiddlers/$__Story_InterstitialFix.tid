@@ -1,0 +1,47 @@
+title: $:/Story/InterstitialFix
+tags: [[$:/tags/Stylesheet]]
+
+/* 随手记：时间与内容垂直居中（原来时间偏高） */
+.kk-todolist-row { align-items: center; }
+
+/* 随手记：不同日期之间用横线分隔 */
+.kk-todolist-date-group + .kk-todolist-date-group {
+	border-top: 1px solid <<colour tiddler-border>>;
+	margin-top: 8px;
+	padding-top: 6px;
+}
+.kk-todolist-date-header {
+	font-size: 0.8em;
+	color: <<colour very-muted-foreground>>;
+	margin-bottom: 4px;
+}
+
+/* 随手记输入与编辑框（替代原 tiptap 编辑器） */
+.kk-todolist-input, .kk-todolist-edit {
+	width: 100%;
+	border: 1px solid <<colour tiddler-border>>;
+	border-radius: 8px;
+	background: <<colour tiddler-editor-background>>;
+	font: inherit;
+	font-size: 0.95rem;
+	line-height: 1.6;
+	color: inherit;
+	padding: 6px 10px;
+	resize: vertical;
+}
+.kk-todolist-input { margin-bottom: 6px; }
+.kk-todolist-input:focus, .kk-todolist-edit:focus {
+	outline: none;
+	border-color: <<colour primary>>;
+	box-shadow: 0 0 0 3px rgba(87,120,216,0.18);
+}
+
+/* 随手记：输入/编辑时的实时预览 */
+.kk-todolist-preview, .kk-todolist-edit-preview {
+	border: 1px dashed <<colour tiddler-border>>;
+	border-radius: 8px;
+	background: <<colour tiddler-editor-background>>;
+	padding: 6px 10px;
+	margin: 4px 0 8px;
+	font-size: 0.9rem;
+}

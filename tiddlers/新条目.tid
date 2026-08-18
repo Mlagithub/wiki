@@ -1,0 +1,10 @@
+a: a_field
+created: 20240914043345139
+modified: 20240921035527362
+revision: 0
+tags: 
+title: 新条目
+type: text/vnd.tiddlywiki
+
+
+<$list filter="[tag[math]]" storyview="pop"/>

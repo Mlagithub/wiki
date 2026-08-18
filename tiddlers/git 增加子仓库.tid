@@ -1,0 +1,24 @@
+created: 20240919062943000
+modified: 20240919063231667
+revision: 0
+tags: 
+title: git 增加子仓库
+type: text/vnd.tiddlywiki
+
+1. 使用 submodule 创建一个名为 TARGET_FOLDER 的文件夹
+
+`git submodule add git://github.com/[USERNAME]/[REPO_NAME].git TARGET_FOLDER`
+
+2. 提交代码到 GitHub
+
+`git commit -m "add submodule xxx"`
+
+3. Git clone 的时候需要加上 `--recursive`，否则克隆下来的 TARGET_FOLDER 是空文件夹
+
+`git clone --recursive git://github.com/[YOUR_USERNAME]/[YOUR_REPO_NAME].git`
+
+4. 如果没加--recursive，克隆后只需要初始化子模块即可
+
+`git submodule update --init --recursive`
+
+

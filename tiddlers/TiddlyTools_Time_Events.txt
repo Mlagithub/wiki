@@ -1,0 +1,8 @@
+....0202;Groundhog Day
+....0401;April Fools Day
+....0505;Cinco de Mayo
+....0614;Flag Day (US)
+....0619;Juneteenth
+....1224;Christmas Eve
+....1226;Kwanzaa (first day)
+....1231;New Year's Eve

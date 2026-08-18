@@ -1,0 +1,12 @@
+created: 20240919121759570
+modified: 20240919122028356
+revision: 0
+tags: tiddlywiki
+title: npm 换源
+type: text/vnd.tiddlywiki
+
+检测现在的镜像地址 `npm config get registry`
+
+清空缓存 `npm cache clean --force`
+
+npm切换淘宝源镜像 `npm config set registry https://registry.npmmirror.com`

@@ -1,0 +1,16 @@
+created: 20240910025200683
+modified: 20240910064217296
+revision: 0
+tags: 
+title: 最近更新的
+type: text/vnd.tiddlywiki
+
+<ul>
+  <$list filter="[!is[system]days[-10]!<currentTiddler>!sort[modified]]">
+    <li>
+		<$link><$view field="title"/></$link>
+        <$list filter="[<currentTiddler>days[-2]]"> @@color:red;^^新^^@@</$list>
+        <$list filter="[<currentTiddler>days[-7]!days[-14]]"> @@color:black;^^近期^^@@</$list>
+    </li>
+  </$list>
+</ul>

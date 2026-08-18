@@ -1,0 +1,34 @@
+title: $:/Story/ProjectTodos
+tags: $:/tags/Macro
+type: text/vnd.tiddlywiki
+
+\define project-todos-summary()
+\whitespace trim
+\import [all[tiddlers+shadows]tag[$:/tags/Todolist/Macro]!has[draft.of]]
+<$list filter="[tag[project]sort[title]]" variable="proj">
+<$set name="taskTiddler" value={{{ [<proj>addsuffix[-todo]addprefix[$:/todolist/data/tasks/]] }}}>
+<$list filter="[<taskTiddler>indexes[]limit[1]]" variable="ignored">
+<div class="kk-project-todos">
+<h3><$link to=<<proj>>><$view tiddler=<<proj>> field="title"/></$link> <span class="kk-project-count"><$count filter="[<taskTiddler>indexes[]]"/> 项</span></h3>
+<$set name="doneTiddler" value={{{ [<proj>addsuffix[-todo]addprefix[$:/todolist/data/done/]] }}}>
+<$set name="statusTiddler" value={{{ [<proj>addsuffix[-todo]addprefix[$:/todolist/data/status/]] }}}>
+<$set name="priorityTiddler" value={{{ [<proj>addsuffix[-todo]addprefix[$:/todolist/data/priority/]] }}}>
+<$set name="stateTiddler" value={{{ [<proj>addsuffix[-todo]addprefix[$:/temp/todolist/state/]] }}}>
+<$set name="archiveTiddler" value={{{ [<proj>addsuffix[-todo]addprefix[$:/todolist/data/archive/]] }}}>
+<$list filter="[<taskTiddler>indexes[]!nsort[]]" variable="item">
+<div class="kk-todolist-row">
+  <div class="kk-todolist-done"><<todolist-done-task>></div>
+  <div class="kk-todolist-desc"><<todolist-show-task>></div>
+  <div class="kk-todolist-priority"><<todolist-set-priority>></div>
+</div>
+</$list>
+</$set>
+</$set>
+</$set>
+</$set>
+</$set>
+</div>
+</$list>
+</$set>
+</$list>
+\end

@@ -1,0 +1,12 @@
+created: 20240907023000608
+creator: one
+modified: 20240907023233902
+modifier: one
+revision: 0
+tags: tiddlywiki tool
+title: TiddlyWiki 安装插件
+type: text/vnd.tiddlywiki
+
+托拽安装非官方库的插件，如 tw5 
+
+https://tiddlywiki.com/#Manually%20installing%20a%20plugin

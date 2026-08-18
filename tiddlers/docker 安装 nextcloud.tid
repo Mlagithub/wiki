@@ -1,0 +1,22 @@
+created: 20240918084457318
+modified: 20240919092345516
+revision: 0
+tags: openwrt
+title: docker 安装 nextcloud
+type: text/vnd.tiddlywiki
+
+
+```
+docker run -d --restart=always --name nextcloud -p 8089:80  -v /mnt/data_sdb1/nextcloud:/data docker.io/nextcloud 
+```
+
+[[阿里云服务器]] 部暑 nextcloud
+
+mysql 账号密码：root:one 
+
+nextcloud 端口：8089
+
+nextcloud 账号密码： one:one
+
+
+{{ docker install nextcloud with mysql.pdf }}

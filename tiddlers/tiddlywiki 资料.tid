@@ -1,0 +1,12 @@
+created: 20240907023918792
+creator: one
+modified: 20240919052233892
+modifier: one
+revision: 0
+tags: tiddlywiki tool
+title: tiddlywiki 资料
+type: text/vnd.tiddlywiki
+
+* 一个大佬的插件集合的简介，可以托过来直接安装，目前有 26 个插件，不知道是不是都不在官方的插件库：http://tobibeer.github.io/tw5-plugins/#plantuml
+
+* 伊朗阿米尔卡比尔理工大学的化学工程副教授的 TW 插件：[[kookma|https://github.com/kookma]]

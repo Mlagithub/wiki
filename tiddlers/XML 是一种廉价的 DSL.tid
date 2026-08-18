@@ -1,0 +1,32 @@
+created: 20260316002926199
+creator: one
+modified: 20260316020037043
+modifier: one
+revision: 0
+tags: 
+title: XML 是一种廉价的 DSL
+type: text/vnd.tiddlywiki
+
+[ext[原文地址|https://unplannedobsolescence.com/blog/xml-cheap-dsl/]]  
+
+意思是：用 XML 标签设计一套语法规则，让非程序员也能读懂和修改领域逻辑
+
+!! 标题
+
+* 不要
+* 第二行
+** 第三行
+** 第四行
+** 不要
+* 换一行
+
+!!! 标题2 
+
+中文标题也可以
+
+酌量
+
+
+
+再来一次
+

@@ -1,0 +1,9 @@
+created: 20240920083017721
+modified: 20240920083212771
+revision: 0
+tags: powershell
+title: powershell 脚本
+type: text/vnd.tiddlywiki
+
+* 如何让 powershell 执行窗口不退出，以显示执行结果
+** 加 `-NoExit` 参数

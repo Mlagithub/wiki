@@ -1,0 +1,14 @@
+created: 20260316025727747
+creator: one
+modified: 20260316030044223
+modifier: one
+revision: 0
+tags: $:/tags/SideBar
+title: 坐忘
+type: text/vnd.tiddlywiki
+
+<div style="position: relative; width: 100%; height: 800px; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;">
+  <iframe src="http://all.keepone.work:3847/" 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;">
+  </iframe>
+</div>

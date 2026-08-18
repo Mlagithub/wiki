@@ -1,0 +1,69 @@
+created: 20240907054427135
+creator: one
+modified: 20240907054430693
+modifier: one
+revision: 0
+title: TiddlyServer_settings.json
+type: text/vnd.tiddlywiki
+
+```
+{
+  //The JSON5 parser allows comments!
+  //All relative paths are relative to this file.
+  //The user directory prefix ~ is allowed.
+
+  //remove one of these
+  //"tree": "./note", //this tree is just going to mount a folder as root: ../webroot
+  
+  "tree": { //this tree is going to mount a group containing folders and another group
+    "note": "./note",
+    "work": "./work",
+    //"user": "/root",
+    //"projects_group": {
+      //"tiddlyserver": "/root/tiddlyServer/work/porject",
+      //"material-theme": "/root/tiddlyServer/material_theme"
+    //}
+  },
+
+  "bindInfo": {
+    // V V V V Uncomment one of the following V V V V 
+
+    //bind to localhost only (you can specify any other ip address in this array, and it will bind to all available addresses)
+    "bindAddress": ["0.0.0.0"],
+    "port": 6789
+
+    //bind to 0.0.0.0
+    //"bindWildcard": true
+
+    //workaround for android devices (bind to all available private ip addresses on startup)
+    // "bindWildcard": false, "bindAddress": ["192.168.0.0/16", "10.0.0.0/8", "172.31.0.0/16"], "filterBindAddress": true,
+  },
+  "putsaver": {
+    //single file wikis will backup to this directory on every save
+    "backupFolder": "./backup" // comment out or set to "" to disable backups
+  },
+  "authAccounts": {
+     "one": {
+        "clientKeys": {
+          "one": { 
+	    "publicKey": "HzrgIlRcnKxK4oPN9QDPVLOJJNXJsmLoFWHBclse_D4", 
+	    "cookieSalt": "2024-09-06T12:01:46.687Z" 
+	  }
+      	},
+	"permissions": {
+          "loginlink": true,
+          "mkdir": true,
+          "putsaver": true,
+          "registerNotice": true,
+          "upload": true,
+          "websockets": true,
+          "writeErrors": true,
+          "transfer": true,
+          "datafolder": true
+        }
+      }
+  },
+  "$schema": "./tiddlyserver-2-2.schema.json"
+}
+
+```

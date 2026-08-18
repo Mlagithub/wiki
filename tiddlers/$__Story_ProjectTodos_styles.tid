@@ -1,0 +1,26 @@
+title: $:/Story/ProjectTodos/styles
+tags: $:/tags/Stylesheet
+type: text/css
+
+/* 项目待办汇总（🏠 首页） */
+.kk-project-todos {
+	margin-bottom: 14px;
+	padding: 8px 14px 10px;
+	border: 1px solid #dddddd;
+	border-radius: 8px;
+	background: #fdfdfd;
+}
+.kk-project-todos h3 {
+	margin: 0 0 4px 0;
+	font-size: 1.05em;
+	padding-bottom: 4px;
+	border-bottom: 1px solid #eeeeee;
+}
+.kk-project-todos .kk-project-count {
+	color: #888888;
+	font-size: 0.85em;
+	font-weight: normal;
+}
+.kk-project-todos .kk-todolist-row {
+	align-items: center;
+}

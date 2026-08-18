@@ -1,0 +1,32 @@
+created: 20240908024220726
+creator: one
+modified: 20240908025036817
+modifier: one
+revision: 0
+tags: geogram
+title: geofile
+type: text/vnd.tiddlywiki
+
+
+* 文件格式为二进制
+* inspired by the Interchange File Format (IFF)
+* 内容是分块的，块头有 4 字节标志，方便块速加载。
+** CMNT (Comment): contains a string
+** CMDL (Command Line): contains a vector of string
+** EOFL (End of file): an end of file marker. Can be used to indicate the boundaries of multiple objects stored in the same file
+** HEAD (Geofile header): contains the string GEOGRAM and a version string
+** PSET (Property Set): a set of properties. For instance, in a mesh, each mesh element type (vertices, edges, facets...) corresponds to a property set.
+** PROP (Property): a property attached to Property Set.
+** SPTR (Separator): marks the boundaries between multiple objects stored in the same GeoFile
+* 可选压缩，用 Zlib
+* 可转为 ASCII 格式
+
+
+[[plantuml [
+@startuml
+
+InputGeoFile --|> GeoFile
+OutputGeoFile --|> GeoFile
+
+@enduml
+]]]

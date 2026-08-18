@@ -1,0 +1,19 @@
+created: 20240918141341377
+modified: 20240919001540230
+revision: 0
+tags: tiddlywiki
+title: tiddlywiki 连接文本和变量
+type: text/vnd.tiddlywiki
+
+> ''使用宏替换来连接文本和变量，而不能如 [[这个页面|https://tiddlywiki.com/prerelease/static/Concatenating%2520text%2520and%2520variables%2520using%2520macro%2520substitution.html]] 显式的方法''
+
+```
+<div>
+<$let
+td=<<now YYYY-0MM-0DD>> 
+tt={{{ [[站桩_$(td)$]substitute[]] }}}
+>
+<$button class="tc-tiddlylink" message="tm-edit-tiddler" param=<<tt>> >添油续命</$button>
+</$let>
+</div>
+```

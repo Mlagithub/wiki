@@ -1,0 +1,81 @@
+created: 20240910025749757
+modified: 20240911015254971
+revision: 0
+tags: yhpde math
+title: tensor
+type: text/vnd.tiddlywiki
+
+
+[[plantuml class="pretty" [
+class Tensor<int Rank, int Dimension, Typename type>
+{
+---
++ static int rank
++ static int dimension
++ static int number_components
+-  Tensor<Rank-1, Dimension, Type> _data[Dimension]
+---
++ Tensor()
++ Tensor(const Tensor<0, Dimension, OtherType>&)
++ Tensor(const OtherType &)
+---
++ operator[](const int i) value_type& 
++ operator[](const TableIndices<Rank>&) value_type& 
++ begin_raw() Type*
++ end_raw() Type*
+---
++ clear()
++ norm()
++ norm_square()
++ flatten()
++ serialize()
+---
++ operator<<()
++ operator*(const Other&, const Tensor<0, Dimension, Type>&)
++ operator*(const Tensor<0, Dimension, Type>&, const Other&)
++ schur_product(const Tensor<0, Dimension, Type>&, const Tensor<0, Dimension, OtherType>&)
+---
++ template<int index_1, index_2, rank_1, rank_2, int Dim, typename Type, typename OtherType>
+contract(const Tensor<rank_1, Dim, Type>&, const Tensor<rank_2, Dim, OtherType>&)
+---
++ template <int index_1, int index_2, int index_3, int index_4, int rank_1,  int rank_2,  int Dimension, typename Type,  typename OtherType>
+    double_contract(const Tensor<rank_1, Dimension, Type> &, const Tensor<rank_2, Dimension, OtherType> &)
+---
++ template <int rank, int Dimension, typename Type, typename OtherType>
+    scalar_product(const Tensor<rank, Dimension, Type> &, const Tensor<rank, Dimension, OtherType> &)
+---
++ template <int rank_1, int rank_2, int Dimension, typename Type, typename OtherType>
+    outer_product(const Tensor<rank_1, Dimension, Type> & ,onst Tensor<rank_2, Dimension, OtherType> & )
+---
++ template <int Dimension, typename Type>
+    determinant(const Tensor<2, Dimension, Type> & t)
+---
++ template <int Dimension, typename Type>
+    trace(const Tensor<2, Dimension, Type> & d)
+---
++ template <int Dimension, typename Type>
+    invert(const Tensor<2, Dimension, Type> &)
+---
++ template <int Dimension, typename Type>
+    transpose(const Tensor<2, Dimension, Type> & t)
+}
+
+]]]
+
+<$viz text='  digraph G {
+
+     "Tensor<2,spacedim,Number>" -> "Tensor<rank,dim,Number>" [color=green]
+
+    "Point<dim, Number>" -> "Tensor<1,dim,Number>"
+
+    "Point<1>" -> "Point<dim, Number>" [color=blue]
+    "Point<2>" -> "Point<dim, Number>" [color=blue]
+    "Point<3>" -> "Point<dim, Number>" [color=blue]
+
+     "Tensor<1,dim,Number>" -> "Tensor<rank,dim,Number>" [color=green]
+
+     "Tensor<3,spacedim,Number>" -> "Tensor<rank,dim,Number>" [color=green]
+
+     }' 
+
+class="myexample"/>

@@ -1,0 +1,36 @@
+created: 20240915004927452
+modified: 20260818051354718
+tags: 脚本
+title: 检查 windows 10 的电量并弹窗提示
+type: text/vnd.tiddlywiki
+
+ windows 10 脚本，实时监测电量，当低于20% 和 高于 95% 给出弹窗提示
+
+```powershell
+# 定义检查电池电量的函数
+function Check-Battery {
+    $battery = Get-WmiObject -Query "SELECT * FROM Win32_Battery"
+    if ($battery) {
+        $batteryPercent = $battery.EstimatedChargeRemaining
+        $charging = $battery.BatteryStatus -eq 2 #2 表示充电状态
+
+        $messageBoxOptions = [System.Windows.Forms.MessageBoxOptions]::DefaultDesktopOnly
+
+        if (-not $charging -and $batteryPercent -lt 20) {
+            [System.Windows.Forms.MessageBox]::Show("电池电量低于 20%。请立即连接电源！", "电池警告")
+        } elseif ($charging -and $batteryPercent -gt 95) {
+            [System.Windows.Forms.MessageBox]::Show("电池电量高于 95%。请断开电源以延长电池寿命！", "电池警告")
+        }
+    }
+}
+
+# 导入 Windows 窗口表单模块（用于弹出窗口）
+Add-Type -AssemblyName System.Windows.Forms
+
+# 循环检查电池电量
+while ($true) {
+    Check-Battery
+    Start-Sleep -Seconds 60 # 每分钟检查一次
+}
+
+```

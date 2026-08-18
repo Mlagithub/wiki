@@ -1,0 +1,20 @@
+created: 20240907052301860
+creator: one
+modified: 20240919122529135
+modifier: one
+revision: 0
+title: 阿里云服务器
+type: text/vnd.tiddlywiki
+
+* IP：47.109.94.25
+* 主私网 IP：172.31.94.67
+* user name: root
+* password: Root18151520
+* 购买日期：2023年11月21
+* 续费：2024-09-19
+* 到期：2025年11月21 23:59
+* 价格：99元
+* CPU：2 vCPU
+* 内存：2 Gb
+* 带宽：3 Mbps
+* 系统：Ubuntu 22.04 64位 UEFI版

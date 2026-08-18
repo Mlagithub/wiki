@@ -1,0 +1,26 @@
+created: 20240920044011075
+modified: 20240920084610998
+revision: 0
+tags: 算法
+title: RAM
+type: text/vnd.tiddlywiki
+
+RAM（Random Access Machine，随机存取机）模型是计算机科学中用于评估算法时间复杂度的计算理论模型。虽然 RAM 模型简化了真实计算机的复杂性，但由于其简单性和捕获计算基本方面的能力，RAM 模型仍然是算法分析和设计的宝贵工具。
+
+RAM 模型的关键方面是每种类型的操作都需要特定数量的步骤
+
+|table-hover thead-success table-caption-top|k
+|RAM 模型的关键操作|c
+|操作|步数|h
+| 数学运算符 + - * / | 1 |
+| 逻辑运算会 AND OR NOT | 1 |
+| 条件运算 | 1 |
+| 程序调用 call, return | 1 |
+| 循环 | 依赖于循环 |
+| 子程序 call, return | 依赖于子程序 |
+| 内存操作 read, write | 1 |
+
+''算法复杂度''：通过计算算法解决问题实例所需的步骤数来衡量
+
+
+<<alert warning "''这个模型并未区别对待对不同类型内存的操作。例如，直接从 RAM 中读取数据，现实中大约需要 50 纳秒的时间；而从硬盘读取数据则大约需要 5 毫秒的时间，这比从 RAM 读取数据的时间要长大约 100,000 倍''" >>

@@ -1,0 +1,12 @@
+author: Mohammad Rahmani
+core-version: >=5.1.22
+description: A trashbin tool for Tiddlywiki
+list: readme license history
+name: Trashbin
+plugin-type: plugin
+revision: 0
+source: https://github.com/kookma/TW-Trashbin
+tags: 
+title: $:/plugins/kookma/trashbin
+type: application/json
+version: 1.3.3

@@ -1,0 +1,22 @@
+created: 20240920081716877
+modified: 20260818032125528
+tags: tiddlywiki powershell 脚本
+title: windows 11 实时备份 tiddlywiki 数据
+type: text/vnd.tiddlywiki
+
+```powershell
+
+function backup {
+    $source = "C:\Users\keep_\work\story\data"
+    $destination = "C:\Users\keep_\work\story\backup"
+    #Remove-Item -Path "$destination\*" -Recurse -Force
+    Copy-Item -Path "$source\*" -Destination $destination -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+
+while ($true) {
+    backup
+    Start-Sleep -Seconds 180 # 每三分钟检查一次
+}
+
+```

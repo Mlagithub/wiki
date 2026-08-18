@@ -1,0 +1,14 @@
+created: 20240907105152687
+creator: one
+modified: 20240907113302578
+modifier: one
+revision: 0
+tags: software 递归
+title: quine
+type: text/vnd.tiddlywiki
+
+中文维基百科叫作自产生程序。
+
+指的是输出结果为程序自身源码的程序。其英文名称以美国哲学家奎恩（Willard Van Orman Quine）命名。
+
+Quine在计算机科学中的意义：Quine不仅是一个编程趣题，它还涉及到计算机科学中关于自引用、可计算性和递归的深层次概念。学习Quine可以帮助理解这些概念，并促进对程序设计的全面认识。
