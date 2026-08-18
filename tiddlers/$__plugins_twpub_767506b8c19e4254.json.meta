@@ -1,0 +1,14 @@
+conversion-errors: 0
+converter-version: 0.1.0
+count-chunks: 4876
+count-images: 92
+cover-image: $:/plugins/twpub/767506b8c19e4254/images/cover.jpeg
+description: 逻辑学十五讲 (名家通识讲座书系)
+epub-creator: 陈波
+epub-title: 逻辑学十五讲 (名家通识讲座书系)
+list: readme errors cover text
+name: TWPUB
+plugin-type: plugin
+title: $:/plugins/twpub/767506b8c19e4254
+type: application/json
+version: v0.0.1

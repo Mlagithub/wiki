@@ -1,0 +1,14 @@
+[Unit]
+Description=Timer to backup TiddlyWiki data to GitHub
+
+[Timer]
+# 开机后 5 分钟首次执行
+OnBootSec=5min
+# 之后每隔 1 小时执行一次 (可改为 12h, 1d 等)
+OnUnitActiveSec=1h
+# 错过时间后自动补跑
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+

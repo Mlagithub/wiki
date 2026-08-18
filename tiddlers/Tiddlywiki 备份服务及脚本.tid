@@ -1,0 +1,80 @@
+created: 20260818104803905
+modified: 20260818105206895
+title: Tiddlywiki 备份服务及脚本
+type: text/vnd.tiddlywiki
+
+
+! 备份脚本
+
+> 放在 `/home/one/story` 中
+
+```
+#!/bin/bash
+
+# 进入数据目录
+cd /home/one/story
+
+# 添加所有变化
+/usr/bin/git add .
+
+# 检查是否有内容需要提交，避免产生空 commit
+if ! /usr/bin/git diff-index --quiet HEAD --; then
+    # 自动以当前时间作为 commit 信息
+    /usr/bin/git commit -m "Auto backup: $(date '+%Y-%m-%d %H:%M:%S')"
+    # 推送到远程 main 分支
+    /usr/bin/git push origin master
+fi
+```
+
+! 定时服务
+
+> 放在 `/etc/systemd/system` 中
+
+```
+[Unit]
+Description=TiddlyWiki Data Auto Backup to GitHub
+After=network.target
+
+[Service]
+Type=oneshot
+User=one
+WorkingDirectory=/home/one/story
+ExecStart=/home/one/story/backup.sh
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+! 定时器
+
+> 放在 `/etc/systemd/system` 中
+
+```
+[Unit]
+Description=Timer to backup TiddlyWiki data to GitHub
+
+[Timer]
+# 开机后 5 分钟首次执行
+OnBootSec=5min
+# 之后每隔 1 小时执行一次 (可改为 12h, 1d 等)
+OnUnitActiveSec=1h
+# 错过时间后自动补跑
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+! 执行以下命令
+
+```
+# 1. 重新加载系统配置
+sudo systemctl daemon-reload
+
+# 2. 启用并启动【定时器】（注意：不要直接 enable 服务，只需 enable 定时器）
+sudo systemctl enable --now wiki-backup.timer
+
+# 3. 手动测试一次服务是否能正常跑通
+sudo systemctl start wiki-backup.service
+```

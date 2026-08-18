@@ -1,0 +1,13 @@
+[Unit]
+Description=TiddlyWiki Data Auto Backup to GitHub
+After=network.target
+
+[Service]
+Type=oneshot
+User=one
+WorkingDirectory=/home/one/story
+ExecStart=/home/one/story/backup.sh
+
+[Install]
+WantedBy=multi-user.target
+
