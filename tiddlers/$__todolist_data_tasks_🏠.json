@@ -36,5 +36,6 @@
     "20260818024735728": "deepseek-v4-flash 花了近一个小时修复了 TW 语法渲染的问题。\n\n* 根因：TiddlyWiki 的 <$transclude tiddler=… index=…/>（数据索引转clusion）把索引值当作内联文本渲染——HTML 能透传，但 * 列表、> 引用这类块级 wikitext 不解析，所以显示为原文（&gt; 还被转义）。\n\n*  修复模式：先 getindex 取出索引值存入变量，再用 $transclude $variable=\"...\" $mode=\"block\" 强制按块级模式渲染",
     "20260818070343021": "使用 yt-dlp(https://github.com/yt-dlp/yt-dlp) 下载 youtube 视频时遇到 `ERROR: unable to download video data: HTTP Error 403: Forbidden` 这种错误，在 github issue 页面找到以下方法可以解决这个问题：\n\n`.\\yt-dlp_x86.exe --write-subs --extractor-args 'youtube:player_client=android' https://www.youtube.com/watch?v=vwP5dD3L7d8`",
     "20260818085843164": "看了一个小时的书：亲密关系",
-    "20260818104754304": "tiddlywiki 部署在 192.168.8.4 上了。且增加了 [[Tiddlywiki 备份服务及脚本]]"
+    "20260818104754304": "tiddlywiki 部署在 192.168.8.4 上了。且增加了 [[Tiddlywiki 备份服务及脚本]]",
+    "20260818231401274": "今天站桩流大汗，心率从70升到150，半个小时。对比之下就能看出来原来专注于呼吸，守住心神确实是有效果的。"
 }
