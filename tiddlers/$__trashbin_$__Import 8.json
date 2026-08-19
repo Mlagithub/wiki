@@ -1,7 +1,0 @@
-{
-    "title": "$:/Import",
-    "type": "application/json",
-    "plugin-type": "import",
-    "status": "pending",
-    "text": "{\n    \"tiddlers\": {\n        \"Untitled text/plain\": {\n            \"title\": \"Untitled text/plain\",\n            \"text\": \"https://doi.org/10.48550/arXiv.2601.19062\",\n            \"type\": \"text/plain\"\n        }\n    }\n}"
-}

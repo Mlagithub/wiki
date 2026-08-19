@@ -1,9 +1,0 @@
-{
-    "title": "$:/Import",
-    "status": "pending",
-    "type": "application/json",
-    "text": "{\n    \"tiddlers\": {\n        \"Untitled text/plain\": {\n            \"title\": \"Untitled text/plain\",\n            \"text\": \"和最亲密的人之间的相处为什么会多了很多苛刻要求和心理预期？拿对自己会更严重吗？\",\n            \"type\": \"text/plain\"\n        },\n        \"Untitled text/html\": {\n            \"title\": \"Untitled text/html\",\n            \"text\": \"<html>\\r\\n<body>\\r\\n<!--StartFragment--><span style=\\\"color: rgb(100, 116, 139); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;PingFang SC&quot;, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 250, 252); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\\\">和最亲密的人之间的相处为什么会多了很多苛刻要求和心理预期？拿对自己会更严重吗？</span><!--EndFragment-->\\r\\n</body>\\r\\n</html>\",\n            \"type\": \"text/html\"\n        }\n    }\n}",
-    "revision": "0",
-    "bag": "default",
-    "plugin-type": "import"
-}

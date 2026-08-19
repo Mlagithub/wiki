@@ -1,7 +1,0 @@
-{
-    "created": "20240917023055133",
-    "title": "$:/todolist/data/tasks/<$transclude $variable=\"now\" $output=\"text/plain\" format=\"YYYY_0MM_0DD\" />",
-    "type": "application/json",
-    "text": "{\n    \"20240917023055133\": \"test\"\n}",
-    "modified": "20240917023055133"
-}

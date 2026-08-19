@@ -1,9 +1,0 @@
-{
-    "title": "$:/Import",
-    "status": "pending",
-    "type": "application/json",
-    "text": "{\n    \"tiddlers\": {\n        \"Untitled text/plain\": {\n            \"title\": \"Untitled text/plain\",\n            \"text\": \"重新调整高性能计算系统软件的章节组织\",\n            \"type\": \"text/plain\"\n        }\n    }\n}",
-    "revision": "0",
-    "bag": "default",
-    "plugin-type": "import"
-}
