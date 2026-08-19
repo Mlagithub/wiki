@@ -1,9 +1,6 @@
 created: 20200730035446808
-creator: one
-modified: 20240907224906246
-modifier: one
-revision: 0
-tags: $:/tags/StartupAction/Browser
+modified: 20220515224145958
+tags: $:/tags/SideBarSegment $:/tags/StartupAction/Browser
 title: TiddlyTools/Time/AutoSaver
 type: text/vnd.tiddlywiki
 

@@ -1,9 +1,7 @@
-caption: 日历
+caption: Calendar
 created: 20200904020839440
-creator: one
-modified: 20240907224245377
-modifier: one
-revision: 0
+list-after: $:/core/ui/SideBar/Recent
+modified: 20220301174134052
 tags: $:/tags/SideBar
 title: TiddlyTools/Time/SidebarCalendar
 type: text/vnd.tiddlywiki

@@ -37,5 +37,6 @@
     "20260818070343021": "使用 yt-dlp(https://github.com/yt-dlp/yt-dlp) 下载 youtube 视频时遇到 `ERROR: unable to download video data: HTTP Error 403: Forbidden` 这种错误，在 github issue 页面找到以下方法可以解决这个问题：\n\n`.\\yt-dlp_x86.exe --write-subs --extractor-args 'youtube:player_client=android' https://www.youtube.com/watch?v=vwP5dD3L7d8`",
     "20260818085843164": "看了一个小时的书：亲密关系",
     "20260818104754304": "tiddlywiki 部署在 192.168.8.4 上了。且增加了 [[Tiddlywiki 备份服务及脚本]]",
-    "20260818231401274": "今天站桩流大汗，心率从70升到150，半个小时。对比之下就能看出来原来专注于呼吸，守住心神确实是有效果的。"
+    "20260818231401274": "今天站桩流大汗，心率从70升到150，半个小时。对比之下就能看出来原来专注于呼吸，守住心神确实是有效果的。",
+    "20260819013440072": "一开始其实是想修改随手记的手机端页面适配问题的，结果就不知不觉看 https://tiddlytools.com/timer.html 这个插件的说明，看了一个半小时。"
 }
