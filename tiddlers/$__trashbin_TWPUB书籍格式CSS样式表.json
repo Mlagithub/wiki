@@ -1,0 +1,12 @@
+{
+    "created": "20220715064501070",
+    "creator": "Miao",
+    "text": "[id^=\"$:/plugins/twpub/\"]\n{\nFONT-FAMILY: 霞鹜文楷, 宋体 ; \nFONT-SIZE: 13pt;  \nline-height: 1.5;  /* 行间距 */\ntext-indent: 2em; /* 首行缩进2字符 */\n}",
+    "tags": "$:/tags/Stylesheet",
+    "title": "TWPUB书籍格式CSS样式表",
+    "modified": "20220805123556601",
+    "type": "text/css",
+    "modifier": "Miao",
+    "revision": "1",
+    "bag": "default"
+}
