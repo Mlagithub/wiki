@@ -1,20 +1,19 @@
 created: 20200816001146767
-modified: 20260819024748544
+modified: 20260819030914611
 title: SampleSequence
 type: text/vnd.tiddlywiki
 
 \import TiddlyTools/Time/CountDown
-\import TiddlyTools/Time/Ticker
 
 \define here() SampleSequence
 \define temp() $:/temp/time/CountDown/SampleSequence
 
 \define --------------() DEFAULTS
 \define workH()   00
-\define workM()   10
+\define workM()   25
 \define workS()   00
 \define breakH()  00
-\define breakM()  02
+\define breakM()  05
 \define breakS()  00
 \define cycles()  5
 
@@ -116,6 +115,7 @@ $(done_msg)$
 <$wikify name="msg" text="""$(done_text)$""">
 <$vars time=<<now "0hh:0mm:0ss ">> msg={{{ [<msg>trim[]] }}} br="<br>">
 <$action-setfield $tiddler=<<temp>> messages={{{ [{!!messages}addsuffix<time>addsuffix<msg>addsuffix<br>] }}}/>
+<$action-sendmessage $message="tm-system-notify" title="倒计时提醒" body=<<done_text>> />
 </$vars>
 </$wikify>
 \end
@@ -128,6 +128,7 @@ $(done_msg)$
      footer="""$(done_footer)$"""
 />
 <$action-sendmessage $message="tm-modal" $param={{{ [<temp>addsuffix[/ask]] }}} />
+<$action-sendmessage $message="tm-system-notify" title="倒计时提醒" body=<<done_text>> />
 \end
 
 \define done_text()
