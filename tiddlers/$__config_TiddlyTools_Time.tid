@@ -38,7 +38,7 @@ clock_size: 15em
 clock_ticks: Black
 clock_timezone: localtime
 created: 20200723071051066
-modified: 20220516020810449
+modified: 20260819022035429
 sidebar_analog: yes
 sidebar_analog_size: 100
 sidebar_calendar_size: 100
@@ -46,7 +46,7 @@ sidebar_digital: yes
 sidebar_digital_size: 100
 sidebar_format: DDD, YYYY-0MM-0DD 0hh:0mm:0ss
 sidebar_timezone: localtime
-tags: AU_Holidays_2021 CA_Holidays_2021 PersonalEvents [[Pastafarian Holidays]] UK_Holidays_2021 UN_Observances_2021 US_Holidays_2021 TiddlyTools/Time/Events [[Test Timeline]]
+tags: TiddlyTools/Time/Events
 timer_format: YYYY-0MM-0DD 0hh:0mm:0ss.0XXX
 title: $:/config/TiddlyTools/Time
 toolbar_calendar_size: 100

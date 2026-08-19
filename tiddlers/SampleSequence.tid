@@ -1,0 +1,193 @@
+created: 20200816001146767
+modified: 20260819024748544
+title: SampleSequence
+type: text/vnd.tiddlywiki
+
+\import TiddlyTools/Time/CountDown
+\import TiddlyTools/Time/Ticker
+
+\define here() SampleSequence
+\define temp() $:/temp/time/CountDown/SampleSequence
+
+\define --------------() DEFAULTS
+\define workH()   00
+\define workM()   10
+\define workS()   00
+\define breakH()  00
+\define breakM()  02
+\define breakS()  00
+\define cycles()  5
+
+\define --------------() MESSAGES
+\define initmsg()        Press apply to load setup
+\define startmsg()       Press start to begin sequence
+\define workmsg()        Work session #<<session>>
+\define breakmsg()       Break time #<<session>>
+\define inprogressmsg()  is in progress
+\define pausedmsg()      is paused
+\define workdonemsg()    Work session #<<session>> has ended. Take a break!
+\define breakdonemsg()   Break time #<<session>> has ended. Back to work!
+\define alldonemsg()     All done. Good work!
+
+\define settings()
+<div style="display:inline-block;float:left;text-align:right;padding:1em;border-right:1px solid;">
+<div style="text-align:center;">''Setup''</div>
+worktime:
+<$edit-text tiddler=<<temp>> field="workH"  tag="input" class="tt-countdown" default=<<workH>>  placeholder=<<workH>> />
+<$edit-text tiddler=<<temp>> field="workM"  tag="input" class="tt-countdown" default=<<workM>>  placeholder=<<workM>> />
+<$edit-text tiddler=<<temp>> field="workS"  tag="input" class="tt-countdown" default=<<workS>>  placeholder=<<workS>> />
+<br>
+breaktime:
+<$edit-text tiddler=<<temp>> field="breakH" tag="input" class="tt-countdown" default=<<breakH>> placeholder=<<breakH>> />
+<$edit-text tiddler=<<temp>> field="breakM" tag="input" class="tt-countdown" default=<<breakM>> placeholder=<<breakM>> />
+<$edit-text tiddler=<<temp>> field="breakS" tag="input" class="tt-countdown" default=<<breakS>> placeholder=<<breakS>> />
+<br>
+<span style="float:left;" title="pause between sessions and ask to continue">
+<$checkbox  tiddler=<<temp>> field="ask"    default="yes" checked="no" unchecked="yes"> continuous&nbsp; </$checkbox>
+</span>
+cycles:
+<$edit-text tiddler=<<temp>> field="cycles" tag="input" class="tt-countdown" default=<<cycles>> placeholder=<<cycles>> />
+<div style="text-align:center;margin-top:0.25em;"></div>
+<$button class="tc-button" actions="<$action-deletetiddler $tiddler=<<temp>>/>">
+   reset
+</$button>
+<$button class="tc-button" actions="""
+   <$tiddler tiddler=<<temp>>>
+   <$vars workH={{{ [<temp>get[workH]] ~[<workH>] }}}>
+   <$vars workM={{{ [<temp>get[workM]] ~[<workM>] }}}>
+   <$vars workS={{{ [<temp>get[workS]] ~[<workS>] }}}>
+   <$macrocall $name="setCountdown" H=<<workH>> M=<<workM>> S=<<workS>> />
+   <$action-deletefield $tiddler=<<temp>> go session breaktime text     />
+"""> apply
+</$button>
+</div>
+\end
+
+\define stop()
+<$button class="tc-button" tooltip="stop/reset countdown">
+   stop
+   <$macrocall $name="setCountdown" H=<<workH>> M=<<workM>> S=<<workS>> />
+   <$action-deletefield $tiddler=<<temp>> go session breaktime text />
+</$button>
+\end
+
+\define status()
+<$vars H={{{ [<temp>get[hours]] }}} M={{{ [<temp>get[mins]] }}} S={{{ [<temp>get[secs]] }}}
+ session={{{ [<temp>get[session]] ~[[0]] +[add[1]] }}}>
+<$list filter="[<H>add<M>add<S>match[0]]">
+   <$list filter="[<temp>addsuffix[/ask]is[missing]]">
+      <<initmsg>>
+   </$list>
+</$list>
+<$list filter="[<H>add<M>add<S>!match[0]] [<temp>addsuffix[/ask]is[tiddler]] +[limit[1]]" >
+   <$list filter="[<temp>!has:field[session]] +[<temp>!has:field[go]]"> <<startmsg>> </$list>
+   <$list filter="[<temp>has:field[go]]">
+      <$list filter="[<temp>get[breaktime]match[yes]]" emptyMessage=<<workmsg>>> <<breakmsg>> </$list>
+      <$text text={{{ [<temp>get[go]match[go]then<inprogressmsg>else<pausedmsg>] }}}/>
+   </$list>
+</$list>
+\end
+
+\define messages()
+<$list filter="[<temp>get[messages]!match[]]">
+   <$button class="tc-btn-invisible" style="font-size:70%;" tooltip="click to clear messages">
+      <div style="text-align:left;border:1px solid;border-radius:0.5em;padding:0.5em;margin:0.5em 0;background:#eee">
+         ''<$transclude tiddler=<<temp>> field="messages"/>''
+      </div>
+      <$button>clear messages</$button>
+      <$action-deletefield $tiddler=<<temp>> messages />
+   </$button>
+</$list>
+\end
+
+\define done()
+<$importvariables filter="TiddlyTools/Time/CountDown $(here)$">
+<$vars here="$(here)$">
+<$vars cycles={{{ [<temp>get[cycles]]    ~[[$(cycles)$]]  }}}
+      session={{{ [<temp>get[session]]   ~[[0]] +[add[1]] }}}
+    breaktime={{{ [<temp>get[breaktime]] ~[[no]]          }}}
+          ask={{{ [<temp>get[ask]]       ~[[yes]]         }}}>
+$(done_msg)$
+<$reveal default=<<ask>> type="match"   text="yes"> $(done_ask)$      </$reveal>
+<$reveal default=<<ask>> type="nomatch" text="yes"> $(done_continue)$ </$reveal>
+\end
+
+\define done_msg()
+<$wikify name="msg" text="""$(done_text)$""">
+<$vars time=<<now "0hh:0mm:0ss ">> msg={{{ [<msg>trim[]] }}} br="<br>">
+<$action-setfield $tiddler=<<temp>> messages={{{ [{!!messages}addsuffix<time>addsuffix<msg>addsuffix<br>] }}}/>
+</$vars>
+</$wikify>
+\end
+
+\define done_ask()
+<$action-setfield $tiddler=<<temp>> go="stop" />
+<$action-setfield $tiddler={{{ [<temp>addsuffix[/ask]] }}}
+   subtitle="""<$text text="$(here)$" />: <<now "0hh:0mm:0ss">>"""
+       text="""@@font-size:2em;$(done_text)$@@"""
+     footer="""$(done_footer)$"""
+/>
+<$action-sendmessage $message="tm-modal" $param={{{ [<temp>addsuffix[/ask]] }}} />
+\end
+
+\define done_text()
+<$importvariables filter="TiddlyTools/Time/CountDown $(here)$">
+<$vars here="$(here)$">
+<$vars cycles={{{ [<temp>get[cycles]]    ~[[$(cycles)$]]  }}}
+      session={{{ [<temp>get[session]]   ~[[0]] +[add[1]] }}}
+    breaktime={{{ [<temp>get[breaktime]] ~[[no]]          }}}>
+<$reveal default=<<breaktime>> type="match" text="no">          ''$(workdonemsg)$''  </$reveal>
+<$reveal default=<<breaktime>> type="match" text="yes">
+   <$reveal default=<<session>> type="nomatch" text=<<cycles>>> ''$(breakdonemsg)$'' </$reveal>
+   <$reveal default=<<session>> type="match"   text=<<cycles>>> ''$(alldonemsg)$''   </$reveal>
+</$reveal>
+\end
+
+\define done_footer()
+<$importvariables filter="TiddlyTools/Time/CountDown $(here)$">
+<$vars here="$(here)$">
+<$vars cycles={{{ [<temp>get[cycles]]    ~[[$(cycles)$]]  }}}
+      session={{{ [<temp>get[session]]   ~[[0]] +[add[1]] }}}
+    breaktime={{{ [<temp>get[breaktime]] ~[[no]]          }}}>
+<$button message="tm-close-tiddler" tooltip="stop/reset countdown"> stop     $(done_stop)$     </$button>
+<$button message="tm-close-tiddler" tooltip="resume countdown"    > continue $(done_continue)$ </$button>
+\end
+
+\define done_stop()
+<<setCountdown H:$(workH)$ M:$(workM)$ S:$(workS)$>>
+<$action-deletefield $tiddler=<<temp>> go session breaktime text />
+<$action-deletetiddler $tiddler={{{ [<temp>addsuffix[/ask]] }}} />
+\end
+
+\define done_continue()
+<$reveal default=<<breaktime>> type="match" text="no">  <!-- WORK TIME ENDED, START BREAK TIME -->
+   <<setCountdown H:$(breakH)$ M:$(breakM)$ S:$(breakS)$>>
+   <$action-setfield $tiddler=<<temp>> breaktime="yes" go="go" />
+</$reveal>
+<$reveal default=<<breaktime>> type="match" text="yes"> <!-- BREAK TIME ENDED -->
+   <<setCountdown H:$(workH)$ M:$(workM)$ S:$(workS)$>>
+   <$reveal default=<<session>> type="nomatch" text=<<cycles>>> <!-- START NEXT WORK SESSION -->
+      <$action-setfield $tiddler=<<temp>> session=<<session>> breaktime="no" go="go" /> 
+   </$reveal>
+   <$reveal default=<<session>> type="match" text=<<cycles>>> <!-- DONE! RESET FOR NEW CYCLE -->
+      <$action-deletefield $tiddler=<<temp>> go session breaktime text  />
+   </$reveal>
+</$reveal>
+<$action-deletetiddler $tiddler={{{ [<temp>addsuffix[/ask]] }}} />
+\end
+
+__''This [[CountDown|TiddlyTools/Time/CountDown]] sequence has alternating sessions of work time and break time.''__<br/>
+<<settings>>
+<$vars workH={{{ [<temp>get[workH]]  ~[<workH>]  }}}
+       workM={{{ [<temp>get[workM]]  ~[<workM>]  }}}
+       workS={{{ [<temp>get[workS]]  ~[<workS>]  }}}
+      breakH={{{ [<temp>get[breakH]] ~[<breakH>] }}}
+      breakM={{{ [<temp>get[breakM]] ~[<breakM>] }}}
+      breakS={{{ [<temp>get[breakS]] ~[<breakS>] }}}
+      cycles={{{ [<temp>get[cycles]] ~[<cycles>] }}}>
+<div style="display:inline-block;text-align:center;margin:1em;">
+   ''<<status>>''<br>
+   <<getCountdown>> <<start>> <<pause>> <<stop>><br>
+   <<messages>>
+</div>
+<div style="clear:both;"></div>

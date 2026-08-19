@@ -1,0 +1,7 @@
+{
+    "created": "20260819024502343",
+    "text": "<$list filter=\"[prefix[$:/temp/time/CountDown]]\" variable=\"t\">\n   <$list filter=\"[<t>get[go]match[go]then<t>]\">\n      tiddler: <$text text=<<t>>/>\n      go: {{!!go}}<br/>\n      text: {{!!text}}<br/>\n   </$list>\n</$list>",
+    "tags": "",
+    "title": "新条目 1",
+    "modified": "20260819024505890"
+}

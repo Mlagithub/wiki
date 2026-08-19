@@ -1,0 +1,15 @@
+created: 20200726025847494
+modified: 20200924032711633
+tags: 
+title: SampleCountdown
+type: text/vnd.tiddlywiki
+
+\define done()
+<$vars message="""$(here)$ completed<br><<now "on DDD, MMM DDth at 0hh12:0mm:0ssam">>""">
+<$action-setfield    $tiddler="$:/temp/notify" text=<<message>>  />
+<$action-sendmessage $message="tm-notify" $param="$:/temp/notify"/>
+<<showMessage msg:"This is a custom message">>
+</$vars>
+\end
+
+{{||TiddlyTools/Time/CountDown}}
