@@ -1,6 +1,6 @@
 created: 20240907014851399
 creator: one
-modified: 20260819022521188
+modified: 20260820030103941
 modifier: one
 tags: 
 title: 🏠
@@ -44,18 +44,17 @@ type: text/vnd.tiddlywiki
 
 
 <div class="myDiv">
-<<interstitial-ui caption:"!!随手记" width:"100%" base:"$(currentTiddler)$">>
-</div>
-
-
-<div class="myDiv">
 <$transclude $variable="todolist-ui" caption="!!待办"  base="base" />
 </div>
 
 
 <div class="myDiv">
-<h2>项目待办</h2>
+<h2>项目</h2>
 <<project-todos-summary>>
+</div>
+
+<div class="myDiv">
+<<interstitial-ui caption:"!!随手记" width:"100%" base:"$(currentTiddler)$">>
 </div>
 
 
