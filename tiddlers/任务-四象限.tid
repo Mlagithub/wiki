@@ -1,0 +1,44 @@
+created: 20260820081112523
+modified: 20260820083141761
+tags: 
+title: 任务-四象限
+type: text/vnd.tiddlywiki
+
+<style>
+.quadrant-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* 两列等宽 */
+  grid-template-rows: 1fr 1fr;      /* 两行等高 */
+  height: 80vh;                     /* 占视口高度的80%，可按需调整 */
+  gap: 10px;                        /* 区域间距 */
+}
+
+.quadrant {
+
+  padding: 12px;
+  background: #f9f9f9;
+  overflow: auto;                   /* 内容过多时滚动 */
+}
+
+</style>
+
+
+<div class="quadrant-grid">
+
+  <div class="quadrant">
+    <<todolist-ui caption:"!!重要且紧急" base:"Task-0">>
+  </div>
+
+  <div class="quadrant">
+    <<todolist-ui caption:"!!重要不紧急" base:"Task-2">>
+  </div>
+
+  <div class="quadrant">
+    <<todolist-ui caption:"!!紧急不重要" base:"Task-1">>
+  </div>
+
+  <div class="quadrant">
+    <<todolist-ui caption:"!!不重要不紧急" base:"Task-3">>
+  </div>
+
+</div>
