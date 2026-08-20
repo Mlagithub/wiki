@@ -1,11 +1,13 @@
-title: $:/Story/ProjectTodos
+created: 20260820025153179
+modified: 20260820025330762
 tags: $:/tags/Macro
+title: $:/Story/ProjectTodos
 type: text/vnd.tiddlywiki
 
 \define project-todos-summary()
 \whitespace trim
 \import [all[tiddlers+shadows]tag[$:/tags/Todolist/Macro]!has[draft.of]]
-<$list filter="[tag[project]sort[title]]" variable="proj">
+<$list filter="[tag[project]!field:status[closed]sort[title]]" variable="proj">
 <$set name="taskTiddler" value={{{ [<proj>addsuffix[-todo]addprefix[$:/todolist/data/tasks/]] }}}>
 <$list filter="[<taskTiddler>indexes[]limit[1]]" variable="ignored">
 <div class="kk-project-todos">
