@@ -1,16 +1,16 @@
 annotate-colour: green
 caption: 你的成长环境如何塑造你的惯习？
 difficulty: 4.93
-due: 20260820053606865
-elapsed_days: 0
+due: 20260822061645812
+elapsed_days: 0.03517300925925926
 lapses: 0
-last_review: 20260820052606865
+last_review: 20260820061645812
 list: 
-reps: 1
+reps: 2
 role: toc
-scheduled_days: 0
+scheduled_days: 2
 stability: 2.4
-state: 1
+state: 2
 tags: $:/plugins/twpub/010c8e9ec74edf7d/toc/num_1
 target: $:/plugins/twpub/010c8e9ec74edf7d/text/000000022
 title: $:/plugins/twpub/010c8e9ec74edf7d/toc/np-12
