@@ -1,0 +1,14 @@
+conversion-errors: 18
+converter-version: 0.1.0
+count-chunks: 1234
+count-images: 28
+cover-image: $:/plugins/twpub/010c8e9ec74edf7d/images/cover.jpeg
+description: 惯习
+epub-creator: 多丽丝·马丁
+epub-title: 惯习
+list: readme errors cover text
+name: TWPUB
+plugin-type: plugin
+title: $:/plugins/twpub/010c8e9ec74edf7d
+type: application/json
+version: v0.0.1

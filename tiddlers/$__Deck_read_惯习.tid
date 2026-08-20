@@ -1,13 +1,13 @@
 caption: 惯习
-card: [all[shadows+tiddlers]prefix[$:/plugins/twpub/be62d6a381b36046/toc]]
+card: [all[shadows+tiddlers]prefix[$:/plugins/twpub/010c8e9ec74edf7d/toc]]
 card_exclude: [tag[!]]
 card_unfold: [all[shadows+tiddlers]prefix[$:/plugins/twpub/]] [tag[.]]
-created: 20260819044902708
+created: 20260820052524895
 description: 
 exclude_action: {{$:/plugins/tidme/fsrs4tw/buttons/action/exclude}}
 leech_action: {{$:/plugins/tidme/fsrs4tw/buttons/action/exclude}}
 leech_threshold: 8
-modified: 20260819044902708
+modified: 20260820052524895
 order: due-new
 order_due: [sortan[]]
 order_learn: [sort[due]]
@@ -18,6 +18,6 @@ state_learn: [state[1]] [state[3]] :filter[{!!due}compare:date:lt<now [UTC]YYYY0
 state_new: [!has[state]] [state[0]]
 tags: $:/tags/TidmeDeck
 title: $:/Deck/read/惯习
-twpub: $:/plugins/twpub/be62d6a381b36046
+twpub: $:/plugins/twpub/010c8e9ec74edf7d
 type: text/vnd.tiddlywiki
 unfold_action: {{$:/plugins/tidme/fsrs4tw/buttons/action/unfold}}
