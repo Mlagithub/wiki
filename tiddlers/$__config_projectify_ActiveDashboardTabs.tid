@@ -1,0 +1,6 @@
+created: 20260821061743402
+modified: 20260821061857680
+title: $:/config/projectify/ActiveDashboardTabs
+type: text/vnd.tiddlywiki
+
+$:/plugins/nico/projectify/ui/dashboard/InboxAndProjects $:/plugins/nico/projectify/ui/dashboard/Eisenhower $:/plugins/nico/projectify/ui/dashboard/Today $:/plugins/nico/projectify/ui/dashboard/Upcoming $:/plugins/nico/projectify/ui/NextActions $:/plugins/nico/projectify/ui/Everything $:/plugins/nico/projectify/ui/dashboard/Past

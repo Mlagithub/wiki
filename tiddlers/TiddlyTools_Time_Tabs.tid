@@ -1,8 +1,0 @@
-created: 20220322082837133
-list: TiddlyTools/Time/Clocks TiddlyTools/Time/Calendar TiddlyTools/Time/Alarms TiddlyTools/Time/Timers TiddlyTools/Time/CountDown TiddlyTools/Time/WorldClocks
-modified: 20220322150434617
-tags: 
-title: TiddlyTools/Time/Tabs
-type: text/vnd.tiddlywiki
-
-<<tabs tabsList:"[enlist{TiddlyTools/Time/Tabs!!list}]" default:"TidlyTools/Time/Clock" state:"$:/state/tab/time" template:"TiddlyTools/Time/Tabs/Template">>
