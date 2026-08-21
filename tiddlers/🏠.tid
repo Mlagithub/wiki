@@ -1,6 +1,6 @@
 created: 20240907014851399
 creator: one
-modified: 20260821023047015
+modified: 20260821084844039
 modifier: one
 tags: 
 title: 🏠
@@ -19,14 +19,9 @@ type: text/vnd.tiddlywiki
 
 {{$:/plugins/nico/projectify/ui/dashboard/Dashboard}}
 
-
-<div class="myDiv">
-<$transclude $variable="todolist-ui" caption="!!待办"  base="base" />
-</div>
-
-
+<span style="border: none; border-top: 0.5px dashed grey; width: 100%; margin-top: 500px;"> </span>
 <div class="myDiv">
 <<interstitial-ui caption:"!!随手记" width:"100%" base:"$(currentTiddler)$">>
 </div>
 
-<span style="border: none; border-top: 0.5px dashed grey; width: 100%; margin-top: 500px;"> </span>
+

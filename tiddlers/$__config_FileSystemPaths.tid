@@ -1,0 +1,12 @@
+created: 20260821081123363
+modified: 20260821082831676
+tags: 
+title: $:/config/FileSystemPaths
+type: text/vnd.tiddlywiki
+
+[has[Project]addprefix[todos/]]
+[has[quadrant]addprefix[todos/]]
+[has[todo]addprefix[todos/]]
+[tag[done]addprefix[todos/]]
+[tag[Inbox]addprefix[todos/]]
+[has[due]addprefix[todos/]]
