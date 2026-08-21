@@ -1,13 +1,15 @@
 caption: 调整 Projectify 插件的四象限功能。将四象限做成与优先级一样的标签，生成 todo 时可以选择，默认为不紧急不重要。四象限TAB做为一个看板，与项目无关。
 created: 20260821085254316
+done.date: 20260821220143343
 due: 
 due.initial: 
-modified: 20260821085254321
+modified: 20260821140143343
 priority: 
+quadrant: do
 recurring.enabled: 
 recurring.n: 
 recurring.unit: 
 recurring.until: 
-tags: Inbox todo
+tags: todo 技术 done
 title: 调整 Projectify 插件的四象限功能。将四象限做成与优先级一样的标签，生成 todo 时可以选择，默认为不紧急不重要。四象限TAB做为一个看板，与项目无关。
 type: text/vnd.tiddlywiki

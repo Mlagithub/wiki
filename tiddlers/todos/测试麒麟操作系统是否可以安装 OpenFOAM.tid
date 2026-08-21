@@ -1,13 +1,15 @@
 caption: 测试麒麟操作系统是否可以安装 OpenFOAM
 created: 20260821051619988
+done.date: 20260821220117355
 due: 
 due.initial: 
-modified: 20260821051619996
+modified: 20260821140117355
 priority: 
+quadrant: delegate
 recurring.enabled: 
 recurring.n: 
 recurring.unit: 
 recurring.until: 
-tags: todo 暑期实习助教
+tags: todo 暑期实习助教 done
 title: 测试麒麟操作系统是否可以安装 OpenFOAM
 type: text/vnd.tiddlywiki
