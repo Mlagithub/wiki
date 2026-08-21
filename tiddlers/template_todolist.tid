@@ -1,19 +1,11 @@
 created: 20260321051101459
 creator: one
-modified: 20260323073552314
+modified: 20260821075747907
 modifier: one
-revision: 0
 tags: $:/tags/ViewTemplate
 title: template/todolist
 type: text/vnd.tiddlywiki
 
-<$list filter="[all[current]tag[project]]">
-<<todolist-ui caption:"!!待办" width:"" base:"$(currentTiddler)$-todo">>
-</$list>
-
-<span style="margin-top: 100px"> </span>
-
-
-<$list filter="[all[current]tag[project]]">
+<$list filter="[all[current]tag[todo]]">
 <<interstitial-ui caption:"!!记录" width:"" base:"$(currentTiddler)$">>
 </$list>
