@@ -1,10 +1,23 @@
 created: 20240907014851399
 creator: one
-modified: 20260821014831933
+modified: 20260821023047015
 modifier: one
 tags: 
 title: 🏠
 type: text/vnd.tiddlywiki
+
+<style>
+.myDiv {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.flexs {
+    display: flex; justify-content: space-between; align-items: center;
+}
+</style>
+
+
+{{$:/plugins/nico/projectify/ui/dashboard/Dashboard}}
 
 
 <div class="myDiv">
@@ -13,16 +26,7 @@ type: text/vnd.tiddlywiki
 
 
 <div class="myDiv">
-<h2>项目</h2>
-<<project-todos-summary>>
-</div>
-
-
-{{$:/plugins/nico/projectify/ui/dashboard/Dashboard}}
-
-<div class="myDiv">
 <<interstitial-ui caption:"!!随手记" width:"100%" base:"$(currentTiddler)$">>
 </div>
 
-
-<span style="border: none; border-top: 0.5px dashed grey; width: 100%; margin-bottom: 200px;"> </span>
+<span style="border: none; border-top: 0.5px dashed grey; width: 100%; margin-top: 500px;"> </span>
