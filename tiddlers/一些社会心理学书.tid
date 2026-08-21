@@ -1,11 +1,11 @@
-annotate-colour: LightSkyBlue
 annotate-prefix: 书的十周年纪念版，不仅新增
 annotate-suffix: 等新品种，而且对《态度改变
 annotate-text: 《社会认知：洞悉人心的科学》、《不确定世界的理性选择》、《社会冲突》、《社会心理学之旅》、《社会心理学纲要》
-caption: {{||$:/plugins/tidme/read/ui/ViewTemplate/sentence}}
+caption: 
 created: 20260818074228343
-modified: 20260818074301364
-tags: $:/plugins/twpub/0ff8399029420f4c/toc/id3 . todo
+modified: 20260821020003136
+quadrant: schedule
+tags: todo
 title: 一些社会心理学书
 type: text/vnd.tiddlywiki
 
