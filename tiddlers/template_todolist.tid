@@ -1,11 +1,17 @@
 created: 20260321051101459
 creator: one
-modified: 20260821075747907
+modified: 20260822030600011
 modifier: one
 tags: $:/tags/ViewTemplate
 title: template/todolist
 type: text/vnd.tiddlywiki
 
 <$list filter="[all[current]tag[todo]]">
-<<interstitial-ui caption:"!!记录" width:"" base:"$(currentTiddler)$">>
+  <$set name="baseTitle" value="base">
+    <$list filter="[all[current]tags[]] :filter[tag[Project]] :filter[has[category]] +[first[]]" variable="project">
+      <$set name="baseTitle" value={{{ [<project>get[category]first[]] }}}>
+      </$set>
+    </$list>
+    <<interstitial-ui caption:"!!记录" width:"" base:"$(baseTitle)$">>
+  </$set>
 </$list>

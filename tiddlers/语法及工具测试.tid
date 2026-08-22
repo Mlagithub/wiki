@@ -1,11 +1,35 @@
 created: 20240907012347676
 creator: one
-modified: 20260818010608643
+modified: 20260822024619876
 modifier: one
 tags: 
 title: 语法及工具测试
 type: text/vnd.tiddlywiki
 
+\define projectCategory(todo)
+<$set name="todoTitle" value="$todo$">
+  <$list filter="[<todoTitle>tags[]] :filter[tag[Project]has[category]] +[first[]]" variable="project" emptyMessage="<$text text=<<todoTitle>>/>">
+    <$view tiddler=<<project>> field="category"/>
+  </$list>
+</$set>
+\end
+
+
+
+<$list filter="[tag[todo]]" variable="todo">
+  <div class="todo-row">
+    <$text text=<<todo>>/>：
+    <$list filter="[<todo>tags[]] :filter[tag[Project]has[category]] +[first[]]" variable="project" emptyMessage="base">
+      <$list filter="[<project>get[category]]" variable="cat">
+        <$text text=<<cat>>/>
+      </$list>
+    </$list>
+  </div>
+</$list>
+
+
+
+<<projectCategory "把 epub-tool 工具部署在NAS上">>
 
 
 @@color:steelblue;Text with custom style@@
@@ -18,7 +42,6 @@ type: text/vnd.tiddlywiki
 <<ColumnTable '[tag[cpp]]'>>
 
 
-[[2024年法定节假日]]
 
 {{屏幕时代重塑孩子的自控力}}
 

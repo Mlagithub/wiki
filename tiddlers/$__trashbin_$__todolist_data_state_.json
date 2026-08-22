@@ -1,0 +1,7 @@
+{
+    "created": "20260822025047589",
+    "title": "$:/todolist/data/state/<<projectCategory '{{!!title}}'>>",
+    "type": "application/json",
+    "text": "{\n    \"itemtext\": \"\"\n}",
+    "modified": "20260822025051261"
+}
