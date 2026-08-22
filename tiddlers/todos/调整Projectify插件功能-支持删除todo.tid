@@ -1,14 +1,15 @@
 caption: 调整Projectify插件功能-支持删除todo
 created: 20260821085844166
+done.date: 20260822071454525
 due: 
 due.initial: 
-modified: 20260821140140892
+modified: 20260821231454525
 priority: 
 quadrant: do
 recurring.enabled: 
 recurring.n: 
 recurring.unit: 
 recurring.until: 
-tags: todo 技术
+tags: todo 技术 done
 title: 调整Projectify插件功能-支持删除todo
 type: text/vnd.tiddlywiki

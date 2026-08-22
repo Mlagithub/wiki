@@ -1,15 +1,15 @@
 annotate-colour: green
 caption: 一 亚里士多德
 difficulty: 4.93
-due: 20260820120407927
-elapsed_days: 0.010787002314814815
+due: 20260901000322791
+elapsed_days: 3.4994775578703705
 lapses: 0
-last_review: 20260818120407927
+last_review: 20260822000322791
 list: 
-reps: 2
+reps: 3
 role: toc
-scheduled_days: 2
-stability: 2.4
+scheduled_days: 10
+stability: 10.407655197961729
 state: 2
 tags: $:/plugins/twpub/767506b8c19e4254/toc/num_9
 target: $:/plugins/twpub/767506b8c19e4254/text/000000216
