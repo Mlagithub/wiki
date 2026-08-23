@@ -1,7 +1,9 @@
 {
-    "created": "20260822030756696",
+    "created": "20260822030819631",
     "title": "$:/todolist/data/tasks/[[筛选器错误: Missing [ in filter expression]]",
     "type": "application/json",
-    "text": "{\n    \"20260822030755666\": \"测试\"\n}",
-    "modified": "20260822030756696"
+    "text": "{\n    \"20260822030818424\": \"测试\\n\"\n}",
+    "modified": "20260822030819631",
+    "revision": "3",
+    "bag": "default"
 }
