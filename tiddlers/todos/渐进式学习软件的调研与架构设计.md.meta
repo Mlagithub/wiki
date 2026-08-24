@@ -1,13 +1,14 @@
 caption: 调研与架构确定
 created: 20260824112129774
+done.date: 20260824193335527
 due: 
 due.initial: 
-modified: 20260824112129776
+modified: 20260824113335527
 priority: 
 recurring.enabled: 
 recurring.n: 
 recurring.unit: 
 recurring.until: 
-tags: Tidme2 todo
-title: 调研与架构确定
-type: text/vnd.tiddlywiki
+tags: Tidme2 todo done
+title: 渐进式学习软件的调研与架构设计
+type: text/markdown

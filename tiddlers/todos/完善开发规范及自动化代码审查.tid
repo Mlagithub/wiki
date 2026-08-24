@@ -1,13 +1,14 @@
 caption: 完善开发规范及自动化代码审查
 created: 20260821021730306
+done.date: 20260824193923186
 due: 20260824120000000
 due.initial: 20260824120000000
-modified: 20260821140151018
+modified: 20260824113923186
 quadrant: do
-recurring.enabled: 
-recurring.n: 
-recurring.unit: 
-recurring.until: 
-tags: GAME平台 todo
+recurring.enabled: true
+recurring.n: 1
+recurring.unit: days
+recurring.until: 20260825120000000
+tags: GAME平台 todo done
 title: 完善开发规范及自动化代码审查
 type: text/vnd.tiddlywiki
