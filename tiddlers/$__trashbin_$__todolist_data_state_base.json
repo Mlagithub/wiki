@@ -1,0 +1,11 @@
+{
+    "created": "20240912131750396",
+    "text": "{\n    \"itemtext\": \"\",\n    \"editview\": \"view\",\n    \"option\": \"no\",\n    \"markall\": \"\",\n    \"timestamp\": \"hide\"\n}",
+    "type": "application/json",
+    "creator": "one",
+    "modified": "20260824071957510",
+    "modifier": "one",
+    "title": "$:/todolist/data/state/base",
+    "revision": "0",
+    "bag": "default"
+}
