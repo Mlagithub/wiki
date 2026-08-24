@@ -1,5 +1,5 @@
 created: 20260818000000000
-modified: 20260818000000000
+modified: 20260824084835837
 title: $:/plugins/kookma/todolist/macros/interstitial-utility
 type: text/vnd.tiddlywiki
 
@@ -55,7 +55,7 @@ type: text/vnd.tiddlywiki
 
 \define disp-journals-in-view-mode()
 \whitespace trim
-<$list filter="[<taskTiddler>indexes[]format:date[YYYY0MM0DD]unique[]sort[]reverse[yes]limit[5]]" variable="dateGroup">
+<$list filter="[<taskTiddler>indexes[]format:date[YYYY0MM0DD]unique[]sort[]reverse[yes]limit[2]]" variable="dateGroup">
 <div class="kk-todolist-date-group">
 <div class="kk-todolist-date-header"><$text text={{{ [<dateGroup>format:date[0MM-0DD]] }}}/></div>
 <$list filter="[<taskTiddler>indexes[]prefix<dateGroup>sort[]]" variable="item">
@@ -72,7 +72,7 @@ type: text/vnd.tiddlywiki
 
 \define disp-journals-in-edit-mode()
 \whitespace trim
-<$list filter="[<taskTiddler>indexes[]format:date[YYYY0MM0DD]unique[]sort[]reverse[yes]limit[5]]" variable="dateGroup">
+<$list filter="[<taskTiddler>indexes[]format:date[YYYY0MM0DD]unique[]sort[]reverse[yes]limit[2]]" variable="dateGroup">
 <div class="kk-todolist-date-group">
 <div class="kk-todolist-date-header"><$text text={{{ [<dateGroup>format:date[0MM-0DD]] }}}/></div>
 <$list filter="[<taskTiddler>indexes[]prefix<dateGroup>sort[]]" variable="item">
