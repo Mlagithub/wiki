@@ -1,6 +1,11 @@
 created: 20260824025420837
-modified: 20260824025433050
-quadrant: schedule
+due: 20260824120000000
+modified: 20260824064120967
+quadrant: delegate
+recurring.enabled: true
+recurring.n: 1
+recurring.unit: days
+recurring.until: 20260830120000000
 tags: todo
 title: 保养机油
 type: text/vnd.tiddlywiki
