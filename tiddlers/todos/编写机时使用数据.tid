@@ -1,13 +1,14 @@
 caption: 编写机时使用数据
 created: 20260821021630589
+done.date: 20260830185030045
 due: 20260825120000000
 due.initial: 20260826120000000
-modified: 20260821140059200
+modified: 20260830105030045
 quadrant: delegate
 recurring.enabled: 
 recurring.n: 
 recurring.unit: 
 recurring.until: 
-tags: todo 核心算力平台
+tags: todo 核心算力平台 done
 title: 编写机时使用数据
 type: text/vnd.tiddlywiki
