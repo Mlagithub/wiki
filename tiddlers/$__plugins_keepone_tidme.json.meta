@@ -1,0 +1,9 @@
+author: keepone
+dependents: 
+description: Lifelong knowledge, deep in mind. Incremental reading & spaced repetition for TiddlyWiki.
+list: readme
+name: Tidme
+plugin-type: plugin
+title: $:/plugins/keepone/tidme
+type: application/json
+version: 1.18.0
