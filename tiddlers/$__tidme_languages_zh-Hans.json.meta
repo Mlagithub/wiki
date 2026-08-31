@@ -1,0 +1,11 @@
+author: oflg
+core-version: >=5.3.0
+dependents: $:/plugins/keepone/tidme/review
+description: Chinese (Simplified)
+list: readme license
+name: Tidme Languages
+plugin-type: plugin
+source: https://github.com/oflg/Tidme
+title: $:/tidme/languages/zh-Hans
+type: application/json
+version: 1.4.6
