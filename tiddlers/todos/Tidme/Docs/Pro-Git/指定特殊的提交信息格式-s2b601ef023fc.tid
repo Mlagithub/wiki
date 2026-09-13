@@ -1,0 +1,87 @@
+caption: 指定特殊的提交信息格式
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › 使用强制策略的一个例子 › 服务器端钩子 › 指定特殊的提交信息格式
+tidme.chars: 1618
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: dc78010e2d3f58aa
+tidme.id: s2b601ef023fc
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000164
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/指定特殊的提交信息格式-s2b601ef023fc
+type: text/vnd.tiddlywiki
+
+<p>你的第一项任务是要求每一条提交信息都必须遵循某种特殊的格式。
+作为目标，假定每一条信息必须包含一条形似“ref: 1234”的字符串，因为你想把每一次提交对应到问题追踪系统（ticketing system）中的某个事项。
+你要逐一检查每一条推送上来的提交内容，看看提交信息是否包含这么一个字符串，然后，如果某个提交里不包含这个字符串，以非零返回值退出从而拒绝此次推送。</p>
+
+<p>把 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$newrev</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$oldrev</code> 变量的值传给一个叫做 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rev-list</code> 的 Git 底层命令，
+你可以获取所有提交的 SHA-1 值列表。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rev-list</code> 基本类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 命令，但它默认只输出 SHA-1 值而已，没有其他信息。
+所以要获取由一次提交到另一次提交之间的所有 SHA-1 值，可以像这样运行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rev-list 538c33..d14fc7
+d14fc7c847ab946ec39590d87783c69b031bdfb7
+9f585da4401b0a3999e84113824d15245c13f0be
+234071a1be950e2a8d078e6141f5cd20c1e61ad3
+dfa04c9ef3d5197182f13fb5b9b1fb7717d2222a
+17716ec0f1ff5c77eff40b7fe912f9f6cfd0e475</code></p>
+
+<p>你可以截取这些输出内容，循环遍历其中每一个 SHA-1 值，找出与之对应的提交信息，
+然后用正则表达式来测试该信息包含的内容。</p>
+
+<p>下一步要实现从每个提交中提取出提交信息。
+使用另一个叫做 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git cat-file</code> 的底层命令来获得原始的提交数据。
+我们将在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals" href="ch10-git-internals.xhtml" class="xref">Git 内部原理</a> 了解到这些底层命令的细节；
+现在暂时先看一下这条命令的输出：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file commit ca82a6
+tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
+parent 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+author Scott Chacon &lt;schacon@gmail.com&gt; 1205815931 -0700
+committer Scott Chacon &lt;schacon@gmail.com&gt; 1240030591 -0700
+
+changed the version number</code></p>
+
+<p>通过 SHA-1 值获得提交中的提交信息的一个简单办法是找到提交的第一个空行，然后取从它往后的所有内容。
+可以使用 Unix 系统的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">sed</code> 命令来实现该效果：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file commit ca82a6 | sed <span style="font-style: italic">'1,/^$/d'</span>
+changed the version number</code></p>
+
+<p>你可以用这条咒语从每一个待推送的提交里提取提交信息，然后在提取的内容不符合要求时退出。
+为了退出脚本和拒绝此次推送，返回非零值。
+整个脚本大致如下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>$regex = <span style="font-style: italic">/\[ref: (\d+)\]/</span>
+
+<span style="font-style: italic"># 指定自定义的提交信息格式</span>
+<span style="font-weight: bold">def</span> check_message_format
+  missed_revs = <span style="font-style: italic">`git rev-list </span><span style="font-weight: bold; font-style: italic">#{</span>$oldrev<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">..</span><span style="font-weight: bold; font-style: italic">#{</span>$newrev<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">`</span>.split(<span style="font-style: italic">"</span><span style="font-weight: bold; font-style: italic">\n</span><span style="font-style: italic">"</span>)
+  missed_revs.each <span style="font-weight: bold">do</span> |rev|
+    message = <span style="font-style: italic">`git cat-file commit </span><span style="font-weight: bold; font-style: italic">#{</span>rev<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic"> | sed '1,/^$/d'`</span>
+    <span style="font-weight: bold">if</span> !$regex.match(message)
+      puts <span style="font-style: italic">"[POLICY] Your message is not formatted correctly"</span>
+      exit 1
+    <span style="font-weight: bold">end</span>
+  <span style="font-weight: bold">end</span>
+<span style="font-weight: bold">end</span>
+check_message_format</code></p>
+
+<p>把这一段放在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">update</code> 脚本里，所有包含不符合指定规则的提交都会遭到拒绝。</p>

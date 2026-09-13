@@ -1,0 +1,118 @@
+caption: Git 对象
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › Git 对象
+tidme.chars: 2352
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: afbcbe0dbff0495b
+tidme.id: s770e89d2f26d
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000196
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/Git-对象-s770e89d2f26d
+type: text/vnd.tiddlywiki
+
+<p>Git 是一个内容寻址文件系统，听起来很酷。但这是什么意思呢？
+这意味着，Git 的核心部分是一个简单的键值对数据库（key-value data store）。
+你可以向 Git 仓库中插入任意类型的内容，它会返回一个唯一的键，通过该键可以在任意时刻再次取回该内容。</p>
+
+<p>可以通过底层命令 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git hash-object</code> 来演示上述效果——该命令可将任意数据保存于
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/objects</code> 目录（即 <strong xmlns="http://www.w3.org/1999/xhtml">对象数据库</strong>），并返回指向该数据对象的唯一的键。</p>
+
+<p>首先，我们需要初始化一个新的 Git 版本库，并确认 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">objects</code> 目录为空：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git init test
+Initialized empty Git repository in /tmp/test/.git/
+<span style="font-weight: bold">$ </span>cd test
+<span style="font-weight: bold">$ </span>find .git/objects
+.git/objects
+.git/objects/info
+.git/objects/pack
+<span style="font-weight: bold">$ </span>find .git/objects -type f</code></p>
+
+<p>可以看到 Git 对 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">objects</code> 目录进行了初始化，并创建了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pack</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">info</code> 子目录，但均为空。
+接着，我们用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git hash-object</code> 创建一个新的数据对象并将它手动存入你的新 Git 数据库中：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>echo <span style="font-style: italic">'test content'</span> | git hash-object -w --stdin
+d670460b4b4aece5915caf5c68d12f560a9fe3e4</code></p>
+
+<p>在这种最简单的形式中，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git hash-object</code> 会接受你传给它的东西，而它只会返回可以存储在 Git 仓库中的唯一键。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">-w</code> 选项会指示该命令不要只返回键，还要将该对象写入数据库中。
+最后，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">--stdin</code> 选项则指示该命令从标准输入读取内容；若不指定此选项，则须在命令尾部给出待存储文件的路径。</p>
+
+<p>此命令输出一个长度为 40 个字符的校验和。
+这是一个 SHA-1 哈希值——一个将待存储的数据外加一个头部信息（header）一起做 SHA-1 校验运算而得的校验和。后文会简要讨论该头部信息。
+现在我们可以查看 Git 是如何存储数据的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>find .git/objects -type f
+.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4</code></p>
+
+<p>如果你再次查看 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">objects</code> 目录，那么可以在其中找到一个与新内容对应的文件。
+这就是开始时 Git 存储内容的方式——一个文件对应一条内容，
+以该内容加上特定头部信息一起的 SHA-1 校验和为文件命名。
+校验和的前两个字符用于命名子目录，余下的 38 个字符则用作文件名。</p>
+
+<p>一旦你将内容存储在了对象数据库中，那么可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">cat-file</code> 命令从 Git 那里取回数据。
+这个命令简直就是一把剖析 Git 对象的瑞士军刀。
+为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">cat-file</code> 指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-p</code> 选项可指示该命令自动判断内容的类型，并为我们显示大致的内容：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
+test content</code></p>
+
+<p>至此，你已经掌握了如何向 Git 中存入内容，以及如何将它们取出。
+我们同样可以将这些操作应用于文件中的内容。
+例如，可以对一个文件进行简单的版本控制。
+首先，创建一个新文件并将其内容存入数据库：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>echo <span style="font-style: italic">'version 1'</span> &gt; test.txt
+<span style="font-weight: bold">$ </span>git hash-object -w test.txt
+83baae61804e65cc73a7201a7252750c76066a30</code></p>
+
+<p>接着，向文件里写入新内容，并再次将其存入数据库：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>echo <span style="font-style: italic">'version 2'</span> &gt; test.txt
+<span style="font-weight: bold">$ </span>git hash-object -w test.txt
+1f7a7a472abf3dd9643fd615f6da379c4acb3e3a</code></p>
+
+<p>对象数据库记录下了该文件的两个不同版本，当然之前我们存入的第一条内容也还在：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>find .git/objects -type f
+.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
+.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
+.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4</code></p>
+
+<p>现在可以在删掉 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">test.txt</code> 的本地副本，然后用 Git 从对象数据库中取回它的第一个版本：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 &gt; test.txt
+<span style="font-weight: bold">$ </span>cat test.txt
+version 1</code></p>
+
+<p>或者第二个版本：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a &gt; test.txt
+<span style="font-weight: bold">$ </span>cat test.txt
+version 2</code></p>
+
+<p>然而，记住文件的每一个版本所对应的 SHA-1 值并不现实；另一个问题是，在这个（简单的版本控制）系统中，文件名并没有被保存——我们仅保存了文件的内容。
+上述类型的对象我们称之为 <strong xmlns="http://www.w3.org/1999/xhtml">数据对象（blob object）</strong>。
+利用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git cat-file -t</code> 命令，可以让 Git 告诉我们其内部存储的任何对象类型，只要给定该对象的 SHA-1 值：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
+blob</code></p>
+<p><strong>树对象</strong></p>

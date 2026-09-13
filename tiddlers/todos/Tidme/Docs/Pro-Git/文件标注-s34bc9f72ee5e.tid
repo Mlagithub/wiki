@@ -1,0 +1,86 @@
+caption: 文件标注
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 使用 Git 调试 › 文件标注
+tidme.chars: 2725
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 66c4141c5aa12b43
+tidme.id: s34bc9f72ee5e
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000135
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/文件标注-s34bc9f72ee5e
+type: text/vnd.tiddlywiki
+
+<p>如果你在追踪代码中的一个 bug，并且想知道是什么时候以及为何会引入，文件标注通常是最好用的工具。
+它能显示任何文件中每行最后一次修改的提交记录。
+所以，如果你在代码中看到一个有 bug 的方法，你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git blame</code> 标注这个文件，查看哪一次提交引入了这行。</p>
+
+<p>以下示例用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git blame</code> 确定了 Linux 内核源码顶层的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Makefile</code> 中每一行分别来自哪个提交和提交者，
+此外用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-L</code> 选项还可以将标注的输出限制为该文件中的第 69 行到第 82 行。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git blame -L 69,82 Makefile
+b8b0618cf6fab (Cheng Renquan  2009-05-26 16:03:07 +0800 69) ifeq ("$(origin V)", "command line")
+b8b0618cf6fab (Cheng Renquan  2009-05-26 16:03:07 +0800 70)   KBUILD_VERBOSE = $(V)
+^1da177e4c3f4 (Linus Torvalds 2005-04-16 15:20:36 -0700 71) endif
+^1da177e4c3f4 (Linus Torvalds 2005-04-16 15:20:36 -0700 72) ifndef KBUILD_VERBOSE
+^1da177e4c3f4 (Linus Torvalds 2005-04-16 15:20:36 -0700 73)   KBUILD_VERBOSE = 0
+^1da177e4c3f4 (Linus Torvalds 2005-04-16 15:20:36 -0700 74) endif
+^1da177e4c3f4 (Linus Torvalds 2005-04-16 15:20:36 -0700 75)
+066b7ed955808 (Michal Marek   2014-07-04 14:29:30 +0200 76) ifeq ($(KBUILD_VERBOSE),1)
+066b7ed955808 (Michal Marek   2014-07-04 14:29:30 +0200 77)   quiet =
+066b7ed955808 (Michal Marek   2014-07-04 14:29:30 +0200 78)   Q =
+066b7ed955808 (Michal Marek   2014-07-04 14:29:30 +0200 79) else
+066b7ed955808 (Michal Marek   2014-07-04 14:29:30 +0200 80)   quiet=quiet_
+066b7ed955808 (Michal Marek   2014-07-04 14:29:30 +0200 81)   Q = @
+066b7ed955808 (Michal Marek   2014-07-04 14:29:30 +0200 82) endif</code></p>
+
+<p>请注意，第一个字段是最后一次修改该行的提交的部分 SHA-1 值。
+接下来两个字段的值是从提交中提取出来的——作者的名字以及提交的时间——所以你就可以很轻易地知道是谁在什么时候修改了那一行。
+接下来就是行号和文件内容。
+注意一下 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">^1da177e4c3f4</code> 这个提交的几行，其中的前缀 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">^</code> 指出了该文件自第一次提交后从未修改的那些行。
+这会带来小小的困惑，因为目前你至少已经看到三种 Git 使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">^</code> 来修饰一个提交的 SHA-1 值的不同含义，但这里确实就是这个意思。</p>
+
+<p>另一件比较酷的事情是 Git 不会显式地记录文件的重命名。
+它会记录快照，然后在事后尝试计算出重命名的动作。
+这其中有一个很有意思的特性就是你可以让 Git 找出所有的代码移动。
+如果你在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git blame</code> 后面加上一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-C</code>，Git 会分析你正在标注的文件，
+并且尝试找出文件中从别的地方复制过来的代码片段的原始出处。
+比如，你将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GITServerHandler.m</code> 这个文件拆分为数个文件，其中一个文件是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GITPackUpload.m</code>。
+对 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GITPackUpload.m</code> 执行带 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-C</code> 参数的 blame 命令，你就可以看到代码块的原始出处：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git blame -C -L 141,153 GITPackUpload.m
+f344f58d GITServerHandler.m (Scott 2009-01-04 141)
+f344f58d GITServerHandler.m (Scott 2009-01-04 142) - (void) gatherObjectShasFromC
+f344f58d GITServerHandler.m (Scott 2009-01-04 143) {
+70befddd GITServerHandler.m (Scott 2009-03-22 144)         //NSLog(@"GATHER COMMI
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 145)
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 146)         NSString *parentSha;
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 147)         GITCommit *commit = [g
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 148)
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 149)         //NSLog(@"GATHER COMMI
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 150)
+56ef2caf GITServerHandler.m (Scott 2009-01-05 151)         if(commit) {
+56ef2caf GITServerHandler.m (Scott 2009-01-05 152)                 [refDict setOb
+56ef2caf GITServerHandler.m (Scott 2009-01-05 153)</code></p>
+
+<p>这个功能很有用。
+通常来说，你会认为复制代码过来的那个提交是最原始的提交，因为那是你第一次在这个文件中修改了这几行。
+但 Git 会告诉你，你第一次写这几行代码的那个提交才是原始提交，即使这是在另外一个文件里写的。</p>
+<p><strong>二分查找</strong></p>

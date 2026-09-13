@@ -1,0 +1,59 @@
+caption: 向一个项目贡献
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 向一个项目贡献
+tidme.chars: 703
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: 2d05206ee67ae55c
+tidme.id: s5b13b051176c
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000069
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/向一个项目贡献-s5b13b051176c
+type: text/vnd.tiddlywiki
+
+<p>
+描述如何向一个项目贡献的主要困难在于完成贡献有很多不同的方式。
+因为 Git 非常灵活，人们可以通过不同的方式来一起工作，所以描述应该如何贡献并不是非常准确——每一个项目都有一点儿不同。
+影响因素包括活跃贡献者的数量、选择的工作流程、提交权限与可能包含的外部贡献方法。</p>
+
+<p>第一个影响因素是活跃贡献者的数量——积极地向这个项目贡献代码的用户数量以及他们的贡献频率。
+在许多情况下，你可能会有两三个开发者一天提交几次，对于不活跃的项目可能更少。
+对于大一些的公司或项目，开发者的数量可能会是上千，每天都有成百上千次提交。
+这很重要，因为随着开发者越来越多，在确保你的代码能干净地应用或轻松地合并时会遇到更多问题。
+提交的改动可能表现为过时的，也可能在你正在做改动或者等待改动被批准应用时被合并入的工作严重损坏。
+如何保证代码始终是最新的，并且提交始终是有效的？</p>
+
+<p>下一个影响因素是项目使用的工作流程。
+它是中心化的吗，即每一个开发者都对主线代码有相同的写入权限？
+项目是否有一个检查所有补丁的维护者或整合者？
+是否所有的补丁是同行评审后批准的？
+你是否参与了那个过程？
+是否存在副官系统，你必须先将你的工作提交到上面？</p>
+
+<p>下一个影响因素是提交权限。
+是否有项目的写权限会使向项目贡献所需的流程有极大的不同。
+如果没有写权限，项目会选择何种方式接受贡献的工作？
+是否甚至有一个如何贡献的规范？
+你一次贡献多少工作？
+你多久贡献一次？</p>
+
+<p>所有这些问题都会影响实际如何向一个项目贡献，以及对你来说哪些工作流程更适合或者可用。
+我们将会由浅入深，通过一系列用例来讲述其中的每一个方面；从这些例子应该能够建立实际中你需要的特定工作流程。</p>
+<p><strong>提交准则</strong></p>

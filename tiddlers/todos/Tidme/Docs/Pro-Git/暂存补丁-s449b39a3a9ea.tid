@@ -1,0 +1,106 @@
+caption: 暂存补丁
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 交互式暂存 › 暂存补丁
+tidme.chars: 2050
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 20e8f6ed9bab7024
+tidme.id: s449b39a3a9ea
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000108
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/暂存补丁-s449b39a3a9ea
+type: text/vnd.tiddlywiki
+
+<p>Git 也可以暂存文件的特定部分。
+例如，如果在 simplegit.rb 文件中做了两处修改，但只想要暂存其中的一个而不是另一个，Git 会帮你轻松地完成。
+在和上一节一样的交互式提示符中，输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">p</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">5</code>（补丁）。
+Git 会询问你想要部分暂存哪些文件；然后，对已选择文件的每一个部分，它都会一个个地显示文件区别并询问你是否想要暂存它们：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index dd5ecc4..57399e0 100644
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
+@@ -22,7 +22,7 @@ class SimpleGit
+   end
+
+   def log(treeish = 'master')
+-    command("git log -n 25 #{treeish}")
++    command("git log -n 30 #{treeish}")
+   end
+
+   def blame(path)
+Stage this hunk [y,n,a,d,/,j,J,g,e,?]?</code></p>
+
+<p>这时有很多选项。
+输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">?</code> 显示所有可以使用的命令列表：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
+y - stage this hunk
+n - do not stage this hunk
+a - stage this and all the remaining hunks in the file
+d - do not stage this hunk nor any of the remaining hunks in the file
+g - select a hunk to go to
+/ - search for a hunk matching the given regex
+j - leave this hunk undecided, see next undecided hunk
+J - leave this hunk undecided, see next hunk
+k - leave this hunk undecided, see previous undecided hunk
+K - leave this hunk undecided, see previous hunk
+s - split the current hunk into smaller hunks
+e - manually edit the current hunk
+? - print help</code></p>
+
+<p>通常情况下可以输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">y</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">n</code> 来选择是否要暂存每一个区块，
+当然，暂存特定文件中的所有部分或为之后的选择跳过一个区块也是非常有用的。
+如果你只暂存文件的一部分，状态输出可能会像下面这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>What now&gt; 1
+           staged     unstaged path
+  1:    unchanged        +0/-1 TODO
+  2:        +1/-1      nothing index.html
+  3:        +1/-1        +4/-0 lib/simplegit.rb</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">simplegit.rb</code> 文件的状态很有趣。
+它显示出若干行被暂存与若干行未被暂存。
+已经部分地暂存了这个文件。
+在这时，可以退出交互式添加脚本并且运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 来提交部分暂存的文件。</p>
+
+<p>也可以不必在交互式添加模式中做部分文件暂存——可以在命令行中使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add -p</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add --patch</code> 来启动同样的脚本。</p>
+
+<p>更进一步地，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset --patch</code> 命令的补丁模式来部分重置文件，
+通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout --patch</code> 命令来部分检出文件与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git stash save --patch</code> 命令来部分暂存文件。
+我们将会在接触这些命令的高级使用方法时了解更多详细信息。</p>
+<p><strong>贮藏与清理</strong></p>
+
+<p><strong>贮藏与清理</strong></p>
+<p>有时，当你在项目的一部分上已经工作一段时间后，所有东西都进入了混乱的状态，
+而这时你想要切换到另一个分支做一点别的事情。
+问题是，你不想仅仅因为过会儿回到这一点而为做了一半的工作创建一次提交。
+针对这个问题的答案是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git stash</code> 命令。</p>
+
+<p>贮藏（stash）会处理工作目录的脏的状态——即跟踪文件的修改与暂存的改动——然后将未完成的修改保存到一个栈上，
+而你可以在任何时候重新应用这些改动（甚至在不同的分支上）。</p>
+<p><strong>迁移到 git stash push</strong></p>
+<p>截至 2017 年 10 月下旬，Git 邮件列表上进行了广泛讨论，该讨论中弃用了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git stash save</code> 命令，
+代之以现有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git stash push</code> 命令。主因是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git stash push</code> 引入了贮藏选定的 <strong xmlns="http://www.w3.org/1999/xhtml">路径规范</strong> 的选项，
+而有些东西 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git stash save</code> 不支持。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git stash save</code> 不会很快就消失，所以不用担心它突然不见。
+不过你可能想要迁移到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">push</code> 来获取新功能。</p>
+<p><strong>贮藏工作</strong></p>

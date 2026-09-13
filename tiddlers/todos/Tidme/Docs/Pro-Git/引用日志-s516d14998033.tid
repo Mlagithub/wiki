@@ -1,0 +1,85 @@
+caption: 引用日志
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 关于 SHA-1 的简短说明 › 引用日志
+tidme.chars: 1740
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 525e4588ad15b027
+tidme.id: s516d14998033
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000102
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/引用日志-s516d14998033
+type: text/vnd.tiddlywiki
+
+<p>当你在工作时， Git 会在后台保存一个引用日志（reflog），
+引用日志记录了最近几个月你的 HEAD 和分支引用所指向的历史。</p>
+
+<p>你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reflog</code> 来查看引用日志</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git reflog
+734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+d921970 HEAD@{1}: merge phedders/rdocs: Merge made by the 'recursive' strategy.
+1c002dd HEAD@{2}: commit: added some blame and merge stuff
+1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+95df984 HEAD@{4}: commit: # This is a combination of two commits.
+1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD</code></p>
+
+<p>每当你的 HEAD 所指向的位置发生了变化，Git 就会将这个信息存储到引用日志这个历史记录里。
+你也可以通过 reflog 数据来获取之前的提交历史。
+如果你想查看仓库中 HEAD 在五次前的所指向的提交，你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">@{n}</code> 来引用 reflog 中输出的提交记录。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show HEAD@{5}</code></p>
+
+<p>你同样可以使用这个语法来查看某个分支在一定时间前的位置。
+例如，查看你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支在昨天的时候指向了哪个提交，你可以输入</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show master@{yesterday}</code></p>
+
+<p>就会显示昨天 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支的顶端指向了哪个提交。
+这个方法只对还在你引用日志里的数据有用，所以不能用来查好几个月之前的提交。</p>
+
+<p>可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log -g</code> 来查看类似于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 输出格式的引用日志信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log -g master
+commit 734713bc047d87bf7eac9674765ae793478c50d3
+Reflog: master@{0} (Scott Chacon &lt;schacon@gmail.com&gt;)
+Reflog message: commit: fixed refs handling, added gc auto, updated
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri Jan 2 18:32:33 2009 -0800
+
+    fixed refs handling, added gc auto, updated tests
+
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Reflog: master@{1} (Scott Chacon &lt;schacon@gmail.com&gt;)
+Reflog message: merge phedders/rdocs: Merge made by recursive.
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Thu Dec 11 15:08:43 2008 -0800
+
+    Merge commit 'phedders/rdocs'</code></p>
+
+<p>值得注意的是，引用日志只存在于本地仓库，它只是一个记录你在 <strong xmlns="http://www.w3.org/1999/xhtml">自己</strong> 的仓库里做过什么的日志。
+其他人拷贝的仓库里的引用日志不会和你的相同，而你新克隆一个仓库的时候，引用日志是空的，因为你在仓库里还没有操作。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show HEAD@{2.months.ago}</code> 这条命令只有在你克隆了一个项目至少两个月时才会显示匹配的提交——
+如果你刚刚克隆了仓库，那么它将不会有任何结果返回。</p>
+<p><strong>将引用日志想作 Git 版的 shell 历史记录</strong></p>
+<p>如果你有 UNIX 或者 Linux 的背景，不妨将引用日志想作 Git 版的 shell 历史记录，
+重点在于仅与你和你的会话相关，而与他人无关。</p>
+<p><strong>祖先引用</strong></p>

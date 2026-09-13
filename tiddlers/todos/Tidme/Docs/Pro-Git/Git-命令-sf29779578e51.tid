@@ -1,0 +1,66 @@
+caption: Git 命令
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 命令
+tidme.chars: 776
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/C-git-commands.xhtml
+tidme.format: epub
+tidme.hash: f4ed269963b43369
+tidme.id: sf29779578e51
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000234
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/Git-命令-sf29779578e51
+type: text/vnd.tiddlywiki
+
+<p>在这一整本书里我们介绍了大量的 Git 命令，并尽可能通过讲故事的方式来介绍它们，慢慢介绍了越来越多的命令。
+但是这导致这些命令的示例用法都散落在全书的各处。</p>
+
+<p>在此附录中，我们会将本书中所提到过的命令都过一遍，并根据其用途进行大致分类。
+我们会大致地讨论每个命令的作用，指出其在本书中哪些章节使用过。</p>
+
+<p>较长的选项可以。
+例如，你可以输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit --a</code>，它的行为与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit --amend</code> 相同。
+这种方式只有在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--</code> 后的字母对于该选项唯一时才可行。
+请在编写脚本时使用完整的选项。</p>
+<p><strong>设置与配置</strong></p>
+
+<p><strong>设置与配置</strong></p>
+<p>有两个十分常用的命令：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">config</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">help</code>。从第一次调用 Git 到日常微调及阅读参考，它们一直陪伴着你。</p>
+<p><strong>git config</strong></p>
+
+<p><strong>git config</strong></p>
+<p>Git 做的很多工作都有一种默认方式。
+对于绝大多数工作而言，你可以改变 Git 的默认方式，或者根据你的偏好来设置。
+这些设置涵盖了所有的事，从告诉 Git 你的名字，到指定偏好的终端颜色，以及你使用的编辑器。
+此命令会从几个特定的配置文件中读取和写入配置值，以便你可以从全局或者针对特定的仓库来进行设置。</p>
+
+<p>本书几乎所有的章节都用到了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config</code> 命令。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch01-getting-started--_first_time" href="ch01-getting-started.xhtml#_first_time" class="xref">初次运行 Git 前的配置</a> 一节中，在开始使用 Git 之前，我们用它来指定我们的名字，邮箱地址和编辑器偏好。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_git_aliases" href="ch02-git-basics-chapter.xhtml#_git_aliases" class="xref">Git 别名</a> 一节中我们展示了如何创建可以展开为长选项序列的短命令，以便你不用每次都输入它们。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_rebasing" href="ch03-git-branching.xhtml#_rebasing" class="xref">变基</a> 一节中，执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 命令时，使用此命令来将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--rebase</code> 作为默认选项。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_credential_caching" href="ch07-git-tools.xhtml#_credential_caching" class="xref">凭证存储</a> 一节中，我们使用它来为你的 HTTP 密码设置一个默认的存储区域。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch08-customizing-git--_keyword_expansion" href="ch08-customizing-git.xhtml#_keyword_expansion" class="xref">关键字展开</a> 一节中我们展示了如何设置在 Git 的内容添加和减少时使用的 smudge 过滤器 和 clean 过滤器。</p>
+
+<p>最后，基本上 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch08-customizing-git--_git_config" href="ch08-customizing-git.xhtml#_git_config" class="xref">配置 Git</a> 整个章节都是针对此命令的。</p>
+<p><strong>git config core.editor 命令</strong></p>

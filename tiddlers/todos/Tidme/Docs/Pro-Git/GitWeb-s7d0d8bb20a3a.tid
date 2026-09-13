@@ -1,0 +1,159 @@
+caption: GitWeb
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 服务器上的 Git › GitWeb
+tidme.chars: 3598
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch04-git-on-the-server.xhtml
+tidme.format: epub
+tidme.hash: f9401dd7cb875692
+tidme.id: s7d0d8bb20a3a
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000064
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/GitWeb-s7d0d8bb20a3a
+type: text/vnd.tiddlywiki
+
+<p>
+如果你对项目有读写权限或只读权限，你可能需要建立起一个基于网页的简易查看器。
+Git 提供了一个叫做 GitWeb 的 CGI 脚本来做这项工作。</p>
+
+<figcaption>Figure 1. GitWeb 的网页用户界面</figcaption>
+
+<p>如果你想要查看 GitWeb 如何展示你的项目，并且在服务器上安装了轻量级 Web 服务器比如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">lighttpd</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">webrick</code>，
+Git 提供了一个命令来让你启动一个临时的服务器。
+在 Linux 系统的电脑上，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">lighttpd</code> 通常已经安装了，所以你只需要在项目目录里执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git instaweb</code> 命令即可。
+如果你使用 Mac 系统， Mac OS X Leopard 系统已经预安装了 Ruby，所以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">webrick</code> 或许是你最好的选择。
+如果不想使用 lighttpd 启动 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">instaweb</code> 命令，你需要在执行时加入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--httpd</code> 参数。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git instaweb --httpd=webrick
+[2009-02-21 10:02:21] INFO  WEBrick 1.3.1
+[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]</code></p>
+
+<p>这个命令启动了一个监听 1234 端口的 HTTP 服务器，并且自动打开了浏览器。
+这对你来说十分方便。
+当你已经完成了工作并想关闭这个服务器，你可以执行同一个命令，并加上 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--stop</code> 选项：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git instaweb --httpd=webrick --stop</code></p>
+
+<p>如果你现在想为你的团队或你托管的开源项目持续的运行这个页面，你需要通过普通的 Web 服务器来设置 CGI 脚本。
+一些 Linux 发行版的软件库有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">gitweb</code> 包，可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">apt</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dnf</code> 来安装，你可以先试试。
+接下来我们来快速的了解一下如何手动安装 GitWeb。
+首先，你需要获得 Git 的源代码，它包含了 GitWeb ，并可以生成自定义的 CGI 脚本：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone git://git.kernel.org/pub/scm/git/git.git
+<span style="font-weight: bold">$ </span>cd git/
+<span style="font-weight: bold">$ </span>make GITWEB_PROJECTROOT=<span style="font-style: italic">"/srv/git"</span> prefix=/usr gitweb
+    SUBDIR gitweb
+    SUBDIR ../
+make[2]: `GIT-VERSION-FILE' is up to date.
+    GEN gitweb.cgi
+    GEN static/gitweb.js
+<span style="font-weight: bold">$ </span>sudo cp -Rf gitweb /var/www/</code></p>
+
+<p>需要注意的是，你需要在命令中指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GITWEB_PROJECTROOT</code> 变量来让程序知道你的 Git 版本库的位置。
+现在，你需要在 Apache 中使用这个 CGI 脚本，你需要为此添加一个虚拟主机：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>&lt;VirtualHost *:80&gt;
+    ServerName gitserver
+    DocumentRoot /var/www/gitweb
+    &lt;Directory /var/www/gitweb&gt;
+        Options +ExecCGI +FollowSymLinks +SymLinksIfOwnerMatch
+        AllowOverride All
+        order allow,deny
+        Allow from all
+        AddHandler cgi-script cgi
+        DirectoryIndex gitweb.cgi
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</code></p>
+
+<p>再次提醒，GitWeb 可以通过任何一个支持 CGI 或 Perl 的网络服务器架设；如果你需要的话，架设起来应该不会很困难。
+现在，你可以访问 <code xmlns="http://www.w3.org/1999/xhtml" class="literal"><a href="http://gitserver/" class="link">http://gitserver/</a></code> 在线查看你的版本库。</p>
+<p><strong>GitLab</strong></p>
+
+<p><strong>GitLab</strong></p>
+<p>
+虽然 GitWeb 相当简单。
+但如果你正在寻找一个更现代，功能更全的 Git 服务器，这里有几个开源的解决方案可供你选择安装。
+因为 GitLab 是其中最出名的一个，我们将它作为示例并讨论它的安装和使用。
+这比 GitWeb 要复杂的多并且需要更多的维护，但它的确是一个功能更全的选择。</p>
+<p><strong>安装</strong></p>
+
+<p><strong>安装</strong></p>
+<p>GitLab 是一个数据库支持的 web 应用，所以相比于其他 git 服务器，它的安装过程涉及到更多的东西。
+幸运的是，这个过程有非常详细的文档说明和支持。</p>
+
+<p>这里有一些可参考的方法帮你安装 GitLab 。
+为了更快速的启动和运行，你可以下载虚拟机镜像或者在 <a xmlns="http://www.w3.org/1999/xhtml" href="https://bitnami.com/stack/gitlab" class="link">https://bitnami.com/stack/gitlab</a>
+上获取一键安装包，同时调整配置使之符合你特定的环境。
+Bitnami 的一个优点在于它的登录界面（通过 alt+→ 键进入），
+它会告诉你安装好的 GitLab 的 IP 地址以及默认的用户名和密码。</p>
+
+<figcaption>Figure 2. Bitnami GitLab 虚拟机登录界面。</figcaption>
+
+<p>无论如何，跟着 GitLab 社区版的 readme 文件一步步来，你可以在这里找到它 <a xmlns="http://www.w3.org/1999/xhtml" href="https://gitlab.com/gitlab-org/gitlab-ce/tree/master" class="link">https://gitlab.com/gitlab-org/gitlab-ce/tree/master</a> 。
+在这里你将会在主菜单中找到安装 GitLab 的帮助，一个可以在 Digital Ocean 上运行的虚拟机，以及 RPM 和 DEB 包（都是测试版）。
+这里还有 “非官方” 的引导让 GitLab 运行在非标准的操作系统和数据库上，一个全手动的安装脚本，以及许多其他的话题。</p>
+<p><strong>管理</strong></p>
+
+<p><strong>管理</strong></p>
+<p>GitLab 的管理界面是通过网络进入的。
+将你的浏览器转到已经安装 GitLab 的 主机名或 IP 地址，然后以管理员身份登录即可。
+默认的用户名是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">admin@local.host</code>，默认的密码是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">5iveL!fe</code>（你会得到类似 请登录后尽快更换密码 的提示）。
+登录后，点击主栏上方靠右位置的 “Admin area” 图标进行管理。</p>
+
+<figcaption>Figure 3. GitLab 主栏的 “Admin area” 图标。</figcaption>
+<p><strong>使用者</strong></p>
+<p>GitLab 上的用户指的是对应协作者的帐号。
+用户帐号没有很多复杂的地方，主要是包含登录数据的用户信息集合。
+每一个用户账号都有一个 <strong xmlns="http://www.w3.org/1999/xhtml">命名空间</strong> ，即该用户项目的逻辑集合。
+如果一个叫 jane 的用户拥有一个名称是 project 的项目，那么这个项目的 url 会是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal"><a href="http://server/jane/project" class="link">http://server/jane/project</a></code> 。</p>
+
+<figcaption>Figure 4. GitLab 用户管理界面。</figcaption>
+
+<p>移除一个用户有两种方法。
+“屏蔽（Blocking）” 一个用户阻止他登录 GitLab 实例，但是该用户命名空间下的所有数据仍然会被保存，
+并且仍可以通过该用户提交对应的登录邮箱链接回他的个人信息页。</p>
+
+<p>而另一方面，“销毁（Destroying）” 一个用户，会彻底的将他从数据库和文件系统中移除。
+他命名空间下的所有项目和数据都会被删除，拥有的任何组也会被移除。
+这显然是一个更永久且更具破坏力的行为，所以很少用到这种方法。</p>
+<p><strong>组</strong></p>
+<p>一个 GitLab 的组是一些项目的集合，连同关于多少用户可以访问这些项目的数据。
+每一个组都有一个项目命名空间（与用户一样），所以如果一个叫 training
+的组拥有一个名称是 materials 的项目，那么这个项目的 url 会是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal"><a href="http://server/training/materials" class="link">http://server/training/materials</a></code>。</p>
+
+<figcaption>Figure 5. GitLab 组管理界面。</figcaption>
+
+<p>每一个组都有许多用户与之关联，每一个用户对组中的项目以及组本身的权限都有级别区分。
+权限的范围从 “访客”（仅能提问题和讨论） 到 “拥有者”（完全控制组、成员和项目）。
+权限的种类太多以至于难以在这里一一列举，不过在 GitLab 的管理界面上有帮助链接。</p>
+<p><strong>项目</strong></p>
+<p>一个 GitLab 的项目相当于 git 的版本库。
+每一个项目都属于一个用户或者一个组的单个命名空间。
+如果这个项目属于一个用户，那么这个拥有者对所有可以获取这个项目的人拥有直接管理权；
+如果这个项目属于一个组，那么该组中用户级别的权限也会起作用。</p>
+
+<p>每一个项目都有一个可视级别，控制着谁可以看到这个项目页面和仓库。
+如果一个项目是 <em xmlns="http://www.w3.org/1999/xhtml">私有</em> 的，这个项目的拥有者必须明确授权从而使特定的用户可以访问。
+一个 <em xmlns="http://www.w3.org/1999/xhtml">内部</em> 的项目可以被所有登录的人看到，而一个 <em xmlns="http://www.w3.org/1999/xhtml">公开</em> 的项目则是对所有人可见的。
+注意，这种控制既包括 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fetch</code> 的使用也包括对项目 web 用户界面的访问。</p>
+<p><strong>钩子</strong></p>
+<p>GitLab 在项目和系统级别上都支持钩子程序。
+对任意级别，当有相关事件发生时，GitLab 的服务器会执行一个包含描述性 JSON 数据的 HTTP 请求。
+这是自动化连接你的 git 版本库和 GitLab 实例到其他的开发工具，比如 CI 服务器，聊天室，或者部署工具的一个极好方法。</p>
+<p><strong>基本用途</strong></p>

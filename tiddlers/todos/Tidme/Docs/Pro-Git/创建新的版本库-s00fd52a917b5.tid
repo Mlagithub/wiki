@@ -1,0 +1,119 @@
+caption: 创建新的版本库
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub › 维护项目 › 创建新的版本库
+tidme.chars: 2334
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: 96b8c4ec9eda8c6c
+tidme.id: s00fd52a917b5
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000091
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/创建新的版本库-s00fd52a917b5
+type: text/vnd.tiddlywiki
+
+<p>让我们创建一个版本库来分享我们的项目。
+通过点击面板右侧的“New repository”按钮，或者顶部工具条你用户名旁边的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">+</code> 按钮来开始我们的旅程。 参见 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_new_repo_dropdown" href="#_new_repo_dropdown" class="xref">这是 “New repository” 下拉列表.</a>。</p>
+
+<figcaption>Figure 29. 这是 “Your repositories” 区域.</figcaption>
+
+<figcaption>Figure 30. 这是 “New repository” 下拉列表.</figcaption>
+
+<p>这会带你到 “new repository” 表单:</p>
+
+<figcaption>Figure 31. 这是 “new repository” 表单.</figcaption>
+
+<p>这里除了一个你必须要填的项目名，其他字段都是可选的。
+现在只需要点击 “Create Repository” 按钮，Duang!!! – 你就在 GitHub 上拥有了一个以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">&lt;user&gt;/&lt;project_name&gt;</code> 命名的新仓库了。</p>
+
+<p>因为目前暂无代码，GitHub 会显示有关创建新版本库或者关联到一个已有的 Git 版本库的一些说明。
+我们不会在这里详细说明此项，如果你需要复习，去看 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter" href="ch02-git-basics-chapter.xhtml" class="xref">Git 基础</a>。</p>
+
+<p>现在你的项目就托管在 GitHub 上了，你可以把 URL 给任何你想分享的人。
+GitHub 上的项目可通过 HTTP 或 SSH 访问，HTTPS 为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">https://github.com/&lt;user&gt;/&lt;project_name&gt;</code> ，
+ SSH 为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git@github.com:&lt;user&gt;/&lt;project_name&gt;</code> 。
+Git 可以通过以上两种 URL 进行抓取和推送，但是用户的访问权限又因连接时使用的证书不同而异。</p>
+
+<p>通常对于公开项目可以优先分享基于 HTTPS 的 URL，因为用户克隆项目不需要有一个 GitHub 帐号。
+如果你分享 SSH URL，用户必须有一个帐号并且上传 SSH 密钥才能访问你的项目。
+HTTPS URL 与你贴到浏览器里查看项目用的地址是一样的。</p>
+<p><strong>添加合作者</strong></p>
+
+<p><strong>添加合作者</strong></p>
+<p>如果你想与他人合作，并想给他们提交的权限，你需要把他们添加为 “Collaborators”。
+如果 Ben，Jeff，Louise 都在 GitHub 上注册了，你想给他们推送的权限，你可以将他们添加到你的项目。
+这样做会给他们 “推送” 权限，就是说他们对项目和 Git 版本库都有读写的权限。</p>
+
+<p>点击边栏底部的 “Settings” 链接。</p>
+
+<figcaption>Figure 32. 版本库设置链接.</figcaption>
+
+<p>然后从左侧菜单中选择 “Collaborators” 。
+然后，在输入框中填写用户名，点击 “Add collaborator.”
+如果你想授权给多个人，你可以多次重复这个步骤。
+如果你想收回权限，点击他们同一行右侧的 “X”</p>
+
+<figcaption>Figure 33. 版本库合作者.</figcaption>
+<p><strong>管理合并请求</strong></p>
+
+<p><strong>管理合并请求</strong></p>
+<p>现在你有一个包含一些代码的项目，可能还有几个有推送权限的合作者，下面来看当你收到合并请求时该做什么。</p>
+
+<p>合并请求可以来自仓库副本的一个分支，或者同一仓库的另一个分支。
+唯一的区别是 fork 过来的通常是和你不能互相推送的人，而内部的推送通常都可以互相访问。</p>
+
+<p>作为例子，假设你是 “tonychacon” ，你创建了一个名为 “fade” 的 Arduino 项目.</p>
+<p><strong>邮件通知</strong></p>
+<p>有人来修改了你的代码，给你发了一个合并请求。
+你会收一封关于合并请求的提醒邮件，它看起来像 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_email_pr" href="#_email_pr" class="xref">新的合并请求的邮件通知.</a>。</p>
+
+<figcaption>Figure 34. 新的合并请求的邮件通知.</figcaption>
+
+<p>关于这个邮件有几个要注意的地方。
+它会给你一个小的变动统计结果 — 一个包含合并请求中改变的文件和改变了多少的列表。
+它还给你一个 GitHub 上进行合并请求操作的链接。
+还有几个可以在命令行使用的 URL。</p>
+
+<p>如果你注意到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull &lt;url&gt; patch-1</code> 这一行，这是一种合并远程分支的简单方式，无需必须添加一个远程分支。
+我们很快会在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_checking_out_remotes" href="ch05-distributed-git.xhtml#_checking_out_remotes" class="xref">检出远程分支</a> 讲到它。
+如果你愿意，你可以创建并切换到一个主题分支，然后运行这个命令把合并请求合并进来。</p>
+
+<p>还有一些有趣的 URL，像 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.diff</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.patch</code> ，就像你猜的那样，它们提供 diff 和 patch 的标准版本。
+你可以技术性地用下面的方法合并“合并请求”：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>curl https://github.com/tonychacon/fade/pull/1.patch | git am</code></p>
+<p><strong>在合并请求上进行合作</strong></p>
+<p>就像我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_github_flow" href="#_github_flow" class="xref">GitHub 流程</a> 中说过的，现在你可以跟开启合并请求的人进行会话。
+你既可以对某些代码发表评论，也可以对整个提交或整个合并请求发表评论，
+在任何地方都可以用 GitHub 风格的 Markdown。</p>
+
+<p>每次有人在合并请求上发表了评论，你都会收到邮件，通知你哪里发生了改变。邮件里面包含一个链接，指向改变的位置，你可以直接在邮件中回复，相当于在合并请求上发表评论。</p>
+
+<figcaption>Figure 35. 回复邮件会包含在帖子（thread）中。</figcaption>
+
+<p>一旦代码符合了你的要求，你想把它合并进来，你可以把代码拉取下来在本地进行合并，也可以用我们之前提到过的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull &lt;url&gt; &lt;branch&gt;</code> 语法，或者把 fork 添加为一个 remote，然后进行抓取和合并。</p>
+
+<p>对于很琐碎的合并，你也可以用 GitHub 网站上的 “Merge” 按钮。
+它会做一个 “non-fast-forward” 合并，即使可以快进（fast-forward）合并也会产生一个合并提交记录。
+就是说无论如何，只要你点击 merge 按钮，就会产生一个合并提交记录。
+你可以在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_merge_button" href="#_merge_button" class="xref">合并按钮和手工合并一个合并请求的指令.</a> 看到，如果你点击提示链接，GitHub 会给你所有的这些信息。</p>
+
+<figcaption>Figure 36. 合并按钮和手工合并一个合并请求的指令.</figcaption>
+
+<p>如果你决定不合并它，你可以把合并请求关掉，开启合并请求的人会收到通知。</p>

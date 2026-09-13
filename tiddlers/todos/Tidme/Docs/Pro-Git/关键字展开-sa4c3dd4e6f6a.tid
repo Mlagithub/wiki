@@ -1,0 +1,133 @@
+caption: 关键字展开
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › Git 属性 › 关键字展开
+tidme.chars: 2828
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: e72c21fe90553046
+tidme.id: sa4c3dd4e6f6a
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000160
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/关键字展开-sa4c3dd4e6f6a
+type: text/vnd.tiddlywiki
+
+<p>
+SVN 或 CVS 风格的关键字展开（keyword expansion）功能经常会被习惯于上述系统的开发者使用到。
+在 Git 中，这项功能有一个主要问题，就是你无法利用它往文件中加入其关联提交的相关信息，因为 Git 总是先对文件做校验和运算（译者注：Git 中提交对象的校验依赖于文件的校验和，而 Git 属性针对特定文件或路径，因此基于 Git 属性的关键字展开无法仅根据文件反推出对应的提交）。
+不过，我们可以在检出某个文件后对其注入文本，并在再次提交前删除这些文本。
+Git 属性提供了两种方法来达到这一目的。</p>
+
+<p>一种方法是，你可以把文件所对应数据对象的 SHA-1 校验和自动注入到文件中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$Id$</code> 字段。
+如果在一个或多个文件上设置了该属性，下次当你检出相关分支的时候，Git 会用相应数据对象的 SHA-1 值替换上述字段。
+注意，这不是提交对象的 SHA-1 校验和，而是数据对象本身的校验和。
+将以下内容放到你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitattributes</code> 文件中：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>*.txt ident</code></p>
+
+<p>在一个测试文件中添加一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$Id$</code> 引用：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>echo <span style="font-style: italic">'$Id$'</span> &gt; test.txt</code></p>
+
+<p>当你下次检出文件时，Git 将注入数据对象的 SHA-1 校验和：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>rm test.txt
+<span style="font-weight: bold">$ </span>git checkout -- test.txt
+<span style="font-weight: bold">$ </span>cat test.txt
+<span style="font-weight: bold">$</span>Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $</code></p>
+
+<p>然而，这个结果的用途比较有限。
+如果用过 CVS 或 Subversion 的关键字替换功能，我们会想加上一个时间戳信息——光有 SHA-1 校验和用途不大，
+它仅仅是个随机字符串，你无法凭字面值来区分不同 SHA-1 时间上的先后。</p>
+
+<p>因此 Git 属性提供了另一种方法：我们可以编写自己的过滤器来实现文件提交或检出时的关键字替换。
+一个过滤器由“clean”和“smudge”两个子过滤器组成。
+在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitattributes</code> 文件中，你能对特定的路径设置一个过滤器，然后设置文件检出前的处理脚本（“smudge”，见 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-filters_a" href="#filters_a" class="xref">“smudge”过滤器会在文件被检出时触发</a>）和文件暂存前的处理脚本（“clean”，见 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-filters_b" href="#filters_b" class="xref">“clean”过滤器会在文件被暂存时触发</a>）。
+这两个过滤器能够被用来做各种有趣的事。</p>
+
+<figcaption>Figure 2. “smudge”过滤器会在文件被检出时触发</figcaption>
+
+<figcaption>Figure 3. “clean”过滤器会在文件被暂存时触发</figcaption>
+
+<p>在（Git 源码中）实现这个特性的原始提交信息里给出了一个简单的例子：在提交前，用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">indent</code> 程序过滤所有 C 源码。
+你可以在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitattributes</code> 文件中对 filter 属性设置“indent”过滤器来过滤 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">*.c</code> 文件</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>*.c filter=<span style="font-style: italic">indent</span></code></p>
+
+<p>然后，通过以下配置，让 Git 知道“indent”过滤器在 smudge 和 clean 时分别该做什么：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global filter.indent.clean indent
+<span style="font-weight: bold">$ </span>git config --global filter.indent.smudge cat</code></p>
+
+<p>在这个例子中，当你暂存 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">*.c</code> 文件时，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">indent</code> 程序会先被触发；在把它们检出回硬盘时，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">cat</code> 程序会先被触发。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">cat</code> 在这里没什么实际作用：它仅仅把输入的数据重新输出。
+这样的组合可以有效地在暂存前用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">indent</code> 过滤所有的 C 源码。</p>
+
+<p>另一个有趣的例子是实现 RCS 风格的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$Date$</code> 关键字展开。
+要想演示这个例子，我们需要实现这样的一个小脚本：接受文件名参数，得到项目的最新提交日期，并把日期写入该文件。
+下面是一个实现了该功能的 Ruby 小脚本：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-style: italic">#! /usr/bin/env ruby</span>
+data = STDIN.read
+last_date = <span style="font-style: italic">`git log --pretty=format:"%ad" -1`</span>
+puts data.gsub(<span style="font-style: italic">'$Date$'</span>, <span style="font-style: italic">'$Date: '</span> + last_date.to_s + <span style="font-style: italic">'$'</span>)</code></p>
+
+<p>这个脚本从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 中得到最新提交日期，将其注入所有输入文件的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$Date$</code> 字段，并输出结果——你可以使用最顺手的语言轻松实现一个类似的脚本。
+把该脚本命名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">expand_date</code>，放到你的可执行路径中。
+现在，你需要在 Git 中设置一个过滤器（就叫它 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dater</code> 吧），让它在检出文件时调用你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">expand_date</code> 来注入时间戳，完成 smudge 操作。
+暂存文件时的 clean 操作则是用一行 Perl 表达式清除注入的内容：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config filter.dater.smudge expand_date
+<span style="font-weight: bold">$ </span>git config filter.dater.clean <span style="font-style: italic">'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'</span></code></p>
+
+<p>这段 Perl 代码会删除 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$Date$</code> 后面注入的内容，恢复它的原貌。
+过滤器终于准备完成了，是时候测试一下。创建一个带有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$Date$</code> 关键字的文件，
+然后给它设置一个 Git 属性，关联我们的新过滤器：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>date*.txt filter=<span style="font-style: italic">dater</span></code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>echo <span style="font-style: italic">'# $Date$'</span> &gt; date_test.txt</code></p>
+
+<p>提交该文件，并再次检出，你会发现关键字如期被替换了：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git add date_test.txt .gitattributes
+<span style="font-weight: bold">$ </span>git commit -m <span style="font-style: italic">"Testing date expansion in Git"</span>
+<span style="font-weight: bold">$ </span>rm date_test.txt
+<span style="font-weight: bold">$ </span>git checkout date_test.txt
+<span style="font-weight: bold">$ </span>cat date_test.txt
+<span style="font-weight: bold"># </span>$Date: Tue Apr 21 07:26:52 2009 -0700$</code></p>
+
+<p>自定义过滤器真的很强大。
+不过你需要注意的是，因为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitattributes</code> 文件会随着项目一起提交，而过滤器（例如这里的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dater</code>）不会，所以过滤器有可能会失效。
+当你在设计这些过滤器时，要注重容错性——它们在出错时应该能优雅地退出，从而不至于影响项目的正常运行。</p>
+<p><strong>导出版本库</strong></p>
+
+<p><strong>导出版本库</strong></p>
+<p>
+Git 属性在导出项目归档（archive）时也能发挥作用。</p>
+<p><strong>export-ignore</strong></p>
+<p>当归档的时候，可以设置 Git 不导出某些文件和目录。
+如果你不想在归档中包含某个子目录或文件，但想把它们纳入项目的版本管理中，你可以在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">export-ignore</code> 属性中指定它们。</p>
+
+<p>例如，假设你在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">test/</code> 子目录下有一些测试文件，不希望它们被包含在项目导出的压缩包（tarball）中。
+你可以增加下面这行到 Git 属性文件中：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>test/ export-ignore</code></p>
+
+<p>现在，当你运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git archive</code> 来创建项目的压缩包时，那个目录不会被包括在归档中。</p>

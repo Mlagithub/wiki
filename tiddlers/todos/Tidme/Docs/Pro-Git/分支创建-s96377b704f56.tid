@@ -1,0 +1,92 @@
+caption: 分支创建
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › 分支简介 › 分支创建
+tidme.chars: 1236
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: 6c181d11e103f0ae
+tidme.id: s96377b704f56
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000038
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/分支创建-s96377b704f56
+type: text/vnd.tiddlywiki
+
+<p>
+Git 是怎么创建新分支的呢？
+很简单，它只是为你创建了一个可以移动的新的指针。
+比如，创建一个 testing 分支，
+你需要使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git branch</code> 命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git branch testing</code></p>
+
+<p>这会在当前所在的提交对象上创建一个指针。</p>
+
+<figcaption>Figure 4. 两个指向相同提交历史的分支</figcaption>
+
+<p>那么，Git 又是怎么知道当前在哪一个分支上呢？
+也很简单，它有一个名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code> 的特殊指针。
+请注意它和许多其它版本控制系统（如 Subversion 或 CVS）里的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code> 概念完全不同。
+在 Git 中，它是一个指针，指向当前所在的本地分支（译注：将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code> 想象为当前分支的别名）。
+在本例中，你仍然在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支上。
+因为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git branch</code> 命令仅仅 <strong xmlns="http://www.w3.org/1999/xhtml">创建</strong> 一个新分支，并不会自动切换到新分支中去。</p>
+
+<figcaption>Figure 5. HEAD 指向当前所在的分支</figcaption>
+
+<p>你可以简单地使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 命令查看各个分支当前所指的对象。
+提供这一功能的参数是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--decorate</code>。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --oneline --decorate
+f30ab (HEAD -&gt; master, testing) add feature #32 - ability to add new formats to the central interface
+34ac2 Fixed bug #1328 - stack overflow under certain conditions
+98ca9 The initial commit of my project</code></p>
+
+<p>正如你所见，当前 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">testing</code> 分支均指向校验和以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">f30ab</code> 开头的提交对象。</p>
+<p><strong>分支切换</strong></p>
+
+<p><strong>分支切换</strong></p>
+<p>
+要切换到一个已存在的分支，你需要使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code> 命令。
+我们现在切换到新创建的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">testing</code> 分支去：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout testing</code></p>
+
+<p>这样 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code> 就指向 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">testing</code> 分支了。</p>
+
+<figcaption>Figure 6. HEAD 指向当前所在的分支</figcaption>
+
+<p>那么，这样的实现方式会给我们带来什么好处呢？
+现在不妨再提交一次：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>vim test.rb
+<span style="font-weight: bold">$ </span>git commit -a -m <span style="font-style: italic">'made a change'</span></code></p>
+
+<figcaption>Figure 7. HEAD 分支随着提交操作自动向前移动</figcaption>
+
+<p>如图所示，你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">testing</code> 分支向前移动了，但是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支却没有，它仍然指向运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code> 时所指的对象。
+这就有意思了，现在我们切换回 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支看看：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout master</code></p>
+
+<figcaption>Figure 8. 检出时 HEAD 随之移动</figcaption>
+
+<p>这条命令做了两件事。
+一是使 HEAD 指回 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支，二是将工作目录恢复成 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支所指向的快照内容。
+也就是说，你现在做修改的话，项目将始于一个较旧的版本。
+本质上来讲，这就是忽略 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">testing</code> 分支所做的修改，以便于向另一个方向进行开发。</p>

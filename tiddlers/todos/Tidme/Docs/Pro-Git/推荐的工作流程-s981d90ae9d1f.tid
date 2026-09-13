@@ -1,0 +1,210 @@
+caption: 推荐的工作流程
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在其它环境中使用 Git › 图形界面 › macOS 和 Windows 上的 GitHub 客户端 › 推荐的工作流程
+tidme.chars: 2214
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/A-git-in-other-environments.xhtml
+tidme.format: epub
+tidme.hash: 781e3a1b68a43d23
+tidme.id: s981d90ae9d1f
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000220
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/推荐的工作流程-s981d90ae9d1f
+type: text/vnd.tiddlywiki
+
+<p>安装并配置好以后，你就可以使用 GitHub 客户端来执行一些常见的 Git 任务。
+该工具所推荐的工作流程有时也被叫做“GitHub 流”。
+我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch06-github--_github_flow" href="ch06-github.xhtml#_github_flow" class="xref">GitHub 流程</a> 一节中对此有详细的介绍，其要点是 (a) 你会提交到一个分支；(b) 你需要经常与远程仓库保持同步。</p>
+
+<p>两个平台上的客户端在分支管理上有所不同。
+在 macOS 上，创建分支的按钮在窗口的上方：</p>
+
+<figcaption>Figure 5. macOS 上的“创建分支”按钮。</figcaption>
+
+<p>在 Windows 上，你可以通过在分支切换挂件中输入新分支的名称来完成创建：</p>
+
+<figcaption>Figure 6. 在 Windows 上创建分支。</figcaption>
+
+<p>分支创建好以后，新建提交就变得非常简单直接了。
+现在工作目录中做一些修改，然后切换到 GitHub 客户端窗口，你所做的修改就会显示在那里。
+输入提交日志，选中那些需要被包含在本次提交中的文件，然后点击“提交”按钮（也可以在键盘上按 ctrl-enter 或 ⌘-enter）。</p>
+
+<p>“同步”功能是你在网络上和其它仓库交互的主要途径。
+push，fetch，merge，和 rebase 在 Git 内部是一连串独立的操作, 而 GitHub 客户端将这些操作都合并成了单独一个功能。
+你点击同步按钮时实际上会发生如下这些操作：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal"><code class="literal">git pull --rebase</code>。
+如果上述命令由于存在合并冲突而失败，则会退而执行 <code class="literal">git pull --no-rebase</code>。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal"><code class="literal">git push</code>。</span>
+</p>
+
+<p>如果你遵循推荐的工作流程，以上就是最常用的一系列命令，因此将它们合并为一个让事情简单了很多。</p>
+<p><strong>小结</strong></p>
+<p>这些工具是为其各自针对的工作流程所量身定做的。
+开发者和非开发者可以轻松地在分分钟内就搭建起项目协作环境，它们还内置了其它辅助最佳实践的功能。
+但是，如果你的工作流程有所不同，或者你需要在进行网络操作时有更多的控制，那么建议你考虑一下其它客户端或者使用命令行。</p>
+<p><strong>其它图形界面</strong></p>
+
+<p><strong>其它图形界面</strong></p>
+<p>除此之外，还有许许多多其它的图形化 Git 客户端，其中既有单一功能的定制工具，也有试图提供 Git 所有功能的复杂应用。
+Git 的官方网站整理了一份时下最流行的客户端的清单 <a xmlns="http://www.w3.org/1999/xhtml" href="https://git-scm.com/downloads/guis" class="link">https://git-scm.com/downloads/guis</a>。
+在 Git 的维基站点还可以看到一份更全的清单 <a xmlns="http://www.w3.org/1999/xhtml" href="https://git.wiki.kernel.org/index.php/Interfaces,_frontends,_and_tools#Graphical_Interfaces" class="link">https://git.wiki.kernel.org/index.php/Interfaces,_frontends,_and_tools#Graphical_Interfaces</a>。</p>
+<p><strong>Visual Studio 中的 Git</strong></p>
+
+<p><strong>Visual Studio 中的 Git</strong></p>
+<p>
+从 Visual Studio 2019 16.8 版本开始，Visual Studio 将 Git 工具直接内置到 IDE 中。</p>
+
+<p>工具支持以下 Git 功能：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">创建与克隆仓库。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">打开与浏览仓库的历史。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">创建与检出分支与标签。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">储藏、暂存与提交改动。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">抓取、拉取、推送或同步提交。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">合并与变基分支。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">解决合并冲突。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">查看差异。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">…​ 等等。</span>
+</p>
+
+<p>阅读 <a xmlns="http://www.w3.org/1999/xhtml" href="https://docs.microsoft.com/visualstudio/version-control" class="link">official documentation</a> 以了解更多内容。</p>
+<p><strong>Visual Studio Code 中的 Git</strong></p>
+
+<p><strong>Visual Studio Code 中的 Git</strong></p>
+<p>
+Visual Studio Code 自带对 Git 的支持。
+你需要安装 2.0.0（及以上）版本的 Git。</p>
+
+<p>主要功能如下：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">在行号槽显示你正在编辑的文件的改动情况。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">Git 状态栏（位于左下角）会显示当前所在分支，编辑指示符以及未提交或者未拉取的提交的数量。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">初始化一个仓库。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">克隆一个仓库。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">新建分支和标签。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">暂存和提交修改。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">对一个远程分支进行推送/拉取/同步。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">解决合并冲突。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">查看比较。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">配合一个扩展，你也能够处理 GitHub 的拉取请求：
+<a href="https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github。" class="link">https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github。</a></span>
+</p>
+
+<p>官方文档请访问： <a xmlns="http://www.w3.org/1999/xhtml" href="https://code.visualstudio.com/Docs/editor/versioncontrol。" class="link">https://code.visualstudio.com/Docs/editor/versioncontrol。</a></p>
+<p><strong>IntelliJ / PyCharm / WebStorm / PhpStorm / RubyMine 中的 Git</strong></p>
+
+<p><strong>IntelliJ / PyCharm / WebStorm / PhpStorm / RubyMine 中的 Git</strong></p>
+<p>
+JetBrains IDEs（比如 IntelliJ IDEA，PyCharm，WebStorm，PhpStorm，RubyMine，以及其他）自带 Git 集成插件。
+在 IDE 中提供了一个专门的页面，可以使用 Git 和 GitHub 的 Pull Request。</p>
+
+<figcaption>Figure 7. JetBrains IDEs 中的版本控制工具窗口。</figcaption>
+
+<p>该集成插件依赖于 Git 的命令行客户端，所以需要先安装一个 Git 客户端。
+官方文档请访问 <a xmlns="http://www.w3.org/1999/xhtml" href="https://www.jetbrains.com/help/idea/using-git-integration.html。" class="link">https://www.jetbrains.com/help/idea/using-git-integration.html。</a></p>
+<p><strong>Sublime Text 中的 Git</strong></p>
+
+<p><strong>Sublime Text 中的 Git</strong></p>
+<p>
+从 3.2 版本开始，Sublime Text 在编辑器内集成了 Git。</p>
+
+<p>功能如下：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">侧边栏将会使用图标来指明文件及文件夹的 Git 状态。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">被你的 .gitignore 文件所指定忽略的文件以及文件夹会在侧边栏褪色显示。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">在状态栏，你能够查看当前所在分支以及你做了多少修改。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">对一个文件的所有改动都会通过行号槽上的记号显示出来。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">你能够在 Sublime Text 内使用 Sublime Merge 这个 Git 客户端的部分功能。
+要求安装 Sublime Merge：
+<a href="https://www.sublimemerge.com/。" class="link">https://www.sublimemerge.com/。</a></span>
+</p>
+
+<p>Sublime Text 的官方文档请访问：https://www.sublimetext.com/docs/3/git_integration.html。</p>
+<p><strong>Bash 中的 Git</strong></p>

@@ -1,0 +1,48 @@
+caption: 分布式 Git
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git
+tidme.chars: 516
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: 6c00c38cce77c689
+tidme.id: sad00d299f68c
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000067
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/分布式-Git-sad00d299f68c
+type: text/vnd.tiddlywiki
+
+<p>
+你现在拥有了一个远程 Git 版本库，能为所有开发者共享代码提供服务，在一个本地工作流程下，你也已经熟悉了基本 Git 命令。你现在可以学习如何利用 Git 提供的一些分布式工作流程了。</p>
+
+<p>这一章中，你将会学习如何作为贡献者或整合者，在一个分布式协作的环境中使用 Git。
+你会学习为一个项目成功地贡献代码，并接触一些最佳实践方式，让你和项目的维护者能轻松地完成这个过程。另外，你也会学到如何管理有很多开发者提交贡献的项目。</p>
+<p><strong>分布式工作流程</strong></p>
+
+<p><strong>分布式工作流程</strong></p>
+<p>
+与传统的集中式版本控制系统（CVCS）相反，Git 的分布式特性使得开发者间的协作变得更加灵活多样。
+在集中式系统中，每个开发者就像是连接在集线器上的节点，彼此的工作方式大体相像。
+而在 Git 中，每个开发者同时扮演着节点和集线器的角色——也就是说，
+每个开发者既可以将自己的代码贡献到其他的仓库中，同时也能维护自己的公开仓库，
+让其他人可以在其基础上工作并贡献代码。
+由此，Git 的分布式协作可以为你的项目和团队衍生出种种不同的工作流程，
+接下来的章节会介绍几种利用了 Git 的这种灵活性的常见应用方式。
+我们将讨论每种方式的优点以及可能的缺点；你可以选择使用其中的某一种，或者将它们的特性混合搭配使用。</p>
+<p><strong>集中式工作流</strong></p>

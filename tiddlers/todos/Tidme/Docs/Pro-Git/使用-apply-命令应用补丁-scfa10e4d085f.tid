@@ -1,0 +1,53 @@
+caption: 使用 apply 命令应用补丁
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 维护项目 › 应用来自邮件的补丁 › 使用 apply 命令应用补丁
+tidme.chars: 785
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: b1a1ff4d6dd02804
+tidme.id: scfa10e4d085f
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000077
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/使用-apply-命令应用补丁-scfa10e4d085f
+type: text/vnd.tiddlywiki
+
+<p>
+如果你收到了一个使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 或 Unix <code xmlns="http://www.w3.org/1999/xhtml" class="literal">diff</code> 命令的变体（不推荐使用这种方式，具体见下一节）
+创建的补丁，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git apply</code> 命令来应用。
+假设你将补丁保存在了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">/tmp/patch-ruby-client.patch</code> 中，可以这样应用补丁：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git apply /tmp/patch-ruby-client.patch</code></p>
+
+<p>这会修改工作目录中的文件。
+它与运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">patch -p1</code> 命令来应用补丁几乎是等效的，但是这种方式更加严格，相对于 patch 来说，它能够接受的模糊匹配更少。
+它也能够处理 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 格式文件所描述的文件添加、删除和重命名操作，而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">patch</code> 则不会。
+最后，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git apply</code> 命令采用了一种“全部应用，否则就全部撤销（apply all or abort all）”的模型，
+即补丁只有全部内容都被应用和完全不被应用两个状态，而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">patch</code> 可能会导致补丁文件被部分应用，
+最后使你的工作目录保持在一个比较奇怪的状态。
+总体来看，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git apply</code> 命令要比 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">patch</code> 谨慎得多。
+并且，它不会为你创建提交——在运行之后，你需要手动暂存并提交补丁所引入的更改。</p>
+
+<p>在实际应用补丁前，你还可以使用 git apply 来检查补丁是否可以顺利应用——即对补丁运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git apply --check</code> 命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git apply --check 0001-seeing-if-this-helps-the-gem.patch
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply</code></p>
+
+<p>如果没有产生输出，则该补丁可以顺利应用。
+如果检查失败了，该命令还会以一个非零的状态退出，所以需要时你也可以在脚本中使用它。</p>

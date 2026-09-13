@@ -1,0 +1,62 @@
+caption: Bash 中的 Git
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在其它环境中使用 Git › Bash 中的 Git
+tidme.chars: 1030
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/A-git-in-other-environments.xhtml
+tidme.format: epub
+tidme.hash: 323c47c69d4fe19e
+tidme.id: sc19ae01b1b06
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000221
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/Bash-中的-Git-sc19ae01b1b06
+type: text/vnd.tiddlywiki
+
+<p>
+如果你是一名 Bash 用户，你可以从中发掘出一些 Shell 的特性，让你在使用 Git 时更加随心所欲。
+实际上 Git 附带了几个 Shell 的插件，但是这些插件并不是默认打开的。</p>
+
+<p>首先，你需要从你使用的 Git 发行版的源代码中获得一份自动补全文件的拷贝。
+输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git version</code> 检查版本，然后使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout tags/vX.Y.Z</code>，其中 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">vX.Y.Z</code> 对应于你正在使用的 Git 版本。
+将这个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">contrib/completion/git-completion.bash</code> 文件复制到一个相对便捷的目录，例如你的 Home 目录，并且将它的路径添加到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.bashrc</code> 中：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>. ~/git-completion.bash</code></p>
+
+<p>做完这些之后，请将你当前的目录切换到某一个 Git 仓库，并且输入：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git chec&lt;tab&gt;</code></p>
+
+<p>……此时 Bash 将会把上面的命令自动补全为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code>。
+在适当的情况下，这项功能适用于 Git 所有的子命令、命令行参数、以及远程仓库与引用名。</p>
+
+<p>这项功能也可以用于你自己定义的提示符（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">prompt</code>），显示当前目录下 Git 仓库的信息。
+根据你的需要，这个信息可以简单或复杂，这里通常有大多数人想要的几个关键信息，比如当前分支信息和当前工作目录的状态信息。
+要添加你自己的提示符（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">prompt</code>），只需从 Git 源版本库复制 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">contrib/completion/git-prompt.sh</code> 文件到你的 Home 目录（或其他便于你访问与管理的目录）， 并在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.bashrc</code> 里添加这个文件路径，类似于下面这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>. ~/git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
+export PS1='\w$(__git_ps1 " (%s)")\$ '</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">\w</code> 表示打印当前工作目录，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">\$</code> 打印 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$</code> 部分的提示符（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">prompt</code>），<code xmlns="http://www.w3.org/1999/xhtml" class="literal">__git_ps1 " (%s)"</code> 表示通过格式化参数符（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">%s</code>）调用`git-prompt.sh`脚本中提供的函数。
+因为有了这个自定义提示符，现在你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Bash</code> 提示符（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">prompt</code>）在 Git 仓库的任何子目录中都将显示成这样：</p>
+
+<figcaption>Figure 8. 自定义的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">bash</code> 提示符（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">prompt</code>）.</figcaption>
+
+<p>这两个脚本都提供了很有帮助的文档；浏览 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-completion.bash</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-prompt.sh</code> 的内容以获得更多信息。</p>
+<p><strong>Zsh 中的 Git</strong></p>

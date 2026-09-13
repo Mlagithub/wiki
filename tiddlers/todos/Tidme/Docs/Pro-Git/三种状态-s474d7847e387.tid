@@ -1,0 +1,150 @@
+caption: 三种状态
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 起步 › Git 是什么？ › 三种状态
+tidme.chars: 2420
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch01-getting-started.xhtml
+tidme.format: epub
+tidme.hash: cb4e62e5bb762fe5
+tidme.id: s474d7847e387
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000008
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/三种状态-s474d7847e387
+type: text/vnd.tiddlywiki
+
+<p>现在请注意，如果你希望后面的学习更顺利，请记住下面这些关于 Git 的概念。
+Git 有三种状态，你的文件可能处于其中之一： <strong xmlns="http://www.w3.org/1999/xhtml">已提交（committed）</strong>、<strong xmlns="http://www.w3.org/1999/xhtml">已修改（modified）</strong> 和 <strong xmlns="http://www.w3.org/1999/xhtml">已暂存（staged）</strong>。</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">已修改表示修改了文件，但还没保存到数据库中。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">已暂存表示对一个已修改文件的当前版本做了标记，使之包含在下次提交的快照中。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">已提交表示数据已经安全地保存在本地数据库中。</span>
+</p>
+
+<p>这会让我们的 Git 项目拥有三个阶段：工作区、暂存区以及 Git 目录。</p>
+
+<figcaption>Figure 6. 工作目录、暂存区域以及 Git 仓库.</figcaption>
+
+<p>工作区是对项目的某个版本独立提取出来的内容。
+这些从 Git 仓库的压缩数据库中提取出来的文件，放在磁盘上供你使用或修改。</p>
+
+<p>暂存区是一个文件，保存了下次将要提交的文件列表信息，一般在 Git 仓库目录中。
+按照 Git 的术语叫做“索引”，不过一般说法还是叫“暂存区”。</p>
+
+<p>Git 仓库目录是 Git 用来保存项目的元数据和对象数据库的地方。
+这是 Git 中最重要的部分，从其它计算机克隆仓库时，复制的就是这里的数据。</p>
+
+<p>基本的 Git 工作流程如下：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">在工作区中修改文件。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">将你想要下次提交的更改选择性地暂存，这样只会将更改的部分添加到暂存区。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">提交更新，找到暂存区的文件，将快照永久性存储到 Git 目录。</span>
+</p>
+
+<p>如果 Git 目录中保存着特定版本的文件，就属于 <strong xmlns="http://www.w3.org/1999/xhtml">已提交</strong> 状态。
+如果文件已修改并放入暂存区，就属于 <strong xmlns="http://www.w3.org/1999/xhtml">已暂存</strong> 状态。
+如果自上次检出后，作了修改但还没有放到暂存区域，就是 <strong xmlns="http://www.w3.org/1999/xhtml">已修改</strong> 状态。
+在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter" href="ch02-git-basics-chapter.xhtml" class="xref">Git 基础</a> 一章，你会进一步了解这些状态的细节，
+并学会如何根据文件状态实施后续操作，以及怎样跳过暂存直接提交。</p>
+<p><strong>命令行</strong></p>
+
+<p><strong>命令行</strong></p>
+<p>Git 有多种使用方式。
+你可以使用原生的命令行模式，也可以使用 GUI 模式，这些 GUI 软件也能提供多种功能。
+在本书中，我们将使用命令行模式。
+这是因为首先，只有在命令行模式下你才能执行 Git 的 <strong xmlns="http://www.w3.org/1999/xhtml">所有</strong> 命令，而大多数的 GUI 软件只实现了 Git 所有功能的一个子集以降低操作难度。
+如果你学会了在命令行下如何操作，那么你在操作 GUI 软件时应该也不会遇到什么困难，但是，反之则不成立。
+此外，由于每个人的想法与侧重点不同，不同的人常常会安装不同的 GUI 软件，但 <em xmlns="http://www.w3.org/1999/xhtml">所有</em> 人一定会有命令行工具。</p>
+
+<p>假如你是 macOS 用户，我们希望你懂得如何使用终端（Terminal）；假如你是 Windows 用户，我们希望你懂得如何使用命令提示符（Command Prompt）或 PowerShell。
+如果你尚未掌握以上技能，我们建议你先停下来快速学习一下，本书中的讲述和举例将用到这些技能。</p>
+<p><strong>安装 Git</strong></p>
+
+<p><strong>安装 Git</strong></p>
+<p>在你开始使用 Git 前，需要将它安装在你的计算机上。
+即便已经安装，最好将它升级到最新的版本。
+你可以通过软件包或者其它安装程序来安装，或者下载源码编译安装。</p>
+
+<p>本书写作时使用的 Git 版本为 <strong xmlns="http://www.w3.org/1999/xhtml">2.8.0</strong>。
+我们使用的大部分命令仍然可以在很古老的 Git 版本上使用，但也有少部分命令不好用或者在旧版本中的行为有差异。
+因为 Git 在保持向后兼容方面表现很好，本书使用的这些命令在 2.8 之后的版本应该有效。</p>
+<p><strong>在 Linux 上安装</strong></p>
+
+<p><strong>在 Linux 上安装</strong></p>
+<p>
+如果你想在 Linux 上用二进制安装程序来安装基本的 Git 工具，可以使用发行版包含的基础软件包管理工具来安装。
+以 Fedora 为例，如果你在使用它（或与之紧密相关的基于 RPM 的发行版，如 RHEL 或 CentOS），你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dnf</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>sudo dnf install git-all</code></p>
+
+<p>如果你在基于 Debian 的发行版上，如 Ubuntu，请使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">apt</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>sudo apt install git-all</code></p>
+
+<p>要了解更多选择，Git 官方网站上有在各种 Unix 发行版的系统上安装步骤，网址为 <a xmlns="http://www.w3.org/1999/xhtml" href="https://git-scm.com/download/linux" class="link">https://git-scm.com/download/linux</a>。</p>
+<p><strong>在 macOS 上安装</strong></p>
+
+<p><strong>在 macOS 上安装</strong></p>
+<p>
+在 Mac 上安装 Git 有多种方式。
+最简单的方法是安装 Xcode Command Line Tools。
+Mavericks （10.9） 或更高版本的系统中，在 Terminal 里尝试首次运行 'git' 命令即可。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git --version</code></p>
+
+<p>如果没有安装过命令行开发者工具，将会提示你安装。</p>
+
+<p>如果你想安装更新的版本，可以使用二进制安装程序。
+官方维护的 macOS Git 安装程序可以在 Git 官方网站下载，网址为 <a xmlns="http://www.w3.org/1999/xhtml" href="https://git-scm.com/download/mac" class="link">https://git-scm.com/download/mac</a>。</p>
+
+<figcaption>Figure 7. Git macOS Installer.</figcaption>
+
+<p>你也可以将它作为 GitHub for macOS 的一部分来安装。
+它们的图形化 Git 工具有一个安装命令行工具的选项。
+你可以从 GitHub for macOS 网站下载该工具，网址为 <a xmlns="http://www.w3.org/1999/xhtml" href="https://mac.github.com" class="link">https://mac.github.com</a>。</p>
+<p><strong>在 Windows 上安装</strong></p>
+
+<p><strong>在 Windows 上安装</strong></p>
+<p>在 Windows 上安装 Git 也有几种安装方法。
+官方版本可以在 Git 官方网站下载。
+打开 <a xmlns="http://www.w3.org/1999/xhtml" href="https://git-scm.com/download/win" class="link">https://git-scm.com/download/win</a>，下载会自动开始。
+要注意这是一个名为 Git for Windows 的项目（也叫做 msysGit），和 Git 是分别独立的项目；更多信息请访问 <a xmlns="http://www.w3.org/1999/xhtml" href="http://msysgit.github.io/" class="link">http://msysgit.github.io/</a>。</p>
+
+<p>要进行自动安装，你可以使用 <a xmlns="http://www.w3.org/1999/xhtml" href="https://chocolatey.org/packages/git" class="link">Git Chocolatey 包</a>。
+注意 Chocolatey 包是由社区维护的。</p>
+
+<p>另一个简单的方法是安装 GitHub Desktop。
+该安装程序包含图形化和命令行版本的 Git。
+它也能支持 Powershell，提供了稳定的凭证缓存和健全的换行设置。
+稍后我们会对这方面有更多了解，现在只要一句话就够了，这些都是你所需要的。
+你可以在 GitHub for Windows 网站下载，网址为 <a xmlns="http://www.w3.org/1999/xhtml" href="https://desktop.github.com" class="link">GitHub Desktop 网站</a>。</p>
+<p><strong>从源代码安装</strong></p>

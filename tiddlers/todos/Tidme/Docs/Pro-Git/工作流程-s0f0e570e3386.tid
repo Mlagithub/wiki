@@ -1,0 +1,224 @@
+caption: 工作流程
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Perforce › Git-p4 › 工作流程
+tidme.chars: 6339
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: f3aedf2195f0a933
+tidme.id: s0f0e570e3386
+tidme.kind: topic
+tidme.level: 5
+tidme.order: 000187
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/工作流程-s0f0e570e3386
+type: text/vnd.tiddlywiki
+
+<p>好了，让我们开始一些工作。
+假设你已经在一个非常重要的功能上做了一些工作，然后准备好将它展示给团队中的其他人。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --oneline --all --graph --decorate
+* 018467c (HEAD, master) Change page title
+* c0fb617 Update link
+* 70eaf78 (p4/master, p4/HEAD) Initial import of //depot/www/live/ from the state at revision #head</code></p>
+
+<p>我们已经生成了两次新提交并已准备好推送它们到 Perforce 服务器。
+让我们检查一下今天其他人是否做了一些工作：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git p4 sync
+git p4 sync
+Performing incremental import into refs/remotes/p4/master git branch
+Depot paths: //depot/www/live/
+Import destination: refs/remotes/p4/master
+Importing revision 12142 (100%)
+<span style="font-weight: bold">$ </span>git log --oneline --all --graph --decorate
+* 75cd059 (p4/master, p4/HEAD) Update copyright
+| * 018467c (HEAD, master) Change page title
+| * c0fb617 Update link
+|/
+* 70eaf78 Initial import of //depot/www/live/ from the state at revision #head</code></p>
+
+<p>看起来他们做了，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">p4/master</code> 已经分叉了。
+Perforce 的分支系统一点也 <em xmlns="http://www.w3.org/1999/xhtml">不</em> 像 Git 的，所以提交合并提交没有任何意义。
+Git-p4 建议变基你的提交，它甚至提供了一个快捷方式来这样做：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git p4 rebase
+Performing incremental import into refs/remotes/p4/master git branch
+Depot paths: //depot/www/live/
+No changes to import!
+Rebasing the current branch onto remotes/p4/master
+First, rewinding head to replay your work on top of it...
+Applying: Update link
+Applying: Change page title
+ index.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)</code></p>
+
+<p>从输出中可能大概得知，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git p4 rebase</code> 是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git p4 sync</code> 接着 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase p4/master</code> 的快捷方式。
+它比那更聪明一些，特别是工作在多个分支时，但这是一个进步。</p>
+
+<p>现在我们的历史再次是线性的，我们准备好我们的改动贡献回 Perforce。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git p4 submit</code> 命令会尝试在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">p4/master</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 之间的每一个 Git 提交创建一个新的 Perforce 修订版本。
+运行它会带我们到最爱的编辑器，文件内容看起来像是这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold"># </span>A Perforce Change Specification.
+<span style="font-weight: bold">#</span>
+<span style="font-weight: bold">#  </span>Change:      The change number. <span style="font-style: italic">'new'</span> on a new changelist.
+<span style="font-weight: bold">#  </span>Date:        The date this specification was last modified.
+<span style="font-weight: bold">#  </span>Client:      The client on which the changelist was created.  Read-only.
+<span style="font-weight: bold">#  </span>User:        The user who created the changelist.
+<span style="font-weight: bold">#  </span>Status:      Either <span style="font-style: italic">'pending'</span> or <span style="font-style: italic">'submitted'</span>. Read-only.
+<span style="font-weight: bold">#  </span>Type:        Either <span style="font-style: italic">'public'</span> or <span style="font-style: italic">'restricted'</span>. Default is <span style="font-style: italic">'public'</span>.
+<span style="font-weight: bold">#  </span>Description: Comments about the changelist.  Required.
+<span style="font-weight: bold">#  </span>Jobs:        What opened jobs are to be closed by this changelist.
+<span style="font-weight: bold">#               </span>You may delete jobs from this list.  (New changelists only.)
+<span style="font-weight: bold">#  </span>Files:       What opened files from the default changelist are to be added
+<span style="font-weight: bold">#               </span>to this changelist.  You may delete files from this list.
+<span style="font-weight: bold">#               </span>(New changelists only.)
+
+Change:  new
+
+Client:  john_bens-mbp_8487
+
+User: john
+
+Status:  new
+
+Description:
+   Update link
+
+Files:
+   //depot/www/live/index.html   # edit
+
+
+<span style="font-weight: bold">#</span><span style="font-style: italic">####### git author ben@straub.cc does not match your p4 account.</span>
+<span style="font-weight: bold">#</span><span style="font-style: italic">####### Use option --preserve-user to modify authorship.</span>
+<span style="font-weight: bold">#</span><span style="font-style: italic">####### Variable git-p4.skipUserNameCheck hides this message.</span>
+<span style="font-weight: bold">#</span><span style="font-style: italic">####### everything below this line is just the diff #######</span>
+--- //depot/www/live/index.html  2014-08-31 18:26:05.000000000 0000
++++ /Users/ben/john_bens-mbp_8487/john_bens-mbp_8487/depot/www/live/index.html   2014-08-31 18:26:05.000000000 0000
+@@ -60,7 +60,7 @@
+ &lt;/td&gt;
+ &lt;td valign=top&gt;
+ Source and documentation for
+-&lt;a href="http://www.perforce.com/jam/jam.html"&gt;
++&lt;a href="jam.html"&gt;
+ Jam/MR&lt;/a&gt;,
+ a software build tool.
+ &lt;/td&gt;</code></p>
+
+<p>除了结尾 git-p4 给我们的帮助性的提示，其它的与你运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">p4 submit</code> 后看到的内容大多相同。
+当提交或变更集需要一个名字时 git-p4 会分别尝试使用你的 Git 与 Perforce 设置，但是有些情况下你会想要覆盖默认行为。
+例如，如果你正导入的提交是由没有 Perforce 用户账户的贡献者编写的，你还是会想要最终的变更集看起来像是他们写的（而不是你）。</p>
+
+<p>Git-p4 帮助性地将 Git 的提交注释导入到 Perforce 变更集的内容，这样所有我们必须做的就是保存并退出，两次（每次一个提交）。
+这会使 shell 输出看起来像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git p4 submit
+Perforce checkout for depot path //depot/www/live/ located at /Users/ben/john_bens-mbp_8487/john_bens-mbp_8487/depot/www/live/
+Synchronizing p4 checkout...
+... - file(s) up-to-date.
+Applying dbac45b Update link
+//depot/www/live/index.html#4 - opened for edit
+Change 12143 created with 1 open file(s).
+Submitting change 12143.
+Locking 1 files ...
+edit //depot/www/live/index.html#5
+Change 12143 submitted.
+Applying 905ec6a Change page title
+//depot/www/live/index.html#5 - opened for edit
+Change 12144 created with 1 open file(s).
+Submitting change 12144.
+Locking 1 files ...
+edit //depot/www/live/index.html#6
+Change 12144 submitted.
+All commits applied!
+Performing incremental import into refs/remotes/p4/master git branch
+Depot paths: //depot/www/live/
+Import destination: refs/remotes/p4/master
+Importing revision 12144 (100%)
+Rebasing the current branch onto remotes/p4/master
+First, rewinding head to replay your work on top of it...
+<span style="font-weight: bold">$ </span>git log --oneline --all --graph --decorate
+* 775a46f (HEAD, p4/master, p4/HEAD, master) Change page title
+* 05f1ade Update link
+* 75cd059 Update copyright
+* 70eaf78 Initial import of //depot/www/live/ from the state at revision #head</code></p>
+
+<p>结果恰如我们只是做了一次 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push</code>，就像是应当实际发生的最接近的类比。</p>
+
+<p>注意在这个过程中每一个 Git 提交都会被转化为一个 Perforce 变更集。
+如果想要将它们压缩成为一个单独的提交，可以在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git p4 submit</code> 前进行一次交互式变基。
+同样注意的是所有被转化为变更集的提交的 SHA-1 校验和都改变了，
+这是因为 git-p4 在每一个转化的提交增加一行到提交注释结尾：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log -1
+commit 775a46f630d8b46535fc9983cf3ebe6b9aa53145
+Author: John Doe &lt;john@example.com&gt;
+Date:   Sun Aug 31 10:31:44 2014 -0800
+
+    Change page title
+
+    [git-p4: depot-paths = "//depot/www/live/": change = 12144]</code></p>
+
+<p>当尝试提交一次合并提交时会发生什么？
+让我们尝试一下。
+这是我们可能会遇到的一种情形：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --oneline --all --graph --decorate
+* 3be6fd8 (HEAD, master) Correct email address
+*   1dcbf21 Merge remote-tracking branch 'p4/master'
+|\
+| * c4689fc (p4/master, p4/HEAD) Grammar fix
+* | cbacd0a Table borders: yes please
+* | b4959b6 Trademark
+|/
+* 775a46f Change page title
+* 05f1ade Update link
+* 75cd059 Update copyright
+* 70eaf78 Initial import of //depot/www/live/ from the state at revision #head</code></p>
+
+<p>Git 与 Perforce 历史在 775a46f 后分叉了。
+Git 这边有两次提交，然后一次与 Perforce 头部的合并提交，还有另一个提交。
+我们将会尝试提交这些到 Perforce 那边单独的变更集之上。
+让我们看看如果尝试这样提交会发生什么：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git p4 submit -n
+Perforce checkout for depot path //depot/www/live/ located at /Users/ben/john_bens-mbp_8487/john_bens-mbp_8487/depot/www/live/
+Would synchronize p4 checkout in /Users/ben/john_bens-mbp_8487/john_bens-mbp_8487/depot/www/live/
+Would apply
+  b4959b6 Trademark
+  cbacd0a Table borders: yes please
+  3be6fd8 Correct email address</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">-n</code> 标记是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--dry-run</code> 的缩写，将会报告如果提交命令真的运行会发生什么。
+这本例中，它看起来像是我们会创建三个 Perforce 变更集，对应着不在 Perforce 服务器端的三次非合并提交。
+那听起来像是我们想要的，让我们看看它会如何做：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git p4 submit
+[…]
+<span style="font-weight: bold">$ </span>git log --oneline --all --graph --decorate
+* dadbd89 (HEAD, p4/master, p4/HEAD, master) Correct email address
+* 1b79a80 Table borders: yes please
+* 0097235 Trademark
+* c4689fc Grammar fix
+* 775a46f Change page title
+* 05f1ade Update link
+* 75cd059 Update copyright
+* 70eaf78 Initial import of //depot/www/live/ from the state at revision #head</code></p>
+
+<p>我们的历史变成线性了，就像在提交前刚刚变基过（实际上也是这样）。
+这意味着你可以在 Git 这边自由地创建、工作、扔掉与合并分支而不用害怕你的历史会变得与 Perforce 不兼容。
+如果你可以变基它，你就可以将它贡献到 Perforce 服务器。</p>

@@ -1,0 +1,125 @@
+caption: 比较二进制文件
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › Git 属性 › 二进制文件 › 比较二进制文件
+tidme.chars: 3867
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: 4a18cd260e5cf5d1
+tidme.id: sa55697b57eb6
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000159
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/比较二进制文件-sa55697b57eb6
+type: text/vnd.tiddlywiki
+
+<p>你也可以使用 Git 属性来有效地比较两个二进制文件。
+秘诀在于，告诉 Git 怎么把你的二进制文件转化为文本格式，从而能够使用普通的 diff 方式进行对比。</p>
+
+<p>首先，让我们尝试用这个技术解决世人最头疼的问题之一：对 Microsoft Word 文档进行版本控制。
+大家都知道，Microsoft Word 几乎是世上最难缠的编辑器，尽管如此，大家还是在用它。
+如果想对 Word 文档进行版本控制，你可以把文件加入到 Git 库中，每次修改后提交即可。但这样做有什么实际意义呢？
+毕竟运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 命令后，你只能得到如下的结果：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff
+diff --git a/chapter1.docx b/chapter1.docx
+index 88839c4..4afcb7c 100644
+Binary files a/chapter1.docx and b/chapter1.docx differ</code></p>
+
+<p>除了检出之后睁大眼睛逐行扫描，就真的没有办法直接比较两个不同版本的 Word 文档吗？
+Git 属性能很好地解决此问题。
+把下面这行文本加到你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitattributes</code> 文件中：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>*.docx diff=<span style="font-style: italic">word</span></code></p>
+
+<p>这告诉 Git 当你尝试查看包含变更的比较结果时，所有匹配 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.docx</code> 模式的文件都应该使用“word”过滤器。
+“word”过滤器是什么？
+我们现在就来设置它。
+我们会对 Git 进行配置，令其能够借助 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">docx2txt</code> 程序将 Word 文档转为可读文本文件，这样不同的文件间就能够正确比较了。</p>
+
+<p>首先，你需要安装 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">docx2txt</code>；它可以从 <a xmlns="http://www.w3.org/1999/xhtml" href="https://sourceforge.net/projects/docx2txt" class="link">https://sourceforge.net/projects/docx2txt</a> 下载。
+按照 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">INSTALL</code> 文件的说明，把它放到你的可执行路径下。
+接下来，你还需要写一个脚本把输出结果包装成 Git 支持的格式。
+在你的可执行路径下创建一个叫 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">docx2txt</code> 文件，添加这些内容：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">#</span>!/bin/bash
+docx2txt.pl "$1" -</code></p>
+
+<p>别忘了用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">chmod a+x</code> 给这个文件加上可执行权限。
+最后，你需要配置 Git 来使用这个脚本：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config diff.word.textconv docx2txt</code></p>
+
+<p>现在如果在两个快照之间进行比较，Git 就会对那些以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.docx</code> 结尾的文件应用“word”过滤器，即 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">docx2txt</code>。
+这样你的 Word 文件就能被高效地转换成文本文件并进行比较了。</p>
+
+<p>作为例子，我把本书的第一章另存为 Word 文件，并提交到 Git 版本库。
+接着，往其中加入一个新的段落。
+运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code>，输出如下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff
+diff --git a/chapter1.docx b/chapter1.docx
+index 0b013ca..ba25db5 100644
+--- a/chapter1.docx
++++ b/chapter1.docx
+@@ -2,6 +2,7 @@
+ This chapter will be about getting started with Git. We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with. At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
+ 1.1. About Version Control
+ What is "version control", and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
++Testing: 1, 2, 3.
+ If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+ 1.1.1. Local Version Control Systems
+ Many people's version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they're clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you're in and accidentally write to the wrong file or copy over files you don't mean to.</code></p>
+
+<p>Git 成功地挑出了我们添加的那句话“Testing: 1, 2, 3.”，一字不差。
+还算不上完美——格式上的变动显示不出来——但已经足够了。</p>
+
+<p>你还能用这个方法比较图像文件。
+其中一个办法是，在比较时对图像文件运用一个过滤器，提炼出 EXIF 信息——这是在大部分图像格式中都有记录的一种元数据。
+如果你下载并安装了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">exiftool</code> 程序，可以利用它将图像转换为关于元数据的文本信息，这样比较时至少能以文本的形式显示发生过的变动：
+将以下内容放到你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitattributes</code> 文件中：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>*.png diff=<span style="font-style: italic">exif</span></code></p>
+
+<p>配置 Git 以使用此工具：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config diff.exif.textconv exiftool</code></p>
+
+<p>如果在项目中替换了一个图像文件，运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 命令的结果如下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">diff --git a/image.png b/image.png</span>
+<span style="font-weight: bold">index 88839c4..4afcb7c 100644</span>
+--- a/image.png
++++ b/image.png
+<span style="font-weight: bold">@@ -1,12 +1,12 @@</span>
+ ExifTool Version Number         : 7.74
+-File Size                       : 70 kB
+-File Modification Date/Time     : 2009:04:21 07:02:45-07:00
++File Size                       : 94 kB
++File Modification Date/Time     : 2009:04:21 07:02:43-07:00
+ File Type                       : PNG
+ MIME Type                       : image/png
+-Image Width                     : 1058
+-Image Height                    : 889
++Image Width                     : 1056
++Image Height                    : 827
+ Bit Depth                       : 8
+ Color Type                      : RGB with Alpha</code></p>
+
+<p>你一眼就能看出文件大小和图像尺寸发生了变化。</p>
+<p><strong>关键字展开</strong></p>

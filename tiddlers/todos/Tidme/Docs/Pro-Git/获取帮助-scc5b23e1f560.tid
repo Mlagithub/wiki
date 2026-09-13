@@ -1,0 +1,71 @@
+caption: 获取帮助
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 起步 › 获取帮助
+tidme.chars: 1282
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch01-getting-started.xhtml
+tidme.format: epub
+tidme.hash: 85cdc2bd514d5228
+tidme.id: scc5b23e1f560
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000012
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/获取帮助-scc5b23e1f560
+type: text/vnd.tiddlywiki
+
+<p>若你使用 Git 时需要获取帮助，有三种等价的方法可以找到 Git 命令的综合手册（manpage）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git help &lt;verb&gt;
+<span style="font-weight: bold">$ </span>git &lt;verb&gt; --help
+<span style="font-weight: bold">$ </span>man git-&lt;verb&gt;</code></p>
+
+<p>例如，要想获得 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config</code> 命令的手册，执行 </p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git help config</code></p>
+
+<p>这些命令很棒，因为你随时随地可以使用而无需联网。
+如果你觉得手册或者本书的内容还不够用，你可以尝试在 Freenode IRC 服务器 <a xmlns="http://www.w3.org/1999/xhtml" href="https://freenode.net" class="link">https://freenode.net</a> 上的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">#git</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">#github</code> 频道寻求帮助。
+这些频道经常有上百人在线，他们都精通 Git 并且乐于助人。</p>
+
+<p>此外，如果你不需要全面的手册，只需要可用选项的快速参考，那么可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-h</code> 选项获得更简明的 ``help'' 输出：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git add -h
+usage: git add [&lt;options&gt;] [--] &lt;pathspec&gt;...
+
+    -n, --dry-run         dry run
+    -v, --verbose         be verbose
+
+    -i, --interactive     interactive picking
+    -p, --patch           select hunks interactively
+    -e, --edit            edit current diff and apply
+    -f, --force           allow adding otherwise ignored files
+    -u, --update          update tracked files
+    --renormalize         renormalize EOL of tracked files (implies -u)
+    -N, --intent-to-add   record only the fact that the path will be added later
+    -A, --all             add changes from all tracked and untracked files
+    --ignore-removal      ignore paths removed in the working tree (same as --no-all)
+    --refresh             don't add, only refresh the index
+    --ignore-errors       just skip files which cannot be added because of errors
+    --ignore-missing      check if - even missing - files are ignored in dry run
+    --chmod (+|-)x        override the executable bit of the listed files</code></p>
+<p><strong>总结</strong></p>
+
+<p><strong>总结</strong></p>
+<p>你应该已经对 Git 是什么、Git 与你可能正在使用的集中式版本控制系统有何区别等问题有了基本的了解。
+现在，在你的系统中应该也有了一份能够工作的 Git 版本。
+是时候开始学习有关 Git 的基础知识了。</p>

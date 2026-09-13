@@ -1,0 +1,209 @@
+caption: 查看某个远程仓库
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › 远程仓库可以在你的本地主机上 › 查看某个远程仓库
+tidme.chars: 3592
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: 56034960d0e86c54
+tidme.id: s1b57f70db0d4
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000031
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/查看某个远程仓库-s1b57f70db0d4
+type: text/vnd.tiddlywiki
+
+<p>如果想要查看某一个远程仓库的更多信息，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote show &lt;remote&gt;</code> 命令。
+如果想以一个特定的缩写名运行这个命令，例如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code>，会得到像下面类似的信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote show origin
+* remote origin
+  Fetch URL: https://github.com/schacon/ticgit
+  Push  URL: https://github.com/schacon/ticgit
+  HEAD branch: master
+  Remote branches:
+    master                               tracked
+    dev-branch                           tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)</code></p>
+
+<p>它同样会列出远程仓库的 URL 与跟踪分支的信息。
+这些信息非常有用，它告诉你正处于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支，并且如果运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code>，
+就会抓取所有的远程引用，然后将远程 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支合并到本地 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。
+它也会列出拉取到的所有远程引用。</p>
+
+<p>这是一个经常遇到的简单例子。
+如果你是 Git 的重度使用者，那么还可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote show</code> 看到更多的信息。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote show origin
+* remote origin
+  URL: https://github.com/my-org/complex-project
+  Fetch URL: https://github.com/my-org/complex-project
+  Push  URL: https://github.com/my-org/complex-project
+  HEAD branch: master
+  Remote branches:
+    master                           tracked
+    dev-branch                       tracked
+    markdown-strip                   tracked
+    issue-43                         new (next fetch will store in remotes/origin)
+    issue-45                         new (next fetch will store in remotes/origin)
+    refs/remotes/origin/issue-11     stale (use 'git remote prune' to remove)
+  Local branches configured for 'git pull':
+    dev-branch merges with remote dev-branch
+    master     merges with remote master
+  Local refs configured for 'git push':
+    dev-branch                     pushes to dev-branch                     (up to date)
+    markdown-strip                 pushes to markdown-strip                 (up to date)
+    master                         pushes to master                         (up to date)</code></p>
+
+<p>这个命令列出了当你在特定的分支上执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push</code> 会自动地推送到哪一个远程分支。
+它也同样地列出了哪些远程分支不在你的本地，哪些远程分支已经从服务器上移除了，
+还有当你执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 时哪些本地分支可以与它跟踪的远程分支自动合并。</p>
+<p><strong>远程仓库的重命名与移除</strong></p>
+
+<p><strong>远程仓库的重命名与移除</strong></p>
+<p>你可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote rename</code> 来修改一个远程仓库的简写名。
+例如，想要将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pb</code> 重命名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">paul</code>，可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote rename</code> 这样做：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote rename pb paul
+<span style="font-weight: bold">$ </span>git remote
+origin
+paul</code></p>
+
+<p>值得注意的是这同样也会修改你所有远程跟踪的分支名字。
+那些过去引用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pb/master</code> 的现在会引用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">paul/master</code>。</p>
+
+<p>如果因为一些原因想要移除一个远程仓库——你已经从服务器上搬走了或不再想使用某一个特定的镜像了，
+又或者某一个贡献者不再贡献了——可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote remove</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote rm</code> ：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote remove paul
+<span style="font-weight: bold">$ </span>git remote
+origin</code></p>
+
+<p>一旦你使用这种方式删除了一个远程仓库，那么所有和这个远程仓库相关的远程跟踪分支以及配置信息也会一起被删除。</p>
+<p><strong>打标签</strong></p>
+
+<p><strong>打标签</strong></p>
+<p>
+像其他版本控制系统（VCS）一样，Git 可以给仓库历史中的某一个提交打上标签，以示重要。
+比较有代表性的是人们会使用这个功能来标记发布结点（ <code xmlns="http://www.w3.org/1999/xhtml" class="literal">v1.0</code> 、 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">v2.0</code> 等等）。
+在本节中，你将会学习如何列出已有的标签、如何创建和删除新的标签、以及不同类型的标签分别是什么。</p>
+<p><strong>列出标签</strong></p>
+
+<p><strong>列出标签</strong></p>
+<p>在 Git 中列出已有的标签非常简单，只需要输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git tag</code>
+（可带上可选的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-l</code> 选项 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--list</code>）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git tag
+v1.0
+v2.0</code></p>
+
+<p>这个命令以字母顺序列出标签，但是它们显示的顺序并不重要。</p>
+
+<p>你也可以按照特定的模式查找标签。
+例如，Git 自身的源代码仓库包含标签的数量超过 500 个。
+如果只对 1.8.5 系列感兴趣，可以运行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git tag -l <span style="font-style: italic">"v1.8.5*"</span>
+v1.8.5
+v1.8.5-rc0
+v1.8.5-rc1
+v1.8.5-rc2
+v1.8.5-rc3
+v1.8.5.1
+v1.8.5.2
+v1.8.5.3
+v1.8.5.4
+v1.8.5.5</code></p>
+<p><strong>按照通配符列出标签需要 -l 或 --list 选项</strong></p>
+<p>如果你只想要完整的标签列表，那么运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git tag</code> 就会默认假定你想要一个列表，它会直接给你列出来，
+此时的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-l</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--list</code> 是可选的。</p>
+
+<p>然而，如果你提供了一个匹配标签名的通配模式，那么 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-l</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--list</code> 就是强制使用的。</p>
+<p><strong>创建标签</strong></p>
+
+<p><strong>创建标签</strong></p>
+<p>Git 支持两种标签：轻量标签（lightweight）与附注标签（annotated）。</p>
+
+<p>轻量标签很像一个不会改变的分支——它只是某个特定提交的引用。</p>
+
+<p>而附注标签是存储在 Git 数据库中的一个完整对象，
+它们是可以被校验的，其中包含打标签者的名字、电子邮件地址、日期时间，
+此外还有一个标签信息，并且可以使用 GNU Privacy Guard （GPG）签名并验证。
+通常会建议创建附注标签，这样你可以拥有以上所有信息。但是如果你只是想用一个临时的标签，
+或者因为某些原因不想要保存这些信息，那么也可以用轻量标签。</p>
+<p><strong>附注标签</strong></p>
+
+<p><strong>附注标签</strong></p>
+<p>
+在 Git 中创建附注标签十分简单。
+最简单的方式是当你在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">tag</code> 命令时指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-a</code> 选项：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git tag -a v1.4 -m <span style="font-style: italic">"my version 1.4"</span>
+<span style="font-weight: bold">$ </span>git tag
+v0.1
+v1.3
+v1.4</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">-m</code> 选项指定了一条将会存储在标签中的信息。
+如果没有为附注标签指定一条信息，Git 会启动编辑器要求你输入信息。</p>
+
+<p>通过使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show</code> 命令可以看到标签信息和与之对应的提交信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show v1.4
+tag v1.4
+Tagger: Ben Straub &lt;ben@straub.cc&gt;
+Date:   Sat May 3 20:19:12 2014 -0700
+
+my version 1.4
+
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number</code></p>
+
+<p>输出显示了打标签者的信息、打标签的日期时间、附注信息，然后显示具体的提交信息。</p>
+<p><strong>轻量标签</strong></p>
+
+<p><strong>轻量标签</strong></p>
+<p>
+另一种给提交打标签的方式是使用轻量标签。
+轻量标签本质上是将提交校验和存储到一个文件中——没有保存任何其他信息。
+创建轻量标签，不需要使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-a</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">-s</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-m</code> 选项，只需要提供标签名字：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git tag v1.4-lw
+<span style="font-weight: bold">$ </span>git tag
+v0.1
+v1.3
+v1.4
+v1.4-lw
+v1.5</code></p>
+
+<p>这时，如果在标签上运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show</code>，你不会看到额外的标签信息。
+命令只会显示出提交信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show v1.4-lw
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number</code></p>
+<p><strong>后期打标签</strong></p>

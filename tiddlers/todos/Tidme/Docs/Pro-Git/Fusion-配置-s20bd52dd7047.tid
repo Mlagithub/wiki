@@ -1,0 +1,121 @@
+caption: Fusion 配置
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Perforce › Git Fusion › Fusion 配置
+tidme.chars: 2320
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: bcfe8f1440f0d1b1
+tidme.id: s20bd52dd7047
+tidme.kind: topic
+tidme.level: 5
+tidme.order: 000183
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/Fusion-配置-s20bd52dd7047
+type: text/vnd.tiddlywiki
+
+<p>一旦安装了 Git Fusion，你会想要调整配置。
+使用你最爱的 Perforce 客户端做这件事实际上相当容易；只需要映射 Perforce 服务器上的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">//.git-fusion</code> 目录到你的工作空间。
+文件结构看起来像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>tree
+.
+├── objects
+│   ├── repos
+│   │   └── [...]
+│   └── trees
+│       └── [...]
+│
+├── p4gf_config
+├── repos
+│   └── Talkhouse
+│       └── p4gf_config
+└── users
+    └── p4gf_usermap
+
+498 directories, 287 files</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">objects</code> 目录被 Git Fusion 内部用来双向映射 Perforce 对象与 Git 对象，你不必弄乱那儿的任何东西。
+在这个目录中有一个全局的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">p4gf_config</code> 文件，每个仓库中也会有一份——这些配置文件决定了 Git Fusion 的行为。
+让我们看一下根目录下的文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">[repo-creation]</span>
+charset = <span style="font-style: italic">utf8</span>
+
+<span style="font-weight: bold">[git-to-perforce]</span>
+change-owner = <span style="font-style: italic">author</span>
+enable-git-branch-creation = <span style="font-style: italic">yes</span>
+enable-swarm-reviews = <span style="font-style: italic">yes</span>
+enable-git-merge-commits = <span style="font-style: italic">yes</span>
+enable-git-submodules = <span style="font-style: italic">yes</span>
+preflight-commit = <span style="font-style: italic">none</span>
+ignore-author-permissions = <span style="font-style: italic">no</span>
+read-permission-check = <span style="font-style: italic">none</span>
+git-merge-avoidance-after-change-num = <span style="font-style: italic">12107</span>
+
+<span style="font-weight: bold">[perforce-to-git]</span>
+http-url = <span style="font-style: italic">none</span>
+ssh-url = <span style="font-style: italic">none</span>
+
+<span style="font-weight: bold">[@features]</span>
+imports = <span style="font-style: italic">False</span>
+chunked-push = <span style="font-style: italic">False</span>
+matrix2 = <span style="font-style: italic">False</span>
+parallel-push = <span style="font-style: italic">False</span>
+
+<span style="font-weight: bold">[authentication]</span>
+email-case-sensitivity = <span style="font-style: italic">no</span></code></p>
+
+<p>这里我们并不会深入介绍这些选项的含义，但是要注意这是一个 INI 格式的文本文件，就像 Git 的配置。
+这个文件指定了全局选项，但它可以被仓库特定的配置文件覆盖，像是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">repos/Talkhouse/p4gf_config</code>。
+如果打开这个文件，你会看到有一些与全局默认不同设置的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">[@repo]</code> 区块。
+你也会看到像下面这样的区块：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">[Talkhouse-master]</span>
+git-branch-name = <span style="font-style: italic">master</span>
+view = <span style="font-style: italic">//depot/Talkhouse/main-dev/... ...</span></code></p>
+
+<p>这是一个 Perforce 分支与一个 Git 分支的映射。
+这个区块可以被命名成你喜欢的名字，只要保证名字是唯一的即可。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-branch-name</code> 允许你将在 Git 下显得笨重的仓库路径转换为更友好的名字。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">view</code> 选项使用标准视图映射语法控制 Perforce 文件如何映射到 Git 仓库。
+可以指定一个以上的映射，就像下面的例子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">[multi-project-mapping]</span>
+git-branch-name = <span style="font-style: italic">master</span>
+view = <span style="font-style: italic">//depot/project1/main/... project1/...</span>
+       //depot/project2/mainline/... project2/...</code></p>
+
+<p>通过这种方式，如果正常工作空间映射包含对目录结构的修改，可以将其复制为一个 Git 仓库。</p>
+
+<p>最后一个我们讨论的文件是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">users/p4gf_usermap</code>，它将 Perforce 用户映射到 Git 用户，但你可能不会需要它。
+当从一个 Perforce 变更集转换为一个 Git 提交时，Git Fusion 的默认行为是去查找 Perforce 用户，然后把邮箱地址与全名存储在 Git 的 author/commiter 字段中。
+当反过来转换时，默认的行为是根据存储在 Git 提交中 author 字段中的邮箱地址来查找 Perforce 用户，然后以该用户提交变更集（以及权限的应用）。
+大多数情况下，这个行为工作得很好，但是考虑下面的映射文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>john john@example.com "John Doe"
+john johnny@appleseed.net "John Doe"
+bob employeeX@example.com "Anon X. Mouse"
+joe employeeY@example.com "Anon Y. Mouse"</code></p>
+
+<p>每一行的格式都是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">&lt;user&gt; &lt;email&gt; "&lt;full name&gt;"</code>，创建了一个单独的用户映射。
+前两行映射不同的邮箱地址到同一个 Perforce 用户账户。
+当使用几个不同的邮箱地址（或改变邮箱地址）生成 Git 提交并且想要让他们映射到同一个 Perforce 用户时这会很有用。
+当从一个 Perforce 变更集创建一个 Git 提交时，第一个匹配 Perforce 用户的行会被用作 Git 作者信息。</p>
+
+<p>最后两行从创建的 Git 提交中掩盖了 Bob 与 Joe 的真实名字与邮箱地址。
+当你想要将一个内部项目开源，但不想将你的雇员目录公布到全世界时这很不错。
+注意邮箱地址与全名需要是唯一的，除非想要所有的 Git 提交都属于一个虚构的作者。</p>

@@ -1,0 +1,210 @@
+caption: 私有小型团队
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 按我们说的去做，不要照着我们做的去做。 › 私有小型团队
+tidme.chars: 4399
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: 195215708c9a4a39
+tidme.id: saa0f087b888d
+tidme.kind: topic
+tidme.level: 3
+tidme.order: 000071
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/私有小型团队-saa0f087b888d
+type: text/vnd.tiddlywiki
+
+<p>
+你可能会遇到的最简单的配置是有一两个其他开发者的私有项目。
+“私有” 在这个上下文中，意味着闭源——不可以从外面的世界中访问到。
+你和其他的开发者都有仓库的推送权限。</p>
+
+<p>在这个环境下，可以采用一个类似使用 Subversion 或其他集中式的系统时会使用的工作流程。
+依然可以得到像离线提交、非常容易地新建分支与合并分支等高级功能，但是工作流程可以是很简单的；主要的区别是合并发生在客户端这边而不是在提交时发生在服务器那边。
+让我们看看当两个开发者在一个共享仓库中一起工作时会是什么样子。
+第一个开发者，John，克隆了仓库，做了改动，然后本地提交。
+（为了缩短这些例子长度，协议信息已被替换为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">…​</code>。）</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold"># </span>John<span style="border: 1px solid #F00">'</span>s Machine
+<span style="font-weight: bold">$ </span>git clone john@githost:simplegit.git
+Cloning into 'simplegit'...
+...
+<span style="font-weight: bold">$ </span>cd simplegit/
+<span style="font-weight: bold">$ </span>vim lib/simplegit.rb
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'remove invalid default value'</span>
+[master 738ee87] remove invalid default value
+ 1 files changed, 1 insertions(+), 1 deletions(-)</code></p>
+
+<p>第二个开发者，Jessica，做了同样的事情——克隆仓库并提交了一个改动：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold"># </span>Jessica<span style="border: 1px solid #F00">'</span>s Machine
+<span style="font-weight: bold">$ </span>git clone jessica@githost:simplegit.git
+Cloning into 'simplegit'...
+...
+<span style="font-weight: bold">$ </span>cd simplegit/
+<span style="font-weight: bold">$ </span>vim TODO
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'add reset task'</span>
+[master fbff5bc] add reset task
+ 1 files changed, 1 insertions(+), 0 deletions(-)</code></p>
+
+<p>现在，Jessica 把她的工作推送到服务器上，一切正常：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold"># </span>Jessica<span style="border: 1px solid #F00">'</span>s Machine
+<span style="font-weight: bold">$ </span>git push origin master
+...
+To jessica@githost:simplegit.git
+   1edee6b..fbff5bc  master -&gt; master</code></p>
+
+<p>上方输出信息中最后一行显示的是推送操作执行完毕后返回的一条很有用的消息。
+消息的基本格式是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">&lt;oldref&gt;..&lt;newref&gt; fromref → toref</code> ， <code xmlns="http://www.w3.org/1999/xhtml" class="literal">oldref</code> 的含义是推送前所指向的引用， <code xmlns="http://www.w3.org/1999/xhtml" class="literal">newref</code> 的含义是推送后所指向的引用， <code xmlns="http://www.w3.org/1999/xhtml" class="literal">fromref</code> 是将要被推送的本地引用的名字， <code xmlns="http://www.w3.org/1999/xhtml" class="literal">toref</code> 是将要被更新的远程引用的名字。
+在后面的讨论中你还会看到类似的输出消息，所以对这条消息的含义有一些基础的了解将会帮助你理解仓库的诸多状态。
+想要了解更多细节请访问文档 <a xmlns="http://www.w3.org/1999/xhtml" href="https://git-scm.com/docs/git-push" class="link">git-push</a> 。</p>
+
+<p>John 稍候也做了些改动，将它们提交到了本地仓库中，然后试着将它们推送到同一个服务器：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold"># </span>John<span style="border: 1px solid #F00">'</span>s Machine
+<span style="font-weight: bold">$ </span>git push origin master
+To john@githost:simplegit.git
+ ! [rejected]        master -&gt; master (non-fast forward)
+error: failed to push some refs to 'john@githost:simplegit.git'</code></p>
+
+<p>这时 John 会推送失败，因为之前 Jessica 已经推送了她的更改。
+如果之前习惯于用 Subversion 那么理解这点特别重要，因为你会注意到两个开发者并没有编辑同一个文件。
+尽管 Subversion 会对编辑的不同文件在服务器上自动进行一次合并，但 Git 要求你先在本地合并提交。
+换言之，John 必须先抓取 Jessica 的上游改动并将它们合并到自己的本地仓库中，才能被允许推送。</p>
+
+<p>第一步，John 抓取 Jessica 的工作（这只会 <strong xmlns="http://www.w3.org/1999/xhtml">抓取</strong> Jessica 的上游工作，并不会将它合并到 John 的工作中）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git fetch origin
+...
+From john@githost:simplegit
+ + 049d078...fbff5bc master     -&gt; origin/master</code></p>
+
+<p>在这个时候，John 的本地仓库看起来像这样：</p>
+
+<figcaption>Figure 5. John 的分叉历史</figcaption>
+
+<p>现在 John 可以将抓取下来的 Jessica 的工作合并到他自己的本地工作中了：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge origin/master
+Merge made by the 'recursive' strategy.
+ TODO |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)</code></p>
+
+<p>合并进行得很顺利——John 更新后的历史现在看起来像这样：</p>
+
+<figcaption>Figure 6. 合并了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code> 之后 John 的仓库</figcaption>
+
+<p>此时，John 可能想要测试新的代码，以确保 Jessica 的工作没有影响他自己的工作，
+当一切正常后，他就能将新合并的工作推送到服务器了：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git push origin master
+...
+To john@githost:simplegit.git
+   fbff5bc..72bbc59  master -&gt; master</code></p>
+
+<p>最终，John 的提交历史看起来像这样：</p>
+
+<figcaption>Figure 7. 推送到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code> 服务器后 John 的历史</figcaption>
+
+<p>在此期间，Jessica 新建了一个名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">issue54</code> 的主题分支，然后在该分支上提交了三次。
+她还没有抓取 John 的改动，所以她的提交历史看起来像这样：</p>
+
+<figcaption>Figure 8. Jessica 的主题分支</figcaption>
+
+<p>忽然，Jessica 发现 John 向服务器推送了一些新的工作，她想要看一下，
+于是就抓取了所有服务器上的新内容：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold"># </span>Jessica<span style="border: 1px solid #F00">'</span>s Machine
+<span style="font-weight: bold">$ </span>git fetch origin
+...
+From jessica@githost:simplegit
+   fbff5bc..72bbc59  master     -&gt; origin/master</code></p>
+
+<p>那会同时拉取 John 推送的工作。
+Jessica 的历史现在看起来像这样：</p>
+
+<figcaption>Figure 9. 抓取 John 的改动后 Jessica 的历史</figcaption>
+
+<p>Jessica 认为她的主题分支已经准备好了，但她想知道需要将 John 工作的哪些合并到自己的工作中才能推送。
+她运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 找了出来：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --no-merges issue54..origin/master
+commit 738ee872852dfaa9d6634e0dea7a324040193016
+Author: John Smith &lt;jsmith@example.com&gt;
+Date:   Fri May 29 16:01:27 2009 -0700
+
+   remove invalid default value</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">issue54..origin/master</code> 语法是一个日志过滤器，要求 Git 只显示所有在后面分支
+（在本例中是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code>）但不在前面分支（在本例中是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">issue54</code>）的提交的列表。
+我们将会在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_commit_ranges" href="ch07-git-tools.xhtml#_commit_ranges" class="xref">提交区间</a> 中详细介绍这个语法。</p>
+
+<p>目前，我们可以从输出中看到有一个 John 生成的但是 Jessica 还没有合并的提交。
+如果她合并 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code>，那个未合并的提交将会修改她的本地工作。</p>
+
+<p>现在，Jessica 可以合并她的特性工作到她的 master 分支，
+合并 John 的工作（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code>）进入她的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支，然后再次推送回服务器。</p>
+
+<p>首先（在已经提交了所有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">issue54</code> 主题分支上的工作后），为了整合所有这些工作，
+她切换回她的 master 分支。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout master
+Switched to branch 'master'
+Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.</code></p>
+
+<p>Jessica 既可以先合并 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code> 也可以先合并 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">issue54</code> ——它们都是上游，所以顺序并没有关系。
+不论她选择的顺序是什么最终的结果快照是完全一样的；只是历史会稍微有些不同。
+她选择先合并 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">issue54</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge issue54
+Updating fbff5bc..4af4298
+Fast forward
+ README           |    1 +
+ lib/simplegit.rb |    6 +++++-
+ 2 files changed, 6 insertions(+), 1 deletions(-)</code></p>
+
+<p>没有发生问题，如你所见它是一次简单的快进合并。
+现在 Jessica 在本地合并了之前抓取的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code> 分支上 John 的工作：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge origin/master
+Auto-merging lib/simplegit.rb
+Merge made by the 'recursive' strategy.
+ lib/simplegit.rb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)</code></p>
+
+<p>每一个文件都干净地合并了，Jessica 的历史现在看起来像这样：</p>
+
+<figcaption>Figure 10. 合并了 John 的改动后 Jessica 的历史</figcaption>
+
+<p>现在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code> 是可以从 Jessica 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支到达的，
+所以她应该可以成功地推送（假设同一时间 John 并没有更多推送）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git push origin master
+...
+To jessica@githost:simplegit.git
+   72bbc59..8059c15  master -&gt; master</code></p>
+
+<p>每一个开发者都提交了几次并成功地合并了其他人的工作。</p>
+
+<figcaption>Figure 11. 推送所有的改动回服务器后 Jessica 的历史</figcaption>
+
+<p>这是一个最简单的工作流程。
+你通常会在一个主题分支上工作一会儿，当它准备好整合时就合并到你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。
+当想要共享工作时，如果有改动的话就抓取它然后合并到你自己的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支，
+之后推送到服务器上的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。通常顺序像这样：</p>
+
+<figcaption>Figure 12. 一个简单的多人 Git 工作流程的通常事件顺序</figcaption>

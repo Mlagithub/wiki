@@ -1,0 +1,81 @@
+caption: 更有趣的变基例子
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › 变基 › 更有趣的变基例子
+tidme.chars: 1213
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: 2df6a383b6ca6a49
+tidme.id: s3b592d2024fc
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000053
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/更有趣的变基例子-s3b592d2024fc
+type: text/vnd.tiddlywiki
+
+<p>在对两个分支进行变基时，所生成的“重放”并不一定要在目标分支上应用，你也可以指定另外的一个分支进行应用。
+就像 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-bdiag_e" href="#bdiag_e" class="xref">从一个主题分支里再分出一个主题分支的提交历史</a> 中的例子那样。
+你创建了一个主题分支 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code>，为服务端添加了一些功能，提交了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C3</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C4</code>。
+然后从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C3</code> 上创建了主题分支 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">client</code>，为客户端添加了一些功能，提交了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C8</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C9</code>。
+最后，你回到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code> 分支，又提交了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C10</code>。</p>
+
+<figcaption>Figure 31. 从一个主题分支里再分出一个主题分支的提交历史</figcaption>
+
+<p>假设你希望将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">client</code> 中的修改合并到主分支并发布，但暂时并不想合并 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code> 中的修改，
+因为它们还需要经过更全面的测试。这时，你就可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase</code> 命令的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--onto</code> 选项，
+选中在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">client</code> 分支里但不在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code> 分支里的修改（即 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C8</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C9</code>），将它们在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支上重放：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rebase --onto master server client</code></p>
+
+<p>以上命令的意思是：“取出 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">client</code> 分支，找出它从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code> 分支分歧之后的补丁，
+然后把这些补丁在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支上重放一遍，让 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">client</code> 看起来像直接基于
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 修改一样”。这理解起来有一点复杂，不过效果非常酷。</p>
+
+<figcaption>Figure 32. 截取主题分支上的另一个主题分支，然后变基到其他分支</figcaption>
+
+<p>现在可以快进合并 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支了。（如图 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-bdiag_g" href="#bdiag_g" class="xref">快进合并 <code class="literal">master</code> 分支，使之包含来自 <code class="literal">client</code> 分支的修改</a>）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout master
+<span style="font-weight: bold">$ </span>git merge client</code></p>
+
+<figcaption>Figure 33. 快进合并 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支，使之包含来自 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">client</code> 分支的修改</figcaption>
+
+<p>接下来你决定将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code> 分支中的修改也整合进来。
+使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase &lt;basebranch&gt; &lt;topicbranch&gt;</code> 命令可以直接将主题分支
+（即本例中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code>）变基到目标分支（即 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code>）上。
+这样做能省去你先切换到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code> 分支，再对其执行变基命令的多个步骤。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rebase master server</code></p>
+
+<p>如图 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-bdiag_h" href="#bdiag_h" class="xref">将 <code class="literal">server</code> 中的修改变基到 <code class="literal">master</code> 上</a> 所示，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code> 中的代码被“续”到了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 后面。</p>
+
+<figcaption>Figure 34. 将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code> 中的修改变基到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 上</figcaption>
+
+<p>然后就可以快进合并主分支 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 了：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout master
+<span style="font-weight: bold">$ </span>git merge server</code></p>
+
+<p>至此，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">client</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">server</code> 分支中的修改都已经整合到主分支里了，
+你可以删除这两个分支，最终提交历史会变成图 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-bdiag_i" href="#bdiag_i" class="xref">最终的提交历史</a> 中的样子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git branch -d client
+<span style="font-weight: bold">$ </span>git branch -d server</code></p>
+
+<figcaption>Figure 35. 最终的提交历史</figcaption>
+<p><strong>变基的风险</strong></p>

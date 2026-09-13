@@ -1,0 +1,84 @@
+caption: 在 Windows 上转义脱字符
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 在 Windows 上转义脱字符
+tidme.chars: 1292
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: c29ec063dd2b7ad9
+tidme.id: s43c312acfef8
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000104
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/在-Windows-上转义脱字符-s43c312acfef8
+type: text/vnd.tiddlywiki
+
+<p>在 Windows 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">cmd.exe</code> 中，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">^</code> 是一个特殊字符，因此需要区别对待。
+你可以双写它或者将提交引用放在引号中：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show HEAD^     <span style="font-style: italic"># 在 Windows 上无法工作</span>
+<span style="font-weight: bold">$ </span>git show HEAD^^    <span style="font-style: italic"># 可以</span>
+<span style="font-weight: bold">$ </span>git show <span style="font-style: italic">"HEAD^"</span>   <span style="font-style: italic"># 可以</span></code></p>
+
+<p>你也可以在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">^</code> 后面添加一个数字来指明想要 <strong xmlns="http://www.w3.org/1999/xhtml">哪一个</strong> 父提交——例如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">d921970^2</code> 代表 “d921970 的第二父提交”
+这个语法只适用于合并的提交，因为合并提交会有多个父提交。
+合并提交的第一父提交是你合并时所在分支（通常为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code>），而第二父提交是你所合并的分支（例如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">topic</code>）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show d921970^
+commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Thu Dec 11 14:58:32 2008 -0800
+
+    added some blame and merge stuff
+
+<span style="font-weight: bold">$ </span>git show d921970^2
+commit 35cfb2b795a55793d7cc56a6cc2060b4bb732548
+Author: Paul Hedderly &lt;paul+git@mjr.org&gt;
+Date:   Wed Dec 10 22:22:03 2008 +0000
+
+    Some rdoc changes</code></p>
+
+<p>另一种指明祖先提交的方法是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~</code>（波浪号）。
+同样是指向第一父提交，因此 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD~</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD^</code> 是等价的。
+而区别在于你在后面加数字的时候。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD~2</code> 代表“第一父提交的第一父提交”，也就是“祖父提交”——Git 会根据你指定的次数获取对应的第一父提交。
+例如，在之前的列出的提交历史中，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD~3</code> 就是</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show HEAD~3
+commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+Author: Tom Preston-Werner &lt;tom@mojombo.com&gt;
+Date:   Fri Nov 7 13:47:59 2008 -0500
+
+    ignore *.gem</code></p>
+
+<p>也可以写成 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD~~~</code>，也是第一父提交的第一父提交的第一父提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show HEAD~~~
+commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+Author: Tom Preston-Werner &lt;tom@mojombo.com&gt;
+Date:   Fri Nov 7 13:47:59 2008 -0500
+
+    ignore *.gem</code></p>
+
+<p>你也可以组合使用这两个语法——你可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD~3^2</code> 来取得之前引用的第二父提交（假设它是一个合并提交）。</p>
+<p><strong>提交区间</strong></p>
+
+<p><strong>提交区间</strong></p>
+<p>你已经学会如何指定单次的提交，现在来看看如何指明一定区间的提交。
+当你有很多分支时，这对管理你的分支十分有用，
+你可以用提交区间来解决“这个分支还有哪些提交尚未合并到主分支？”的问题</p>

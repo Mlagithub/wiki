@@ -1,0 +1,90 @@
+caption: Git 守护进程
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 服务器上的 Git › Git 守护进程
+tidme.chars: 1329
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch04-git-on-the-server.xhtml
+tidme.format: epub
+tidme.hash: df55e05a23d9a1d9
+tidme.id: sd535bf7d7c05
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000062
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/Git-守护进程-sd535bf7d7c05
+type: text/vnd.tiddlywiki
+
+<p>
+接下来我们将通过 “Git” 协议建立一个基于守护进程的仓库。
+对于快速且无需授权的 Git 数据访问，这是一个理想之选。
+请注意，因为其不包含授权服务，任何通过该协议管理的内容将在其网络上公开。</p>
+
+<p>如果运行在防火墙之外的服务器上，它应该只对那些公开的只读项目服务。
+如果运行在防火墙之内的服务器上，它可用于支撑大量参与人员或自动系统
+（用于持续集成或编译的主机）只读访问的项目，这样可以省去逐一配置 SSH 公钥的麻烦。</p>
+
+<p>无论何时，该 Git 协议都是相对容易设定的。
+通常，你只需要以守护进程的形式运行该命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git daemon --reuseaddr --base-path=/srv/git/ /srv/git/</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">--reuseaddr</code> 选项允许服务器在无需等待旧连接超时的情况下重启，而
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">--base-path</code> 选项允许用户在未完全指定路径的条件下克隆项目，
+结尾的路径将告诉 Git 守护进程从何处寻找仓库来导出。
+如果有防火墙正在运行，你需要开放端口 9418 的通信权限。</p>
+
+<p>你可以通过许多方式将该进程以守护进程的方式运行，这主要取决于你所使用的操作系统。</p>
+
+<p>由于在现代的 Linux 发行版中，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">systemd</code> 是最常见的初始化系统，因此你可以用它来达到此目的。
+只要在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">/etc/systemd/system/git-daemon.service</code> 中放一个文件即可，其内容如下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>[Unit]
+Description=Start Git Daemon
+
+[Service]
+ExecStart=/usr/bin/git daemon --reuseaddr --base-path=/srv/git/ /srv/git/
+
+Restart=always
+RestartSec=500ms
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=git-daemon
+
+User=git
+Group=git
+
+[Install]
+WantedBy=multi-user.target</code></p>
+
+<p>你可能会注意这里以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git</code> 启动的 Git 驻留程序同时使用了 Group 和 User 权限。
+按需修改它并确保提供的用户在此系统上。此外，请确保 Git 二进制文件位于
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">/usr/bin/git</code>，必要时可修改此路径。</p>
+
+<p>最后，你需要运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">systemctl enable git-daemon</code> 以让它在系统启动时自动运行，
+这样也能让它通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">systemctl start git-daemon</code> 启动，通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">systemctl stop git-daemon</code> 停止。</p>
+
+<p>在其他系统中，你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">sysvinit</code> 系统中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">xinetd</code> 脚本，或者另外的方式来实现——只要你能够将其命令守护进程化并实现监控。</p>
+
+<p>接下来，你需要告诉 Git 哪些仓库允许基于服务器的无授权访问。
+你可以在每个仓库下创建一个名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-daemon-export-ok</code> 的文件来实现。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cd /path/to/project.git
+<span style="font-weight: bold">$ </span>touch git-daemon-export-ok</code></p>
+
+<p>该文件将允许 Git 提供无需授权的项目访问服务。</p>
+<p><strong>Smart HTTP</strong></p>

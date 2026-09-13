@@ -1,0 +1,150 @@
+caption: 合并冲突
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 高级合并 › 合并冲突
+tidme.chars: 2555
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 6254536ef2108b02
+tidme.id: s7355a4a6d7ad
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000125
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/合并冲突-s7355a4a6d7ad
+type: text/vnd.tiddlywiki
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_basic_merge_conflicts" href="ch03-git-branching.xhtml#_basic_merge_conflicts" class="xref">遇到冲突时的分支合并</a> 介绍了解决合并冲突的一些基础知识，
+对于更复杂的冲突，Git 提供了几个工具来帮助你指出将会发生什么以及如何更好地处理冲突。</p>
+
+<p>首先，在做一次可能有冲突的合并前尽可能保证工作目录是干净的。
+如果你有正在做的工作，要么提交到一个临时分支要么储藏它。
+这使你可以撤消在这里尝试做的 <strong xmlns="http://www.w3.org/1999/xhtml">任何事情</strong> 。
+如果在你尝试一次合并时工作目录中有未保存的改动，下面的这些技巧可能会使你丢失那些工作。</p>
+
+<p>让我们通过一个非常简单的例子来了解一下。
+我们有一个超级简单的打印 'hello world' 的 Ruby 文件。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-style: italic">#! /usr/bin/env ruby</span>
+
+<span style="font-weight: bold">def</span> hello
+  puts <span style="font-style: italic">'hello world'</span>
+<span style="font-weight: bold">end</span>
+
+hello()</code></p>
+
+<p>在我们的仓库中，创建一个名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">whitespace</code> 的新分支并将所有 Unix 换行符修改为 DOS 换行符，
+实质上虽然改变了文件的每一行，但改变的都只是空白字符。
+然后我们修改行 “hello world” 为 “hello mundo”。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout -b whitespace
+Switched to a new branch 'whitespace'
+
+<span style="font-weight: bold">$ </span>unix2dos hello.rb
+unix2dos: converting file hello.rb to DOS format ...
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'converted hello.rb to DOS'</span>
+[whitespace 3270f76] converted hello.rb to DOS
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+<span style="font-weight: bold">$ </span>vim hello.rb
+<span style="font-weight: bold">$ </span>git diff -b
+diff --git a/hello.rb b/hello.rb
+index ac51efd..e85207e 100755
+--- a/hello.rb
++++ b/hello.rb
+@@ -1,7 +1,7 @@
+<span style="font-weight: bold"> #</span>! /usr/bin/env ruby
+
+ def hello
+-  puts 'hello world'
++  puts 'hello mundo'^M
+ end
+
+ hello()
+
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'hello mundo change'</span>
+[whitespace 6d338d2] hello mundo change
+ 1 file changed, 1 insertion(+), 1 deletion(-)</code></p>
+
+<p>现在我们切换回我们的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支并为函数增加一些注释。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout master
+Switched to branch 'master'
+
+<span style="font-weight: bold">$ </span>vim hello.rb
+<span style="font-weight: bold">$ </span>git diff
+diff --git a/hello.rb b/hello.rb
+index ac51efd..36c06c8 100755
+--- a/hello.rb
++++ b/hello.rb
+@@ -1,5 +1,6 @@
+<span style="font-weight: bold"> #</span>! /usr/bin/env ruby
+
++# prints out a greeting
+ def hello
+   puts 'hello world'
+ end
+
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'document the function'</span>
+[master bec6336] document the function
+ 1 file changed, 1 insertion(+)</code></p>
+
+<p>现在我们尝试合并入我们的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">whitespace</code> 分支，因为修改了空白字符，所以合并会出现冲突。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge whitespace
+Auto-merging hello.rb
+CONFLICT (content): Merge conflict in hello.rb
+Automatic merge failed; fix conflicts and then commit the result.</code></p>
+<p><strong>中断一次合并</strong></p>
+<p>我们现在有几个选项。
+首先，让我们介绍如何摆脱这个情况。
+你可能不想处理冲突这种情况，完全可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge --abort</code> 来简单地退出合并。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status -sb
+<span style="font-weight: bold">#</span><span style="font-style: italic"># master</span>
+UU hello.rb
+
+<span style="font-weight: bold">$ </span>git merge --abort
+
+<span style="font-weight: bold">$ </span>git status -sb
+<span style="font-weight: bold">#</span><span style="font-style: italic"># master</span></code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge --abort</code> 选项会尝试恢复到你运行合并前的状态。
+但当运行命令前，在工作目录中有未储藏、未提交的修改时它不能完美处理，除此之外它都工作地很好。</p>
+
+<p>如果出于某些原因你想要重来一次，也可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset --hard HEAD</code> 回到上一次提交的状态。
+请牢记此时任何未提交的工作都会丢失，所以请确认你不需要保留任何改动。</p>
+<p><strong>忽略空白</strong></p>
+<p>在这个特定的例子中，冲突与空白有关。
+我们知道这点是因为这个例子很简单，但是在实际的例子中发现这样的冲突也很容易，
+因为每一行都被移除而在另一边每一行又被加回来了。
+默认情况下，Git 认为所有这些行都改动了，所以它不会合并文件。</p>
+
+<p>默认合并策略可以带有参数，其中的几个正好是关于忽略空白改动的。
+如果你看到在一次合并中有大量关于空白的问题，你可以直接中止它并重做一次，
+这次使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-Xignore-all-space</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-Xignore-space-change</code> 选项。
+第一个选项在比较行时 <strong xmlns="http://www.w3.org/1999/xhtml">完全忽略</strong> 空白修改，第二个选项将一个空白符与多个连续的空白字符视作等价的。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge -Xignore-space-change whitespace
+Auto-merging hello.rb
+Merge made by the 'recursive' strategy.
+ hello.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)</code></p>
+
+<p>因为在本例中，实际上文件修改并没有冲突，一旦我们忽略空白修改，每一行都能被很好地合并。</p>
+
+<p>如果你的团队中的某个人可能不小心重新格式化空格为制表符或者相反的操作，这会是一个救命稻草。</p>

@@ -1,0 +1,55 @@
+caption: 推送
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › “origin” 并无特殊含义 › 推送
+tidme.chars: 932
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: d5fd3e13840df2e7
+tidme.id: s397f1e77e9e1
+tidme.kind: topic
+tidme.level: 3
+tidme.order: 000048
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/推送-s397f1e77e9e1
+type: text/vnd.tiddlywiki
+
+<p>
+当你想要公开分享一个分支时，需要将其推送到有写入权限的远程仓库上。
+本地的分支并不会自动与远程仓库同步——你必须显式地推送想要分享的分支。
+这样，你就可以把不愿意分享的内容放到私人分支上，而将需要和别人协作的内容推送到公开分支。</p>
+
+<p>如果希望和别人一起在名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code> 的分支上工作，你可以像推送第一个分支那样推送它。
+运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push &lt;remote&gt; &lt;branch&gt;</code>:</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git push origin serverfix
+Counting objects: 24, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (15/15), done.
+Writing objects: 100% (24/24), 1.91 KiB | 0 bytes/s, done.
+Total 24 (delta 2), reused 0 (delta 0)
+To https://github.com/schacon/simplegit
+ * [new branch]      serverfix -&gt; serverfix</code></p>
+
+<p>这里有些工作被简化了。
+Git 自动将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code> 分支名字展开为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/heads/serverfix:refs/heads/serverfix</code>，
+那意味着，“推送本地的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code> 分支来更新远程仓库上的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code> 分支。”
+我们将会详细学习 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals" href="ch10-git-internals.xhtml" class="xref">Git 内部原理</a> 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/heads/</code> 部分，
+但是现在可以先把它放在儿。你也可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push origin serverfix:serverfix</code>，
+它会做同样的事——也就是说“推送本地的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code> 分支，将其作为远程仓库的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code> 分支”
+可以通过这种格式来推送本地分支到一个命名不相同的远程分支。
+如果并不想让远程仓库上的分支叫做 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code>，可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push origin serverfix:awesomebranch</code>
+来将本地的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code> 分支推送到远程仓库上的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">awesomebranch</code> 分支。</p>

@@ -1,0 +1,218 @@
+caption: git log
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 命令 › 分支与合并 › git log
+tidme.chars: 3919
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/C-git-commands.xhtml
+tidme.format: epub
+tidme.hash: 7e280d7066acbc09
+tidme.id: seded4f9fa529
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000237
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/git-log-seded4f9fa529
+type: text/vnd.tiddlywiki
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 命令用来展示一个项目的可达历史记录，从最近的提交快照起。
+默认情况下，它只显示你当前所在分支的历史记录，但是可以显示不同的甚至多个头记录或分支以供遍历。
+此命令通常也用来在提交记录级别显示两个或多个分支之间的差异。</p>
+
+<p>在本书的每一章几乎都有用到此命令来描述一个项目的历史。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_viewing_history" href="ch02-git-basics-chapter.xhtml#_viewing_history" class="xref">查看提交历史</a> 一节中我们介绍了此命令，并深入做了研究。
+研究了包括 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-p</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--stat</code> 选项来了解每一个提交引入的变更，及使用`--pretty` 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--online</code> 选项来查看简洁的历史记录。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch03-git-branching.xhtml#_create_new_branch" class="xref">分支创建</a> 一节中我们使用它加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--decorate</code> 选项来简单的可视化我们分支的指针所在，同时我们使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--graph</code> 选项来查看分叉的历史记录是怎么样的。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_private_team" href="ch05-distributed-git.xhtml#_private_team" class="xref">私有小型团队</a> 和 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_commit_ranges" href="ch07-git-tools.xhtml#_commit_ranges" class="xref">提交区间</a> 章节中，我们介绍了在使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 命令时用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">branchA..branchB</code> 的语法来查看一个分支相对于另一个分支, 哪一些提交是唯一的。
+在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_commit_ranges" class="xref">提交区间</a> 一节中我们作了更多介绍。</p>
+
+<p>在 &lt;_merge_log&gt;&gt; 和 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_triple_dot" href="ch07-git-tools.xhtml#_triple_dot" class="xref">三点</a> 章节中，我们介绍了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">branchA…​branchB</code> 格式和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--left-right</code> 语法来查看哪些仅其中一个分支。
+在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_merge_log" href="ch07-git-tools.xhtml#_merge_log" class="xref">合并日志</a> 一节中我们还研究了如何使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--merge</code> 选项来帮助合并冲突调试，同样也使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--cc</code> 选项来查看在你历史记录中的合并提交的冲突。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_git_reflog" href="ch07-git-tools.xhtml#_git_reflog" class="xref">引用日志</a> 一节中我们使用此工具和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-g</code> 选项 而不是遍历分支来查看 Git 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reflog</code>。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_searching" href="ch07-git-tools.xhtml#_searching" class="xref">搜索</a> 一节中我们研究了`-S` 及 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-L</code> 选项来进行来在代码的历史变更中进行相当优雅地搜索，如一个函数的历史。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_signing_commits" class="xref">签署提交</a> 一节中，我们了解了如何使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--show-signature</code> 来为每一个提交的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 输出中，添加一个判断是否已经合法的签名的一个验证。</p>
+<p><strong>git stash</strong></p>
+
+<p><strong>git stash</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git stash</code> 命令用来临时地保存一些还没有提交的工作，以便在分支上不需要提交未完成工作就可以清理工作目录。</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_git_stashing" href="ch07-git-tools.xhtml#_git_stashing" class="xref">贮藏与清理</a> 一整个章节基本就是在讲这个命令。</p>
+<p><strong>git tag</strong></p>
+
+<p><strong>git tag</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git tag</code> 命令用来为代码历史记录中的某一个点指定一个永久的书签。
+一般来说它用于发布相关事项。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_git_tagging" href="ch02-git-basics-chapter.xhtml#_git_tagging" class="xref">打标签</a> 一节中介绍了此命令及相关细节，并在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_tagging_releases" href="ch05-distributed-git.xhtml#_tagging_releases" class="xref">为发布打标签</a> 一节实践了此命令。</p>
+
+<p>我也在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_signing" href="ch07-git-tools.xhtml#_signing" class="xref">签署工作</a> 一节中介绍了如何使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-s</code> 标志创建一个 GPG 签名的标签，然后使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-v</code> 选项来验证。</p>
+<p><strong>项目分享与更新</strong></p>
+
+<p><strong>项目分享与更新</strong></p>
+<p>在 Git 中没有多少访问网络的命令，几乎所以的命令都是在操作本地的数据库。
+当你想要分享你的工作，或者从其他地方拉取变更时，这有几个处理远程仓库的命令。</p>
+<p><strong>git fetch</strong></p>
+
+<p><strong>git fetch</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fetch</code> 命令与一个远程的仓库交互，并且将远程仓库中有但是在当前仓库的没有的所有信息拉取下来然后存储在你本地数据库中。</p>
+
+<p>我们开始在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_fetching_and_pulling" href="ch02-git-basics-chapter.xhtml#_fetching_and_pulling" class="xref">从远程仓库中抓取与拉取</a> 一节中介绍了此命令，然后我们在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch03-git-branching.xhtml#_remote_branches" class="xref">远程分支</a> 中看到了几个使用示例。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_contributing_project" href="ch05-distributed-git.xhtml#_contributing_project" class="xref">向一个项目贡献</a> 一节中有几个示例中也都有使用此命令。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch06-github--_pr_refs" href="ch06-github.xhtml#_pr_refs" class="xref">合并请求引用</a> 我们用它来抓取一个在默认空间之外指定的引用，在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_bundling" class="xref">打包</a> 中，我们了解了怎么从一个包中获取内容。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals--_refspec" href="ch10-git-internals.xhtml#_refspec" class="xref">引用规范</a> 章节中我们设置了高度自定义的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refspec</code> 以便 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fetch</code> 可以做一些跟默认不同的事情。</p>
+<p><strong>git pull</strong></p>
+
+<p><strong>git pull</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 命令基本上就是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fetch</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code> 命令的组合体，Git 从你指定的远程仓库中抓取内容，然后马上尝试将其合并进你所在的分支中。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch02-git-basics-chapter.xhtml#_fetching_and_pulling" class="xref">从远程仓库中抓取与拉取</a> 一节中快速介绍了此命令，然后在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_inspecting_remote" href="ch02-git-basics-chapter.xhtml#_inspecting_remote" class="xref">查看某个远程仓库</a> 一节中了解了如果你运行此命令的话，什么将会合并。</p>
+
+<p>我们也在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_rebase_rebase" href="ch03-git-branching.xhtml#_rebase_rebase" class="xref">用变基解决变基</a> 一节中了解了如何使用此命令来来处理变基的难题。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_checking_out_conflicts" class="xref">检出冲突</a> 一节中我们展示了使用此命令如何通过一个 URL 来一次性的拉取变更。</p>
+
+<p>最后，我们在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_signing_commits" class="xref">签署提交</a> 一节中我们快速的介绍了你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--verify-signatures</code> 选项来验证你正在拉取下来的经过 GPG 签名的提交。</p>
+<p><strong>git push</strong></p>
+
+<p><strong>git push</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push</code> 命令用来与另一个仓库通信，计算你本地数据库与远程仓库的差异，然后将差异推送到另一个仓库中。
+它需要有另一个仓库的写权限，因此这通常是需要验证的。</p>
+
+<p>我们开始在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_pushing_remotes" href="ch02-git-basics-chapter.xhtml#_pushing_remotes" class="xref">推送到远程仓库</a> 一节中介绍了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push</code> 命令。
+在这一节中主要介绍了推送一个分支到远程仓库的基本用法。
+在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_pushing_branches" href="ch03-git-branching.xhtml#_pushing_branches" class="xref">推送</a> 一节中，我们深入了解了如何推送指定分支，在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch03-git-branching.xhtml#_tracking_branches" class="xref">跟踪分支</a> 一节中我们了解了如何设置一个默认的推送的跟踪分支。
+在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_delete_branches" href="ch03-git-branching.xhtml#_delete_branches" class="xref">删除远程分支</a> 一节中我们使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--delete</code> 标志和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push</code> 命令来在删除一个在服务器上的分支。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch05-distributed-git.xhtml#_contributing_project" class="xref">向一个项目贡献</a> 一整节中，我们看到了几个使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push</code> 在多个远程仓库分享分支中的工作的示例。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_sharing_tags" href="ch02-git-basics-chapter.xhtml#_sharing_tags" class="xref">共享标签</a> 一节中，我们知道了如何使用此命令加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--tags</code> 选项来分享你打的标签。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_publishing_submodules" href="ch07-git-tools.xhtml#_publishing_submodules" class="xref">发布子模块改动</a> 一节中，我们使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code> 选项来检查是否我们所有的子模块的工作都已经在推送子项目之前已经推送出去了，当使用子模块时这真的很有帮助。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch08-customizing-git--_other_client_hooks" href="ch08-customizing-git.xhtml#_other_client_hooks" class="xref">其它客户端钩子</a> 中我们简单的提到了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-push</code> 挂钩（hook），它是一个可以用来设置成在一个推送完成之前运行的脚本，以检查推送是否被允许。</p>
+
+<p>最后，在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals--_pushing_refspecs" href="ch10-git-internals.xhtml#_pushing_refspecs" class="xref">引用规范推送</a> 一节中，我们知道了使用完整的 refspec 来推送，而不是通常使用的简写形式。
+这对我们精确的指定要分享出去的工作很有帮助。</p>
+<p><strong>git remote</strong></p>
+
+<p><strong>git remote</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote</code> 命令是一个是你远程仓库记录的管理工具。
+它允许你将一个长的 URL 保存成一个简写的句柄，例如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code> ，这样你就可以不用每次都输入他们了。
+你可以有多个这样的句柄，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote</code> 可以用来添加，修改，及删除它们。</p>
+
+<p>此命令在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_remote_repos" href="ch02-git-basics-chapter.xhtml#_remote_repos" class="xref">远程仓库的使用</a> 一节中做了详细的介绍，包括列举、添加、移除、重命名功能。</p>
+
+<p>几乎在此书的后续章节中都有使用此命令，但是一般是以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote add &lt;name&gt; &lt;url&gt;</code> 这样的标准格式。</p>
+<p><strong>git archive</strong></p>
+
+<p><strong>git archive</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git archive</code> 命令用来创建项目一个指定快照的归档文件。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_preparing_release" href="ch05-distributed-git.xhtml#_preparing_release" class="xref">准备一次发布</a> 一节中，使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git archive</code> 命令来创建一个项目的归档文件用于分享。</p>
+<p><strong>git submodule</strong></p>
+
+<p><strong>git submodule</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule</code> 命令用来管理一个仓库的其他外部仓库。
+它可以被用在库或者其他类型的共享资源上。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">submodule</code> 命令有几个子命令, 如（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">add</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">update</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">sync</code> 等等）用来管理这些资源。</p>
+
+<p>只在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_git_submodules" href="ch07-git-tools.xhtml#_git_submodules" class="xref">子模块</a> 章节中提到和详细介绍了此命令。</p>
+<p><strong>检查与比较</strong></p>
+
+<p><strong>git show</strong></p>
+
+<p><strong>git show</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show</code> 命令可以以一种简单的人类可读的方式来显示一个 Git 对象。
+你一般使用此命令来显示一个标签或一个提交的信息。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_annotated_tags" href="ch02-git-basics-chapter.xhtml#_annotated_tags" class="xref">附注标签</a> 一节中使用此命令来显示带注解标签的信息。</p>
+
+<p>然后，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_revision_selection" href="ch07-git-tools.xhtml#_revision_selection" class="xref">选择修订版本</a> 一节中，用了很多次来显示不同的版本选择将解析出来的提交。</p>
+
+<p>我们使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show</code> 做的最有意思的事情是在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_manual_remerge" href="ch07-git-tools.xhtml#_manual_remerge" class="xref">手动文件再合并</a> 一节中用来在合并冲突的多个暂存区域中提取指定文件的内容。</p>
+<p><strong>git shortlog</strong></p>
+
+<p><strong>git shortlog</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git shortlog</code> 是一个用来归纳 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 的输出的命令。
+它可以接受很多与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 相同的选项，但是此命令并不会列出所有的提交，而是展示一个根据作者分组的提交记录的概括性信息</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_the_shortlog" href="ch05-distributed-git.xhtml#_the_shortlog" class="xref">制作提交简报</a> 一节中展示了如何使用此命令来创建一个漂亮的 changelog 文件。</p>
+<p><strong>git describe</strong></p>
+
+<p><strong>git describe</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git describe</code> 命令用来接受任何可以解析成一个提交的东西，然后生成一个人类可读的字符串且不可变。
+这是一种获得一个提交的描述的方式，它跟一个提交的 SHA-1 值一样是无歧义，但是更具可读性。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_build_number" href="ch05-distributed-git.xhtml#_build_number" class="xref">生成一个构建号</a> 及 <a xmlns="http://www.w3.org/1999/xhtml" href="ch05-distributed-git.xhtml#_preparing_release" class="xref">准备一次发布</a> 章节中使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git describe</code> 命令来获得一个字符串来命名我们发布的文件。</p>
+<p><strong>调试</strong></p>
+
+<p><strong>调试</strong></p>
+<p>Git 有一些命令可以用来帮你调试你代码中的问题。
+包括找出是什么时候，是谁引入的变更。</p>
+<p><strong>git bisect</strong></p>
+
+<p><strong>git bisect</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git bisect</code> 工具是一个非常有用的调试工具，它通过自动进行一个二分查找来找到哪一个特定的提交是导致 bug 或者问题的第一个提交。</p>
+
+<p>仅在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_binary_search" href="ch07-git-tools.xhtml#_binary_search" class="xref">二分查找</a> 一节中完整的介绍了此命令。</p>
+<p><strong>git blame</strong></p>
+
+<p><strong>git blame</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git blame</code> 命令标注任何文件的行，指出文件的每一行的最后的变更的提交及谁是那一个提交的作者。
+当你要找那个人去询问关于这块特殊代码的信息时这会很有用。</p>
+
+<p>只有 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_file_annotation" href="ch07-git-tools.xhtml#_file_annotation" class="xref">文件标注</a> 一节中提到此命令。</p>
+<p><strong>git grep</strong></p>
+
+<p><strong>git grep</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git grep</code> 命令可以帮助在源代码中，甚至是你项目的老版本中的任意文件中查找任何字符串或者正则表达式。</p>
+
+<p>只有 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_git_grep" href="ch07-git-tools.xhtml#_git_grep" class="xref">Git Grep</a> 的章节中提到此命令。</p>
+<p><strong>补丁</strong></p>
+
+<p><strong>补丁</strong></p>
+<p>Git 中的一些命令是以引入的变更即提交这样的概念为中心的，这样一系列的提交，就是一系列的补丁。
+这些命令以这样的方式来管理你的分支。</p>
+<p><strong>git cherry-pick</strong></p>
+
+<p><strong>git cherry-pick</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git cherry-pick</code> 命令用来获得在单个提交中引入的变更，然后尝试将作为一个新的提交引入到你当前分支上。
+从一个分支单独一个或者两个提交而不是合并整个分支的所有变更是非常有用的。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_rebase_cherry_pick" href="ch05-distributed-git.xhtml#_rebase_cherry_pick" class="xref">变基与拣选工作流</a> 一节中描述和演示了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Cherry picking</code></p>
+<p><strong>git rebase</strong></p>
+
+<p><strong>git rebase</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase</code> 命令基本是是一个自动化的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">cherry-pick</code> 命令。
+它计算出一系列的提交，然后再以它们在其他地方以同样的顺序一个一个的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">cherry-picks</code> 出它们。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch03-git-branching.xhtml#_rebasing" class="xref">变基</a> 一章中详细提到了此命令，包括与已经公开的分支的变基所涉及的协作问题。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_replace" href="ch07-git-tools.xhtml#_replace" class="xref">替换</a> 中我们在一个分离历史记录到两个单独的仓库的示例中实践了此命令，同时使用了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--onto</code> 选项。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--ef_rerere" href="ch07-git-tools.xhtml#ef_rerere" class="xref">Rerere</a> 一节中，我们研究了在变基时遇到的合并冲突的问题。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_changing_multiple" href="ch07-git-tools.xhtml#_changing_multiple" class="xref">修改多个提交信息</a> 一节中，我们也结合 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-i</code> 选项将其用于交互式的脚本模式。</p>
+<p><strong>git revert</strong></p>

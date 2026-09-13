@@ -1,0 +1,88 @@
+caption: 发布子模块改动
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 子模块 › 在包含子模块的项目上工作 › 发布子模块改动
+tidme.chars: 1688
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 80f5f5c7e80d4f3d
+tidme.id: s08bbcb47f701
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000142
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/发布子模块改动-s08bbcb47f701
+type: text/vnd.tiddlywiki
+
+<p>现在我们的子模块目录中有一些改动。
+其中有一些是我们通过更新从上游引入的，而另一些是本地生成的，由于我们还没有推送它们，所以对任何其他人都不可用。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff
+Submodule DbConnector c87d55d..82d2ad3:
+  &gt; Merge from origin/stable
+  &gt; updated setup script
+  &gt; unicode support
+  &gt; remove unnecessary method
+  &gt; add new option for conn pooling</code></p>
+
+<p>如果我们在主项目中提交并推送但并不推送子模块上的改动，其他尝试检出我们修改的人会遇到麻烦，
+因为他们无法得到依赖的子模块改动。那些改动只存在于我们本地的拷贝中。</p>
+
+<p>为了确保这不会发生，你可以让 Git 在推送到主项目前检查所有子模块是否已推送。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push</code> 命令接受可以设置为 “check” 或 “on-demand” 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code> 参数。
+如果任何提交的子模块改动没有推送那么 “check” 选项会直接使 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">push</code> 操作失败。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git push --recurse-submodules=check
+The following submodule paths contain changes that can
+not be found on any remote:
+  DbConnector
+
+Please try
+
+	git push --recurse-submodules=on-demand
+
+or cd to the path and use
+
+	git push
+
+to push them to a remote.</code></p>
+
+<p>如你所见，它也给我们了一些有用的建议，指导接下来该如何做。
+最简单的选项是进入每一个子模块中然后手动推送到远程仓库，确保它们能被外部访问到，之后再次尝试这次推送。
+如果你想要对所有推送都执行检查，那么可以通过设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config push.recurseSubmodules check</code> 让它成为默认行为。</p>
+
+<p>另一个选项是使用 “on-demand” 值，它会尝试为你这样做。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git push --recurse-submodules=on-demand
+Pushing submodule 'DbConnector'
+Counting objects: 9, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (9/9), 917 bytes | 0 bytes/s, done.
+Total 9 (delta 3), reused 0 (delta 0)
+To https://github.com/chaconinc/DbConnector
+   c75e92a..82d2ad3  stable -&gt; stable
+Counting objects: 2, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 266 bytes | 0 bytes/s, done.
+Total 2 (delta 1), reused 0 (delta 0)
+To https://github.com/chaconinc/MainProject
+   3d6d338..9a377d1  master -&gt; master</code></p>
+
+<p>如你所见，Git 进入到 DbConnector 模块中然后在推送主项目前推送了它。
+如果那个子模块因为某些原因推送失败，主项目也会推送失败。
+你也可以通过设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config push.recurseSubmodules on-demand</code> 让它成为默认行为。</p>

@@ -1,0 +1,106 @@
+caption: 开始
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Mercurial › 开始
+tidme.chars: 2037
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: 14829a4eb791a9b3
+tidme.id: sd9a45311ab29
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000178
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/开始-sd9a45311ab29
+type: text/vnd.tiddlywiki
+
+<p>既然有一个可用的 “server-side” 仓库，我们可以通过一个典型的工作流来了解。
+你将会看到，这两种系统非常相似，没有太多的出入。</p>
+
+<p>和 Git 一样，首先我们克隆：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone hg::/tmp/hello /tmp/hello-git
+<span style="font-weight: bold">$ </span>cd /tmp/hello-git
+<span style="font-weight: bold">$ </span>git log --oneline --graph --decorate
+* ac7955c (HEAD, origin/master, origin/branches/default, origin/HEAD, refs/hg/origin/branches/default, refs/hg/origin/bookmarks/master, master) Create a makefile
+* 65bb417 Create a standard "hello, world" program</code></p>
+
+<p>你会注意到与 Mercurial 仓库工作时使用了标准的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clone</code> 命令。
+那是因为 git-remote-hg 工作在相当低的底层，使用类似于 Git HTTP/S 协议的机制实现的（远程助手）。
+由于 Git 与 Mercurial 都设计为每一个客户端有一个仓库的完整历史，所以这个命令做了一次完整的克隆，包括所有的项目历史，并且相当快地完成。</p>
+
+<p>log 命令显示了两次提交，最后一次提交指向了一大堆引用。
+那说明这其中的一部分实际上并没有在那儿。
+让我们看看 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 目录中实际上有什么：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>tree .git/refs
+.git/refs
+├── heads
+│   └── master
+├── hg
+│   └── origin
+│       ├── bookmarks
+│       │   └── master
+│       └── branches
+│           └── default
+├── notes
+│   └── hg
+├── remotes
+│   └── origin
+│       └── HEAD
+└── tags
+
+9 directories, 5 files</code></p>
+
+<p>Git-remote-hg 尝试让结构更有 Git 风格，但是在隐藏在下面的是它管理两个轻微不同系统之间概念的映射。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/hg</code> 目录中存储了实际的远程引用。
+例如，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/hg/origin/branches/default</code> 是一个包含以 “ac7955c” 开始的 SHA-1 值的 Git 引用文件，是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 所指向的提交。
+所以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/hg</code> 目录是一种类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/remotes/origin</code> 的替代品，但是它引入了书签与分支的区别。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">notes/hg</code> 文件是 git-remote-hg 如何在 Git 的提交散列与 Mercurial 变更集 ID 之间建立映射的起点。
+让我们来探索一下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cat notes/hg
+d4c10386...
+
+<span style="font-weight: bold">$ </span>git cat-file -p d4c10386...
+tree 1781c96...
+author remote-hg &lt;&gt; 1408066400 -0800
+committer remote-hg &lt;&gt; 1408066400 -0800
+
+Notes for master
+
+<span style="font-weight: bold">$ </span>git ls-tree 1781c96...
+100644 blob ac9117f...	65bb417...
+100644 blob 485e178...	ac7955c...
+
+<span style="font-weight: bold">$ </span>git cat-file -p ac9117f
+0a04b987be5ae354b710cefeba0e2d9de7ad41a9</code></p>
+
+<p>所以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/notes/hg</code> 指向了一个树，即在 Git 对象数据库中的一个有其他对象名字的列表。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git ls-tree</code> 输出 tree 对象中所有项目的模式、类型、对象哈希与文件名。
+如果深入挖掘 tree 对象中的一个项目，我们会发现在其中是一个名字为 “ac9117f” 的 blob 对象（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 所指向提交的 SHA-1 散列值），包含内容 “0a04b98” （是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">default</code> 分支指向的 Mercurial 变更集的 ID）。</p>
+
+<p>好消息是大多数情况下我们不需要关心以上这些。
+典型的工作流程与使用 Git 远程仓库并没有什么不同。</p>
+
+<p>在我们继续之前，这里还有一件需要注意的事情：忽略。
+Mercurial 与 Git 使用非常类似的机制实现这个功能，但是一般来说你不会想要把一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件提交到 Mercurial 仓库中。
+幸运的是，Git 有一种方式可以忽略本地磁盘仓库的文件，而且 Mercurial 格式是与 Git 兼容的，所以你只需将这个文件拷贝过去：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cp .hgignore .git/info/exclude</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/info/exclude</code> 文件的作用像是一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code>，但是它不包含在提交中。</p>

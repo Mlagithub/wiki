@@ -1,0 +1,66 @@
+caption: 变基的风险
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › 变基 › 变基的风险
+tidme.chars: 890
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: f1109c598e05ae4e
+tidme.id: s86d9b7bf2c39
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000054
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/变基的风险-s86d9b7bf2c39
+type: text/vnd.tiddlywiki
+
+<p>
+呃，奇妙的变基也并非完美无缺，要用它得遵守一条准则：</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml">如果提交存在于你的仓库之外，而别人可能基于这些提交进行开发，那么不要执行变基。</strong></p>
+
+<p>如果你遵循这条金科玉律，就不会出差错。
+否则，人民群众会仇恨你，你的朋友和家人也会嘲笑你，唾弃你。</p>
+
+<p>变基操作的实质是丢弃一些现有的提交，然后相应地新建一些内容一样但实际上不同的提交。
+如果你已经将提交推送至某个仓库，而其他人也已经从该仓库拉取提交并进行了后续工作，此时，如果你用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase</code> 命令重新整理了提交并再次推送，你的同伴因此将不得不再次将他们手头的工作与你的提交进行整合，如果接下来你还要拉取并整合他们修改过的提交，事情就会变得一团糟。</p>
+
+<p>让我们来看一个在公开的仓库上执行变基操作所带来的问题。
+假设你从一个中央服务器克隆然后在它的基础上进行了一些开发。
+你的提交历史如图所示：</p>
+
+<figcaption>Figure 36. 克隆一个仓库，然后在它的基础上进行了一些开发</figcaption>
+
+<p>然后，某人又向中央服务器提交了一些修改，其中还包括一次合并。
+你抓取了这些在远程分支上的修改，并将其合并到你本地的开发分支，然后你的提交历史就会变成这样：</p>
+
+<figcaption>Figure 37. 抓取别人的提交，合并到自己的开发分支</figcaption>
+
+<p>接下来，这个人又决定把合并操作回滚，改用变基；继而又用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push --force</code> 命令覆盖了服务器上的提交历史。
+之后你从服务器抓取更新，会发现多出来一些新的提交。</p>
+
+<figcaption>Figure 38. 有人推送了经过变基的提交，并丢弃了你的本地开发所基于的一些提交</figcaption>
+
+<p>结果就是你们两人的处境都十分尴尬。
+如果你执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 命令，你将合并来自两条提交历史的内容，生成一个新的合并提交，最终仓库会如图所示：</p>
+
+<figcaption>Figure 39. 你将相同的内容又合并了一次，生成了一个新的提交</figcaption>
+
+<p>此时如果你执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 命令，你会发现有两个提交的作者、日期、日志居然是一样的，这会令人感到混乱。
+此外，如果你将这一堆又推送到服务器上，你实际上是将那些已经被变基抛弃的提交又找了回来，这会令人感到更加混乱。
+很明显对方并不想在提交历史中看到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C4</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C6</code>，因为之前就是他把这两个提交通过变基丢弃的。</p>
+<p><strong>用变基解决变基</strong></p>

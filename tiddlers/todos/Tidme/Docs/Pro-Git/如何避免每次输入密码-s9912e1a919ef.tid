@@ -1,0 +1,60 @@
+caption: 如何避免每次输入密码
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › 如何避免每次输入密码
+tidme.chars: 955
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: bd2ef4809b3ca43b
+tidme.id: s9912e1a919ef
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000049
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/如何避免每次输入密码-s9912e1a919ef
+type: text/vnd.tiddlywiki
+
+<p>如果你正在使用 HTTPS URL 来推送，Git 服务器会询问用户名与密码。
+默认情况下它会在终端中提示服务器是否允许你进行推送。</p>
+
+<p>如果不想在每一次推送时都输入用户名与密码，你可以设置一个 “credential cache”。
+最简单的方式就是将其保存在内存中几分钟，可以简单地运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global credential.helper cache</code> 来设置它。</p>
+
+<p>想要了解更多关于不同验证缓存的可用选项，查看 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_credential_caching" href="ch07-git-tools.xhtml#_credential_caching" class="xref">凭证存储</a>。</p>
+
+<p>下一次其他协作者从服务器上抓取数据时，他们会在本地生成一个远程分支 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/serverfix</code>，指向服务器的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code> 分支的引用：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git fetch origin
+remote: Counting objects: 7, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 3 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From https://github.com/schacon/simplegit
+ * [new branch]      serverfix    -&gt; origin/serverfix</code></p>
+
+<p>要特别注意的一点是当抓取到新的远程跟踪分支时，本地不会自动生成一份可编辑的副本（拷贝）。
+换一句话说，这种情况下，不会有一个新的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code> 分支——只有一个不可以修改的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/serverfix</code> 指针。</p>
+
+<p>可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge origin/serverfix</code> 将这些工作合并到当前所在的分支。
+如果想要在自己的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">serverfix</code> 分支上工作，可以将其建立在远程跟踪分支之上：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout -b serverfix origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch 'serverfix'</code></p>
+
+<p>这会给你一个用于工作的本地分支，并且起点位于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/serverfix</code>。</p>
+<p><strong>跟踪分支</strong></p>

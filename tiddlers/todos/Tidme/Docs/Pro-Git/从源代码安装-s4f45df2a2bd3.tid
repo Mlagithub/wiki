@@ -1,0 +1,84 @@
+caption: 从源代码安装
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 起步 › 安装 Git › 从源代码安装
+tidme.chars: 1457
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch01-getting-started.xhtml
+tidme.format: epub
+tidme.hash: 8fac9bfd8db18bad
+tidme.id: s4f45df2a2bd3
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000009
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/从源代码安装-s4f45df2a2bd3
+type: text/vnd.tiddlywiki
+
+<p>有人觉得从源码安装 Git 更实用，因为你能得到最新的版本。
+二进制安装程序倾向于有一些滞后，当然近几年 Git 已经成熟，这个差异不再显著。</p>
+
+<p>如果你想从源码安装 Git，需要安装 Git 依赖的库：autotools、curl、zlib、openssl、expat 和 libiconv。
+如果你的系统上有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dnf</code> （如 Fedora）或者 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">apt</code>（如基于 Debian 的系统），
+可以使用对应的命令来安装最少的依赖以便编译并安装 Git 的二进制版：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>sudo dnf install dh-autoreconf curl-devel expat-devel gettext-devel <span style="font-weight: bold; font-style: italic">\</span>
+  openssl-devel perl-devel zlib-devel
+<span style="font-weight: bold">$ </span>sudo apt-get install dh-autoreconf libcurl4-gnutls-dev libexpat1-dev <span style="font-weight: bold; font-style: italic">\</span>
+  gettext libz-dev libssl-dev</code></p>
+
+<p>为了添加文档的多种格式（doc、html、info），需要以下附加的依赖：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>sudo dnf install asciidoc xmlto docbook2X
+<span style="font-weight: bold">$ </span>sudo apt-get install asciidoc xmlto docbook2x</code></p>
+
+<p>使用 RHEL 和 RHEL 衍生版，如 CentOS 和 Scientific Linux 的用户需要
+<a xmlns="http://www.w3.org/1999/xhtml" href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F" class="link">开启 EPEL 库</a>
+以便下载 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">docbook2X</code> 包。</p>
+
+<p>如果你使用基于 Debian 的发行版（Debian/Ubuntu/Ubuntu-derivatives），你也需要 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">install-info</code> 包：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>sudo apt-get install install-info</code></p>
+
+<p>如果你使用基于 RPM 的发行版（Fedora/RHEL/RHEL衍生版），你还需要 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">getopt</code> 包
+（它已经在基于 Debian 的发行版中预装了）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>sudo dnf install getopt</code></p>
+
+<p>此外，如果你使用 Fedora/RHEL/RHEL衍生版，那么你需要执行以下命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>sudo ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi</code></p>
+
+<p>以此来解决二进制文件名的不同。</p>
+
+<p>当你安装好所有的必要依赖，你可以继续从几个地方来取得最新发布版本的 tar 包。
+你可以从 Kernel.org 网站获取，网址为 <a xmlns="http://www.w3.org/1999/xhtml" href="https://www.kernel.org/pub/software/scm/git" class="link">https://www.kernel.org/pub/software/scm/git</a>，
+或从 GitHub 网站上的镜像来获得，网址为 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/git/git/releases" class="link">https://github.com/git/git/releases</a>。
+通常在 GitHub 上的是最新版本，但 kernel.org 上包含有文件下载签名，如果你想验证下载正确性的话会用到。</p>
+
+<p>接着，编译并安装：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>tar -zxf git-2.8.0.tar.gz
+<span style="font-weight: bold">$ </span>cd git-2.8.0
+<span style="font-weight: bold">$ </span>make configure
+<span style="font-weight: bold">$ </span>./configure --prefix=/usr
+<span style="font-weight: bold">$ </span>make all doc info
+<span style="font-weight: bold">$ </span>sudo make install install-doc install-html install-info</code></p>
+
+<p>完成后，你可以使用 Git 来获取 Git 的更新：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone git://git.kernel.org/pub/scm/git/git.git</code></p>
+<p><strong>初次运行 Git 前的配置</strong></p>

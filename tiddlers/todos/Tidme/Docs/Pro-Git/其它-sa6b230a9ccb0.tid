@@ -1,0 +1,62 @@
+caption: 其它
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › 环境变量 › 其它
+tidme.chars: 993
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 251bfc3a5ab0ff63
+tidme.id: sa6b230a9ccb0
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000216
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/其它-sa6b230a9ccb0
+type: text/vnd.tiddlywiki
+
+<p>如果指定了 <strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_SSH</code></strong>， Git 连接 SSH 主机时会用指定的程序代替 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ssh</code> 。
+它会被用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$GIT_SSH [username@]host [-p &lt;port&gt;] &lt;command&gt;</code> 的命令方式调用。
+这不是配置定制 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ssh</code> 调用方式的最简单的方法; 它不支持额外的命令行参数， 所以你必须写一个封装脚本然后让 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GIT_SSH</code> 指向它。
+可能用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~/.ssh/config</code> 会更简单。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_ASKPASS</code></strong> 覆盖了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">core.askpass</code> 配置。
+这是 Git 需要向用户请求验证时用到的程序，它接受一个文本提示作为命令行参数，并在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">stdout</code> 中返回应答。
+（查看 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_credential_caching" href="ch07-git-tools.xhtml#_credential_caching" class="xref">凭证存储</a> 访问更多相关内容）</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_NAMESPACE</code></strong> 控制有命令空间的引用的访问，与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--namespace</code> 标志是相同的。
+这主要在服务器端有用， 如果你想在一个版本库中存储单个版本库的多个 fork, 只要保持引用是隔离的就可以。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_FLUSH</code></strong> 强制 Git 在向标准输出增量写入时使用没有缓存的 I/O。
+设置为 1 让 Git 刷新更多， 设置为 0 则使所有的输出被缓存。
+默认值（若此变量未设置）是根据活动和输出模式的不同选择合适的缓存方案。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_REFLOG_ACTION</code></strong> 让你可以指定描述性的文字写到 reflog 中。
+这有个例子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>GIT_REFLOG_ACTION=<span style="font-style: italic">"my action"</span> git commit --allow-empty -m <span style="font-style: italic">'my message'</span>
+[master 9e3d55a] my message
+<span style="font-weight: bold">$ </span>git reflog -1
+9e3d55a HEAD@{0}: my action: my message</code></p>
+<p><strong>总结</strong></p>
+
+<p><strong>总结</strong></p>
+<p>现在，你应该相当了解 Git 在背后都做了些什么工作，并且在一定程度上也知道了 Git 是如何实现的。
+本章讨论了很多底层命令，这些命令比我们在本书其余部分学到的高层命令来得更原始，也更简洁。
+从底层了解 Git 的工作原理有助于更好地理解 Git 在内部是如何运作的，也方便你能够针对特定的工作流写出自己的工具和脚本。</p>
+
+<p>作为一套内容寻址文件系统，Git 不仅仅是一个版本控制系统，它同时是一个非常强大且易用的工具。
+我们希望你可以借助新学到的 Git 内部原理相关知识来实现出自己的应用，并且以更高级、更得心应手的方式来驾驭 Git。</p>

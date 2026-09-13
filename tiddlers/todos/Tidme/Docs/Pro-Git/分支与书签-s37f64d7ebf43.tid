@@ -1,0 +1,185 @@
+caption: 分支与书签
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Mercurial › 分支与书签
+tidme.chars: 3961
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: 1d6250686908817e
+tidme.id: s37f64d7ebf43
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000180
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/分支与书签-s37f64d7ebf43
+type: text/vnd.tiddlywiki
+
+<p>Git 只有一种类型的分支：当提交生成时移动的一个引用。
+在 Mercurial 中，这种类型的引用叫作 “bookmark”，它的行为非常类似于 Git 分支。</p>
+
+<p>Mercurial 的 “branch” 概念则更重量级一些。
+变更集生成时的分支会记录 <em xmlns="http://www.w3.org/1999/xhtml">在变更集中</em>，意味着它会永远地存在于仓库历史中。
+这个例子描述了一个在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code> 分支上的提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>hg log -l 1
+changeset:   6:8f65e5e02793
+branch:      develop
+tag:         tip
+user:        Ben Straub &lt;ben@straub.cc&gt;
+date:        Thu Aug 14 20:06:38 2014 -0700
+summary:     More documentation</code></p>
+
+<p>注意开头为 “branch” 的那行。
+Git 无法真正地模拟这种行为（并且也不需要这样做；两种类型的分支都可以表达为 Git 的一个引用），但是 git-remote-hg 需要了解其中的区别，因为 Mercurial 关心。</p>
+
+<p>创建 Mercurial 书签与创建 Git 分支一样容易。
+在 Git 这边：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout -b featureA
+Switched to a new branch 'featureA'
+<span style="font-weight: bold">$ </span>git push origin featureA
+To hg::/tmp/hello
+ * [new branch]      featureA -&gt; featureA</code></p>
+
+<p>这就是所要做的全部。
+在 Mercurial 这边，它看起来像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>hg bookmarks
+   featureA                  5:bd5ac26f11f9
+<span style="font-weight: bold">$ </span>hg log --style compact -G
+@  6[tip]   8f65e5e02793   2014-08-14 20:06 -0700   ben
+|    More documentation
+|
+o    5[featureA]:4,2   bd5ac26f11f9   2014-08-14 20:02 -0700   ben
+|\     Merge remote-tracking branch 'origin/master'
+| |
+| o  4   0434aaa6b91f   2014-08-14 20:01 -0700   ben
+| |    update makefile
+| |
+| o  3:1   318914536c86   2014-08-14 20:00 -0700   ben
+| |    goodbye
+| |
+o |  2   f098c7f45c4f   2014-08-14 20:01 -0700   ben
+|/     Add some documentation
+|
+o  1   82e55d328c8c   2005-08-26 01:21 -0700   mpm
+|    Create a makefile
+|
+o  0   0a04b987be5a   2005-08-26 01:20 -0700   mpm
+     Create a standard "hello, world" program</code></p>
+
+<p>注意在修订版本 5 上的新 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">[featureA]</code> 标签。
+在 Git 这边这些看起来像是 Git 分支，除了一点：不能从 Git 这边删除书签（这是远程助手的一个限制）。</p>
+
+<p>你也可以工作在一个 “重量级” 的 Mercurial branch：只需要在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">branches</code> 命名空间内创建一个分支：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout -b branches/permanent
+Switched to a new branch 'branches/permanent'
+<span style="font-weight: bold">$ </span>vi Makefile
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'A permanent change'</span>
+<span style="font-weight: bold">$ </span>git push origin branches/permanent
+To hg::/tmp/hello
+ * [new branch]      branches/permanent -&gt; branches/permanent</code></p>
+
+<p>下面是 Mercurial 这边的样子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>hg branches
+permanent                      7:a4529d07aad4
+develop                        6:8f65e5e02793
+default                        5:bd5ac26f11f9 (inactive)
+<span style="font-weight: bold">$ </span>hg log -G
+o  changeset:   7:a4529d07aad4
+|  branch:      permanent
+|  tag:         tip
+|  parent:      5:bd5ac26f11f9
+|  user:        Ben Straub &lt;ben@straub.cc&gt;
+|  date:        Thu Aug 14 20:21:09 2014 -0700
+|  summary:     A permanent change
+|
+| @  changeset:   6:8f65e5e02793
+|/   branch:      develop
+|    user:        Ben Straub &lt;ben@straub.cc&gt;
+|    date:        Thu Aug 14 20:06:38 2014 -0700
+|    summary:     More documentation
+|
+o    changeset:   5:bd5ac26f11f9
+|\   bookmark:    featureA
+| |  parent:      4:0434aaa6b91f
+| |  parent:      2:f098c7f45c4f
+| |  user:        Ben Straub &lt;ben@straub.cc&gt;
+| |  date:        Thu Aug 14 20:02:21 2014 -0700
+| |  summary:     Merge remote-tracking branch 'origin/master'
+[...]</code></p>
+
+<p>分支名字 “permanent” 记录在序号 <em xmlns="http://www.w3.org/1999/xhtml">7</em> 的变更集中。</p>
+
+<p>在 Git 这边，对于其中任何一种风格的分支的工作都是相同的：仅仅是正常做的检出、提交、抓取、合并、拉取与推送。
+还有需要知道的一件事情是 Mercurial 不支持重写历史，只允许添加历史。
+下面是我们的 Mercurial 仓库在交互式的变基与强制推送后的样子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>hg log --style compact -G
+o  10[tip]   99611176cbc9   2014-08-14 20:21 -0700   ben
+|    A permanent change
+|
+o  9   f23e12f939c3   2014-08-14 20:01 -0700   ben
+|    Add some documentation
+|
+o  8:1   c16971d33922   2014-08-14 20:00 -0700   ben
+|    goodbye
+|
+| o  7:5   a4529d07aad4   2014-08-14 20:21 -0700   ben
+| |    A permanent change
+| |
+| | @  6   8f65e5e02793   2014-08-14 20:06 -0700   ben
+| |/     More documentation
+| |
+| o    5[featureA]:4,2   bd5ac26f11f9   2014-08-14 20:02 -0700   ben
+| |\     Merge remote-tracking branch 'origin/master'
+| | |
+| | o  4   0434aaa6b91f   2014-08-14 20:01 -0700   ben
+| | |    update makefile
+| | |
++---o  3:1   318914536c86   2014-08-14 20:00 -0700   ben
+| |      goodbye
+| |
+| o  2   f098c7f45c4f   2014-08-14 20:01 -0700   ben
+|/     Add some documentation
+|
+o  1   82e55d328c8c   2005-08-26 01:21 -0700   mpm
+|    Create a makefile
+|
+o  0   0a04b987be5a   2005-08-26 01:20 -0700   mpm
+     Create a standard "hello, world" program</code></p>
+
+<p>变更集 <em xmlns="http://www.w3.org/1999/xhtml">8</em>、<em xmlns="http://www.w3.org/1999/xhtml">9</em> 与 <em xmlns="http://www.w3.org/1999/xhtml">10</em> 已经被创建出来并且属于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">permanent</code> 分支，但是旧的变更集依然在那里。
+这会让使用 Mercurial 的团队成员非常困惑，所以要避免这种行为。</p>
+<p><strong>Mercurial 总结</strong></p>
+<p>Git 与 Mercurial 如此相似，以至于跨这两个系统进行工作十分流畅。
+如果能注意避免改变在你机器上的历史（就像通常建议的那样），你甚至并不会察觉到另一端是 Mercurial。</p>
+<p><strong>Git 与 Perforce</strong></p>
+
+<p><strong>Git 与 Perforce</strong></p>
+<p>
+
+在企业环境中 Perforce 是非常流行的版本管理系统。
+它大概起始于 1995 年，这使它成为了本章中介绍的最古老的系统。
+就其本身而言，它设计时带有当时时代的局限性；它假定你始终连接到一个单独的中央服务器，本地磁盘只保存一个版本。
+诚然，它的功能与限制适合几个特定的问题，但实际上，在很多情况下，将使用 Perforce 的项目换做使用 Git 会更好。</p>
+
+<p>如果你决定混合使用 Perforce 与 Git 这里有两种选择。
+第一个我们要介绍的是 Perforce 官方制作的 “Git Fusion” 桥接，它可以将 Perforce 仓库中的子树表示为一个可读写的 Git 仓库。
+第二个是 git-p4，一个客户端桥接允许你将 Git 作为 Perforce 的客户端使用，而不用在 Perforce 服务器上做任何重新的配置。</p>

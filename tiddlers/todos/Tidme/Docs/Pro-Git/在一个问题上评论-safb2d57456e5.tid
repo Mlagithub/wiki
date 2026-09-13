@@ -1,0 +1,78 @@
+caption: 在一个问题上评论
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub › 脚本 GitHub › 在一个问题上评论
+tidme.chars: 1309
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: 3c7d4799ed0f6421
+tidme.id: safb2d57456e5
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000098
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/在一个问题上评论-safb2d57456e5
+type: text/vnd.tiddlywiki
+
+<p>然而，如果想要在网站上进行一个操作，如在 Issue 或 Pull Request 上评论，或者想要查看私有内容或与其交互，你需要授权。</p>
+
+<p>这里提供了几种授权方式。
+你可以使用仅需用户名与密码的基本授权，但是通常更好的主意是使用一个个人访问令牌。
+可以从设置页的 “Applications” 标签生成访问令牌。</p>
+
+<figcaption>Figure 53. 从设置页的 “Applications” 标签生成访问令牌。</figcaption>
+
+<p>它会询问这个令牌的作用域与一个描述。
+确保使用一个好的描述信息，这样当脚本或应用不再使用时你会很放心地移除。</p>
+
+<p>GitHub 只会显示令牌一次，所以记得一定要拷贝它。
+现在可以在脚本中使用它代替使用用户名写密码来授权。
+这很漂亮，因为可以限制想要做的范围并且令牌是可废除的。</p>
+
+<p>这也会有一个提高频率上限的附加优点。
+如果没有授权的话，你会被限制在一小时最多发起 60 次请求。
+如果授权则可以一小时最多发起 5000 次请求。</p>
+
+<p>所以让我们利用它来对我们的其中一个问题进行评论。
+想要对一个特定问题 Issue #6 留下一条评论。
+必须使用刚刚生成的令牌作为 Authorization 头信息，发送一个到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">repos/&lt;user&gt;/&lt;repo&gt;/issues/&lt;num&gt;/comments</code> 的 HTTP POST 请求。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>$ curl -H <span style="font-style: italic">"Content-Type: application/json"</span> \
+       -H <span style="font-style: italic">"Authorization: token TOKEN"</span> \
+       --data <span style="font-style: italic">'{"body":"A new comment, :+1:"}'</span> \
+       https:<span style="font-style: italic">//api.github.com/repos/schacon/blink/issues/6/comments</span>
+{
+  <span style="font-style: italic">"id"</span>: 58322100,
+  <span style="font-style: italic">"html_url"</span>: <span style="font-style: italic">"https://github.com/schacon/blink/issues/6#issuecomment-58322100"</span>,
+  ...
+  <span style="font-style: italic">"user"</span>: {
+    <span style="font-style: italic">"login"</span>: <span style="font-style: italic">"tonychacon"</span>,
+    <span style="font-style: italic">"id"</span>: 7874698,
+    <span style="font-style: italic">"avatar_url"</span>: <span style="font-style: italic">"https://avatars.githubusercontent.com/u/7874698?v=2"</span>,
+    <span style="font-style: italic">"type"</span>: <span style="font-style: italic">"User"</span>,
+  },
+  <span style="font-style: italic">"created_at"</span>: <span style="font-style: italic">"2014-10-08T07:48:19Z"</span>,
+  <span style="font-style: italic">"updated_at"</span>: <span style="font-style: italic">"2014-10-08T07:48:19Z"</span>,
+  <span style="font-style: italic">"body"</span>: <span style="font-style: italic">"A new comment, :+1:"</span>
+}</code></p>
+
+<p>现在如果进入到那个问题，可以看到我们刚刚发布的评论，像 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_api_comment" href="#_api_comment" class="xref">从 GitHub API 发布的一条评论</a> 一样。</p>
+
+<figcaption>Figure 54. 从 GitHub API 发布的一条评论</figcaption>
+
+<p>可以使用 API 去做任何可以在网站上做的事情 — 创建与设置里程碑、指派人员到 Issues 与 Pull Requests，创建与修改标签、访问提交数据、创建新的提交与分支、打开关闭或合并 Pull Requests、创建与编辑团队、在 Pull Request 中评论某行代码、搜索网站等等。</p>
+<p><strong>修改 Pull Request 的状态</strong></p>

@@ -1,0 +1,163 @@
+caption: 合并子模块改动
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 子模块 › 在包含子模块的项目上工作 › 合并子模块改动
+tidme.chars: 3494
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: da308010841fed4f
+tidme.id: sa0025efbc62b
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000143
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/合并子模块改动-sa0025efbc62b
+type: text/vnd.tiddlywiki
+
+<p>如果你和其他人同时改动了一个子模块引用，那么可能会遇到一些问题。
+也就是说，如果子模块的历史已经分叉并且在父项目中分别提交到了分叉的分支上，那么你需要做一些工作来修复它。</p>
+
+<p>如果一个提交是另一个的直接祖先（一个快进式合并），那么 Git 会简单地选择之后的提交来合并，这样没什么问题。</p>
+
+<p>不过，Git 甚至不会尝试去进行一次简单的合并。
+如果子模块提交已经分叉且需要合并，那你会得到类似下面的信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git pull
+remote: Counting objects: 2, done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 2 (delta 1), reused 2 (delta 1)
+Unpacking objects: 100% (2/2), done.
+From https://github.com/chaconinc/MainProject
+   9a377d1..eb974f8  master     -&gt; origin/master
+Fetching submodule DbConnector
+warning: Failed to merge submodule DbConnector (merge following commits not found)
+Auto-merging DbConnector
+CONFLICT (submodule): Merge conflict in DbConnector
+Automatic merge failed; fix conflicts and then commit the result.</code></p>
+
+<p>所以本质上 Git 在这里指出了子模块历史中的两个分支记录点已经分叉并且需要合并。
+它将其解释为 “merge following commits not found” （未找到接下来需要合并的提交），虽然这有点令人困惑，不过之后我们会解释为什么是这样。</p>
+
+<p>为了解决这个问题，你需要弄清楚子模块应该处于哪种状态。
+奇怪的是，Git 并不会给你多少能帮你摆脱困境的信息，甚至连两边提交历史中的 SHA-1 值都没有。
+幸运的是，这很容易解决。
+如果你运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code>，就会得到试图合并的两个分支中记录的提交的 SHA-1 值。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff
+diff --cc DbConnector
+index eb41d76,c771610..0000000
+--- a/DbConnector
++++ b/DbConnector</code></p>
+
+<p>所以，在本例中，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">eb41d76</code> 是我们的子模块中<strong xmlns="http://www.w3.org/1999/xhtml">大家共有</strong>的提交，而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">c771610</code> 是上游拥有的提交。
+如果我们进入子模块目录中，它应该已经在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">eb41d76</code> 上了，因为合并没有动过它。
+如果不是的话，无论什么原因，你都可以简单地创建并检出一个指向它的分支。</p>
+
+<p>来自另一边的提交的 SHA-1 值比较重要。
+它是需要你来合并解决的。
+你可以尝试直接通过 SHA-1 合并，也可以为它创建一个分支然后尝试合并。
+我们建议后者，哪怕只是为了一个更漂亮的合并提交信息。</p>
+
+<p>所以，我们将会进入子模块目录，基于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 的第二个 SHA-1 创建一个分支然后手动合并。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cd DbConnector
+
+<span style="font-weight: bold">$ </span>git rev-parse HEAD
+eb41d764bccf88be77aced643c13a7fa86714135
+
+<span style="font-weight: bold">$ </span>git branch try-merge c771610
+<span style="font-weight: bold">(DbConnector)</span> <span style="font-weight: bold">$ </span>git merge try-merge
+Auto-merging src/main.c
+CONFLICT (content): Merge conflict in src/main.c
+Recorded preimage for 'src/main.c'
+Automatic merge failed; fix conflicts and then commit the result.</code></p>
+
+<p>我们在这儿得到了一个真正的合并冲突，所以如果想要解决并提交它，那么只需简单地通过结果来更新主项目。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>vim src/main.c <i class="conum" data-value="1">①</i>
+<span style="font-weight: bold">$ </span>git add src/main.c
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'merged our changes'</span>
+Recorded resolution for 'src/main.c'.
+[master 9fd905e] merged our changes
+
+<span style="font-weight: bold">$ </span>cd .. <i class="conum" data-value="2">②</i>
+<span style="font-weight: bold">$ </span>git diff <i class="conum" data-value="3">③</i>
+diff --cc DbConnector
+index eb41d76,c771610..0000000
+--- a/DbConnector
++++ b/DbConnector
+@@@ -1,1 -1,1 +1,1 @@@
+- Subproject commit eb41d764bccf88be77aced643c13a7fa86714135
+ -Subproject commit c77161012afbbe1f58b5053316ead08f4b7e6d1d
+++Subproject commit 9fd905e5d7f45a0d4cbc43d1ee550f16a30e825a
+<span style="font-weight: bold">$ </span>git add DbConnector <i class="conum" data-value="4">④</i>
+
+<span style="font-weight: bold">$ </span>git commit -m <span style="font-style: italic">"Merge Tom's Changes"</span> <i class="conum" data-value="5">⑤</i>
+[master 10d2c60] Merge Tom's Changes</code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="1">①</i> 首先解决冲突</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="2">②</i> 然后返回到主项目目录中</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="3">③</i> 再次检查 SHA-1 值</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="4">④</i> 解决冲突的子模块记录</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="5">⑤</i> 提交我们的合并</p>
+
+<p>这可能会让你有点儿困惑，但它确实不难。</p>
+
+<p>有趣的是，Git 还能处理另一种情况。
+如果子模块目录中存在着这样一个合并提交，它的历史中包含了的<strong xmlns="http://www.w3.org/1999/xhtml">两边</strong>的提交，那么 Git 会建议你将它作为一个可行的解决方案。
+它看到有人在子模块项目的某一点上合并了包含这两次提交的分支，所以你可能想要那个。</p>
+
+<p>这就是为什么前面的错误信息是 “merge following commits not found”，因为它不能 <strong xmlns="http://www.w3.org/1999/xhtml">这样</strong> 做。
+它让人困惑是因为<strong xmlns="http://www.w3.org/1999/xhtml">谁能想到它会尝试这样做？</strong></p>
+
+<p>如果它找到了一个可以接受的合并提交，你会看到类似下面的信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge origin/master
+warning: Failed to merge submodule DbConnector (not fast-forward)
+Found a possible merge resolution for the submodule:
+ 9fd905e5d7f45a0d4cbc43d1ee550f16a30e825a: &gt; merged our changes
+If this is correct simply add it to the index for example
+by using:
+
+  git update-index --cacheinfo 160000 9fd905e5d7f45a0d4cbc43d1ee550f16a30e825a "DbConnector"
+
+which will accept this suggestion.
+Auto-merging DbConnector
+CONFLICT (submodule): Merge conflict in DbConnector
+Automatic merge failed; fix conflicts and then commit the result.</code></p>
+
+<p>Git 建议的命令是更新索引，就像你运行了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 那样，这样会清除冲突然后提交。
+不过你可能不应该这样做。你可以轻松地进入子模块目录，查看差异是什么，快进到这次提交，恰当地测试，然后提交它。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cd DbConnector/
+<span style="font-weight: bold">$ </span>git merge 9fd905e
+Updating eb41d76..9fd905e
+Fast-forward
+
+<span style="font-weight: bold">$ </span>cd ..
+<span style="font-weight: bold">$ </span>git add DbConnector
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'Fast forwarded to a common submodule child'</span></code></p>
+
+<p>这些命令完成了同一件事，但是通过这种方式你至少可以验证工作是否有效，以及当你在完成时可以确保子模块目录中有你的代码。</p>
+<p><strong>子模块的技巧</strong></p>
+
+<p><strong>子模块的技巧</strong></p>
+<p>你可以做几件事情来让用子模块工作轻松一点儿。</p>

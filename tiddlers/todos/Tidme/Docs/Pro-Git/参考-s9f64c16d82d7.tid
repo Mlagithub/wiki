@@ -1,0 +1,168 @@
+caption: 参考
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub › 不必总是 Fork › 拉取请求的进阶用法 › 参考
+tidme.chars: 2954
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: 4bbb7a007d3149aa
+tidme.id: s9f64c16d82d7
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000089
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/参考-s9f64c16d82d7
+type: text/vnd.tiddlywiki
+
+<p>你的下个问题可能是“我该如何引用旧的拉取请求？”。
+有许多方法可以让你在 GitHub 上的几乎任何地方引用其他东西。</p>
+
+<p>先从如何对拉取请求或议题（Issue）进行相互引用开始。所有的拉取请求和议题在项目中都会有一个独一无二的编号。
+举个例子，你无法同时拥有 3 号拉取请求和 3 号议题。如果你想要引用任何一个拉取请求或议题，
+你只需要在提交或描述中输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">#&lt;编号&gt;</code> 即可。
+你也可以指定引用其他版本库的议题或拉取请求，如果你想要引用其他人对该版本库的“Fork”中的议题或拉取请求，
+输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">用户名#&lt;编号&gt;</code> ，如果在不同的版本库中，输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">用户名/版本库名#&lt;编号&gt;</code> 。</p>
+
+<p>我们来看一个例子。假设我们对上个例子中的分支进行了变基，并为此创建一个新的拉取请求，
+现在我们希望能在新的拉取请求中引用旧的拉取请求。
+我们同时希望引用一个派生出的项目中的议题和一个完全不同的项目中的议题，
+就可以像 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_pr_references" href="#_pr_references" class="xref">在拉取请求中的交叉引用</a> 这样填写描述。</p>
+
+<figcaption>Figure 18. 在拉取请求中的交叉引用</figcaption>
+
+<p>当我们提交了这个拉取请求，我们将会看到以上内容被渲染成这样：<a xmlns="http://www.w3.org/1999/xhtml" id="xref-_pr_references_render" href="#_pr_references_render" class="xref">在拉取请求中渲染后的交叉引用</a></p>
+
+<figcaption>Figure 19. 在拉取请求中渲染后的交叉引用</figcaption>
+
+<p>你会注意到完整的 GitHub 地址被简化了，只留下了必要的信息。</p>
+
+<p>如果 Tony 回去关闭了源拉取请求，我们可以看到一个被引用的提示，
+GitHub 会自动的反向追踪事件并显示在拉取请求的时间轴上。
+这意味着任何查看这个拉取请求的人可以轻松地访问新的拉取请求。
+这个链接就像 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_pr_closed" href="#_pr_closed" class="xref">在拉取请求中渲染后的交叉引用</a> 中展示的那样。</p>
+
+<figcaption>Figure 20. 在拉取请求中渲染后的交叉引用</figcaption>
+
+<p>除了议题编号外，你还可以通过使用提交的 SHA-1 来引用提交。
+你必须完整的写出 40 位长的 SHA-1，GitHub 会在评论中自动地产生指向这个提交的链接。
+同样的，你可以像引用议题一样对派生的项目中的提交或者其他项目中的提交进行引用。</p>
+<p><strong>GitHub 风格的 Markdown</strong></p>
+
+<p><strong>GitHub 风格的 Markdown</strong></p>
+<p>对于在 GitHub 中绝大多数文本框中能够做到的事，引用其他议题只是个开始。
+在议题和拉取请求的描述，评论和代码评论还有其他地方，都可以使用“GitHub 风格的 Markdown”。
+Markdown 可以让你输入纯文本，但是渲染出丰富的内容。</p>
+
+<p>查看 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_example_markdown" href="#_example_markdown" class="xref">一个 Markdown 的示例和渲染效果</a> 里的示例来了解如何书写评论或文本，并通过 Markdown 进行渲染。</p>
+
+<figcaption>Figure 21. 一个 Markdown 的示例和渲染效果</figcaption>
+<p><strong>GitHub 风格的 Markdown</strong></p>
+<p>GitHub 风格的 Markdown 增加了一些基础的 Markdown 中做不到的东西。
+它在创建拉取请求和议题中的评论和描述时十分有用。</p>
+<p><strong>任务列表</strong></p>
+<p>第一个 GitHub 专属的 Markdown 功能，特别是用在拉取请求中，就是任务列表。
+一个任务列表可以展示出一系列你想要完成的事情，并带有复选框。
+把它们放在议题或拉取请求中时，通常可以展示你想要完成的事情。</p>
+
+<p>你可以这样创建一个任务列表：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>- [X] 编写代码
+- [ ] 编写所有测试程序
+- [ ] 为代码编写文档</code></p>
+
+<p>如果我们将这个列表加入拉取请求或议题的描述中，它将会被渲染 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_eg_task_lists" href="#_eg_task_lists" class="xref">Markdown 评论中渲染后的任务列表</a> 这样。</p>
+
+<figcaption>Figure 22. Markdown 评论中渲染后的任务列表</figcaption>
+
+<p>在拉取请求中，任务列表经常被用来在合并之前展示这个分支将要完成的事情。
+最酷的地方就是，你只需要点击复选框，就能更新评论 —— 你不需要直接修改 Markdown。</p>
+
+<p>不仅如此，GitHub 还会将你在议题和拉取请求中的任务列表整理起来集中展示。
+举个例子，如果你在一个拉取请求中有任务清单，你将会在所有拉取请求的总览页面上看到它的进度。
+这使得人们可以把一个拉取请求分解成不同的小任务，同时便于其他人了解分支的进度。
+你可以在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_task_list_progress" href="#_task_list_progress" class="xref">在拉取请求列表中的任务列表总结</a> 看到一个例子。</p>
+
+<figcaption>Figure 23. 在拉取请求列表中的任务列表总结</figcaption>
+
+<p>当你在实现一个任务的早期就提交拉取请求，并使用任务清单追踪你的进度，这个功能会十分的有用。</p>
+<p><strong>代码片段</strong></p>
+<p>你也可以在评论中添加代码片段。这在你想要展示尚未提交到分支中的代码时会十分有用。
+它也经常被用在展示无法正常工作的代码或这个拉取请求需要的代码。</p>
+
+<p>你需要用“反引号”将需要添加的代码片段包起来。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>```java
+for(int i=0 ; i &lt; 5 ; i++)
+{
+   System.out.println("i is : " + i);
+}
+```</code></p>
+
+<p>如果加入语言的名称，就像我们这里加入的“java”一样，GitHub 会自动尝试对摘录的片段进行语法高亮。
+在下面的例子中，它最终会渲染成这个样子： <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_md_code" href="#_md_code" class="xref">渲染后的代码片段示例</a> 。</p>
+
+<figcaption>Figure 24. 渲染后的代码片段示例</figcaption>
+<p><strong>引用</strong></p>
+<p>如果你在回复一个很长的评论之中的一小段，你只需要复制你需要的片段，并在每行前添加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">&gt;</code> 符号即可。
+事实上，因为这个功能会被经常用到，它也有一个快捷键。
+只要你把你要回应的文字选中，并按下 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">r</code> 键，选中的问题会自动引用并填入评论框。</p>
+
+<p>引用的部分就像这样:</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>&gt; Whether 'tis Nobler in the mind to suffer
+&gt; The Slings and Arrows of outrageous Fortune,
+
+How big are these slings and in particular, these arrows?</code></p>
+
+<p>经过渲染后，就会变成这样： <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_md_quote" href="#_md_quote" class="xref">渲染后的引用示例</a></p>
+
+<figcaption>Figure 25. 渲染后的引用示例</figcaption>
+<p><strong>表情符号</strong></p>
+<p>最后，我们可以在评论中使用表情符号。这经常出现在 GitHub 的议题和拉取请求的评论中。
+GitHub 上甚至有表情助手。如果你在输入评论时以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">:</code> 开头，自动完成器会帮助你找到你需要的表情。</p>
+
+<figcaption>Figure 26. 表情符号自动完成器</figcaption>
+
+<p>你也可以在评论的任何地方使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">:&lt;表情名称&gt;:</code> 来添加表情符号。
+举个例子，你可以输入以下文字：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>I :eyes: that :bug: and I :cold_sweat:.
+
+:trophy: for :microscope: it.
+
+:+1: and :sparkles: on this :ship:, it's :fire::poop:!
+
+:clap::tada::panda_face:</code></p>
+
+<p>渲染之后，就会变成这样： <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_md_emoji" href="#_md_emoji" class="xref">使用了大量表情符号的评论</a></p>
+
+<figcaption>Figure 27. 使用了大量表情符号的评论</figcaption>
+
+<p>虽然这个功能并不是非常实用，但是它在这种不方便表达感情的媒体里，加入了趣味的元素。</p>
+
+<p>事实上现在已经有大量的在线服务可以使用表情符号，这里有个列表可以让你快速的找到能表达你的情绪的表情符号：</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://www.webfx.com/tools/emoji-cheat-sheet/" class="link">https://www.webfx.com/tools/emoji-cheat-sheet/</a></p>
+<p><strong>图片</strong></p>
+<p>从技术层面来说，这并不是 GitHub 风格 Markdown 的功能，但是也很有用。
+如果不想使用 Markdown 语法来插入图片，GitHub 允许你通过拖拽图片到文本区来插入图片。</p>
+
+<figcaption>Figure 28. 通过拖拽的方式自动插入图片</figcaption>
+
+<p>如果你回去查看 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_md_drag" href="#_md_drag" class="xref">通过拖拽的方式自动插入图片</a> ，你会发现文本区上有个“Parsed as Markdown”的提示。
+点击它你可以了解所有能在 GitHub 上使用的 Markdown 功能。</p>
+<p><strong>让你的 GitHub 公共仓库保持更新</strong></p>

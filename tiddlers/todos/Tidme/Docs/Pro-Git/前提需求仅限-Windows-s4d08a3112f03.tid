@@ -1,0 +1,42 @@
+caption: 前提需求（仅限 Windows）
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在其它环境中使用 Git › PowerShell 中的 Git › 安装 › 前提需求（仅限 Windows）
+tidme.chars: 720
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/A-git-in-other-environments.xhtml
+tidme.format: epub
+tidme.hash: b69bd9a6f4f0623f
+tidme.id: s4d08a3112f03
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000223
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/前提需求仅限-Windows-s4d08a3112f03
+type: text/vnd.tiddlywiki
+
+<p>在可以运行 PowerShell 脚本之前，你需要将本地的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ExecutionPolicy</code> 设置为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">RemoteSigned</code>（可以说是允许除了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Undefined</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Restricted</code> 之外的任何内容）。
+如果你选择了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">AllSigned</code> 而非 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">RemoteSigned</code>，那么你的本地脚本还需要数字签名后才能执行。
+如果设置为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">RemoteSigned</code>，那么只有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ZoneIdentifier</code> 设置为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Internet</code>，即从 Web 上下载的脚本才需要签名，其它则不需要。
+如果你是管理员，想要为本机上的所有用户设置它，请使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-Scope LocalMachine</code>。
+如果你是没有管理权限的普通用户，可使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-Scope CurrentUser</code> 来只为自己设置它。</p>
+
+<p>有关 PowerShell Scopes 的更多详情： <a xmlns="http://www.w3.org/1999/xhtml" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_scopes" class="link">https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_scopes</a></p>
+
+<p>有关 PowerShell ExecutionPolicy 的更多详情： <a xmlns="http://www.w3.org/1999/xhtml" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy" class="link">https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy</a></p>
+
+<p>对于所有用户使用以下命令来设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ExecutionPolicy</code> 为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">RemoteSigned</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>&gt; Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy RemoteSigned -Force</code></p>

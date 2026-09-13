@@ -1,0 +1,148 @@
+caption: 不带路径
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 重置揭密 › 检出 › 不带路径
+tidme.chars: 1628
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: dfcd7161a12c4e26
+tidme.id: sb2b8ef1d2510
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000124
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/不带路径-sb2b8ef1d2510
+type: text/vnd.tiddlywiki
+
+<p>运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout [branch]</code> 与运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset --hard [branch]</code> 非常相似，它会更新所有三棵树使其看起来像 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">[branch]</code>，不过有两点重要的区别。</p>
+
+<p>首先不同于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset --hard</code>，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 对工作目录是安全的，它会通过检查来确保不会将已更改的文件弄丢。
+其实它还更聪明一些。它会在工作目录中先试着简单合并一下，这样所有 <em xmlns="http://www.w3.org/1999/xhtml">还未修改过的</em> 文件都会被更新。
+而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset --hard</code> 则会不做检查就全面地替换所有东西。</p>
+
+<p>第二个重要的区别是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 如何更新 HEAD。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 会移动 HEAD 分支的指向，而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 只会移动 HEAD 自身来指向另一个分支。</p>
+
+<p>例如，假设我们有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code> 分支，它们分别指向不同的提交；我们现在在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code> 上（所以 HEAD 指向它）。
+如果我们运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset master</code>，那么 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code> 自身现在会和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 指向同一个提交。
+而如果我们运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout master</code> 的话，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code> 不会移动，HEAD 自身会移动。
+现在 HEAD 将会指向 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code>。</p>
+
+<p>所以，虽然在这两种情况下我们都移动 HEAD 使其指向了提交 A，但 <em xmlns="http://www.w3.org/1999/xhtml">做法</em> 是非常不同的。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 会移动 HEAD 分支的指向，而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 则移动 HEAD 自身。</p>
+<p><strong>带路径</strong></p>
+<p>运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 的另一种方式就是指定一个文件路径，这会像 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 一样不会移动 HEAD。
+它就像 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset [branch] file</code> 那样用该次提交中的那个文件来更新索引，但是它也会覆盖工作目录中对应的文件。
+它就像是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset --hard [branch] file</code>（如果 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 允许你这样运行的话），
+这样对工作目录并不安全，它也不会移动 HEAD。</p>
+
+<p>此外，同 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 一样，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 也接受一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--patch</code> 选项，允许你根据选择一块一块地恢复文件内容。</p>
+<p><strong>总结</strong></p>
+
+<p><strong>总结</strong></p>
+<p>希望你现在熟悉并理解了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 命令，不过关于它和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 之间的区别，你可能还是会有点困惑，毕竟不太可能记住不同调用的所有规则。</p>
+
+<p>下面的速查表列出了命令对树的影响。
+“HEAD” 一列中的 “REF” 表示该命令移动了 HEAD 指向的分支引用，而 “HEAD” 则表示只移动了 HEAD 自身。
+特别注意 'WD Safe?' 一列——如果它标记为 <strong xmlns="http://www.w3.org/1999/xhtml">NO</strong>，那么运行该命令之前请考虑一下。</p>
+
+<p>HEAD</p>
+
+<p>Index</p>
+
+<p>Workdir</p>
+
+<p>WD Safe?</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml">Commit Level</strong></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset --soft [commit]</code></p>
+
+<p>REF</p>
+
+<p>NO</p>
+
+<p>NO</p>
+
+<p>YES</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset [commit]</code></p>
+
+<p>REF</p>
+
+<p>YES</p>
+
+<p>NO</p>
+
+<p>YES</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset --hard [commit]</code></p>
+
+<p>REF</p>
+
+<p>YES</p>
+
+<p>YES</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml">NO</strong></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout &lt;commit&gt;</code></p>
+
+<p>HEAD</p>
+
+<p>YES</p>
+
+<p>YES</p>
+
+<p>YES</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml">File Level</strong></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset [commit] &lt;paths&gt;</code></p>
+
+<p>NO</p>
+
+<p>YES</p>
+
+<p>NO</p>
+
+<p>YES</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout [commit] &lt;paths&gt;</code></p>
+
+<p>NO</p>
+
+<p>YES</p>
+
+<p>YES</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml">NO</strong></p>
+<p><strong>高级合并</strong></p>
+
+<p><strong>高级合并</strong></p>
+<p>在 Git 中合并是相当容易的。
+因为 Git 使多次合并另一个分支变得很容易，这意味着你可以有一个始终保持最新的长期分支，
+经常解决小的冲突，比在一系列提交后解决一个巨大的冲突要好。</p>
+
+<p>然而，有时也会有棘手的冲突。
+不像其他的版本控制系统，Git 并不会尝试过于聪明的合并冲突解决方案。
+Git 的哲学是聪明地决定无歧义的合并方案，但是如果有冲突，它不会尝试智能地自动解决它。
+因此，如果很久之后才合并两个分叉的分支，你可能会撞上一些问题。</p>
+
+<p>在本节中，我们将会仔细查看那些问题是什么以及 Git 给了我们什么工具来帮助我们处理这些更难办的情形。
+我们也会了解你可以做的不同的、非标准类型的合并，也会看到如何后退到合并之前。</p>
+<p><strong>合并冲突</strong></p>

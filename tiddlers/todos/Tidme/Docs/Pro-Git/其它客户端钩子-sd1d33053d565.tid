@@ -1,0 +1,117 @@
+caption: 其它客户端钩子
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › Git 钩子 › 客户端钩子 › 其它客户端钩子
+tidme.chars: 2305
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: 0bf94dc1ce9e43ab
+tidme.id: sd1d33053d565
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000163
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/其它客户端钩子-sd1d33053d565
+type: text/vnd.tiddlywiki
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-rebase</code> 钩子运行于变基之前，以非零值退出可以中止变基的过程。
+你可以使用这个钩子来禁止对已经推送的提交变基。
+Git 自带的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-rebase</code> 钩子示例就是这么做的，不过它所做的一些假设可能与你的工作流程不匹配。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">post-rewrite</code> 钩子被那些会替换提交记录的命令调用，比如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit --amend</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase</code>（不过不包括 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git filter-branch</code>）。
+它唯一的参数是触发重写的命令名，同时从标准输入中接受一系列重写的提交记录。
+这个钩子的用途很大程度上跟 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">post-checkout</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">post-merge</code> 差不多。</p>
+
+<p>在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code> 成功运行后，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">post-checkout</code> 钩子会被调用。你可以根据你的项目环境用它调整你的工作目录。
+其中包括放入大的二进制文件、自动生成文档或进行其他类似这样的操作。</p>
+
+<p>在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code> 成功运行后，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">post-merge</code> 钩子会被调用。
+你可以用它恢复 Git 无法跟踪的工作区数据，比如权限数据。
+这个钩子也可以用来验证某些在 Git 控制之外的文件是否存在，这样你就能在工作区改变时，把这些文件复制进来。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-push</code> 钩子会在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push</code> 运行期间， 更新了远程引用但尚未传送对象时被调用。
+它接受远程分支的名字和位置作为参数，同时从标准输入中读取一系列待更新的引用。
+你可以在推送开始之前，用它验证对引用的更新操作（一个非零的退出码将终止推送过程）。</p>
+
+<p>Git 的一些日常操作在运行时，偶尔会调用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git gc --auto</code> 进行垃圾回收。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-auto-gc</code> 钩子会在垃圾回收开始之前被调用，可以用它来提醒你现在要回收垃圾了，或者依情形判断是否要中断回收。</p>
+<p><strong>服务器端钩子</strong></p>
+
+<p><strong>服务器端钩子</strong></p>
+<p>除了客户端钩子，作为系统管理员，你还可以使用若干服务器端的钩子对项目强制执行各种类型的策略。
+这些钩子脚本在推送到服务器之前和之后运行。
+推送到服务器前运行的钩子可以在任何时候以非零值退出，拒绝推送并给客户端返回错误消息，还可以依你所想设置足够复杂的推送策略。</p>
+<p><strong>pre-receive</strong></p>
+<p>处理来自客户端的推送操作时，最先被调用的脚本是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-receive</code>。
+它从标准输入获取一系列被推送的引用。如果它以非零值退出，所有的推送内容都不会被接受。
+你可以用这个钩子阻止对引用进行非快进（non-fast-forward）的更新，或者对该推送所修改的所有引用和文件进行访问控制。</p>
+<p><strong>update</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">update</code> 脚本和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-receive</code> 脚本十分类似，不同之处在于它会为每一个准备更新的分支各运行一次。
+假如推送者同时向多个分支推送内容，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-receive</code> 只运行一次，相比之下 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">update</code> 则会为每一个被推送的分支各运行一次。
+它不会从标准输入读取内容，而是接受三个参数：引用的名字（分支），推送前的引用指向的内容的 SHA-1 值，以及用户准备推送的内容的 SHA-1 值。
+如果 update 脚本以非零值退出，只有相应的那一个引用会被拒绝；其余的依然会被更新。</p>
+<p><strong>post-receive</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">post-receive</code> 挂钩在整个过程完结以后运行，可以用来更新其他系统服务或者通知用户。
+它接受与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-receive</code> 相同的标准输入数据。
+它的用途包括给某个邮件列表发信，通知持续集成（continous integration）的服务器，
+或者更新问题追踪系统（ticket-tracking system） ——
+甚至可以通过分析提交信息来决定某个问题（ticket）是否应该被开启，修改或者关闭。
+该脚本无法终止推送进程，不过客户端在它结束运行之前将保持连接状态，
+所以如果你想做其他操作需谨慎使用它，因为它将耗费你很长的一段时间。</p>
+<p><strong>使用强制策略的一个例子</strong></p>
+
+<p><strong>使用强制策略的一个例子</strong></p>
+<p>
+在本节中，你将应用前面学到的知识建立这样一个 Git 工作流程：检查提交信息的格式，并且指定只能由特定用户修改项目中特定的子目录。
+你将编写一个客户端脚本来提示开发人员他们的推送是否会被拒绝，以及一个服务器端脚本来实际执行这些策略。</p>
+
+<p>我们待会展示的脚本是用 Ruby 写的，部分是由于我习惯用它写脚本，另外也因为 Ruby 简单易懂，即便你没写过它也能看明白。
+不过任何其他语言也一样适用。所有 Git 自带的示例钩子脚本都是用 Perl 或 Bash 写的，所以你能从它们中找到相当多的这两种语言的钩子示例。</p>
+<p><strong>服务器端钩子</strong></p>
+
+<p><strong>服务器端钩子</strong></p>
+<p>所有服务器端的工作都将在你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">hooks</code> 目录下的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">update</code> 脚本中完成。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">update</code> 脚本会为每一个提交的分支各运行一次，它接受三个参数：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">被推送的引用的名字</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">推送前分支的修订版本（revision）</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">用户准备推送的修订版本（revision）</span>
+</p>
+
+<p>如果推送是通过 SSH 进行的，还可以获知进行此次推送的用户的信息。
+如果你允许所有操作都通过公匙授权的单一帐号（比如“git”）进行，就有必要通过一个 shell 包装脚本依据公匙来判断用户的身份，并且相应地设定环境变量来表示该用户的身份。
+下面就假设 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$USER</code> 环境变量里存储了当前连接的用户的身份，你的 update 脚本首先搜集一切需要的信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-style: italic">#!/usr/bin/env ruby</span>
+
+$refname = ARGV[0]
+$oldrev  = ARGV[1]
+$newrev  = ARGV[2]
+$user    = ENV[<span style="font-style: italic">'USER'</span>]
+
+puts <span style="font-style: italic">"Enforcing Policies..."</span>
+puts <span style="font-style: italic">"(</span><span style="font-weight: bold; font-style: italic">#{</span>$refname<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">) (</span><span style="font-weight: bold; font-style: italic">#{</span>$oldrev[0,6]<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">) (</span><span style="font-weight: bold; font-style: italic">#{</span>$newrev[0,6]<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">)"</span></code></p>
+
+<p>是的，我们这里用的都是全局变量。
+请勿在此吐槽——这样做只是为了方便展示而已。</p>

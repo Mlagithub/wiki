@@ -1,0 +1,115 @@
+caption: 简短的 SHA-1
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 选择修订版本 › 简短的 SHA-1
+tidme.chars: 2218
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 2f4d60657bf2e26c
+tidme.id: sc36749f51cd3
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000101
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/简短的-SHA-1-sc36749f51cd3
+type: text/vnd.tiddlywiki
+
+<p>Git 十分智能，你只需要提供 SHA-1 的前几个字符就可以获得对应的那次提交，
+当然你提供的 SHA-1 字符数量不得少于 4 个，并且没有歧义——也就是说，
+当前对象数据库中没有其它对象以这段 SHA-1 开头。</p>
+
+<p>例如，要查看你知道其中添加了某个功能的提交，首先运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 命令来定位该提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log
+commit 734713bc047d87bf7eac9674765ae793478c50d3
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri Jan 2 18:32:33 2009 -0800
+
+    fixed refs handling, added gc auto, updated tests
+
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Merge: 1c002dd... 35cfb2b...
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Thu Dec 11 15:08:43 2008 -0800
+
+    Merge commit 'phedders/rdocs'
+
+commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Thu Dec 11 14:58:32 2008 -0800
+
+    added some blame and merge stuff</code></p>
+
+<p>在本例中，假设你想要的提交其 SHA-1 以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">1c002dd…​.</code> 开头，
+那么你可以用如下几种 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show</code> 的变体来检视该提交（假设简短的版本没有歧义）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+<span style="font-weight: bold">$ </span>git show 1c002dd4b536e7479f
+<span style="font-weight: bold">$ </span>git show 1c002d</code></p>
+
+<p>Git 可以为 SHA-1 值生成出简短且唯一的缩写。
+如果你在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 后加上 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--abbrev-commit</code> 参数，输出结果里就会显示简短且唯一的值；
+默认使用七个字符，不过有时为了避免 SHA-1 的歧义，会增加字符数：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --abbrev-commit --pretty=oneline
+ca82a6d changed the version number
+085bb3b removed unnecessary test code
+a11bef0 first commit</code></p>
+
+<p>通常 8 到 10 个字符就已经足够在一个项目中避免 SHA-1 的歧义。
+例如，到 2019 年 2 月为止，Linux 内核这个相当大的 Git 项目，
+其对象数据库中有超过 875,000 个提交，包含七百万个对象，也只需要前 12 个字符就能保证唯一性。</p>
+<p><strong>关于 SHA-1 的简短说明</strong></p>
+<p>许多人觉得他们的仓库里有可能出现两个不同的对象其 SHA-1 值相同。
+然后呢？</p>
+
+<p>如果你真的向仓库里提交了一个对象，它跟之前的某个 <strong xmlns="http://www.w3.org/1999/xhtml">不同</strong> 对象的 SHA-1 值相同，
+Git 会发现该对象的散列值已经存在于仓库里了，于是就会认为该对象被写入，然后直接使用它。
+如果之后你想检出那个对象时，你将得到先前那个对象的数据。</p>
+
+<p>但是这种情况发生的概率十分渺小。
+SHA-1 摘要长度是 20 字节，也就是 160 位。
+2^80 个随机哈希对象才有 50% 的概率出现一次冲突
+（计算冲突机率的公式是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">p = (n(n-1)/2) * (1/2^160))</code> ）。
+2^80 是 1.2 x 10^24，也就是一亿亿亿，这是地球上沙粒总数的 1200 倍。</p>
+
+<p>举例说一下怎样才能产生一次 SHA-1 冲突。
+如果地球上 65 亿个人类都在编程，每人每秒都在产生等价于整个 Linux 内核历史（650 万个 Git 对象）的代码，
+并将之提交到一个巨大的 Git 仓库里面，这样持续两年的时间才会产生足够的对象，
+使其拥有 50% 的概率产生一次 SHA-1 对象冲突，
+这比你编程团队的成员同一个晚上在互不相干的意外中被狼袭击并杀死的机率还要小。</p>
+<p><strong>分支引用</strong></p>
+
+<p><strong>分支引用</strong></p>
+<p>引用特定提交的一种直接方法是，若它是一个分支的顶端的提交，
+那么可以在任何需要引用该提交的 Git 命令中直接使用该分支的名称。
+例如，你想要查看一个分支的最后一次提交的对象，假设 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">topic1</code> 分支指向提交 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ca82a6d…​</code> ，
+那么以下的命令是等价的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show ca82a6dff817ec66f44342007202690a93763949
+<span style="font-weight: bold">$ </span>git show topic1</code></p>
+
+<p>如果你想知道某个分支指向哪个特定的 SHA-1，或者想看任何一个例子中被简写的 SHA-1，
+你可以使用一个叫做 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">rev-parse</code> 的 Git 探测工具。
+你可以在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals" href="ch10-git-internals.xhtml" class="xref">Git 内部原理</a> 中查看更多关于探测工具的信息。
+简单来说，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">rev-parse</code> 是为了底层操作而不是日常操作设计的。
+不过，有时你想看 Git 现在到底处于什么状态时，它可能会很有用。
+你可以在你的分支上执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">rev-parse</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rev-parse topic1
+ca82a6dff817ec66f44342007202690a93763949</code></p>
+<p><strong>引用日志</strong></p>

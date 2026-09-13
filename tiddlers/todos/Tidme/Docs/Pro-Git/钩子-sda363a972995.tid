@@ -1,0 +1,108 @@
+caption: 钩子
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub › 脚本 GitHub › 服务与钩子 › 钩子
+tidme.chars: 1806
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: 99179223f86c79da
+tidme.id: sda363a972995
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000096
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/钩子-sda363a972995
+type: text/vnd.tiddlywiki
+
+<p>如果需要做一些更具体的事，或者想要整合一个不在这个列表中的服务或站点，可以转而使用更通用的钩子系统。
+GitHub 仓库钩子是非常简单的。
+指定一个 URL 然后 GitHub 在任一期望的事件发生时就会发送一个 HTTP 请求到那个 URL 。</p>
+
+<p>通常做这件事的方式是可以设置一个小的 web 服务来监听 GitHub 钩子请求然后使用收到的数据做一些事情。</p>
+
+<p>为了启用一个钩子，点击 <a xmlns="http://www.w3.org/1999/xhtml" href="#_services_hooks" class="xref">服务与钩子配置区域</a> 中的 “Add webhook” 按钮。
+这会将你引导至一个类似 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_web_hook" href="#_web_hook" class="xref">Web 钩子配置</a> 的页面。</p>
+
+<figcaption>Figure 51. Web 钩子配置</figcaption>
+
+<p>Web 钩子的设置非常简单。
+大多数情况下只需要输入一个 URL 与一个密钥然后点击 “Add webhook”。
+有几个选项可以指定在哪个事件时想要 GitHub 发送请求——
+默认的行为是只有当某人推送新代码到仓库的任一分支时的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">push</code> 事件获得一个请求。</p>
+
+<p>让我们看一个设置处理 web 钩子的 web 服务的小例子。
+我们将会使用 Ruby web 框架 Sinatra，因为它相当简洁，应该能够轻松地看到我们正在做什么。</p>
+
+<p>假设我们想要在某个特定的人推送到我们的项目的特定分支并修改一个特定文件时得到一封邮件。
+我们可以相当容易地使用类似下面的代码做到：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>require <span style="font-style: italic">'sinatra'</span>
+require <span style="font-style: italic">'json'</span>
+require <span style="font-style: italic">'mail'</span>
+
+post <span style="font-style: italic">'/payload'</span> <span style="font-weight: bold">do</span>
+  push = JSON.parse(request.body.read) <span style="font-style: italic"># parse the JSON</span>
+
+  <span style="font-style: italic"># gather the data we're looking for</span>
+  pusher = push[<span style="font-style: italic">"pusher"</span>][<span style="font-style: italic">"name"</span>]
+  branch = push[<span style="font-style: italic">"ref"</span>]
+
+  <span style="font-style: italic"># get a list of all the files touched</span>
+  files = push[<span style="font-style: italic">"commits"</span>].map <span style="font-weight: bold">do</span> |commit|
+    commit[<span style="font-style: italic">'added'</span>] + commit[<span style="font-style: italic">'modified'</span>] + commit[<span style="font-style: italic">'removed'</span>]
+  <span style="font-weight: bold">end</span>
+  files = files.flatten.uniq
+
+  <span style="font-style: italic"># check for our criteria</span>
+  <span style="font-weight: bold">if</span> pusher == <span style="font-style: italic">'schacon'</span> &amp;&amp;
+     branch == <span style="font-style: italic">'ref/heads/special-branch'</span> &amp;&amp;
+     files.include?(<span style="font-style: italic">'special-file.txt'</span>)
+
+    Mail.deliver <span style="font-weight: bold">do</span>
+      from     <span style="font-style: italic">'tchacon@example.com'</span>
+      to       <span style="font-style: italic">'tchacon@example.com'</span>
+      subject  <span style="font-style: italic">'Scott Changed the File'</span>
+      body     <span style="font-style: italic">"ALARM"</span>
+    <span style="font-weight: bold">end</span>
+  <span style="font-weight: bold">end</span>
+<span style="font-weight: bold">end</span></code></p>
+
+<p>这里我们拿到一个 GitHub 传送给我们的 JSON 请求然后查找推送者，他们推送到了什么分支以及推送的所有提交都改动了哪些文件。
+然后我们检查它是否与我们的条件区配，如果匹配则发送一封邮件。</p>
+
+<p>为了开发与测试类似这样的东西，在设置钩子的地方有一个漂亮的开发者控制台。
+可以看到 GitHub 为那个 webhook 的最后几次请求。
+对每一个钩子，当它发送后都可以深入挖掘，检测它是否是成功的与请求及回应的消息头与消息体。
+这使得测试与调试钩子非常容易。</p>
+
+<figcaption>Figure 52. Web 钩子调试信息</figcaption>
+
+<p>开发者控制台的另一个很棒的功能是可以轻松地重新发送任何请求来测试你的服务。</p>
+
+<p>关于如何编写 web 钩子与所有可监听的不同事件类型的更多信息，请访问在
+<a xmlns="http://www.w3.org/1999/xhtml" href="https://docs.github.com/cn/developers/webhooks-and-events/webhooks/about-webhooks" class="link">https://docs.github.com/cn/developers/webhooks-and-events/webhooks/about-webhooks</a> 的 GitHub 开发者文档。</p>
+<p><strong>GitHub API</strong></p>
+
+<p><strong>GitHub API</strong></p>
+<p>
+服务与钩子给你提供了一种方式来接收关于在仓库中发生的事件的推送通知，但是如何获取相关事件的详情呢？
+如何自动化一些诸如添加协作者或给问题加标签的事情呢？</p>
+
+<p>这是 GitHub API 派上用场的地方。
+在自动化流行的趋势下，GitHub 提供了大量的 API 接口，可以进行几乎任何能在网站上进行的操作。
+在本节中我们将会学习如何授权与连接到 API，如何通过 API 在一个问题上评论与如何修改一个 Pull Request 的状态。</p>
+<p><strong>基本用途</strong></p>

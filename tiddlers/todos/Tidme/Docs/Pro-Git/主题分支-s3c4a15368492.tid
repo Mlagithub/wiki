@@ -1,0 +1,59 @@
+caption: 主题分支
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › 分支开发工作流 › 主题分支
+tidme.chars: 1025
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: f6592485c0538f47
+tidme.id: s3c4a15368492
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000045
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/主题分支-s3c4a15368492
+type: text/vnd.tiddlywiki
+
+<p>
+主题分支对任何规模的项目都适用。
+主题分支是一种短期分支，它被用来实现单一特性或其相关工作。
+也许你从来没有在其他的版本控制系统（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">VCS</code>）上这么做过，因为在那些版本控制系统中创建和合并分支通常很费劲。
+然而，在 Git 中一天之内多次创建、使用、合并、删除分支都很常见。</p>
+
+<p>你已经在上一节中你创建的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">iss53</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">hotfix</code> 主题分支中看到过这种用法。
+你在上一节用到的主题分支（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">iss53</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">hotfix</code> 分支）中提交了一些更新，并且在它们合并入主干分支之后，你又删除了它们。
+这项技术能使你快速并且完整地进行上下文切换（context-switch）——因为你的工作被分散到不同的流水线中，在不同的流水线中每个分支都仅与其目标特性相关，因此，在做代码审查之类的工作的时候就能更加容易地看出你做了哪些改动。
+你可以把做出的改动在主题分支中保留几分钟、几天甚至几个月，等它们成熟之后再合并，而不用在乎它们建立的顺序或工作进度。</p>
+
+<p>考虑这样一个例子，你在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支上工作到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C1</code>，这时为了解决一个问题而新建 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">iss91</code> 分支，在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">iss91</code> 分支上工作到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C4</code>，然而对于那个问题你又有了新的想法，于是你再新建一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">iss91v2</code> 分支试图用另一种方法解决那个问题，接着你回到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支工作了一会儿，你又冒出了一个不太确定的想法，你便在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C10</code> 的时候新建一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dumbidea</code> 分支，并在上面做些实验。
+你的提交历史看起来像下面这个样子：</p>
+
+<figcaption>Figure 20. 拥有多个主题分支的提交历史</figcaption>
+
+<p>现在，我们假设两件事情：你决定使用第二个方案来解决那个问题，即使用在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">iss91v2</code> 分支中方案。
+另外，你将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dumbidea</code> 分支拿给你的同事看过之后，结果发现这是个惊人之举。
+这时你可以抛弃 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">iss91</code> 分支（即丢弃 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C5</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C6</code> 提交），然后把另外两个分支合并入主干分支。
+最终你的提交历史看起来像下面这个样子：</p>
+
+<figcaption>Figure 21. 合并了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dumbidea</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">iss91v2</code> 分支之后的提交历史</figcaption>
+
+<p>我们将会在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git" href="ch05-distributed-git.xhtml" class="xref">分布式 Git</a> 中向你揭示更多有关分支工作流的细节，
+因此，请确保你阅读完那个章节之后，再来决定你的下个项目要使用什么样的分支策略（branching scheme）。</p>
+
+<p>请牢记，当你做这么多操作的时候，这些分支全部都存于本地。
+当你新建和合并分支的时候，所有这一切都只发生在你本地的 Git 版本库中 —— 没有与服务器发生交互。</p>
+<p><strong>远程分支</strong></p>

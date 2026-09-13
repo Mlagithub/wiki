@@ -1,0 +1,61 @@
+caption: 撤消操作
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › 撤消操作
+tidme.chars: 609
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: 8b85860d636e6123
+tidme.id: sb8d4511adca8
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000026
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/撤消操作-sb8d4511adca8
+type: text/vnd.tiddlywiki
+
+<p>在任何一个阶段，你都有可能想要撤消某些操作。
+这里，我们将会学习几个撤消你所做修改的基本工具。
+注意，有些撤消操作是不可逆的。
+这是在使用 Git 的过程中，会因为操作失误而导致之前的工作丢失的少有的几个地方之一。</p>
+
+<p>有时候我们提交完了才发现漏掉了几个文件没有添加，或者提交信息写错了。
+此时，可以运行带有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--amend</code> 选项的提交命令来重新提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git commit --amend</code></p>
+
+<p>这个命令会将暂存区中的文件提交。
+如果自上次提交以来你还未做任何修改（例如，在上次提交后马上执行了此命令），
+那么快照会保持不变，而你所修改的只是提交信息。</p>
+
+<p>文本编辑器启动后，可以看到之前的提交信息。
+编辑后保存会覆盖原来的提交信息。</p>
+
+<p>例如，你提交后发现忘记了暂存某些需要的修改，可以像下面这样操作：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git commit -m <span style="font-style: italic">'initial commit'</span>
+<span style="font-weight: bold">$ </span>git add forgotten_file
+<span style="font-weight: bold">$ </span>git commit --amend</code></p>
+
+<p>最终你只会有一个提交——第二次提交将代替第一次提交的结果。</p>
+
+<p>当你在修补最后的提交时，与其说是修复旧提交，倒不如说是完全用一个 <strong xmlns="http://www.w3.org/1999/xhtml">新的提交</strong> 替换旧的提交，
+理解这一点非常重要。从效果上来说，就像是旧有的提交从未存在过一样，它并不会出现在仓库的历史中。</p>
+
+<p>修补提交最明显的价值是可以稍微改进你最后的提交，而不会让“啊，忘了添加一个文件”或者
+“小修补，修正笔误”这种提交信息弄乱你的仓库历史。</p>
+<p><strong>取消暂存的文件</strong></p>

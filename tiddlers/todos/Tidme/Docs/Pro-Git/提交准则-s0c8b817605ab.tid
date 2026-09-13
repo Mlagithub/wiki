@@ -1,0 +1,86 @@
+caption: 提交准则
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 向一个项目贡献 › 提交准则
+tidme.chars: 1483
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: 833d76a4a42ba509
+tidme.id: s0c8b817605ab
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000070
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/提交准则-s0c8b817605ab
+type: text/vnd.tiddlywiki
+
+<p>在我们开始查看特定的用例前，这里有一个关于提交信息的快速说明。
+有一个好的创建提交的准则并且坚持使用会让与 Git 工作和与其他人协作更容易。
+Git 项目提供了一个文档，其中列举了关于创建提交到提交补丁的若干好的提示——可以在 Git 源代码中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Documentation/SubmittingPatches</code> 文件中阅读它。</p>
+
+<p>
+首先，你的提交不应该包含任何空白错误。
+Git 提供了一个简单的方式来检查这点——在提交前，运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff --check</code>，它将会找到可能的空白错误并将它们为你列出来。</p>
+
+<figcaption>Figure 4. <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff --check</code> 的输出</figcaption>
+
+<p>如果在提交前运行那个命令，可以知道提交中是否包含可能会使其他开发者恼怒的空白问题。</p>
+
+<p>接下来，尝试让每一个提交成为一个逻辑上的独立变更集。
+如果可以，尝试让改动可以理解——不要在整个周末编码解决五个问题，然后在周一时将它们提交为一个巨大的提交。
+即使在周末期间你无法提交，在周一时使用暂存区域将你的工作最少拆分为每个问题一个提交，并且为每一个提交附带一个有用的信息。
+如果其中一些改动修改了同一个文件，尝试使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add --patch</code> 来部分暂存文件（在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_interactive_staging" href="ch07-git-tools.xhtml#_interactive_staging" class="xref">交互式暂存</a> 中有详细介绍）。
+不管你做一个或五个提交，只要所有的改动都曾添加过，项目分支末端的快照就是一样的，所以尽量让你的开发者同事们在审查你的改动的时候更容易些吧。</p>
+
+<p>当你之后需要时这个方法也会使拉出或还原一个变更集更容易些。
+<a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_rewriting_history" href="ch07-git-tools.xhtml#_rewriting_history" class="xref">重写历史</a> 描述了重写历史与交互式暂存文件的若干有用的 Git 技巧——在将工作发送给其他人前使用这些工具来帮助生成一个干净又易懂的历史。</p>
+
+<p>最后一件要牢记的事是提交信息。
+有一个创建优质提交信息的习惯会使 Git 的使用与协作容易的多。
+一般情况下，信息应当以少于 50 个字符（25个汉字）的单行开始且简要地描述变更，接着是一个空白行，再接着是一个更详细的解释。
+Git 项目要求一个更详细的解释，包括做改动的动机和它的实现与之前行为的对比——这是一个值得遵循的好规则。
+使用指令式的语气来编写提交信息，比如使用“Fix bug”而非“Fixed bug”或“Fixes bug”。
+这里是一份 <a xmlns="http://www.w3.org/1999/xhtml" href="https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html" class="link">最初由 Tim Pope 写的模板</a>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>首字母大写的摘要（不多于 50 个字符）
+
+如果必要的话，加入更详细的解释文字。在大概 72 个字符的时候换行。
+在某些情形下，第一行被当作一封电子邮件的标题，剩下的文本作为正文。
+分隔摘要与正文的空行是必须的（除非你完全省略正文），
+如果你将两者混在一起，那么在使用例如变基这样的工具时，它们会生成难以阅读的输出，让人困惑。
+
+使用指令式的语气来编写提交信息：使用“Fix bug”而非“Fixed bug”或“Fixes bug”。
+此约定与 git merge 和 git revert 命令生成提交说明相同。
+
+空行接着更进一步的段落。
+
+- 标号也是可以的。
+
+- 项目符号可以使用典型的连字符或星号，后跟一个空格，行之间用空行隔开，
+  但是可以依据不同的惯例有所不同。
+
+- 使用悬挂式缩进</code></p>
+
+<p>如果你所有的提交信息都遵循此模版，那么对你和与你协作的其他开发者来说事情会变得非常容易。
+Git 项目有一个良好格式化的提交信息——尝试在那儿运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log --no-merges</code>
+来看看漂亮的格式化的项目提交历史像什么样。</p>
+<p><strong>按我们说的去做，不要照着我们做的去做。</strong></p>
+<p>为简单起见，本书中很多例子的提交说明并没有遵循这样良好的格式，
+我们只是对 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 使用了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-m</code> 选项。</p>
+
+<p>简而言之，按我们说的去做，不要照着我们做的去做。</p>
+<p><strong>私有小型团队</strong></p>

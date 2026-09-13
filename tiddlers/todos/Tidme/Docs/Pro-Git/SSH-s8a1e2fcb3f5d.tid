@@ -1,0 +1,89 @@
+caption: SSH
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › 传输协议 › 智能协议 › 上传数据 › SSH
+tidme.chars: 1841
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: be9310bd035a394d
+tidme.id: s8a1e2fcb3f5d
+tidme.kind: topic
+tidme.level: 5
+tidme.merged: yes
+tidme.order: 000208
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/SSH-s8a1e2fcb3f5d
+type: text/vnd.tiddlywiki
+
+<p>举例来说，在项目中使用命令 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push origin master</code> 时, <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code> 是由基于 SSH 协议的 URL 所定义的。
+Git 会运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">send-pack</code> 进程，它会通过 SSH 连接你的服务器。
+它会尝试通过 SSH 在服务端执行命令，就像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>ssh -x git@server <span style="font-style: italic">"git-receive-pack 'simplegit-progit.git'"</span>
+00a5ca82a6dff817ec66f4437202690a93763949 refs/heads/master report-status \
+	delete-refs side-band-64k quiet ofs-delta \
+	agent=git/2:2.1.1+github-607-gfba4028 delete-refs
+0000</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-receive-pack</code> 命令会立即为它所拥有的每一个引用发送一行响应——在这个例子中，就只有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支和它的 SHA-1 值。
+第一行响应中也包含了一个服务端能力的列表（这里是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">report-status</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">delete-refs</code> 和一些其它的，包括客户端的识别码）。</p>
+
+<p>每一行以一个四位的十六进制值开始，用于指明本行的长度。
+你看到第一行以 00a5 开始，这在十六进制中表示 165，意味着第一行有 165 字节。
+下一行是 0000，表示服务端已完成了发送引用列表过程。</p>
+
+<p>现在它知道了服务端的状态，你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">send-pack</code> 进程会判断哪些提交记录是它所拥有但服务端没有的。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">send-pack</code> 会告知 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">receive-pack</code> 这次推送将会更新的各个引用。
+举个例子，如果你正在更新 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支，并且增加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">experiment</code> 分支，这个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">send-pack</code> 的响应将会是像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>0076ca82a6dff817ec66f44342007202690a93763949 15027957951b64cf874c3557a0f3547bd83b3ff6 \
+	refs/heads/master report-status
+006c0000000000000000000000000000000000000000 cdfdb42577e2506715f8cfeacdbabc092bf63e8d \
+	refs/heads/experiment
+0000</code></p>
+
+<p>第一行也包括了客户端的能力。
+这里的全为 '0' 的 SHA-1 值表示之前没有过这个引用——因为你正要添加新的 experiment 引用。
+删除引用时，将会看到相反的情况：右边的 SHA-1 值全为 '0'。</p>
+
+<p>然后，客户端会发送一个包含了所有服务端上所没有的对象的包文件。
+最终，服务端会响应一个成功（或失败）的标识。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>000eunpack ok</code></p>
+<p><strong>HTTP(S)</strong></p>
+<p>上传过程在 HTTP 上几乎是相同的，除了握手阶段有一点小区别。
+连接是从下面这个请求开始的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET http://server/simplegit-progit.git/info/refs?service=git-receive-pack
+001f# service=git-receive-pack
+00ab6c5f0e45abd7832bf23074a333f739977c9e8188 refs/heads/master report-status \
+	delete-refs side-band-64k quiet ofs-delta \
+	agent=git/2:2.1.1~vmg-bitmaps-bugaloo-608-g116744e
+0000</code></p>
+
+<p>这完成了客户端和服务端的第一次数据交换。
+接下来客户端发起另一个请求，这次是一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">POST</code> 请求，这个请求中包含了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">send-pack</code> 提供的数据。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; POST http://server/simplegit-progit.git/git-receive-pack</code></p>
+
+<p>这个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">POST</code> 请求的内容是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">send-pack</code> 的输出和相应的包文件。
+服务端在收到请求后相应地作出成功或失败的 HTTP 响应。</p>
+
+<p>请牢记，HTTP 协议有可能会进一步用分块传输编码将数据包裹起来。</p>
+<p><strong>下载数据</strong></p>
+<p>
+当你在下载数据时， <code xmlns="http://www.w3.org/1999/xhtml" class="literal">fetch-pack</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">upload-pack</code> 进程就起作用了。
+客户端启动 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">fetch-pack</code> 进程，连接至远端的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">upload-pack</code> 进程，以协商后续传输的数据。</p>

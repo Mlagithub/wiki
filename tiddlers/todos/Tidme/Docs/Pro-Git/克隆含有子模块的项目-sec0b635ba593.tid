@@ -1,0 +1,99 @@
+caption: 克隆含有子模块的项目
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 子模块 › 克隆含有子模块的项目
+tidme.chars: 2524
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 05c66852f25e794c
+tidme.id: sec0b635ba593
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000138
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/克隆含有子模块的项目-sec0b635ba593
+type: text/vnd.tiddlywiki
+
+<p>接下来我们将会克隆一个含有子模块的项目。
+当你在克隆这样的项目时，默认会包含该子模块目录，但其中还没有任何文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone https://github.com/chaconinc/MainProject
+Cloning into 'MainProject'...
+remote: Counting objects: 14, done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 14 (delta 1), reused 13 (delta 0)
+Unpacking objects: 100% (14/14), done.
+Checking connectivity... done.
+<span style="font-weight: bold">$ </span>cd MainProject
+<span style="font-weight: bold">$ </span>ls -la
+total 16
+drwxr-xr-x   9 schacon  staff  306 Sep 17 15:21 .
+drwxr-xr-x   7 schacon  staff  238 Sep 17 15:21 ..
+drwxr-xr-x  13 schacon  staff  442 Sep 17 15:21 .git
+-rw-r--r--   1 schacon  staff   92 Sep 17 15:21 .gitmodules
+drwxr-xr-x   2 schacon  staff   68 Sep 17 15:21 DbConnector
+-rw-r--r--   1 schacon  staff  756 Sep 17 15:21 Makefile
+drwxr-xr-x   3 schacon  staff  102 Sep 17 15:21 includes
+drwxr-xr-x   4 schacon  staff  136 Sep 17 15:21 scripts
+drwxr-xr-x   4 schacon  staff  136 Sep 17 15:21 src
+<span style="font-weight: bold">$ </span>cd DbConnector/
+<span style="font-weight: bold">$ </span>ls
+<span style="font-weight: bold">$</span></code></p>
+
+<p>其中有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">DbConnector</code> 目录，不过是空的。
+你必须运行两个命令：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule init</code> 用来初始化本地配置文件，而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update</code> 则从该项目中抓取所有数据并检出父项目中列出的合适的提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git submodule init
+Submodule 'DbConnector' (https://github.com/chaconinc/DbConnector) registered for path 'DbConnector'
+<span style="font-weight: bold">$ </span>git submodule update
+Cloning into 'DbConnector'...
+remote: Counting objects: 11, done.
+remote: Compressing objects: 100% (10/10), done.
+remote: Total 11 (delta 0), reused 11 (delta 0)
+Unpacking objects: 100% (11/11), done.
+Checking connectivity... done.
+Submodule path 'DbConnector': checked out 'c3f01dc8862123d317dd46284b05b6892c7b29bc'</code></p>
+
+<p>现在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">DbConnector</code> 子目录是处在和之前提交时相同的状态了。</p>
+
+<p>不过还有更简单一点的方式。
+如果给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clone</code> 命令传递 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code> 选项，它就会自动初始化并更新仓库中的每一个子模块，
+包括可能存在的嵌套子模块。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone --recurse-submodules https://github.com/chaconinc/MainProject
+Cloning into 'MainProject'...
+remote: Counting objects: 14, done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 14 (delta 1), reused 13 (delta 0)
+Unpacking objects: 100% (14/14), done.
+Checking connectivity... done.
+Submodule 'DbConnector' (https://github.com/chaconinc/DbConnector) registered for path 'DbConnector'
+Cloning into 'DbConnector'...
+remote: Counting objects: 11, done.
+remote: Compressing objects: 100% (10/10), done.
+remote: Total 11 (delta 0), reused 11 (delta 0)
+Unpacking objects: 100% (11/11), done.
+Checking connectivity... done.
+Submodule path 'DbConnector': checked out 'c3f01dc8862123d317dd46284b05b6892c7b29bc'</code></p>
+
+<p>如果你已经克隆了项目但忘记了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code>，那么可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update --init</code>
+将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule init</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update</code> 合并成一步。如果还要初始化、抓取并检出任何嵌套的子模块，
+请使用简明的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update --init --recursive</code>。</p>
+<p><strong>在包含子模块的项目上工作</strong></p>
+
+<p><strong>在包含子模块的项目上工作</strong></p>
+<p>现在我们有一份包含子模块的项目副本，我们将会同时在主项目和子模块项目上与队员协作。</p>

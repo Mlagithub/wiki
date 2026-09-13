@@ -1,0 +1,130 @@
+caption: git commit
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 命令 › 快照基础 › git commit
+tidme.chars: 2064
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/C-git-commands.xhtml
+tidme.format: epub
+tidme.hash: 4100af29e697cd96
+tidme.id: s09431fdadba1
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000236
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/git-commit-s09431fdadba1
+type: text/vnd.tiddlywiki
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 命令将所有通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 暂存的文件内容在数据库中创建一个持久的快照，然后将当前分支上的分支指针移到其之上。</p>
+
+<p>首先，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_committing_changes" href="ch02-git-basics-chapter.xhtml#_committing_changes" class="xref">提交更新</a> 一节中涉及了此命令的基本用法。
+我们演示了如何在日常的工作流程中通过使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-a</code> 标志来跳过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 这一步，及如何使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-m</code> 标志通过命令行而不启动一个编辑器来传递提交信息。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_undoing" href="ch02-git-basics-chapter.xhtml#_undoing" class="xref">撤消操作</a> 一节中我们介绍了使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--amend</code> 选项来重做最后的提交。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_git_branches_overview" href="ch03-git-branching.xhtml#_git_branches_overview" class="xref">分支简介</a>，我们探讨了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 的更多细节，及工作原理。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_signing_commits" href="ch07-git-tools.xhtml#_signing_commits" class="xref">签署提交</a> 一节中我们探讨了如何使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-S</code> 标志来为提交签名加密。</p>
+
+<p>最后，在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals--_git_commit_objects" href="ch10-git-internals.xhtml#_git_commit_objects" class="xref">提交对象</a> 一节中，我们了解了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 在背后做了什么，及它是如何实现的。</p>
+<p><strong>git reset</strong></p>
+
+<p><strong>git reset</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset</code> 命令主要用来根据你传递给动作的参数来执行撤销操作。
+它可以移动 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code> 指针并且可选的改变 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">index</code> 或者暂存区，如果你使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--hard</code> 参数的话你甚至可以改变工作区。
+如果错误地为这个命令附加后面的参数，你可能会丢失你的工作，所以在使用前你要确定你已经完全理解了它。</p>
+
+<p>首先，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_unstaging" href="ch02-git-basics-chapter.xhtml#_unstaging" class="xref">取消暂存的文件</a> 一节中介绍了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset</code> 简单高效的用法，用来对执行过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 命令的文件取消暂存。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_git_reset" href="ch07-git-tools.xhtml#_git_reset" class="xref">重置揭密</a> 一节中我们详细介绍了此命令，几乎整节都在解释此命令。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_abort_merge" href="ch07-git-tools.xhtml#_abort_merge" class="xref">中断一次合并</a> 一节中，我们使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset --hard</code> 来取消一个合并，同时我们也使用了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge --abort</code> 命令，它是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset</code> 的一个简单的封装。</p>
+<p><strong>git rm</strong></p>
+
+<p><strong>git rm</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rm</code> 是 Git 用来从工作区，或者暂存区移除文件的命令。
+在为下一次提交暂存一个移除操作上，它与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 有一点类似。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_removing_files" href="ch02-git-basics-chapter.xhtml#_removing_files" class="xref">移除文件</a> 一节中提到了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rm</code> 的一些细节，包括递归地移除文件，和使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--cached</code> 选项来只移除暂存区域的文件但是保留工作区的文件。</p>
+
+<p>在本书的 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals--_removing_objects" href="ch10-git-internals.xhtml#_removing_objects" class="xref">移除对象</a> 一节中，介绍了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rm</code> 仅有的几种不同用法，如在执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git filter-branch</code> 中使用和解释了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--ignore-unmatch</code> 选项。
+这对脚本来说很有用。</p>
+<p><strong>git mv</strong></p>
+
+<p><strong>git mv</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git mv</code> 命令是一个便利命令，用于移到一个文件并且在新文件上执行`git add`命令及在老文件上执行`git rm`命令。</p>
+
+<p>我们只是在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_git_mv" href="ch02-git-basics-chapter.xhtml#_git_mv" class="xref">移动文件</a> 一节中简单地提到了此命令。</p>
+<p><strong>git clean</strong></p>
+
+<p><strong>git clean</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clean</code> 是一个用来从工作区中移除不想要的文件的命令。
+可以是编译的临时文件或者合并冲突的文件。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_git_clean" href="ch07-git-tools.xhtml#_git_clean" class="xref">清理工作目录</a> 一节中我们介绍了你可能会使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">clean</code> 命令的大量选项及场景。</p>
+<p><strong>分支与合并</strong></p>
+
+<p><strong>分支与合并</strong></p>
+<p>Git 有几个实现大部的分支及合并功能的实用命令。</p>
+<p><strong>git branch</strong></p>
+
+<p><strong>git branch</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git branch</code> 命令实际上是某种程度上的分支管理工具。
+它可以列出你所有的分支、创建新分支、删除分支及重命名分支。</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching" href="ch03-git-branching.xhtml" class="xref">Git 分支</a> 一节主要是为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">branch</code> 命令来设计的，它贯穿了整个章节。
+首先，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_create_new_branch" href="ch03-git-branching.xhtml#_create_new_branch" class="xref">分支创建</a> 一节中介绍了它，然后我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_branch_management" href="ch03-git-branching.xhtml#_branch_management" class="xref">分支管理</a> 一节中介绍了它的其它大部分特性（列举及删除）。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_tracking_branches" href="ch03-git-branching.xhtml#_tracking_branches" class="xref">跟踪分支</a> 一节中，我们使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git branch -u</code> 选项来设置一个跟踪分支。</p>
+
+<p>最后，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals--_git_refs" href="ch10-git-internals.xhtml#_git_refs" class="xref">Git 引用</a> 一节中讲到了它在背后做一什么。</p>
+<p><strong>git checkout</strong></p>
+
+<p><strong>git checkout</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code> 命令用来切换分支，或者检出内容到工作目录。</p>
+
+<p>我们是在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_switching_branches" href="ch03-git-branching.xhtml#_switching_branches" class="xref">分支切换</a> 一节中第一次认识了命令及 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git branch</code> 命令。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch03-git-branching.xhtml#_tracking_branches" class="xref">跟踪分支</a> 一节中我们了解了如何使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--track</code> 标志来开始跟踪分支。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_checking_out_conflicts" href="ch07-git-tools.xhtml#_checking_out_conflicts" class="xref">检出冲突</a> 一节中，我们用此命令和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--conflict=diff3</code> 来重新介绍文件冲突。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_git_reset" class="xref">重置揭密</a> 一节中，我们进一步了解了其细节及与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset</code> 的关系。</p>
+
+<p>最后，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals--ref_the_ref" href="ch10-git-internals.xhtml#ref_the_ref" class="xref">HEAD 引用</a> 一节中介绍了此命令的一些实现细节。</p>
+<p><strong>git merge</strong></p>
+
+<p><strong>git merge</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code> 工具用来合并一个或者多个分支到你已经检出的分支中。
+然后它将当前分支指针移动到合并结果上。</p>
+
+<p>我们首先在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_basic_branching" href="ch03-git-branching.xhtml#_basic_branching" class="xref">新建分支</a> 一节中介绍了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code> 命令。
+虽然它在本书的各种地方都有用到，但是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">merge</code> 命令只有几个变种，一般只是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge &lt;branch&gt;</code> 带上一个你想合并进来的一个分支名称。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_public_project" href="ch05-distributed-git.xhtml#_public_project" class="xref">派生的公开项目</a> 的后面介绍了如何做一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">squashed merge</code> （指 Git 合并时将其当作一个新的提交而不是记录你合并时的分支的历史记录。）</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_advanced_merging" class="xref">高级合并</a> 一节中，我们介绍了合并的过程及命令，包含 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-Xignore-space-change</code> 命令及 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--abort</code> 选项来中止一个有问题的提交。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_signing_commits" class="xref">签署提交</a> 一节中我们学习了如何在合并前验证签名，如果你项目正在使用 GPG 签名的话。</p>
+
+<p>最后，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_subtree_merge" href="ch07-git-tools.xhtml#_subtree_merge" class="xref">子树合并</a> 一节中学习了子树合并。</p>
+<p><strong>git mergetool</strong></p>
+
+<p><strong>git mergetool</strong></p>
+<p>当你在 Git 的合并中遇到问题时，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git mergetool</code> 来启动一个外部的合并帮助工具。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch03-git-branching.xhtml#_basic_merge_conflicts" class="xref">遇到冲突时的分支合并</a> 中快速介绍了一下它，然后在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch08-customizing-git--_external_merge_tools" href="ch08-customizing-git.xhtml#_external_merge_tools" class="xref">外部的合并与比较工具</a> 一节中介绍了如何实现你自己的外部合并工具的细节。</p>
+<p><strong>git log</strong></p>

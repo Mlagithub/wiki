@@ -1,0 +1,124 @@
+caption: core.whitespace
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › 配置 Git › 格式化与多余的空白字符 › core.whitespace
+tidme.chars: 2706
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: 59cf3667f4391319
+tidme.id: sf16f91dc8a1b
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000158
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/core-whitespace-sf16f91dc8a1b
+type: text/vnd.tiddlywiki
+
+<p>Git 预先设置了一些选项来探测和修正多余空白字符问题。
+它提供了六种处理多余空白字符的主要选项 —— 其中三个默认开启，另外三个默认关闭，不过你可以自由地设置它们。</p>
+
+<p>默认被打开的三个选项是：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">blank-at-eol</code>，查找行尾的空格；<code xmlns="http://www.w3.org/1999/xhtml" class="literal">blank-at-eof</code>，盯住文件底部的空行；
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">space-before-tab</code>，警惕行头 tab 前面的空格。</p>
+
+<p>默认被关闭的三个选项是：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">indent-with-non-tab</code>，揪出以空格而非 tab 开头的行（你可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">tabwidth</code> 选项控制它）；<code xmlns="http://www.w3.org/1999/xhtml" class="literal">tab-in-indent</code>，监视在行头表示缩进的 tab；<code xmlns="http://www.w3.org/1999/xhtml" class="literal">cr-at-eol</code>，告诉 Git 忽略行尾的回车。</p>
+
+<p>通过设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">core.whitespace</code>，你可以让 Git 按照你的意图来打开或关闭以逗号分割的选项。
+要想关闭某个选项，你可以在输入设置选项时不指定它或在它前面加个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-</code>。
+例如，如果你想要打开除`space-before-tab` 之外的所有选项，那么可以这样
+（ <code xmlns="http://www.w3.org/1999/xhtml" class="literal">trailing-space</code> 涵盖了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">blank-at-eol</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">blank-at-eof</code> ）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global core.whitespace <span style="font-weight: bold; font-style: italic">\</span>
+    trailing-space,-space-before-tab,indent-with-non-tab,tab-in-indent,cr-at-eol</code></p>
+
+<p>你也可以只指定自定义的部分：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global core.whitespace <span style="font-weight: bold; font-style: italic">\</span>
+    -space-before-tab,indent-with-non-tab,tab-in-indent,cr-at-eol</code></p>
+
+<p>当你运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 命令并尝试给输出着色时，Git 将探测到这些问题，因此你在提交前就能修复它们。
+用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git apply</code> 打补丁时你也会从中受益。
+如果正准备应用的补丁存有特定的空白问题，你可以让 Git 在应用补丁时发出警告：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git apply --whitespace=warn &lt;patch&gt;</code></p>
+
+<p>或者让 Git 在打上补丁前自动修正此问题：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git apply --whitespace=fix &lt;patch&gt;</code></p>
+
+<p>这些选项也能运用于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase</code>。
+如果提交了有空白问题的文件，但还没推送到上游，你可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase --whitespace=fix</code> 来让 Git 在重写补丁时自动修正它们。</p>
+<p><strong>服务器端配置</strong></p>
+
+<p><strong>服务器端配置</strong></p>
+<p>Git 服务器端的配置项相对来说并不多，但仍有一些饶有生趣的选项值得你一看。</p>
+<p><strong>receive.fsckObjects</strong></p>
+<p>Git 能够确认每个对象的有效性以及 SHA-1 检验和是否保持一致。
+但 Git 不会在每次推送时都这么做。这个操作很耗时间，很有可能会拖慢提交的过程，特别是当库或推送的文件很大的情况下。
+如果想在每次推送时都要求 Git 检查一致性，设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">receive.fsckObjects</code> 为 true 来强迫它这么做：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --system receive.fsckObjects true</code></p>
+
+<p>现在 Git 会在每次推送生效前检查库的完整性，确保没有被有问题的客户端引入破坏性数据。</p>
+<p><strong>receive.denyNonFastForwards</strong></p>
+<p>如果你变基已经被推送的提交，继而再推送，又或者推送一个提交到远程分支，而这个远程分支当前指向的提交不在该提交的历史中，这样的推送会被拒绝。
+这通常是个很好的策略，但有时在变基的过程中，你确信自己需要更新远程分支，可以在 push 命令后加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-f</code> 标志来强制更新（force-update）。</p>
+
+<p>要禁用这样的强制更新推送（force-pushes），可以设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">receive.denyNonFastForwards</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --system receive.denyNonFastForwards true</code></p>
+
+<p>稍后我们会提到，用服务器端的接收钩子也能达到同样的目的。
+那种方法可以做到更细致的控制，例如禁止某一类用户做非快进（non-fast-forwards）推送。</p>
+<p><strong>receive.denyDeletes</strong></p>
+<p>有一些方法可以绕过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">denyNonFastForwards</code> 策略。其中一种是先删除某个分支，再连同新的引用一起推送回该分支。
+把 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">receive.denyDeletes</code> 设置为 true 可以把这个漏洞补上：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --system receive.denyDeletes true</code></p>
+
+<p>这样会禁止通过推送删除分支和标签 — 没有用户可以这么做。
+要删除远程分支，必须从服务器手动删除引用文件。
+通过用户访问控制列表（ACL）也能够在用户级的粒度上实现同样的功能，
+你将在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_an_example_git_enforced_policy" href="#_an_example_git_enforced_policy" class="xref">使用强制策略的一个例子</a> 一节学到具体的做法。</p>
+<p><strong>Git 属性</strong></p>
+
+<p><strong>Git 属性</strong></p>
+<p>
+你也可以针对特定的路径配置某些设置项，这样 Git 就只对特定的子目录或子文件集运用它们。
+这些基于路径的设置项被称为 Git 属性，可以在你的目录下的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitattributes</code> 文件内进行设置（通常是你的项目的根目录）。如果不想让这些属性文件与其它文件一同提交，你也可以在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/info/attributes</code> 文件中进行设置。</p>
+
+<p>通过使用属性，你可以对项目中的文件或目录单独定义不同的合并策略，让 Git 知道怎样比较非文本文件，或者让 Git 在提交或检出前过滤内容。
+在本节，你将学习到一些能在自己的项目中用到的属性，并看到几个实际的例子。</p>
+<p><strong>二进制文件</strong></p>
+
+<p><strong>二进制文件</strong></p>
+<p>
+你可以用 Git 属性让 Git 知道哪些是二进制文件（以防它没有识别出来），并指示其如何处理这些文件。
+例如，一些文本文件是由机器产生的，没有办法进行比较，但是一些二进制文件可以比较。
+你将了解到怎样让 Git 区分这些文件。</p>
+<p><strong>识别二进制文件</strong></p>
+<p>有些文件表面上是文本文件，实质上应被作为二进制文件处理。
+例如，macOS 平台上的 Xcode 项目会包含一个以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.pbxproj</code> 结尾的文件，
+它通常是一个记录项目构建配置等信息的 JSON（纯文本 Javascript 数据类型）数据集，由 IDE 写入磁盘。
+虽然技术上看它是由 UTF-8 编码的文本文件，但你并不会希望将它当作文本文件来处理，
+因为它其实是一个轻量级数据库——如果有两个人修改了它，你通常无法合并内容，diff 的输出也帮不上什么忙。
+它本应被机器处理。因此，你想把它当成二进制文件。</p>
+
+<p>要让 Git 把所有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pbxproj</code> 文件当成二进制文件，在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitattributes</code> 文件中如下设置：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>*.pbxproj binary</code></p>
+
+<p>现在，Git 不会尝试转换或修正回车换行（CRLF）问题，当你在项目中运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 时，Git 也不会比较或打印该文件的变化。</p>

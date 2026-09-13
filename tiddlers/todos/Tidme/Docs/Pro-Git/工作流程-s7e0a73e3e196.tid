@@ -1,0 +1,142 @@
+caption: 工作流程
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Perforce › Git Fusion › 工作流程
+tidme.chars: 3828
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: 0ce88e0d9f68d33b
+tidme.id: s7e0a73e3e196
+tidme.kind: topic
+tidme.level: 5
+tidme.merged: yes
+tidme.order: 000184
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/工作流程-s7e0a73e3e196
+type: text/vnd.tiddlywiki
+
+<p>Perforce Git Fusion 是在 Perforce 与 Git 版本控制间双向的桥接。
+让我们看一下在 Git 这边工作是什么样的感觉。
+假定我们在 “Jam” 项目中使用上述的配置文件映射了，可以这样克隆：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone https://10.0.1.254/Jam
+Cloning into 'Jam'...
+Username for 'https://10.0.1.254': john
+Password for 'https://john@10.0.1.254':
+remote: Counting objects: 2070, done.
+remote: Compressing objects: 100% (1704/1704), done.
+Receiving objects: 100% (2070/2070), 1.21 MiB | 0 bytes/s, done.
+remote: Total 2070 (delta 1242), reused 0 (delta 0)
+Resolving deltas: 100% (1242/1242), done.
+Checking connectivity... done.
+<span style="font-weight: bold">$ </span>git branch -a
+* master
+  remotes/origin/HEAD -&gt; origin/master
+  remotes/origin/master
+  remotes/origin/rel2.1
+<span style="font-weight: bold">$ </span>git log --oneline --decorate --graph --all
+* 0a38c33 (origin/rel2.1) Create Jam 2.1 release branch.
+| * d254865 (HEAD, origin/master, origin/HEAD, master) Upgrade to latest metrowerks on Beos -- the Intel one.
+| * bd2f54a Put in fix for jam's NT handle leak.
+| * c0f29e7 Fix URL in a jam doc
+| * cc644ac Radstone's lynx port.
+[...]</code></p>
+
+<p>当首次这样做时，会花费一些时间。
+这里发生的是 Git Fusion 会将在 Perforce 历史中所有合适的变更集转换为 Git 提交。
+这发生在服务器端本地，所以会相当快，但是如果有很多历史，那么它还是会花费一些时间。
+后来的抓取会做增量转换，所以会感觉更像 Git 的本地速度。</p>
+
+<p>如你所见，我们的仓库看起来像之前使用过的任何一个 Git 仓库了。
+这里有三个分支，Git 已经帮助创建了一个跟踪 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code> 的本地 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。
+让我们做一些工作，创建几个新提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold"># </span>...
+<span style="font-weight: bold">$ </span>git log --oneline --decorate --graph --all
+* cfd46ab (HEAD, master) Add documentation for new feature
+* a730d77 Whitespace
+* d254865 (origin/master, origin/HEAD) Upgrade to latest metrowerks on Beos -- the Intel one.
+* bd2f54a Put in fix for jam's NT handle leak.
+[...]</code></p>
+
+<p>我们有两个新提交。
+现在我们检查下是否有其他人在工作：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git fetch
+remote: Counting objects: 5, done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 2), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From https://10.0.1.254/Jam
+   d254865..6afeb15  master     -&gt; origin/master
+<span style="font-weight: bold">$ </span>git log --oneline --decorate --graph --all
+* 6afeb15 (origin/master, origin/HEAD) Update copyright
+| * cfd46ab (HEAD, master) Add documentation for new feature
+| * a730d77 Whitespace
+|/
+* d254865 Upgrade to latest metrowerks on Beos -- the Intel one.
+* bd2f54a Put in fix for jam's NT handle leak.
+[...]</code></p>
+
+<p>看起来有人在工作！
+从这个视图来看你并不知道这点，但是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">6afeb15</code> 提交确实是使用 Perforce 客户端创建的。
+从 Git 的视角看它仅仅只是另一个提交，准确地说是一个点。
+让我们看看 Perforce 服务器如何处理一个合并提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge origin/master
+Auto-merging README
+Merge made by the 'recursive' strategy.
+ README | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+<span style="font-weight: bold">$ </span>git push
+Counting objects: 9, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (9/9), done.
+Writing objects: 100% (9/9), 917 bytes | 0 bytes/s, done.
+Total 9 (delta 6), reused 0 (delta 0)
+remote: Perforce: 100% (3/3) Loading commit tree into memory...
+remote: Perforce: 100% (5/5) Finding child commits...
+remote: Perforce: Running git fast-export...
+remote: Perforce: 100% (3/3) Checking commits...
+remote: Processing will continue even if connection is closed.
+remote: Perforce: 100% (3/3) Copying changelists...
+remote: Perforce: Submitting new Git commit objects to Perforce: 4
+To https://10.0.1.254/Jam
+   6afeb15..89cba2b  master -&gt; master</code></p>
+
+<p>Git 认为它成功了。
+让我们从 Perforce 的视角看一下 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">README</code> 文件的历史，使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">p4v</code> 的版本图功能。</p>
+
+<figcaption>Figure 2. Git 推送后的 Perforce 版本图</figcaption>
+
+<p>如果你在之前从未看过这个视图，它似乎让人困惑，但是它显示出了作为 Git 历史图形化查看器相同的概念。
+我们正在查看 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">README</code> 文件的历史，所以左上角的目录树只显示那个文件在不同分支的样子。
+右上方，我们有不同版本文件关系的可视图，这个可视图的全局视图在右下方。
+视图中剩余的部分显示出选择版本的详细信息（在这个例子中是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">2</code>）</p>
+
+<p>还要注意的一件事是这个图看起来很像 Git 历史中的图。
+Perforce 没有存储 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">1</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">2</code> 提交的命名分支，所以它在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git-fusion</code> 目录中生成了一个 “anonymous” 分支来保存它。
+这也会在 Git 命名分支不对应 Perforce 命名分支时发生（稍后你可以使用配置文件来映射它们到 Perforce 分支）。</p>
+
+<p>这些大多数发生在后台，但是最终结果是团队中的一个人可以使用 Git，另一个可以使用 Perforce，而所有人都不知道其他人的选择。</p>
+<p><strong>Git-Fusion 总结</strong></p>
+<p>如果你有（或者能获得）接触你的 Perforce 服务器的权限，那么 Git Fusion 是使 Git 与 Perforce 互相交流的很好的方法。
+这里包含了一点配置，但是学习曲线并不是很陡峭。
+这是本章中其中一个不会出现无法使用 Git 全部能力的警告的章节。
+这并不是说扔给 Perforce 任何东西都会高兴——如果你尝试重写已经推送的历史，Git Fusion 会拒绝它——虽然 Git Fusion 尽力让你感觉是原生的。
+你甚至可以使用 Git 子模块（尽管它们对 Perforce 用户看起来很奇怪），合并分支（在 Perforce 这边会被记录了一次整合）。</p>
+
+<p>如果不能说服你的服务器管理员设置 Git Fusion，依然有一种方式来一起使用这两个工具。</p>

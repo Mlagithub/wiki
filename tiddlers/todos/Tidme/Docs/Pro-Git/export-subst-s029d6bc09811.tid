@@ -1,0 +1,120 @@
+caption: export-subst
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › Git 属性 › 导出版本库 › export-subst
+tidme.chars: 2302
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: ea74be6d2ac64457
+tidme.id: s029d6bc09811
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000161
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/export-subst-s029d6bc09811
+type: text/vnd.tiddlywiki
+
+<p>在导出文件进行部署的时候，你可以将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 的格式化和关键字展开处理应用到标记了
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">export-subst</code> 属性的部分文件。</p>
+
+<p>举个例子，如果你想在项目中包含一个叫做 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">LAST_COMMIT</code> 的文件，
+并在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git archive</code> 的时候自动向它注入最新提交的元数据，可以像这样设置
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitattributes</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">LAST_COMMIT</code> 该文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>LAST_COMMIT export-subst</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>echo <span style="font-style: italic">'Last commit date: $Format:%cd by %aN$'</span> &gt; LAST_COMMIT
+<span style="font-weight: bold">$ </span>git add LAST_COMMIT .gitattributes
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'adding LAST_COMMIT file for archives'</span></code></p>
+
+<p>运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git archive</code> 之后，归档文件的内容会被替换成这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git archive HEAD | tar xCf ../deployment-testing -
+<span style="font-weight: bold">$ </span>cat ../deployment-testing/LAST_COMMIT
+Last commit date: Tue Apr 21 08:38:48 2009 -0700 by Scott Chacon</code></p>
+
+<p>你也可以用诸如提交信息或者任意的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git notes</code> 进行替换，并且 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 还能做简单的字词折行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>echo <span style="font-style: italic">'$Format:Last commit: %h by %aN at %cd%n%+w(76,6,9)%B$'</span> &gt; LAST_COMMIT
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'export-subst uses git log'</span><span style="font-weight: bold; font-style: italic">\'</span><span style="border: 1px solid #F00">'</span>s custom formatter
+
+git archive uses git log'\''s `pretty=format:` processor
+directly, and strips the surrounding `$Format:` and `$`
+markup from the output.
+'
+<span style="font-weight: bold">$ </span>git archive @ | tar xfO - LAST_COMMIT
+Last commit: 312ccc8 by Jim Hill at Fri May 8 09:14:04 2015 -0700
+       export-subst uses git log's custom formatter
+
+         git archive uses git log's `pretty=format:` processor directly, and
+         strips the surrounding `$Format:` and `$` markup from the output.</code></p>
+
+<p>由此得到的归档适用于（当前的）部署工作。然而和其他的导出归档一样，它并不适用于后继的部署工作。</p>
+<p><strong>合并策略</strong></p>
+
+<p><strong>合并策略</strong></p>
+<p>
+通过 Git 属性，你还能对项目中的特定文件指定不同的合并策略。
+一个非常有用的选项就是，告诉 Git 当特定文件发生冲突时不要尝试合并它们，而是直接使用你这边的内容。</p>
+
+<p>考虑如下场景：项目中有一个分叉的或者定制过的主题分支，你希望该分支上的更改能合并回你的主干分支，同时需要忽略其中某些文件。此时这个合并策略就能派上用场。
+假设你有一个数据库设置文件 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">database.xml</code>，在两个分支中它是不同的，而你想合并另一个分支到你的分支上，又不想弄乱该数据库文件。
+你可以设置属性如下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>database.xml merge=<span style="font-style: italic">ours</span></code></p>
+
+<p>然后定义一个虚拟的合并策略，叫做 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ours</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global merge.ours.driver true</code></p>
+
+<p>如果你合并了另一个分支，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">database.xml</code> 文件不会有合并冲突，相反会显示如下信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge topic
+Auto-merging database.xml
+Merge made by recursive.</code></p>
+
+<p>这里，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">database.xml</code> 保持了主干分支中的原始版本。</p>
+<p><strong>Git 钩子</strong></p>
+
+<p><strong>Git 钩子</strong></p>
+<p>
+和其它版本控制系统一样，Git 能在特定的重要动作发生时触发自定义脚本。
+有两组这样的钩子：客户端的和服务器端的。
+客户端钩子由诸如提交和合并这样的操作所调用，而服务器端钩子作用于诸如接收被推送的提交这样的联网操作。
+你可以随心所欲地运用这些钩子。</p>
+<p><strong>安装一个钩子</strong></p>
+
+<p><strong>安装一个钩子</strong></p>
+<p>钩子都被存储在 Git 目录下的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">hooks</code> 子目录中。
+也即绝大部分项目中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/hooks</code> 。
+当你用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git init</code> 初始化一个新版本库时，Git 默认会在这个目录中放置一些示例脚本。
+这些脚本除了本身可以被调用外，它们还透露了被触发时所传入的参数。
+所有的示例都是 shell 脚本，其中一些还混杂了 Perl 代码，不过，任何正确命名的可执行脚本都可以正常使用
+—— 你可以用 Ruby 或 Python，或任何你熟悉的语言编写它们。
+这些示例的名字都是以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.sample</code> 结尾，如果你想启用它们，得先移除这个后缀。</p>
+
+<p>把一个正确命名（不带扩展名）且可执行的文件放入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 目录下的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">hooks</code> 子目录中，即可激活该钩子脚本。
+这样一来，它就能被 Git 调用。接下来，我们会讲解常用的钩子脚本类型。</p>
+<p><strong>客户端钩子</strong></p>
+
+<p><strong>客户端钩子</strong></p>
+<p>客户端钩子分为很多种。
+下面把它们分为：提交工作流钩子、电子邮件工作流钩子和其它钩子。</p>
+
+<p>需要注意的是，克隆某个版本库时，它的客户端钩子 <strong xmlns="http://www.w3.org/1999/xhtml">并不</strong> 随同复制。
+如果需要靠这些脚本来强制维持某种策略，建议你在服务器端实现这一功能。
+（请参照 <a xmlns="http://www.w3.org/1999/xhtml" href="#_an_example_git_enforced_policy" class="xref">使用强制策略的一个例子</a> 中的例子。）</p>

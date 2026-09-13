@@ -1,0 +1,65 @@
+caption: 提交回 Subversion
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Subversion › 提交回 Subversion
+tidme.chars: 1332
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: 4a789aaddfda6430
+tidme.id: s843637cdd106
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000171
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/提交回-Subversion-s843637cdd106
+type: text/vnd.tiddlywiki
+
+<p>现在你有了一个工作目录，你可以在项目上做一些改动，然后高效地使用 Git 作为 SVN 客户端将你的提交推送到上游。
+一旦编辑了一个文件并提交它，你就有了一个存在于本地 Git 仓库的提交，这提交在 Subversion 服务器上并不存在：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'Adding git-svn instructions to the README'</span>
+[master 4af61fd] Adding git-svn instructions to the README
+ 1 file changed, 5 insertions(+)</code></p>
+
+<p>接下来，你需要将改动推送到上游。
+注意这会怎样改变你使用 Subversion 的方式——你可以离线做几次提交然后一次性将它们推送到 Subversion 服务器。
+要推送到一个 Subversion 服务器，运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn dcommit</code> 命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git svn dcommit
+Committing to file:///tmp/test-svn/trunk ...
+    M	README.txt
+Committed r77
+    M	README.txt
+r77 = 95e0222ba6399739834380eb10afcd73e0670bc5 (refs/remotes/origin/trunk)
+No changes between 4af61fd05045e07598c553167e0f31c84fd6ffe1 and refs/remotes/origin/trunk
+Resetting to the latest refs/remotes/origin/trunk</code></p>
+
+<p>这会拿走你在 Subversion 服务器代码之上所做的所有提交，针对每一个做一个 Subversion 提交，然后重写你本地的 Git 提交来包含一个唯一的标识符。
+这很重要因为这意味着所有你的提交的 SHA-1 校验和都改变了。
+部分由于这个原因，同时使用一个基于 Git 的项目远程版本和一个 Subversion 服务器并不是一个好主意。
+如果你查看最后一次提交，有新的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-svn-id</code> 被添加：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log -1
+commit 95e0222ba6399739834380eb10afcd73e0670bc5
+Author: ben &lt;ben@0b684db3-b064-4277-89d1-21af03df0a68&gt;
+Date:   Thu Jul 24 03:08:36 2014 +0000
+
+    Adding git-svn instructions to the README
+
+    git-svn-id: file:///tmp/test-svn/trunk@77 0b684db3-b064-4277-89d1-21af03df0a68</code></p>
+
+<p>注意你原来提交的 SHA-1 校验和原来是以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">4af61fd</code> 开头，而现在是以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">95e0222</code> 开头。
+如果想要既推送到一个 Git 服务器又推送到一个 Subversion 服务器，必须先推送（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">dcommit</code>）到 Subversion 服务器，因为这个操作会改变你的提交数据。</p>

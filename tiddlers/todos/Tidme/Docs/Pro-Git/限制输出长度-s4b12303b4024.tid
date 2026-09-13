@@ -1,0 +1,112 @@
+caption: 限制输出长度
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › 查看提交历史 › 限制输出长度
+tidme.chars: 1791
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: e5e67cf71db1df1c
+tidme.id: s4b12303b4024
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000025
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/限制输出长度-s4b12303b4024
+type: text/vnd.tiddlywiki
+
+<p>除了定制输出格式的选项之外，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 还有许多非常实用的限制输出长度的选项，也就是只输出一部分的提交。
+之前你已经看到过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-2</code> 选项了，它只会显示最近的两条提交，
+实际上，你可以使用类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-&lt;n&gt;</code> 的选项，其中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">n</code> 可以是任何整数，表示仅显示最近的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">n</code> 条提交。
+不过实践中这个选项不是很常用，因为 Git 默认会将所有的输出传送到分页程序中，所以你一次只会看到一页的内容。</p>
+
+<p>但是，类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--since</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--until</code> 这种按照时间作限制的选项很有用。
+例如，下面的命令会列出最近两周的所有提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --since=2.weeks</code></p>
+
+<p>该命令可用的格式十分丰富——可以是类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">"2008-01-15"</code> 的具体的某一天，也可以是类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">"2 years 1 day 3 minutes ago"</code> 的相对日期。</p>
+
+<p>还可以过滤出匹配指定条件的提交。
+用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--author</code> 选项显示指定作者的提交，用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--grep</code> 选项搜索提交说明中的关键字。</p>
+
+<p>你可以指定多个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--author</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--grep</code> 搜索条件，这样会只输出匹配 <strong xmlns="http://www.w3.org/1999/xhtml">任意</strong>
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">--author</code> 模式和 <strong xmlns="http://www.w3.org/1999/xhtml">任意</strong> <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--grep</code> 模式的提交。然而，如果你添加了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--all-match</code> 选项，
+则只会输出匹配 <strong xmlns="http://www.w3.org/1999/xhtml">所有</strong> <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--grep</code> 模式的提交。</p>
+
+<p>另一个非常有用的过滤器是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-S</code>（俗称“pickaxe”选项，取“用鹤嘴锄在土里捡石头”之意），
+它接受一个字符串参数，并且只会显示那些添加或删除了该字符串的提交。
+假设你想找出添加或删除了对某一个特定函数的引用的提交，可以调用：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log -S function_name</code></p>
+
+<p>最后一个很实用的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 选项是路径（path），
+如果只关心某些文件或者目录的历史提交，可以在 git log 选项的最后指定它们的路径。
+因为是放在最后位置上的选项，所以用两个短划线（--）隔开之前的选项和后面限定的路径名。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-limit_options" href="#limit_options" class="xref">限制 <code class="literal">git log</code> 输出的选项</a> 中列出了常用的选项</p>
+
+<caption>Table 3. 限制 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 输出的选项</caption>
+
+<p>选项</p>
+
+<p>说明</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">-&lt;n&gt;</code></p>
+
+<p>仅显示最近的 n 条提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">--since</code>, <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--after</code></p>
+
+<p>仅显示指定时间之后的提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">--until</code>, <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--before</code></p>
+
+<p>仅显示指定时间之前的提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">--author</code></p>
+
+<p>仅显示作者匹配指定字符串的提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">--committer</code></p>
+
+<p>仅显示提交者匹配指定字符串的提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">--grep</code></p>
+
+<p>仅显示提交说明中包含指定字符串的提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">-S</code></p>
+
+<p>仅显示添加或删除内容匹配指定字符串的提交。</p>
+
+<p>来看一个实际的例子，如果要在 Git 源码库中查看 Junio Hamano 在 2008 年 10 月其间，
+除了合并提交之外的哪一个提交修改了测试文件，可以使用下面的命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --pretty=<span style="font-style: italic">"%h - %s"</span> --author=<span style="font-style: italic">'Junio C Hamano'</span> --since=<span style="font-style: italic">"2008-10-01"</span> <span style="font-weight: bold; font-style: italic">\</span>
+   --before=<span style="font-style: italic">"2008-11-01"</span> --no-merges -- t/
+5610e3b - Fix testcase failure when extended attributes are in use
+acd3b9e - Enhance hold_lock_file_for_{update,append}() API
+f563754 - demonstrate breakage of detached checkout with symbolic link HEAD
+d1a43f2 - reset --hard/read-tree --reset -u: remove unmerged new paths
+51a94af - Fix "checkout --track -b newbranch" on detached HEAD
+b0ad11e - pull: allow "git pull origin $something:$current_branch" into an unborn branch</code></p>
+
+<p>在近 40000 条提交中，上面的输出仅列出了符合条件的 6 条记录。</p>
+<p><strong>隐藏合并提交</strong></p>
+<p>按照你代码仓库的工作流程，记录中可能有为数不少的合并提交，它们所包含的信息通常并不多。
+为了避免显示的合并提交弄乱历史记录，可以为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">log</code> 加上 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--no-merges</code> 选项。</p>
+<p><strong>撤消操作</strong></p>

@@ -1,0 +1,93 @@
+caption: 添加远程仓库
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › 远程仓库可以在你的本地主机上 › 添加远程仓库
+tidme.chars: 1700
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: fab546f176ee9cb4
+tidme.id: sd1e1014c20fb
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000030
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/添加远程仓库-sd1e1014c20fb
+type: text/vnd.tiddlywiki
+
+<p>我们在之前的章节中已经提到并展示了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clone</code> 命令是如何自行添加远程仓库的，
+不过这里将告诉你如何自己来添加它。
+运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote add &lt;shortname&gt; &lt;url&gt;</code> 添加一个新的远程 Git 仓库，同时指定一个方便使用的简写：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote
+origin
+<span style="font-weight: bold">$ </span>git remote add pb https://github.com/paulboone/ticgit
+<span style="font-weight: bold">$ </span>git remote -v
+origin	https://github.com/schacon/ticgit (fetch)
+origin	https://github.com/schacon/ticgit (push)
+pb	https://github.com/paulboone/ticgit (fetch)
+pb	https://github.com/paulboone/ticgit (push)</code></p>
+
+<p>现在你可以在命令行中使用字符串 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pb</code> 来代替整个 URL。
+例如，如果你想拉取 Paul 的仓库中有但你没有的信息，可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fetch pb</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git fetch pb
+remote: Counting objects: 43, done.
+remote: Compressing objects: 100% (36/36), done.
+remote: Total 43 (delta 10), reused 31 (delta 5)
+Unpacking objects: 100% (43/43), done.
+From https://github.com/paulboone/ticgit
+ * [new branch]      master     -&gt; pb/master
+ * [new branch]      ticgit     -&gt; pb/ticgit</code></p>
+
+<p>现在 Paul 的 master 分支可以在本地通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pb/master</code> 访问到——你可以将它合并到自己的某个分支中，
+或者如果你想要查看它的话，可以检出一个指向该点的本地分支。
+（我们将会在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch03-git-branching.xhtml" class="xref">Git 分支</a> 中详细介绍什么是分支以及如何使用分支。）</p>
+<p><strong>从远程仓库中抓取与拉取</strong></p>
+
+<p><strong>从远程仓库中抓取与拉取</strong></p>
+<p>就如刚才所见，从远程仓库中获得数据，可以执行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git fetch &lt;remote&gt;</code></p>
+
+<p>这个命令会访问远程仓库，从中拉取所有你还没有的数据。
+执行完成后，你将会拥有那个远程仓库中所有分支的引用，可以随时合并或查看。</p>
+
+<p>如果你使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">clone</code> 命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以 “origin” 为简写。
+所以，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fetch origin</code> 会抓取克隆（或上一次抓取）后新推送的所有工作。
+必须注意 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fetch</code> 命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。
+当准备好时你必须手动将其合并入你的工作。</p>
+
+<p>如果你的当前分支设置了跟踪远程分支（阅读下一节和 <a xmlns="http://www.w3.org/1999/xhtml" href="ch03-git-branching.xhtml" class="xref">Git 分支</a> 了解更多信息），
+那么可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 命令来自动抓取后合并该远程分支到当前分支。
+这或许是个更加简单舒服的工作流程。默认情况下，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clone</code> 命令会自动设置本地 master
+分支跟踪克隆的远程仓库的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支（或其它名字的默认分支）。
+运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 通常会从最初克隆的服务器上抓取数据并自动尝试合并到当前所在的分支。</p>
+<p><strong>推送到远程仓库</strong></p>
+
+<p><strong>推送到远程仓库</strong></p>
+<p>当你想分享你的项目时，必须将其推送到上游。
+这个命令很简单：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push &lt;remote&gt; &lt;branch&gt;</code>。
+当你想要将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支推送到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code> 服务器时（再次说明，克隆时通常会自动帮你设置好那两个名字），
+那么运行这个命令就可以将你所做的备份到服务器：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git push origin master</code></p>
+
+<p>只有当你有所克隆服务器的写入权限，并且之前没有人推送过时，这条命令才能生效。
+当你和其他人在同一时间克隆，他们先推送到上游然后你再推送到上游，你的推送就会毫无疑问地被拒绝。
+你必须先抓取他们的工作并将其合并进你的工作后才能推送。
+阅读 <a xmlns="http://www.w3.org/1999/xhtml" href="ch03-git-branching.xhtml" class="xref">Git 分支</a> 了解如何推送到远程仓库服务器的详细信息。</p>
+<p><strong>查看某个远程仓库</strong></p>

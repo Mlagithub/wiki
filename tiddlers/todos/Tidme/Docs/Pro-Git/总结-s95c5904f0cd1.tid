@@ -1,0 +1,34 @@
+caption: 总结
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 总结
+tidme.chars: 109
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: bc250e74017206ab
+tidme.id: s95c5904f0cd1
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000193
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/总结-s95c5904f0cd1
+type: text/vnd.tiddlywiki
+
+
+<p><strong>总结</strong></p>
+<p>你会觉得将 Git 作为其他版本控制系统的客户端，或者在数据无损的情况下将几乎任何一个现有的仓库导入到 Git，都是一件很惬意的事。
+在下一章，我们将要讲解 Git 的原始内部数据，如果需要的话你就可以加工每一个字节。</p>

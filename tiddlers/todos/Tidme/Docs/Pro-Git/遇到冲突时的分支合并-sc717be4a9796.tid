@@ -1,0 +1,141 @@
+caption: 遇到冲突时的分支合并
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › 分支的新建与合并 › 遇到冲突时的分支合并
+tidme.chars: 2978
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: 95fc93c471645083
+tidme.id: sc717be4a9796
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000042
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/遇到冲突时的分支合并-sc717be4a9796
+type: text/vnd.tiddlywiki
+
+<p>
+有时候合并操作不会如此顺利。
+如果你在两个不同的分支中，对同一个文件的同一个部分进行了不同的修改，Git 就没法干净的合并它们。
+如果你对 #53 问题的修改和有关 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">hotfix</code> 分支的修改都涉及到同一个文件的同一处，在合并它们的时候就会产生合并冲突：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge iss53
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.</code></p>
+
+<p>此时 Git 做了合并，但是没有自动地创建一个新的合并提交。
+Git 会暂停下来，等待你去解决合并产生的冲突。
+你可以在合并冲突后的任意时刻使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 命令来查看那些因包含合并冲突而处于未合并（unmerged）状态的文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add &lt;file&gt;..." to mark resolution)
+
+    both modified:      index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></p>
+
+<p>任何因包含合并冲突而有待解决的文件，都会以未合并状态标识出来。
+Git 会在有冲突的文件中加入标准的冲突解决标记，这样你可以打开这些包含冲突的文件然后手动解决冲突。
+出现冲突的文件会包含一些特殊区段，看起来像下面这个样子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="border: 1px solid #F00">&lt;&lt;&lt;&lt;&lt;&lt;</span>&lt; <span style="font-weight: bold">HEAD:index.html</span>
+<span style="border: 1px solid #F00">&lt;</span>div id=<span style="font-style: italic">"footer"</span>&gt;contact : email.support@github.com&lt;/<span style="font-weight: bold">div</span>&gt;
+=======
+&lt;<span style="font-weight: bold">div</span> id=<span style="font-style: italic">"footer"</span>&gt;
+ please contact us at support@github.com
+&lt;/<span style="font-weight: bold">div</span>&gt;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; iss53:index.html</code></p>
+
+<p>这表示 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code> 所指示的版本（也就是你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支所在的位置，因为你在运行 merge 命令的时候已经检出到了这个分支）在这个区段的上半部分（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">=======</code> 的上半部分），而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">iss53</code> 分支所指示的版本在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">=======</code> 的下半部分。
+为了解决冲突，你必须选择使用由 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">=======</code> 分割的两部分中的一个，或者你也可以自行合并这些内容。
+例如，你可以通过把这段内容换成下面的样子来解决冲突：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>&lt;<span style="font-weight: bold">div</span> id=<span style="font-style: italic">"footer"</span>&gt;
+please contact us at email.support@github.com
+&lt;/<span style="font-weight: bold">div</span>&gt;</code></p>
+
+<p>上述的冲突解决方案仅保留了其中一个分支的修改，并且 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> , <code xmlns="http://www.w3.org/1999/xhtml" class="literal">=======</code> , 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> 这些行被完全删除了。
+在你解决了所有文件里的冲突之后，对每个文件使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 命令来将其标记为冲突已解决。
+一旦暂存这些原本有冲突的文件，Git 就会将它们标记为冲突已解决。</p>
+
+<p>如果你想使用图形化工具来解决冲突，你可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git mergetool</code>，该命令会为你启动一个合适的可视化合并工具，并带领你一步一步解决这些冲突：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git mergetool
+
+This message is displayed because 'merge.tool' is not configured.
+See 'git mergetool --tool-help' or 'git help config' for more details.
+'git mergetool' will now attempt to use one of the following tools:
+opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc3 codecompare vimdiff emerge
+Merging:
+index.html
+
+Normal merge conflict for 'index.html':
+  {local}: modified file
+  {remote}: modified file
+Hit return to start merge resolution tool (opendiff):</code></p>
+
+<p>如果你想使用除默认工具（在这里 Git 使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">opendiff</code> 做为默认的合并工具，因为作者在 Mac 上运行该程序）
+外的其他合并工具，你可以在 “下列工具中（one of the following tools）” 这句后面看到所有支持的合并工具。
+然后输入你喜欢的工具名字就可以了。</p>
+
+<p>如果你需要更加高级的工具来解决复杂的合并冲突，我们会在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_advanced_merging" href="ch07-git-tools.xhtml#_advanced_merging" class="xref">高级合并</a> 介绍更多关于分支合并的内容。</p>
+
+<p>等你退出合并工具之后，Git 会询问刚才的合并是否成功。
+如果你回答是，Git 会暂存那些文件以表明冲突已解决：
+你可以再次运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 来确认所有的合并冲突都已被解决：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status
+On branch master
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+
+    modified:   index.html</code></p>
+
+<p>如果你对结果感到满意，并且确定之前有冲突的文件都已经暂存了，这时你可以输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 来完成合并提交。
+默认情况下提交信息看起来像下面这个样子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>Merge branch 'iss53'
+
+Conflicts:
+    index.html
+<span style="font-weight: bold">#</span>
+<span style="font-weight: bold"># </span>It looks like you may be committing a merge.
+<span style="font-weight: bold"># </span>If this is not correct, please remove the file
+<span style="font-weight: bold">#	</span>.git/MERGE_HEAD
+<span style="font-weight: bold"># </span>and try again.
+
+
+<span style="font-weight: bold"># </span>Please enter the commit message <span style="font-weight: bold">for</span> your changes. Lines starting
+<span style="font-weight: bold"># </span>with <span style="font-style: italic">'#'</span> will be ignored, and an empty message aborts the commit.
+<span style="font-weight: bold"># </span>On branch master
+<span style="font-weight: bold"># </span>All conflicts fixed but you are still merging.
+<span style="font-weight: bold">#</span>
+<span style="font-weight: bold"># </span>Changes to be committed:
+<span style="font-weight: bold">#	</span>modified:   index.html
+<span style="font-weight: bold">#</span></code></p>
+
+<p>如果你觉得上述的信息不够充分，不能完全体现分支合并的过程，你可以修改上述信息，
+添加一些细节给未来检视这个合并的读者一些帮助，告诉他们你是如何解决合并冲突的，以及理由是什么。</p>
+<p><strong>分支管理</strong></p>

@@ -1,0 +1,53 @@
+caption: 跳过使用暂存区域
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › Git Diff 的插件版本 › 跳过使用暂存区域
+tidme.chars: 699
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: ed77141587dfd2e1
+tidme.id: s5bb42386278d
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000020
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/跳过使用暂存区域-s5bb42386278d
+type: text/vnd.tiddlywiki
+
+<p>
+尽管使用暂存区域的方式可以精心准备要提交的细节，但有时候这么做略显繁琐。
+Git 提供了一个跳过使用暂存区域的方式，
+只要在提交的时候，给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 加上 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-a</code> 选项，Git 就会自动把所有已经跟踪过的文件暂存起来一并提交，从而跳过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 步骤：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+<span style="font-weight: bold">$ </span>git commit -a -m <span style="font-style: italic">'added new benchmarks'</span>
+[master 83e38c7] added new benchmarks
+ 1 file changed, 5 insertions(+), 0 deletions(-)</code></p>
+
+<p>看到了吗？提交之前不再需要 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 文件“CONTRIBUTING.md”了。
+这是因为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-a</code> 选项使本次提交包含了所有修改过的文件。
+这很方便，但是要小心，有时这个选项会将不需要的文件添加到提交中。</p>
+<p><strong>移除文件</strong></p>

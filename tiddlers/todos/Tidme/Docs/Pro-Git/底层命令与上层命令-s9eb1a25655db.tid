@@ -1,0 +1,71 @@
+caption: 底层命令与上层命令
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › 底层命令与上层命令
+tidme.chars: 1040
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 7fafcdce00ec9939
+tidme.id: s9eb1a25655db
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000195
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/底层命令与上层命令-s9eb1a25655db
+type: text/vnd.tiddlywiki
+
+<p>本书主要涵盖了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">branch</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">remote</code> 等约 30 个 Git 的子命令。
+然而，由于 Git 最初是一套面向版本控制系统的工具集，而不是一个完整的、用户友好的版本控制系统，
+所以它还包含了一部分用于完成底层工作的子命令。
+这些命令被设计成能以 UNIX 命令行的风格连接在一起，抑或藉由脚本调用，来完成工作。
+这部分命令一般被称作“底层（plumbing）”命令，而那些更友好的命令则被称作“上层（porcelain）”命令。</p>
+
+<p>你或许已经注意到了，本书前九章专注于探讨上层命令。
+然而在本章中，我们将主要面对底层命令。
+因为，底层命令得以让你窥探 Git 内部的工作机制，也有助于说明 Git 是如何完成工作的，以及它为何如此运作。
+多数底层命令并不面向最终用户：它们更适合作为新工具的组件和自定义脚本的组成部分。</p>
+
+<p>当在一个新目录或已有目录执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git  init</code> 时，Git 会创建一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 目录。
+这个目录包含了几乎所有 Git 存储和操作的东西。
+如若想备份或复制一个版本库，只需把这个目录拷贝至另一处即可。
+本章探讨的所有内容，均位于这个目录内。
+新初始化的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 目录的典型结构如下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>ls -F1
+config
+description
+HEAD
+hooks/
+info/
+objects/
+refs/</code></p>
+
+<p>随着 Git 版本的不同，该目录下可能还会包含其他内容。
+不过对于一个全新的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git init</code> 版本库，这将是你看到的默认结构。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">description</code> 文件仅供 GitWeb 程序使用，我们无需关心。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">config</code> 文件包含项目特有的配置选项。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">info</code> 目录包含一个全局性排除（global exclude）文件，
+用以放置那些不希望被记录在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件中的忽略模式（ignored patterns）。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">hooks</code> 目录包含客户端或服务端的钩子脚本（hook scripts），
+在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch08-customizing-git--_git_hooks" href="ch08-customizing-git.xhtml#_git_hooks" class="xref">Git 钩子</a> 中这部分话题已被详细探讨过。</p>
+
+<p>剩下的四个条目很重要：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code> 文件、（尚待创建的）<code xmlns="http://www.w3.org/1999/xhtml" class="literal">index</code> 文件，和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">objects</code> 目录、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs</code> 目录。
+它们都是 Git 的核心组成部分。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">objects</code> 目录存储所有数据内容；<code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs</code> 目录存储指向数据（分支、远程仓库和标签等）的提交对象的指针；
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code> 文件指向目前被检出的分支；<code xmlns="http://www.w3.org/1999/xhtml" class="literal">index</code> 文件保存暂存区信息。
+我们将详细地逐一检视这四部分，来理解 Git 是如何运转的。</p>
+<p><strong>Git 对象</strong></p>

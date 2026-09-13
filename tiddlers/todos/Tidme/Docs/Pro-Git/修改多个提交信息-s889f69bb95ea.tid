@@ -1,0 +1,141 @@
+caption: 修改多个提交信息
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 修补后的提交可能需要修补提交信息 › 修改多个提交信息
+tidme.chars: 3090
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: baf6a3fdc3762dfd
+tidme.id: s889f69bb95ea
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000118
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/修改多个提交信息-s889f69bb95ea
+type: text/vnd.tiddlywiki
+
+<p>为了修改在提交历史中较远的提交，必须使用更复杂的工具。
+Git 没有一个改变历史工具，但是可以使用变基工具来变基一系列提交，基于它们原来的 HEAD 而不是将其移动到另一个新的上面。
+通过交互式变基工具，可以在任何想要修改的提交后停止，然后修改信息、添加文件或做任何想做的事情。
+可以通过给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase</code> 增加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-i</code> 选项来交互式地运行变基。
+必须指定想要重写多久远的历史，这可以通过告诉命令将要变基到的提交来做到。</p>
+
+<p>例如，如果想要修改最近三次提交信息，或者那组提交中的任意一个提交信息，
+将想要修改的最近一次提交的父提交作为参数传递给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase -i</code> 命令，即  <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD~2^</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD~3</code>。
+记住 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~3</code> 可能比较容易，因为你正尝试修改最后三次提交；但是注意实际上指定了以前的四次提交，即想要修改提交的父提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rebase -i HEAD~3</code></p>
+
+<p>再次记住这是一个变基命令——在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD~3..HEAD</code> 范围内的每一个修改了提交信息的提交及其 <strong xmlns="http://www.w3.org/1999/xhtml">所有后裔</strong> 都会被重写。
+不要涉及任何已经推送到中央服务器的提交——这样做会产生一次变更的两个版本，因而使他人困惑。</p>
+
+<p>运行这个命令会在文本编辑器上给你一个提交的列表，看起来像下面这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>pick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
+
+<span style="font-weight: bold"># </span>Rebase 710f0f8..a5f4a0d onto 710f0f8
+<span style="font-weight: bold">#</span>
+<span style="font-weight: bold"># </span>Commands:
+<span style="font-weight: bold"># </span>p, pick &lt;commit&gt; = use commit
+<span style="font-weight: bold"># </span>r, reword &lt;commit&gt; = use commit, but edit the commit message
+<span style="font-weight: bold"># </span>e, edit &lt;commit&gt; = use commit, but stop <span style="font-weight: bold">for</span> amending
+<span style="font-weight: bold"># </span>s, squash &lt;commit&gt; = use commit, but meld into previous commit
+<span style="font-weight: bold"># </span>f, fixup &lt;commit&gt; = like <span style="font-style: italic">"squash"</span>, but discard this commit<span style="font-style: italic">'s log message</span>
+<span style="font-weight: bold"># </span><span style="font-style: italic">x, exec &lt;command&gt; = run command (the rest of the line) using shell</span>
+<span style="font-weight: bold"># </span><span style="font-style: italic">b, break = stop here (continue rebase later with '</span>git rebase --continue<span style="font-style: italic">')</span>
+<span style="font-weight: bold"># </span><span style="font-style: italic">d, drop &lt;commit&gt; = remove commit</span>
+<span style="font-weight: bold"># </span><span style="font-style: italic">l, label &lt;label&gt; = label current HEAD with a name</span>
+<span style="font-weight: bold"># </span><span style="font-style: italic">t, reset &lt;label&gt; = reset HEAD to a label</span>
+<span style="font-weight: bold"># </span><span style="font-style: italic">m, merge [-C &lt;commit&gt; | -c &lt;commit&gt;] &lt;label&gt; [# &lt;oneline&gt;]</span>
+<span style="font-weight: bold"># </span><span style="font-style: italic">.       create a merge commit using the original merge commit'</span>s
+<span style="font-weight: bold"># </span>.       message (or the oneline, <span style="font-weight: bold">if</span> no original merge commit was
+<span style="font-weight: bold"># </span>.       specified). Use -c &lt;commit&gt; to reword the commit message.
+<span style="font-weight: bold">#</span>
+<span style="font-weight: bold"># </span>These lines can be re-ordered; they are executed from top to bottom.
+<span style="font-weight: bold">#</span>
+<span style="font-weight: bold"># </span>If you remove a line here THAT COMMIT WILL BE LOST.
+<span style="font-weight: bold">#</span>
+<span style="font-weight: bold"># </span>However, <span style="font-weight: bold">if</span> you remove everything, the rebase will be aborted.
+<span style="font-weight: bold">#</span>
+<span style="font-weight: bold"># </span>Note that empty commits are commented out</code></p>
+
+<p>需要重点注意的是相对于正常使用的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">log</code> 命令，这些提交显示的顺序是相反的。
+运行一次 'log' 命令，会看到类似这样的东西：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --pretty=format:<span style="font-style: italic">"%h %s"</span> HEAD~3..HEAD
+a5f4a0d added cat-file
+310154e updated README formatting and added blame
+f7f3f6d changed my name a bit</code></p>
+
+<p>注意其中的反序显示。
+交互式变基给你一个它将会运行的脚本。
+它将会从你在命令行中指定的提交（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD~3</code>）开始，从上到下的依次重演每一个提交引入的修改。
+它将最旧的而不是最新的列在上面，因为那会是第一个将要重演的。</p>
+
+<p>你需要修改脚本来让它停留在你想修改的变更上。
+要达到这个目的，你只要将你想修改的每一次提交前面的 `pick' 改为 `edit'。
+例如，只想修改第三次提交信息，可以像下面这样修改文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>edit f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file</code></p>
+
+<p>当保存并退出编辑器时，Git 将你带回到列表中的最后一次提交，把你送回命令行并提示以下信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rebase -i HEAD~3
+Stopped at f7f3f6d... changed my name a bit
+You can amend the commit now, with
+
+       git commit --amend
+
+Once you're satisfied with your changes, run
+
+       git rebase --continue</code></p>
+
+<p>这些指令准确地告诉你该做什么。
+输入</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git commit --amend</code></p>
+
+<p>修改提交信息，然后退出编辑器。
+然后，运行</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rebase --continue</code></p>
+
+<p>这个命令将会自动地应用另外两个提交，然后就完成了。
+如果需要将不止一处的 pick 改为 edit，需要在每一个修改为 edit 的提交上重复这些步骤。
+每一次，Git 将会停止，让你修正提交，然后继续直到完成。</p>
+<p><strong>重新排序提交</strong></p>
+
+<p><strong>重新排序提交</strong></p>
+<p>也可以使用交互式变基来重新排序或完全移除提交。
+如果想要移除 “added cat-file” 提交然后修改另外两个提交引入的顺序，可以将变基脚本从这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>pick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file</code></p>
+
+<p>改为这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>pick 310154e updated README formatting and added blame
+pick f7f3f6d changed my name a bit</code></p>
+
+<p>当保存并退出编辑器时，Git 将你的分支带回这些提交的父提交，应用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">310154e</code> 然后应用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">f7f3f6d</code>，最后停止。
+事实修改了那些提交的顺序并完全地移除了 “added cat-file” 提交。</p>
+<p><strong>压缩提交</strong></p>

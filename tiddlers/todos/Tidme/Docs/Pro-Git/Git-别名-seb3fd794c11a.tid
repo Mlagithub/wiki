@@ -1,0 +1,84 @@
+caption: Git 别名
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › Git 别名
+tidme.chars: 1182
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: 36ac977b1f1357bf
+tidme.id: seb3fd794c11a
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000035
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/Git-别名-seb3fd794c11a
+type: text/vnd.tiddlywiki
+
+<p>
+在我们结束本章 Git 基础之前，正好有一个小技巧可以使你的 Git 体验更简单、容易、熟悉：别名。
+我们不会在之后的章节中引用到或假定你使用过它们，但是你大概应该知道如何使用它们。</p>
+
+<p>Git 并不会在你输入部分命令时自动推断出你想要的命令。
+如果不想每次都输入完整的 Git 命令，可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config</code> 文件来轻松地为每一个命令设置一个别名。
+这里有一些例子你可以试试：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global alias.co checkout
+<span style="font-weight: bold">$ </span>git config --global alias.br branch
+<span style="font-weight: bold">$ </span>git config --global alias.ci commit
+<span style="font-weight: bold">$ </span>git config --global alias.st status</code></p>
+
+<p>这意味着，当要输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 时，只需要输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git ci</code>。
+随着你继续不断地使用 Git，可能也会经常使用其他命令，所以创建别名时不要犹豫。</p>
+
+<p>在创建你认为应该存在的命令时这个技术会很有用。
+例如，为了解决取消暂存文件的易用性问题，可以向 Git 中添加你自己的取消暂存别名：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global alias.unstage <span style="font-style: italic">'reset HEAD --'</span></code></p>
+
+<p>这会使下面的两个命令等价：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git unstage fileA
+<span style="font-weight: bold">$ </span>git reset HEAD -- fileA</code></p>
+
+<p>这样看起来更清楚一些。
+通常也会添加一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">last</code> 命令，像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global alias.last <span style="font-style: italic">'log -1 HEAD'</span></code></p>
+
+<p>这样，可以轻松地看到最后一次提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git last
+commit 66938dae3329c7aebe598c2246a8e6af90d04646
+Author: Josh Goebel &lt;dreamer3@example.com&gt;
+Date:   Tue Aug 26 19:48:51 2008 +0800
+
+    test for current head
+
+    Signed-off-by: Scott Chacon &lt;schacon@example.com&gt;</code></p>
+
+<p>可以看出，Git 只是简单地将别名替换为对应的命令。
+然而，你可能想要执行外部命令，而不是一个 Git 子命令。
+如果是那样的话，可以在命令前面加入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">!</code> 符号。
+如果你自己要写一些与 Git 仓库协作的工具的话，那会很有用。
+我们现在演示将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git visual</code> 定义为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">gitk</code> 的别名：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global alias.visual <span style="font-style: italic">'!gitk'</span></code></p>
+<p><strong>总结</strong></p>
+
+<p><strong>总结</strong></p>
+<p>现在，你应该能完成所有 Git 基本的本地操作了－创建或克隆一个仓库、进行更改、暂存并提交这些更改、浏览仓库从创建到现在的所有更改历史。
+接下来，本书将介绍 Git 的杀手级特性：分支模型。</p>

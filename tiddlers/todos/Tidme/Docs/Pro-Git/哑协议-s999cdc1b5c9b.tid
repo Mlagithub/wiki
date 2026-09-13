@@ -1,0 +1,122 @@
+caption: 哑协议
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › 传输协议 › 哑协议
+tidme.chars: 2579
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 1a6bd345a87a4c3a
+tidme.id: s999cdc1b5c9b
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000207
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/哑协议-s999cdc1b5c9b
+type: text/vnd.tiddlywiki
+
+<p>如果你正在架设一个基于 HTTP 协议的只读版本库，一般而言这种情况下使用的就是哑协议。
+这个协议之所以被称为“哑”协议，是因为在传输过程中，服务端不需要有针对 Git 特有的代码；抓取过程是一系列 HTTP 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GET</code> 请求，这种情况下，客户端可以推断出服务端 Git 仓库的布局。</p>
+
+<p>现在已经很少使用哑协议了。
+使用哑协议的版本库很难保证安全性和私有化，所以大多数 Git 服务器宿主（包括云端和本地）都会拒绝使用它。
+一般情况下都建议使用智能协议，我们会在后面进行介绍。</p>
+
+<p>让我们通过 simplegit 版本库来看看 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">http-fetch</code> 的过程：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone http://server/simplegit-progit.git</code></p>
+
+<p>它做的第一件事就是拉取 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">info/refs</code> 文件。
+这个文件是通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">update-server-info</code> 命令生成的，这也解释了在使用 HTTP 传输时，必须把它设置为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">post-receive</code> 钩子的原因：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET info/refs
+ca82a6dff817ec66f44342007202690a93763949     refs/heads/master</code></p>
+
+<p>现在，你得到了一个远程引用和 SHA-1 值的列表。
+接下来，你要确定 HEAD 引用是什么，这样你就知道在完成后应该被检出到工作目录的内容：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET HEAD
+ref: refs/heads/master</code></p>
+
+<p>这说明在完成抓取后，你需要检出 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。
+这时，你就可以开始遍历处理了。
+因为你是从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">info/refs</code> 文件中所提到的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ca82a6</code> 提交对象开始的，所以你的首要操作是获取它：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET objects/ca/82a6dff817ec66f44342007202690a93763949
+(179 bytes of binary data)</code></p>
+
+<p>你取回了一个对象——这是一个在服务端以松散格式保存的对象，是你通过使用静态 HTTP GET 请求获取的。
+你可以使用 zlib 解压缩它，去除其头部，查看提交记录的内容：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file -p ca82a6dff817ec66f44342007202690a93763949
+tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
+parent 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+author Scott Chacon &lt;schacon@gmail.com&gt; 1205815931 -0700
+committer Scott Chacon &lt;schacon@gmail.com&gt; 1240030591 -0700
+
+changed the version number</code></p>
+
+<p>接下来，你还要再获取两个对象，一个是树对象 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">cfda3b</code>，它包含有我们刚刚获取的提交对象所指向的内容，另一个是它的父提交 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">085bb3</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+(179 bytes of data)</code></p>
+
+<p>这样就取得了你的下一个提交对象。
+再抓取树对象：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET objects/cf/da3bf379e4f8dba8717dee55aab78aef7f4daf
+(404 - Not Found)</code></p>
+
+<p>噢——看起来这个树对象在服务端并不以松散格式对象存在，所以你得到了一个 404 响应，代表在 HTTP 服务端没有找到该对象。
+这有好几个可能的原因——这个对象可能在替代版本库里面，或者在包文件里面。
+Git 会首先检查所有列出的替代版本库：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET objects/info/http-alternates
+(empty file)</code></p>
+
+<p>如果这返回了一个包含替代版本库 URL 的列表，那么 Git 就会去那些地址检查松散格式对象和文件——这是一种能让派生项目共享对象以节省磁盘的好方法。
+然而，在这个例子中，没有列出可用的替代版本库。所以你所需要的对象肯定在某个包文件中。
+要检查服务端有哪些可用的包文件，你需要获取 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">objects/info/packs</code> 文件，这里面有一个包文件列表（它也是通过执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">update-server-info</code> 所生成的）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET objects/info/packs
+P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack</code></p>
+
+<p>服务端只有一个包文件，所以你要的对象显然就在里面。但是你要先检查它的索引文件以确认。
+即使服务端有多个包文件，这也是很有用的，因为这样你就可以知道你所需要的对象是在哪一个包文件里面：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.idx
+(4k of binary data)</code></p>
+
+<p>现在你有这个包文件的索引，你可以查看你要的对象是否在里面——
+因为索引文件列出了这个包文件所包含的所有对象的 SHA-1 值，和该对象存在于包文件中的偏移量。
+你的对象就在这里，接下来就是获取整个包文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
+(13k of binary data)</code></p>
+
+<p>现在你也有了你的树对象，你可以继续在提交记录上漫游。
+它们全部都在这个你刚下载的包文件里面，所以你不用继续向服务端请求更多下载了。
+Git 会将开始时下载的 HEAD 引用所指向的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支检出到工作目录。</p>
+<p><strong>智能协议</strong></p>
+
+<p><strong>智能协议</strong></p>
+<p>哑协议虽然很简单但效率略低，且它不能从客户端向服务端发送数据。
+智能协议是更常用的传送数据的方法，但它需要在服务端运行一个进程，而这也是 Git 的智能之处——它可以读取本地数据，理解客户端有什么和需要什么，并为它生成合适的包文件。
+总共有两组进程用于传输数据，它们分别负责上传和下载数据。</p>
+<p><strong>上传数据</strong></p>
+<p>
+为了上传数据至远端，Git 使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">send-pack</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">receive-pack</code> 进程。
+运行在客户端上的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">send-pack</code> 进程连接到远端运行的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">receive-pack</code> 进程。</p>

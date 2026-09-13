@@ -1,0 +1,79 @@
+caption: Git 引用
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › Git 引用
+tidme.chars: 1261
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 15f87003e0eeacd2
+tidme.id: sb3f0c2ad3c01
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000200
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/Git-引用-sb3f0c2ad3c01
+type: text/vnd.tiddlywiki
+
+<p>如果你对仓库中从一个提交（比如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">1a410e</code>）开始往前的历史感兴趣，那么可以运行
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log 1a410e</code> 这样的命令来显示历史，不过你需要记得 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">1a410e</code> 是你查看历史的起点提交。
+如果我们有一个文件来保存 SHA-1 值，而该文件有一个简单的名字，
+然后用这个名字指针来替代原始的 SHA-1 值的话会更加简单。</p>
+
+<p>在 Git 中，这种简单的名字被称为“引用（references，或简写为 refs）”。
+你可以在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/refs</code> 目录下找到这类含有 SHA-1 值的文件。
+在目前的项目中，这个目录没有包含任何文件，但它包含了一个简单的目录结构：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>find .git/refs
+.git/refs
+.git/refs/heads
+.git/refs/tags
+<span style="font-weight: bold">$ </span>find .git/refs -type f</code></p>
+
+<p>若要创建一个新引用来帮助记忆最新提交所在的位置，从技术上讲我们只需简单地做如下操作：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>echo 1a410efbd13591db07496601ebc7a059dd55cfe9 &gt; .git/refs/heads/master</code></p>
+
+<p>现在，你就可以在 Git 命令中使用这个刚创建的新引用来代替 SHA-1 值了：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --pretty=oneline master
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit</code></p>
+
+<p>我们不提倡直接编辑引用文件。
+如果想更新某个引用，Git 提供了一个更加安全的命令 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">update-ref</code> 来完成此事：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9</code></p>
+
+<p>这基本就是 Git 分支的本质：一个指向某一系列提交之首的指针或引用。
+若想在第二个提交上创建一个分支，可以这么做：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git update-ref refs/heads/test cac0ca</code></p>
+
+<p>这个分支将只包含从第二个提交开始往前追溯的记录：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --pretty=oneline test
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit</code></p>
+
+<p>至此，我们的 Git 数据库从概念上看起来像这样：</p>
+
+<figcaption>Figure 4. 包含分支引用的 Git 目录对象。</figcaption>
+
+<p>当运行类似于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git branch &lt;branch&gt;</code> 这样的命令时，Git 实际上会运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">update-ref</code> 命令，
+取得当前所在分支最新提交对应的 SHA-1 值，并将其加入你想要创建的任何新引用中。</p>
+<p><strong>HEAD 引用</strong></p>

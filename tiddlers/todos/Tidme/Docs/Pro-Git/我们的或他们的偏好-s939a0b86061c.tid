@@ -1,0 +1,84 @@
+caption: 我们的或他们的偏好
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 高级合并 › 其他类型的合并 › 我们的或他们的偏好
+tidme.chars: 1543
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: a1017c58f98cec6b
+tidme.id: s939a0b86061c
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000131
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/我们的或他们的偏好-s939a0b86061c
+type: text/vnd.tiddlywiki
+
+<p>首先，有另一种我们可以通过 “recursive” 合并模式做的有用工作。
+我们之前已经看到传递给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-X</code> 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ignore-all-space</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ignore-space-change</code> 选项，
+但是我们也可以告诉 Git 当它看见一个冲突时直接选择一边。</p>
+
+<p>默认情况下，当 Git 看到两个分支合并中的冲突时，它会将合并冲突标记添加到你的代码中并标记文件为冲突状态来让你解决。
+如果你希望 Git 简单地选择特定的一边并忽略另外一边而不是让你手动解决冲突，你可以传递给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">merge</code> 命令一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-Xours</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-Xtheirs</code> 参数。</p>
+
+<p>如果 Git 看到这个，它并不会增加冲突标记。
+任何可以合并的区别，它会直接合并。
+任何有冲突的区别，它会简单地选择你全局指定的一边，包括二进制文件。</p>
+
+<p>如果我们回到之前我们使用的 “hello world” 例子中，我们可以看到合并入我们的分支时引发了冲突。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge mundo
+Auto-merging hello.rb
+CONFLICT (content): Merge conflict in hello.rb
+Resolved 'hello.rb' using previous resolution.
+Automatic merge failed; fix conflicts and then commit the result.</code></p>
+
+<p>然而如果我们运行时增加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-Xours</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-Xtheirs</code> 参数就不会有冲突。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge -Xours mundo
+Auto-merging hello.rb
+Merge made by the 'recursive' strategy.
+ hello.rb | 2 +-
+ test.sh  | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+ create mode 100644 test.sh</code></p>
+
+<p>在上例中，它并不会为 “hello mundo” 与 “hola world” 标记合并冲突，它只会简单地选取 “hola world”。
+然而，在那个分支上所有其他非冲突的改动都可以被成功地合并入。</p>
+
+<p>这个选项也可以传递给我们之前看到的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge-file</code> 命令，
+通过运行类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge-file --ours</code> 的命令来合并单个文件。</p>
+
+<p>如果想要做类似的事情但是甚至并不想让 Git 尝试合并另外一边的修改，
+有一个更严格的选项，它是 “ours” 合并 <em xmlns="http://www.w3.org/1999/xhtml">策略</em>。
+这与 “ours” recursive 合并 <em xmlns="http://www.w3.org/1999/xhtml">选项</em> 不同。</p>
+
+<p>这本质上会做一次假的合并。
+它会记录一个以两边分支作为父结点的新合并提交，但是它甚至根本不关注你正合并入的分支。
+它只会简单地把当前分支的代码当作合并结果记录下来。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge -s ours mundo
+Merge made by the 'ours' strategy.
+<span style="font-weight: bold">$ </span>git diff HEAD HEAD~
+<span style="font-weight: bold">$</span></code></p>
+
+<p>你可以看到合并后与合并前我们的分支并没有任何区别。</p>
+
+<p>当再次合并时从本质上欺骗 Git 认为那个分支已经合并过经常是很有用的。
+例如，假设你有一个分叉的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">release</code> 分支并且在上面做了一些你想要在未来某个时候合并回 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 的工作。
+与此同时 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支上的某些 bugfix 需要向后移植回 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">release</code> 分支。
+你可以合并 bugfix 分支进入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">release</code> 分支同时也 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">merge -s ours</code> 合并进入你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支
+（即使那个修复已经在那儿了）这样当你之后再次合并 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">release</code> 分支时，就不会有来自 bugfix 的冲突。</p>

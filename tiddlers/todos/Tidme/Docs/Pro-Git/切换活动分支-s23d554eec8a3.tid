@@ -1,0 +1,53 @@
+caption: 切换活动分支
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Subversion › 切换活动分支
+tidme.chars: 906
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: 7ee082beead9bbb2
+tidme.id: s23d554eec8a3
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000175
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/切换活动分支-s23d554eec8a3
+type: text/vnd.tiddlywiki
+
+<p>Git 通过查找在历史中 Subversion 分支的头部来指出你的提交将会到哪一个分支——应该只有一个，并且它应该是在当前分支历史中最后一个有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-svn-id</code> 的。</p>
+
+<p>如果想要同时在不止一个分支上工作，可以通过在导入的那个分支的 Subversion 提交开始来设置本地分支 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dcommit</code> 到特定的 Subversion 分支。
+如果想要一个可以单独在上面工作的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">opera</code> 分支，可以运行</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git branch opera remotes/origin/opera</code></p>
+
+<p>现在，如果想要将你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">opera</code> 分支合并入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">trunk</code>（你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支），可以用一个正常的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code> 来这样做。
+但是你需要通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-m</code> 来提供一个描述性的提交信息，否则合并信息会是没有用的 “Merge branch opera”。</p>
+
+<p>记住尽管使用的是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code> 来做这个操作，而且合并可能会比在 Subversion 中更容易一些
+（因为 Git 会为你自动地检测合适的合并基础），但这并不是一个普通的 Git 合并提交。
+你不得不将这个数据推送回一个 Subversion 服务器，Subversion 服务器不支持那些跟踪多个父结点的提交；
+所以，当推送完成后，它看起来会是一个将其他分支的所有提交压缩在一起的单独提交。
+在合并一个分支到另一个分支后，你并不能像 Git 中那样轻松地回到原来的分支继续工作。
+你运行的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dcommit</code> 命令会将哪个分支被合并进来的信息抹掉，所以后续的合并基础计算会是错的——
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">dcommit</code> 会使你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code> 结果看起来像是运行了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge --squash</code>。
+不幸的是，没有一个好的方式来避免这种情形—— Subversion 无法存储这个信息，
+所以当使用它做为服务器时你总是会被它的限制打垮。
+为了避免这些问题，应该在合并到主干后删除本地分支（本例中是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">opera</code>）。</p>
+<p><strong>Subversion 命令</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn</code> 工具集通过提供很多功能与 Subversion 中那些相似的命令来帮助简化转移到 Git 的过程。
+下面是一些提供了 Subversion 中常用功能的命令。</p>

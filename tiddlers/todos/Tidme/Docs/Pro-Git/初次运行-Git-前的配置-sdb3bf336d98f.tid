@@ -1,0 +1,79 @@
+caption: 初次运行 Git 前的配置
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 起步 › 初次运行 Git 前的配置
+tidme.chars: 1293
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch01-getting-started.xhtml
+tidme.format: epub
+tidme.hash: 56df98a3d38d82c5
+tidme.id: sdb3bf336d98f
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000010
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/初次运行-Git-前的配置-sdb3bf336d98f
+type: text/vnd.tiddlywiki
+
+<p>既然已经在系统上安装了 Git，你会想要做几件事来定制你的 Git 环境。
+每台计算机上只需要配置一次，程序升级时会保留配置信息。
+你可以在任何时候再次通过运行命令来修改它们。</p>
+
+<p>Git 自带一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config</code> 的工具来帮助设置控制 Git 外观和行为的配置变量。
+这些变量存储在三个不同的位置：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal"><code class="literal">/etc/gitconfig</code> 文件: 包含系统上每一个用户及他们仓库的通用配置。
+如果在执行 <code class="literal">git config</code> 时带上 <code class="literal">--system</code> 选项，那么它就会读写该文件中的配置变量。
+（由于它是系统配置文件，因此你需要管理员或超级用户权限来修改它。）</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal"><code class="literal">~/.gitconfig</code> 或 <code class="literal">~/.config/git/config</code> 文件：只针对当前用户。
+你可以传递 <code class="literal">--global</code> 选项让 Git 读写此文件，这会对你系统上 <strong>所有</strong> 的仓库生效。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">当前使用仓库的 Git 目录中的 <code class="literal">config</code> 文件（即 <code class="literal">.git/config</code>）：针对该仓库。
+你可以传递 <code class="literal">--local</code> 选项让 Git 强制读写此文件，虽然默认情况下用的就是它。
+（当然，你需要进入某个 Git 仓库中才能让该选项生效。）</span>
+</p>
+
+<p>每一个级别会覆盖上一级别的配置，所以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/config</code> 的配置变量会覆盖 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">/etc/gitconfig</code> 中的配置变量。</p>
+
+<p>在 Windows 系统中，Git 会查找 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$HOME</code> 目录下（一般情况下是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C:\Users\$USER</code> ）的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitconfig</code> 文件。
+Git 同样也会寻找 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">/etc/gitconfig</code> 文件，但只限于 MSys 的根目录下，即安装 Git 时所选的目标位置。
+如果你在 Windows 上使用 Git 2.x 以后的版本，那么还有一个系统级的配置文件，Windows XP 上在
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">C:\Documents and Settings\All Users\Application Data\Git\config</code> ，Windows Vista 及其以后的版本在
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">C:\ProgramData\Git\config</code> 。此文件只能以管理员权限通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config -f &lt;file&gt;</code> 来修改。</p>
+
+<p>你可以通过以下命令查看所有的配置以及它们所在的文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --list --show-origin</code></p>
+<p><strong>用户信息</strong></p>
+
+<p><strong>用户信息</strong></p>
+<p>安装完 Git 之后，要做的第一件事就是设置你的用户名和邮件地址。
+这一点很重要，因为每一个 Git 提交都会使用这些信息，它们会写入到你的每一次提交中，不可更改：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global user.name <span style="font-style: italic">"John Doe"</span>
+<span style="font-weight: bold">$ </span>git config --global user.email johndoe@example.com</code></p>
+
+<p>再次强调，如果使用了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--global</code> 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事情， Git 都会使用那些信息。
+当你想针对特定项目使用不同的用户名称与邮件地址时，可以在那个项目目录下运行没有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--global</code> 选项的命令来配置。</p>
+
+<p>很多 GUI 工具都会在第一次运行时帮助你配置这些信息。</p>
+<p><strong>文本编辑器</strong></p>

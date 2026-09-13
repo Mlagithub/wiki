@@ -1,0 +1,71 @@
+caption: 高层命令
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在你的应用中嵌入 Git › JGit › 高层命令
+tidme.chars: 1023
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/B-embedding-git-in-your-applications.xhtml
+tidme.format: epub
+tidme.hash: 259b64d5ec7937e4
+tidme.id: s61d9cd0ef0f3
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000230
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/高层命令-s61d9cd0ef0f3
+type: text/vnd.tiddlywiki
+
+<p>底层 API 更加完善，但是有时将它们串起来以实现普通的目的非常困难，例如将一个文件添加到索引，或者创建一个新的提交。
+为了解决这个问题， JGit 提供了一系列高层 API ，使用这些 API 的入口点就是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Git</code> 类：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>Repository repo;
+<span style="font-style: italic">// 构建仓库……</span>
+Git git = <span style="font-weight: bold">new</span> Git(repo);</code></p>
+
+<p>Git 类有一系列非常好的 <em xmlns="http://www.w3.org/1999/xhtml">构建器</em> 风格的高层方法，它可以用来构造一些复杂的行为。
+我们来看一个例子——做一件类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git ls-remote</code> 的事。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>CredentialsProvider cp = <span style="font-weight: bold">new</span> UsernamePasswordCredentialsProvider(<span style="font-style: italic">"username"</span>, <span style="font-style: italic">"p4ssw0rd"</span>);
+Collection&lt;Ref&gt; remoteRefs = git.lsRemote()
+    .setCredentialsProvider(cp)
+    .setRemote(<span style="font-style: italic">"origin"</span>)
+    .setTags(<span style="font-weight: bold">true</span>)
+    .setHeads(<span style="font-weight: bold">false</span>)
+    .call();
+<span style="font-weight: bold">for</span> (Ref ref : remoteRefs) {
+    System.out.println(ref.getName() + <span style="font-style: italic">" -&gt; "</span> + ref.getObjectId().name());
+}</code></p>
+
+<p>这是一个 Git 类的公共样式，这个方法返回一个可以让你串连若干方法调用来设置参数的命令对象，当你调用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.call()</code> 时它们就会被执行。
+在这情况下，我们只是请求了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code> 远程的标签，而不是头部。
+还要注意用于验证的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">CredentialsProvider</code> 对象的使用。</p>
+
+<p>在 Git 类中还可以使用许多其它的命令，包括但不限于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">add</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">blame</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">commit</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">clean</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">push</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">rebase</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">revert</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code>。</p>
+<p><strong>拓展阅读</strong></p>
+
+<p><strong>拓展阅读</strong></p>
+<p>这只是 JGit 的全部能力的冰山一角。
+如果你对这有兴趣并且想深入学习，在下面可以找到一些信息和灵感。</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">JGit API 在线官方文档： <a href="https://www.eclipse.org/jgit/documentation" class="link">https://www.eclipse.org/jgit/documentation</a> 。
+这是基本的 Javadoc ，所以你也可以在你最喜欢的 JVM IDE 上将它们安装它们到本地。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">JGit Cookbook ： <a href="https://github.com/centic9/jgit-cookbook" class="link">https://github.com/centic9/jgit-cookbook</a> 拥有许多如何利用 JGit 实现特定任务的例子。</span>
+</p>
+<p><strong>go-git</strong></p>

@@ -1,0 +1,149 @@
+caption: 组合式差异格式
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 高级合并 › 合并冲突 › 组合式差异格式
+tidme.chars: 2101
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 726275ba53434f5a
+tidme.id: s57c158c564c6
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000129
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/组合式差异格式-s57c158c564c6
+type: text/vnd.tiddlywiki
+
+<p>因为 Git 暂存合并成功的结果，当你在合并冲突状态下运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 时，只会得到现在还在冲突状态的区别。
+当需要查看你还需要解决哪些冲突时这很有用。</p>
+
+<p>在合并冲突后直接运行的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 会给你一个相当独特的输出格式。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff
+diff --cc hello.rb
+index 0399cd5,59727f0..0000000
+--- a/hello.rb
++++ b/hello.rb
+@@@ -1,7 -1,7 +1,11 @@@
+<span style="font-weight: bold">  #</span>! /usr/bin/env ruby
+
+  def hello
+++&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+ +  puts 'hola world'
+++=======
++   puts 'hello mundo'
+++&gt;&gt;&gt;&gt;&gt;&gt;&gt; mundo
+  end
+
+  hello()</code></p>
+
+<p>这种叫作“组合式差异”的格式会在每一行给你两列数据。
+第一列为你显示 “ours” 分支与工作目录的文件区别（添加或删除），
+第二列显示 “theirs” 分支与工作目录的拷贝区别。</p>
+
+<p>所以在上面的例子中可以看到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> 行在工作拷贝中但是并不在合并的任意一边中。
+这很有意义，合并工具因为我们的上下文被困住了，它期望我们去移除它们。</p>
+
+<p>如果我们解决冲突再次运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code>，我们将会看到同样的事情，但是它有一点帮助。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>vim hello.rb
+<span style="font-weight: bold">$ </span>git diff
+diff --cc hello.rb
+index 0399cd5,59727f0..0000000
+--- a/hello.rb
++++ b/hello.rb
+@@@ -1,7 -1,7 +1,7 @@@
+<span style="font-weight: bold">  #</span>! /usr/bin/env ruby
+
+  def hello
+-   puts 'hola world'
+ -  puts 'hello mundo'
+++  puts 'hola mundo'
+  end
+
+  hello()</code></p>
+
+<p>这里显示出 “hola world” 在我们这边但不在工作拷贝中，那个 “hello mundo” 在他们那边但不在工作拷贝中，
+最终 “hola mundo” 不在任何一边但是现在在工作拷贝中。在提交解决方案前这对审核很有用。</p>
+
+<p>也可以在合并后通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 来获取相同信息，查看冲突是如何解决的。
+如果你对一个合并提交运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show</code> 命令 Git 将会输出这种格式，
+或者你也可以在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log -p</code>（默认情况下该命令只会展示还没有合并的补丁）命令之后加上 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--cc</code> 选项。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --cc -p -1
+commit 14f41939956d80b9e17bb8721354c33f8d5b5a79
+Merge: f1270f7 e3eb223
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri Sep 19 18:14:49 2014 +0200
+
+    Merge branch 'mundo'
+
+    Conflicts:
+        hello.rb
+
+diff --cc hello.rb
+index 0399cd5,59727f0..e1d0799
+--- a/hello.rb
++++ b/hello.rb
+@@@ -1,7 -1,7 +1,7 @@@
+<span style="font-weight: bold">  #</span>! /usr/bin/env ruby
+
+  def hello
+-   puts 'hola world'
+ -  puts 'hello mundo'
+++  puts 'hola mundo'
+  end
+
+  hello()</code></p>
+<p><strong>撤消合并</strong></p>
+
+<p><strong>撤消合并</strong></p>
+<p>虽然你已经知道如何创建一个合并提交，但有时出错是在所难免的。
+使用 Git 最棒的一件事情是犯错是可以的，因为有可能（大多数情况下都很容易）修复它们。</p>
+
+<p>合并提交并无不同。
+假设现在在一个主题分支上工作，不小心将其合并到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 中，现在提交历史看起来是这样：</p>
+
+<figcaption>Figure 2. 意外的合并提交</figcaption>
+
+<p>有两种方法来解决这个问题，这取决于你想要的结果是什么。</p>
+<p><strong>修复引用</strong></p>
+<p>如果这个不想要的合并提交只存在于你的本地仓库中，最简单且最好的解决方案是移动分支到你想要它指向的地方。
+大多数情况下，如果你在错误的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code> 后运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset --hard HEAD~</code>，这会重置分支指向所以它们看起来像这样：</p>
+
+<figcaption>Figure 3. 在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset --hard HEAD~</code> 之后的历史</figcaption>
+
+<p>我们之前在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_git_reset" href="#_git_reset" class="xref">重置揭密</a> 已经介绍了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code>，所以现在指出这里发生了什么并不是很困难。
+让我们快速复习下：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset --hard</code> 通常会经历三步：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">移动 HEAD 指向的分支。
+在本例中，我们想要移动 <code class="literal">master</code> 到合并提交（<code class="literal">C6</code>）之前所在的位置。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">使索引看起来像 HEAD。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">使工作目录看起来像索引。</span>
+</p>
+
+<p>这个方法的缺点是它会重写历史，在一个共享的仓库中这会造成问题的。
+查阅 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_rebase_peril" href="ch03-git-branching.xhtml#_rebase_peril" class="xref">变基的风险</a> 来了解更多可能发生的事情；
+用简单的话说就是如果其他人已经有你将要重写的提交，你应当避免使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code>。
+如果有任何其他提交在合并之后创建了，那么这个方法也会无效；移动引用实际上会丢失那些改动。</p>

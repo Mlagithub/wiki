@@ -1,0 +1,86 @@
+caption: Zsh 中的 Git
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在其它环境中使用 Git › Zsh 中的 Git
+tidme.chars: 1636
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/A-git-in-other-environments.xhtml
+tidme.format: epub
+tidme.hash: 2c9f572ffef37dc2
+tidme.id: s3c1700ba19fd
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000222
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/Zsh-中的-Git-s3c1700ba19fd
+type: text/vnd.tiddlywiki
+
+<p>
+Zsh 还为 Git 提供了一个 Tab 补全库。
+想要使用它，只需在你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.zshrc</code> 中执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">autoload -Uz compinit &amp;&amp; compinit</code> 即可。
+相对于 Bash，Zsh 的接口更加强大：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git che&lt;Tab&gt;
+check-attr        -- 显示 gitattributes 信息
+check-ref-format  -- 检查引用名称是否符合规范
+checkout          -- 从工作区中检出分支或路径
+checkout-index    -- 从暂存区拷贝文件至工作目录
+cherry            -- 查找没有被合并至上游的提交
+cherry-pick       -- 从一些已存在的提交中应用更改</code></p>
+
+<p>有歧义的 Tab 补全不仅会被列出，它们还会有帮助性的描述，你可以通过不断敲击 Tab 以图形方式浏览补全列表。
+该功能可用于 Git 命令、它们的参数和在仓库中内容的名称（例如 refs 和 remotes），还有文件名和其他所有 Zsh 知道如何去补全的项目。</p>
+
+<p>Zsh 提供了一个从版本控制系统中获取信息的框架，叫做 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">vcs_info</code> 。
+把如下代码添加至你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~/.zshrc</code> 文件中，就可以在右侧显示分支名称：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+RPROMPT=\$vcs_info_msg_0_
+<span style="font-weight: bold"># </span>PROMPT=<span style="font-weight: bold; font-style: italic">\$</span>vcs_info_msg_0_<span style="font-style: italic">'%# '</span>
+zstyle ':vcs_info:git:*' formats '%b'</code></p>
+
+<p>当你的命令行位于一个 Git 仓库目录时，在任何时候，都可以在命令行窗口右侧显示当前分支。
+（当然也可以在左侧显示，只需把上面 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">PROMPT</code> 的注释去掉即可。）
+它看起来像这样：</p>
+
+<figcaption>Figure 9. 自定义 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">zsh</code> 提示符.</figcaption>
+
+<p>关于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">vcs_info</code> 的更多信息，可参见 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">zshcontrib(1)</code> 手册页面中对应的文档，或访问 <a xmlns="http://www.w3.org/1999/xhtml" href="http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Version-Control-Information" class="link">http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Version-Control-Information</a> 在线浏览。</p>
+
+<p>比起 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">vcs_info</code> 而言，你可能更偏好提供了 Git 的命令提示符定制脚本 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-prompt.sh</code>；更多信息见 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh" class="link">https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh</a>。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-prompt.sh</code> 同时兼容 Bash 和 Zsh。</p>
+
+<p>Zsh 本身已足够强大，但还有一些专门为它打造的完整框架，使它更加完善。
+其中之一名为 "oh-my-zsh"，你可以在 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robbyrussell/oh-my-zsh" class="link">https://github.com/robbyrussell/oh-my-zsh</a> 找到它。
+oh-my-zsh 的扩展系统包含强大的 Git Tab 补全功能，且许多提示符 "主题" 可以展示版本控制数据。
+<a xmlns="http://www.w3.org/1999/xhtml" id="xref-oh_my_zsh_git" href="#oh_my_zsh_git" class="xref">一个 oh-my-zsh 主题的示例.</a> 只是可以其中一个可以通过该系统实现的例子。</p>
+
+<figcaption>Figure 10. 一个 oh-my-zsh 主题的示例.</figcaption>
+<p><strong>PowerShell 中的 Git</strong></p>
+
+<p><strong>PowerShell 中的 Git</strong></p>
+<p>
+
+Windows 中早期的命令行终端 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">cmd.exe</code> 无法自定义 Git 使用体验，但是如果你正在使用 Powershell，那么你就十分幸运了。
+这种方法同样适用于 Linux 或 macOS 上运行的 PowerShell Core。
+一个名为 posh-git (<a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/dahlbyk/posh-git" class="link">https://github.com/dahlbyk/posh-git</a>) 的扩展包提供了强大的 tab 补全功能，并针对提示符进行了增强，以帮助你聚焦于你的仓库状态。
+它看起来像：</p>
+
+<figcaption>Figure 11. 附带了 posh-git 扩展包的 Powershell。</figcaption>
+<p><strong>安装</strong></p>

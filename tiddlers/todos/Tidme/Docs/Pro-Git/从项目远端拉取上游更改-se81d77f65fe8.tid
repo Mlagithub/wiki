@@ -1,0 +1,95 @@
+caption: 从项目远端拉取上游更改
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 子模块 › 在包含子模块的项目上工作 › 从项目远端拉取上游更改
+tidme.chars: 2136
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 42372b7cedb19cd9
+tidme.id: se81d77f65fe8
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000140
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/从项目远端拉取上游更改-se81d77f65fe8
+type: text/vnd.tiddlywiki
+
+<p>现在，让我们站在协作者的视角，他有自己的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">MainProject</code> 仓库的本地克隆，
+只是执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 获取你新提交的更改还不够：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git pull
+From https://github.com/chaconinc/MainProject
+   fb9093c..0a24cfc  master     -&gt; origin/master
+Fetching submodule DbConnector
+From https://github.com/chaconinc/DbConnector
+   c3f01dc..c87d55d  stable     -&gt; origin/stable
+Updating fb9093c..0a24cfc
+Fast-forward
+ .gitmodules         | 2 +-
+ DbConnector         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+<span style="font-weight: bold">$ </span>git status
+ On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+	modified:   DbConnector (new commits)
+
+Submodules changed but not updated:
+
+* DbConnector c87d55d...c3f01dc (4):
+  &lt; catch non-null terminated lines
+  &lt; more robust error handling
+  &lt; more efficient db routine
+  &lt; better connection routine
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></p>
+
+<p>默认情况下，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 命令会递归地抓取子模块的更改，如上面第一个命令的输出所示。
+然而，它不会 <strong xmlns="http://www.w3.org/1999/xhtml">更新</strong> 子模块。这点可通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 命令看到，它会显示子模块“已修改”，且“有新的提交”。
+此外，左边的尖括号（&lt;）指出了新的提交，表示这些提交已在 MainProject 中记录，但尚未在本地的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">DbConnector</code> 中检出。
+为了完成更新，你需要运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git submodule update --init --recursive
+Submodule path 'vendor/plugins/demo': checked out '48679c6302815f6c76f1fe30625d795d9e55fc56'
+
+<span style="font-weight: bold">$ </span>git status
+ On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working tree clean</code></p>
+
+<p>请注意，为安全起见，如果 MainProject 提交了你刚拉取的新子模块，那么应该在
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update</code> 后面添加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--init</code> 选项，如果子模块有嵌套的子模块，则应使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recursive</code> 选项。</p>
+
+<p>如果你想自动化此过程，那么可以为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 命令添加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code> 选项（从 Git 2.14 开始）。
+这会让 Git 在拉取后运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update</code>，将子模块置为正确的状态。
+此外，如果你想让 Git 总是以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code> 拉取，可以将配置选项 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">submodule.recurse</code> 设置为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">true</code>
+（从 Git 2.15 开始可用于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code>）。此选项会让 Git 为所有支持 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code> 的命令使用该选项（除 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">clone</code> 以外）。</p>
+
+<p>在为父级项目拉取更新时，还会出现一种特殊的情况：在你拉取的提交中，
+可能 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitmodules</code> 文件中记录的子模块的 URL 发生了改变。
+比如，若子模块项目改变了它的托管平台，就会发生这种情况。
+此时，若父级项目引用的子模块提交不在仓库中本地配置的子模块远端上，那么执行
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull --recurse-submodules</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update</code> 就会失败。
+为了补救，需要借助 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule sync</code> 命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold"># </span>将新的 URL 复制到本地配置中
+<span style="font-weight: bold">$ </span>git submodule sync --recursive
+<span style="font-weight: bold"># </span>从新 URL 更新子模块
+<span style="font-weight: bold">$ </span>git submodule update --init --recursive</code></p>

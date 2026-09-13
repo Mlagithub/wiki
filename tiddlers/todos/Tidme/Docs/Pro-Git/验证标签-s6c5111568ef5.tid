@@ -1,0 +1,54 @@
+caption: 验证标签
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 签署工作 › 验证标签
+tidme.chars: 755
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: ff008edea0fb1f2a
+tidme.id: s6c5111568ef5
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000114
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/验证标签-s6c5111568ef5
+type: text/vnd.tiddlywiki
+
+<p>要验证一个签署的标签，可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git tag -v &lt;tag-name&gt;</code>。
+这个命令使用 GPG 来验证签名。
+为了验证能正常工作，签署者的公钥需要在你的钥匙链中。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git tag -v v1.4.2.1
+object 883653babd8ee7ea23e6a5c392bb739348b1eb61
+type commit
+tag v1.4.2.1
+tagger Junio C Hamano &lt;junkio@cox.net&gt; 1158138501 -0700
+
+GIT 1.4.2.1
+
+Minor fixes since 1.4.2, including git-mv and git-http with alternates.
+gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Good signature from "Junio C Hamano &lt;junkio@cox.net&gt;"
+gpg:                 aka "[jpeg image of size 1513]"
+Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A</code></p>
+
+<p>如果没有签署者的公钥，那么你将会得到类似下面的东西：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Can't check signature: public key not found
+error: could not verify the tag 'v1.4.2.1'</code></p>
+<p><strong>签署提交</strong></p>

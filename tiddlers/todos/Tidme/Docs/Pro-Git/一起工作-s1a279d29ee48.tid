@@ -1,0 +1,70 @@
+caption: 一起工作
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 服务器上的 Git › GitLab › 一起工作
+tidme.chars: 1295
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch04-git-on-the-server.xhtml
+tidme.format: epub
+tidme.hash: 68a807e774da6741
+tidme.id: s1a279d29ee48
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000066
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/一起工作-s1a279d29ee48
+type: text/vnd.tiddlywiki
+
+<p>在一个 GitLab 项目上一起工作的最简单方法就是赋予协作者对 git 版本库的直接 push 权限。
+你可以通过项目设定的 “Members（成员）” 部分向一个项目添加协作者，
+并且将这个新的协作者与一个访问级别关联（不同的访问级别在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_gitlab_groups_section" href="#_gitlab_groups_section" class="xref">组</a> 中已简单讨论）。
+通过赋予一个协作者 “Developer（开发者）” 或者更高的访问级别，
+这个用户就可以毫无约束地直接向版本库或者向分支进行提交。</p>
+
+<p>另外一个让合作更解耦的方法就是使用合并请求。
+它的优点在于让任何能够看到这个项目的协作者在被管控的情况下对这个项目作出贡献。
+可以直接访问的协作者能够简单的创建一个分支，向这个分支进行提交，也可以开启一个向 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 或者其他任何一个分支的合并请求。
+对版本库没有推送权限的协作者则可以 “fork” 这个版本库（即创建属于自己的这个库的副本），向 <em xmlns="http://www.w3.org/1999/xhtml">那个</em> 副本进行提交，然后从那个副本开启一个到主项目的合并请求。
+这个模型使得项目拥有者完全控制着向版本库的提交，以及什么时候允许加入陌生协作者的贡献。</p>
+
+<p>在 GitLab 中合并请求和问题是一个长久讨论的主要部分。
+每一个合并请求都允许在提出改变的行进行讨论（它支持一个轻量级的代码审查），也允许对一个总体性话题进行讨论。
+两者都可以被分配给用户，或者组织到 milestones（里程碑） 界面。</p>
+
+<p>这个部分主要聚焦于在 GitLab 中与 Git 相关的特性，但是 GitLab 作为一个成熟的系统，
+它提供了许多其他产品来帮助你协同工作，例如项目 wiki 与系统维护工具。
+GitLab 的一个优点在于，服务器设置和运行以后，你将很少需要调整配置文件或通过 SSH 连接服务器。
+绝大多数的管理和日常使用都可以在浏览器界面中完成。</p>
+<p><strong>第三方托管的选择</strong></p>
+
+<p><strong>第三方托管的选择</strong></p>
+<p>如果不想设立自己的 Git 服务器，你可以选择将你的 Git 项目托管到一个外部专业的托管网站。
+这带来了一些好处：一个托管网站可以用来快速建立并开始项目，且无需进行服务器维护和监控工作。
+即使你在内部设立并且运行了自己的服务器，你仍然可以把你的开源代码托管在公共托管网站——这通常更有助于开源社区来发现和帮助你。</p>
+
+<p>现在，有非常多的托管供你选择，每个选择都有不同的优缺点。
+欲查看最新列表，请浏览 Git 维基的 GitHosting 页面 <a xmlns="http://www.w3.org/1999/xhtml" href="https://git.wiki.kernel.org/index.php/GitHosting" class="link">https://git.wiki.kernel.org/index.php/GitHosting</a></p>
+
+<p>我们会在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch06-github" href="ch06-github.xhtml" class="xref">GitHub</a> 详细讲解 GitHub，作为目前最大的 Git 托管平台，
+你很可能需要与托管在 GitHub 上的项目进行交互，而且你也很可能并不想去设立你自己的 Git 服务器。</p>
+<p><strong>总结</strong></p>
+
+<p><strong>总结</strong></p>
+<p>你有多种远程存取 Git 仓库的选择便于与其他人合作或是分享你的工作。</p>
+
+<p>运行你自己的服务器将有许多权限且允许你运行该服务于你自己的防火墙内，但如此通常需要耗费你大量的时间去设置与维护服务器。
+如果你放置你的资料于托管服务器内，可轻易的设置与维护；无论如何，你必须被允许在其他服务器上保存你的代码，而该行为在某些组织是不允许的。
+这将直截了当的决定哪个作法或组合的方式较适合你或你的组织。</p>

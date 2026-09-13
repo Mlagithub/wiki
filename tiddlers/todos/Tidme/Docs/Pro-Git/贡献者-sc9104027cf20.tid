@@ -1,0 +1,775 @@
+caption: 贡献者
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 贡献者
+tidme.chars: 8732
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/_贡献者.xhtml
+tidme.format: epub
+tidme.hash: ce80cca6efc0d258
+tidme.id: sc9104027cf20
+tidme.kind: topic
+tidme.level: 2
+tidme.order: 000004
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/贡献者-sc9104027cf20
+type: text/vnd.tiddlywiki
+
+<p>因为这是一本开源书籍，这几年我们获得了捐赠的若干勘误表与内容修改。
+下面是将 ProGit 英文版作为开源项目贡献的所有人员。
+感谢你们帮助将这本书变成对每一个人都更好的书。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>Contributors as of e5c1da8a:
+
+4wk-                            Kaartic Sivaraam                William Turrell
+8loser                          KatDwo                          Wisp Zhan
+A012pyshjs210                   Katrin Leinweber                WispZhan
+Adam Laflamme                   Kausar Mehmood                  Wlodek Bzyl
+Adrien Ollier                   Keith Hill                      Xavier Bonaventura
+Akrom K                         Kenneth Kin Lum                 Y. Z. Chen
+Alan                            Klaus Frank                     Yann Soubeyrand
+Alan Wang                       Kristijan "Fremen" Velkovski    Yedda
+Albert                          Krzysztof Szumny                Yue Lin Ho
+Aleh Suprunovich                Kyrylo Yatsenko                 Yuhang Guo
+Alexander Bezzubov              Lars Vogel                      Yunbin Liu
+Alexandre Garnier               Laxman                          Yunhai Luo
+Alfred Myers                    Lazar95                         Yusuke SATO
+Alpha Hinex                     Leonard Laszlo                  Zheeeng
+Amanda Dillon                   Lin Hsu                         ajax333221
+Andrei Dascalu                  Linus Heckemann                 alamier
+Andrew Layman                   Liu Lantao                      albert
+Andrew MacFie                   Logan Hasson                    alex-koziell
+Andrew Metcalf                  Louise Corrigan                 allen joslin
+Andrew Murphy                   Luc Morin                       anguiao
+AndyGee                         Lukas Röllin                    atalakam
+AnneTheAgile                    Marcin Sędłak-Jakubowski        axmbo
+Anthony Loiseau                 Marie-Helene Burle              banxi1988
+Anton Trunov                    Marius Žilėnas                  bob
+Antonello Piemonte              Markus KARG                     branchzero
+Antonino Ingargiola             Marti Bolivar                   bripmccann
+Atul Varma                      Mashrur Mia (Sa'ad)             brotherben
+Awc Cho                         Masood Fallahpoor               cangyin
+Ben Sima                        Mathieu Dubreuilh               chen
+Benjamin Dopplinger             Matthew Miner                   chengz
+Bill Zhao                       Matthieu Moy                    curiositer
+Borek Bernard                   Michael MacAskill               delta4d
+BranchZero Sun                  Michael Sheaver                 devwebcl
+Brett Cannon                    Michael Welch                   dualsky
+Buzut                           Michiel van der Wulp            evanderiel
+C Nguyen                        Mike Charles                    eyherabh
+Cadel Watson                    Mike Pennisi                    flip111
+CaoWeiwei                       Mike Thibodeau                  flyingzumwalt
+Carlos Martín Nieto             Moriaty0o0                      goekboet
+Carlos Tafur                    Niclas-Fang                     grgbnc
+Chaitanya Gurrapu               Niels Widger                    guan wang
+Changwoo Park                   Nils Reuße                      haripetrov
+Cheng Liang                     Oling Cat                       hasan
+ChrisChan2015                   Olleg Samoylov                  hasban12138
+Christoph Prokop                Owen                            i-give-up
+Christopher Wilson              Pablo Schläpfer                 ijessie
+Chuckie Chen                    Pascal Berger                   iprok
+CodingSpiderFox                 Pascal Borreli                  jckling
+Cory Donnelly                   Patrick Steinhardt              jingsam
+Cullen Rhodes                   Pavel Janík                     johnhar
+Cyril                           Paweł Krupiński                 laggardkernel
+Damien Tournoud                 Perry                           leo
+Dan Schmidt                     Peter Kokot                     leo108
+Daniel Shahaf                   Phil Mitchell                   leshiv
+Daniel Sturm                    Philippe Blain                  lilydjwg
+Daniele Tricoli                 Philippe Miossec                lingr7
+Daniil Larionov                 Qiu Chaofan                     liuxilu
+Danny Lin                       Rafi                            liwenzhuo
+David Rogers                    Raphael R                       ljporljp
+Davide Angelocola               Ray Chen                        luozexuan
+Denis Savitskiy                 Razon Yang                      maks
+Dexter                          Rei                             marjune
+Dexter Morganov                 Rex Kerr                        mmikeww
+DiamondeX                       Reza Ahmadi                     moonlitusun
+Dieter Ziller                   Richard Hoyle                   moralok
+Dino Karic                      Ricky Senft                     morstar
+Dmitri Tikhonov                 Rintze M. Zelle                 mosdalsvsocld
+Dmitriy Smirnov                 Rob Blanco                      mowangjuanzi
+Duncan Dean                     Robert P. Goldman               myd7349
+Eden Hochbaum                   Robert P. J. Day                neo1218
+Eric Henziger                   Rohan D'Souza                   networm
+Excimer Gong                    Roman Kosenko                   nicktime
+Explorare                       Ronald Wampler                  omvjro
+Ezra Buehler                    Ryan Yin                        ousugo
+Felix Nehrke                    Rüdiger Herrmann                patrick96
+Feng Hao                        SATO Yusuke                     paveljanik
+Filip Kucharczyk                Sam Ford                        pedrorijo91
+Fornost461                      Sam Joseph                      peterwwillis
+Frank                           Sanders Kleinfeld               petsuter
+Frederico Mazzone               Sarah Schneider                 pityonline
+Frej Drejhammar                 Saurav Sachidanand              puxiao
+Gc                              Scott Bronson                   rahrah
+Geno1024                        Sean Head                       rmzelle
+Gerry                           Sebastian Krause                roife
+Guthrie McAfee Armstrong        Severino Lorilla Jr             root
+HairyFotr                       Shengbin Meng                   sanders@oreilly.com
+Hamidreza Mahdavipanah          Shi Yan                         secondwtq
+Hao Gu                          Siarhei Bobryk                  shukebeta
+Haruo Nakayama                  Siarhei Krukau                  shutaozhenzhen
+Helmut K. C. Tessarek           SkyBlueEE                       spacewander
+Hidde de Vries                  Skyper                          td2014
+HonkingGoose                    Snehal Shekatkar                twekberg
+Howard                          Sodium-Aluminate                uerdogan
+IceNature                       Song Li                         un1versal
+Ignacy                          Stephan van Maris               wang yuchi
+Ilker Cat                       Steve ZHANG                     wangfpp
+Integral                        Steve Zhang                     xJom
+Jan Groenewald                  Steven Roddis                   xaondxmzrd
+Jason                           SudarsanGP                      xtreak
+Jaswinder Singh                 Suhaib Mujahid                  yakirwin
+Jean-Noël Avila                 Sven Selberg                    yikakia
+Jeroen Oortwijn                 Thanix                          yikang
+Jim Hill                        Thomas Ackermann                yionr
+Jimgao                          Thomas Hartmann                 zhch
+Jinbao Zhang                    Tom Schady                      zhou
+Jiongyuan Sheng                 Tomoki Aonuma                   zwPapEr
+Joel Davies                     Tong Hui                        zyw_0618
+Johannes Dewender               Tony Joseph                     ᐯᕮᒪᗝᑕᕮᒣ
+Johannes Schindelin             Tvirus                          刘方杰
+John Lin                        Tyler Cipriani                  啊咪咪小熊
+Jon Forrest                     Ud Yzr                          夏恺(Xia Kai)
+Jon Freed                       Vadim Markovtsev                晓荷
+Jordan Hayashi                  Vangelis Katsikaros             狂飙
+Joris Valette                   Victor Ma                       狄卢
+Josh Byster                     Vitaly Kuznetsov                王顶
+Joshua Webb                     WQR1994                         诺墨
+Jun Shaw                        Weisi Dai                       谭九鼎
+Junjie Yuan                     Whitebox                        非法操作
+Justin Clift                    William Gathoye                 靳阳</code></p>
+
+<caption>Table 1. 简体中文贡献者</caption>
+
+<p>章节</p>
+
+<p>译者</p>
+
+<p>审校者</p>
+
+<p>1. 起步</p>
+
+<p>1.1 关于版本控制</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Lax" class="link">@Lax</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p>1.2 Git 简史</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Lax" class="link">@Lax</a></p>
+
+<p>1.3 Git 基础</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Lax" class="link">@Lax</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a></p>
+
+<p>1.4 命令行</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/hbrls" class="link">@hbrls</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/spacewander" class="link">@spacewander</a></p>
+
+<p>1.5 安装 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Lax" class="link">@Lax</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p>1.6 初次运行 Git 前的配置</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/xinqiu" class="link">@xinqiu</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robinwen" class="link">@robinwen</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/ahlijin" class="link">@ahlijin</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p>1.7 获取帮助</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Lax" class="link">@Lax</a></p>
+
+<p>1.8 总结</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Lax" class="link">@Lax</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/devbean" class="link">@devbean</a></p>
+
+<p>2. Git 基础</p>
+
+<p>2.1 获取 Git 仓库</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/alamier" class="link">@alamier</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p>2.2 记录每次更新到仓库</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/alamier" class="link">@alamier</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p>2.3 查看提交历史</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/alamier" class="link">@alamier</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p>2.4 撤消操作</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/pktangyue" class="link">@pktangyue</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robinwen" class="link">@robinwen</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/ahlijin" class="link">@ahlijin</a></p>
+
+<p>2.5 远程仓库的使用</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/pktangyue" class="link">@pktangyue</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/ahlijin" class="link">@ahlijin</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/wych42" class="link">@wych42</a></p>
+
+<p>2.6 打标签</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/pktangyue" class="link">@pktangyue</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/wych42" class="link">@wych42</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robinwen" class="link">@robinwen</a></p>
+
+<p>2.7 Git 别名</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/pktangyue" class="link">@pktangyue</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/wych42" class="link">@wych42</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robinwen" class="link">@robinwen</a></p>
+
+<p>2.8 总结</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/alamier" class="link">@alamier</a></p>
+
+<p>3. Git 分支</p>
+
+<p>3.1 分支简介</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archermind" class="link">@archermind</a></p>
+
+<p>3.2 分支的新建与合并</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archermind" class="link">@archermind</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/zwpaper" class="link">@zwpaper</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/wych42" class="link">@wych42</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robinwen" class="link">@robinwen</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p>3.3 分支管理</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/zwpaper" class="link">@zwpaper</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/wych42" class="link">@wych42</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robinwen" class="link">@robinwen</a></p>
+
+<p>3.4 分支开发工作流</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archermind" class="link">@archermind</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/xinqiu" class="link">@xinqiu</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/wych42" class="link">@wych42</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/zwpaper" class="link">@zwpaper</a></p>
+
+<p>3.5 远程分支</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/wych42" class="link">@wych42</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/zwpaper" class="link">@zwpaper</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robinwen" class="link">@robinwen</a></p>
+
+<p>3.6 变基</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/hbrls" class="link">@hbrls</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Albert" class="link">@Albert</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p>3.7 总结</p>
+
+<p>Jun995@GitHub</p>
+
+<p>4. 服务器上的 Git</p>
+
+<p>4.1 协议</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/wych42" class="link">@wych42</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archersmind" class="link">王波</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/xinqiu" class="link">@xinqiu</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/morefreeze" class="link">@morefreeze</a></p>
+
+<p>4.2 在服务器上搭建 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/misakar" class="link">@neo1218</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archersmind" class="link">王波</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/xinqiu" class="link">@xinqiu</a></p>
+
+<p>4.3 生成 SSH 公钥</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/oranzhang" class="link">@oranzhang</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/secondwtq" class="link">@secondwtq</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/jeffsui" class="link">@jeffsui</a></p>
+
+<p>4.4 配置服务器</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/oranzhang" class="link">@oranzhang</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/secondwtq" class="link">@secondwtq</a></p>
+
+<p>4.5 Git 守护进程</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/morefreeze" class="link">@morefreeze</a></p>
+
+<p>4.6 Smart HTTP</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/morefreeze" class="link">@morefreeze</a></p>
+
+<p>4.7 GitWeb</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archersmind" class="link">王波</a></p>
+
+<p>4.8 GitLab</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/misakar" class="link">@neo1218</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/jeffsui" class="link">@jeffsui</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p>4.9 第三方托管的选择</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>4.10 总结</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/8loser" class="link">@8loser</a></p>
+
+<p>5. 分布式 Git</p>
+
+<p>5.1 分布式工作流程</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/leshiv" class="link">@leshiv</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/secondwtq" class="link">@secondwtq</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/summershrimp" class="link">@summershrimp</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>5.2 向一个项目贡献</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/secondwtq" class="link">@secondwtq</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/morefreeze" class="link">@morefreeze</a></p>
+
+<p>5.3 维护项目</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/secondwtq" class="link">@secondwtq</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/morefreeze" class="link">@morefreeze</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archersmind" class="link">王波</a></p>
+
+<p>5.4 总结</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/xiaket" class="link">@xiaket</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/summershrimp" class="link">@summershrimp</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/vangie" class="link">@vangie</a></p>
+
+<p>6. GitHub</p>
+
+<p>6.1 账户的创建和配置</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/devbean" class="link">@devbean</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/buginux" class="link">@buginux</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>6.2 对项目做出贡献</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/buginux" class="link">@buginux</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>6.3 维护项目</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/qinglangee" class="link">@qinglangee</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/polarlights" class="link">@polarlights</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>6.4 管理组织</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/zwpaper" class="link">@zwpaper</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/secondwtq" class="link">@secondwtq</a></p>
+
+<p>6.5 脚本 GitHub</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>6.6 总结</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/devbean" class="link">@devbean</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/buginux" class="link">@buginux</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>7. Git 工具</p>
+
+<p>7.1 选择修订版本</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/leo108" class="link">@leo108</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archersmind" class="link">王波</a></p>
+
+<p>7.2 交互式暂存</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/jeffsui" class="link">@jeffsui</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/M1seRy" class="link">@M1seRy</a></p>
+
+<p>7.3 储藏与清理</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/M1seRy" class="link">@M1seRy</a></p>
+
+<p>7.4 签署工作</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/tvvocold" class="link">@tvvocold</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a></p>
+
+<p>7.5 搜索</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/leo108" class="link">@leo108</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archersmind" class="link">王波</a></p>
+
+<p>7.6 重写历史</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Kyle-ak" class="link">@Kyle-ak</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a></p>
+
+<p>7.7 重置揭密</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/OlingCat" class="link">@OlingCat</a></p>
+
+<p>7.8 高级合并</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/jeffsui" class="link">@jeffsui</a></p>
+
+<p>7.9 Rerere</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/jeffsui" class="link">@jeffsui</a></p>
+
+<p>7.10 使用 Git 调试</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/leo108" class="link">@leo108</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archersmind" class="link">王波</a></p>
+
+<p>7.11 子模块</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/OlingCat" class="link">@OlingCat</a></p>
+
+<p>7.12 打包</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/xff2016" class="link">@xff2016</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>7.13 替换</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/gecceg" class="link">@Gnahceg</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/xff2016" class="link">@xff2016</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/oldsharp" class="link">@oldsharp</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/archersmind" class="link">王波</a></p>
+
+<p>7.14 凭证存储</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/leo108" class="link">@leo108</a></p>
+
+<p>7.15 总结</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/leo108" class="link">@leo108</a></p>
+
+<p>8. 自定义 Git</p>
+
+<p>8.1 配置 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/spacewander" class="link">@spacewander</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/misakar" class="link">@neo1218</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a></p>
+
+<p>8.2 Git 属性</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/spacewander" class="link">@spacewander</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/secondwtq" class="link">@secondwtq</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/oldsharp" class="link">@oldsharp</a></p>
+
+<p>8.3 Git 钩子</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/spacewander" class="link">@spacewander</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/M1seRy" class="link">@M1seRy</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/secondwtq" class="link">@secondwtq</a></p>
+
+<p>8.4 使用强制策略的一个例子</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/spacewander" class="link">@spacewander</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/gisphm" class="link">@gisphm</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/M1seRy" class="link">@M1seRy</a></p>
+
+<p>8.5 总结</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/spacewander" class="link">@spacewander</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/devbean" class="link">@devbean</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>9. Git 与其他系统</p>
+
+<p>9.1 作为客户端的 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/KevenYoung" class="link">@KevenYoung</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/secondwtq" class="link">@secondwtq</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p>9.2 迁移到 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/youngWM" class="link">@youngWM</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p>9.3 总结</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/KevenYoung" class="link">@KevenYoung</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a></p>
+
+<p>10. Git 内部原理</p>
+
+<p>10.1 底层命令和高层命令</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/oldsharp" class="link">@oldsharp</a></p>
+
+<p>10.2 Git 对象</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/oldsharp" class="link">@oldsharp</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/ZKHelloworld" class="link">@ZKHelloworld</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/OlingCat" class="link">@OlingCat</a></p>
+
+<p>10.3 Git 引用</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/oldsharp" class="link">@oldsharp</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/devbean" class="link">@devbean</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/ZKHelloworld" class="link">@ZKHelloworld</a></p>
+
+<p>10.4 包文件</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/zwpaper" class="link">@zwpaper</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/oldsharp" class="link">@oldsharp</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robinwen" class="link">@robinwen</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>10.5 引用规范</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/morstar" class="link">@morstar</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/oldsharp" class="link">@oldsharp</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robinwen" class="link">@robinwen</a></p>
+
+<p>10.6 传输协议</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/zwpaper" class="link">@zwpaper</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gdp</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/robinwen" class="link">@robinwen</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>10.7 维护与数据恢复</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a></p>
+
+<p>10.8 环境变量</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/qinglangee" class="link">@qinglangee</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/vangie" class="link">@vangie</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/jeffsui" class="link">@jeffsui</a></p>
+
+<p>10.9 总结</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/oldsharp" class="link">@oldsharp</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a></p>
+
+<p>A1. 其它环境中的 Git</p>
+
+<p>A1.1 图形界面</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/hbrls" class="link">@hbrls</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a></p>
+
+<p>A1.2 Visual Studio 中的 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/liwenzhuo" class="link">@liwenzhuo</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/devbean" class="link">@devbean</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a></p>
+
+<p>A1.3 Visual Studio Code 中的 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/ousugo" class="link">@Asurada</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p>A1.4 Eclipse 中的 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/zbin" class="link">@WispZhan</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p>A1.5 IntelliJ / PyCharm / WebStorm / PhpStorm / RubyMine 中的 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/ousugo" class="link">@Asurada</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p>A1.6 Sublime Text 中的 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/ousugo" class="link">@Asurada</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p>A1.7 Bash 中的 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/zbin" class="link">@WispZhan</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/misakar" class="link">@neo1218</a></p>
+
+<p>A1.8 Zsh 中的 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/polarlights" class="link">@polarlights</a></p>
+
+<p>A1.9 Powershell 中的 Git</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p>A1.10 总结</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/networm" class="link">@networm</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/sanddudu" class="link">许伟程</a></p>
+
+<p>A2. 将 Git 嵌入你的应用</p>
+
+<p>A2.1 命令行 Git 方式</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a></p>
+
+<p>A2.2 Libgit2</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/fatjyc" class="link">@fatjyc</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a></p>
+
+<p>A2.3 JGit</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Geno1024" class="link">@Geno1024</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/fatjyc" class="link">@fatjyc</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/branchzero" class="link">@branchzero</a></p>
+
+<p>A3. Git 命令</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gdp</a></p>
+
+<p>A3.1 设置与配置</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.2 获取与创建项目</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.3 快照基础</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.4 分支与合并</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.5 项目分享与更新</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.6 检查与比较</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.7 调试</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.8 补丁</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.9 邮件</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.10 外部系统</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.11 管理</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>A3.12 底层命令</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/codetalks-new" class="link">@banxi1988</a></p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/peizh" class="link">@peizh</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/IceNature" class="link">@IceNature</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/byr-gdp" class="link">@byr-gd</a></p>
+
+<p>Coding.NET 也有审校贡献：
+<a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/vangie" class="link">杜万</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/tvvocold" class="link">tvvocold</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/zkhelloworld" class="link">郑铿宏</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/KevenYoung" class="link">杨臻</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/summershrimp" class="link">张一白</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/garfield0" class="link">周延</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/fatjyc" class="link">江裕诚</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/tankxu" class="link">许坦</a> <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/Kyle-ak" class="link">刘元恺</a></p>

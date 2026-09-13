@@ -1,0 +1,166 @@
+caption: 从子模块的远端拉取上游修改
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 子模块 › 在包含子模块的项目上工作 › 从子模块的远端拉取上游修改
+tidme.chars: 3919
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: cec0ecd4824d4e3e
+tidme.id: s29a6eda73442
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000139
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/从子模块的远端拉取上游修改-s29a6eda73442
+type: text/vnd.tiddlywiki
+
+<p>在项目中使用子模块的最简模型，就是只使用子项目并不时地获取更新，而并不在你的检出中进行任何更改。
+我们来看一个简单的例子。</p>
+
+<p>如果想要在子模块中查看新工作，可以进入到目录中运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fetch</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code>，合并上游分支来更新本地代码。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git fetch
+From https://github.com/chaconinc/DbConnector
+   c3f01dc..d0354fc  master     -&gt; origin/master
+<span style="font-weight: bold">$ </span>git merge origin/master
+Updating c3f01dc..d0354fc
+Fast-forward
+ scripts/connect.sh | 1 +
+ src/db.c           | 1 +
+ 2 files changed, 2 insertions(+)</code></p>
+
+<p>如果你现在返回到主项目并运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff --submodule</code>，就会看到子模块被更新的同时获得了一个包含新添加提交的列表。
+如果你不想每次运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 时都输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--submodule</code>，那么可以将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">diff.submodule</code> 设置为 “log” 来将其作为默认行为。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global diff.submodule log
+<span style="font-weight: bold">$ </span>git diff
+Submodule DbConnector c3f01dc..d0354fc:
+  &gt; more efficient db routine
+  &gt; better connection routine</code></p>
+
+<p>如果在此时提交，那么你会将子模块锁定为其他人更新时的新代码。</p>
+
+<p>如果你不想在子目录中手动抓取与合并，那么还有种更容易的方式。
+运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update --remote</code>，Git 将会进入子模块然后抓取并更新。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git submodule update --remote DbConnector
+remote: Counting objects: 4, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 4 (delta 2), reused 4 (delta 2)
+Unpacking objects: 100% (4/4), done.
+From https://github.com/chaconinc/DbConnector
+   3f19983..d0354fc  master     -&gt; origin/master
+Submodule path 'DbConnector': checked out 'd0354fc054692d3906c85c3af05ddce39a1c0644'</code></p>
+
+<p>此命令默认会假定你想要更新并检出子模块仓库的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。
+不过你也可以设置为想要的其他分支。
+例如，你想要 DbConnector 子模块跟踪仓库的 “stable” 分支，那么既可以在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitmodules</code> 文件中设置
+（这样其他人也可以跟踪它），也可以只在本地的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/config</code> 文件中设置。
+让我们在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitmodules</code> 文件中设置它：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config -f .gitmodules submodule.DbConnector.branch stable
+
+<span style="font-weight: bold">$ </span>git submodule update --remote
+remote: Counting objects: 4, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 4 (delta 2), reused 4 (delta 2)
+Unpacking objects: 100% (4/4), done.
+From https://github.com/chaconinc/DbConnector
+   27cf5d3..c87d55d  stable -&gt; origin/stable
+Submodule path 'DbConnector': checked out 'c87d55d4c6d4b05ee34fbc8cb6f7bf4585ae6687'</code></p>
+
+<p>如果不用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-f .gitmodules</code> 选项，那么它只会为你做修改。但是在仓库中保留跟踪信息更有意义一些，因为其他人也可以得到同样的效果。</p>
+
+<p>这时我们运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code>，Git 会显示子模块中有“新提交”。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+  modified:   .gitmodules
+  modified:   DbConnector (new commits)
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></p>
+
+<p>如果你设置了配置选项 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">status.submodulesummary</code>，Git 也会显示你的子模块的更改摘要：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config status.submodulesummary 1
+
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+	modified:   .gitmodules
+	modified:   DbConnector (new commits)
+
+Submodules changed but not updated:
+
+* DbConnector c3f01dc...c87d55d (4):
+  &gt; catch non-null terminated lines</code></p>
+
+<p>这时如果运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code>，可以看到我们修改了 .gitmodules 文件，同时还有几个已拉取的提交需要提交到我们自己的子模块项目中。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff
+diff --git a/.gitmodules b/.gitmodules
+index 6fc0b3d..fd1cc29 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -1,3 +1,4 @@
+ [submodule "DbConnector"]
+        path = DbConnector
+        url = https://github.com/chaconinc/DbConnector
++       branch = stable
+ Submodule DbConnector c3f01dc..c87d55d:
+  &gt; catch non-null terminated lines
+  &gt; more robust error handling
+  &gt; more efficient db routine
+  &gt; better connection routine</code></p>
+
+<p>这非常有趣，因为我们可以直接看到将要提交到子模块中的提交日志。
+提交之后，你也可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log -p</code> 查看这个信息。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log -p --submodule
+commit 0a24cfc121a8a3c118e0105ae4ae4c00281cf7ae
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Wed Sep 17 16:37:02 2014 +0200
+
+    updating DbConnector for bug fixes
+
+diff --git a/.gitmodules b/.gitmodules
+index 6fc0b3d..fd1cc29 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -1,3 +1,4 @@
+ [submodule "DbConnector"]
+        path = DbConnector
+        url = https://github.com/chaconinc/DbConnector
++       branch = stable
+Submodule DbConnector c3f01dc..c87d55d:
+  &gt; catch non-null terminated lines
+  &gt; more robust error handling
+  &gt; more efficient db routine
+  &gt; better connection routine</code></p>
+
+<p>当运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update --remote</code> 时，Git 默认会尝试更新 <strong xmlns="http://www.w3.org/1999/xhtml">所有</strong> 子模块，
+所以如果有很多子模块的话，你可以传递想要更新的子模块的名字。</p>

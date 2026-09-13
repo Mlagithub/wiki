@@ -1,0 +1,63 @@
+caption: HTTP(S)
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › 传输协议 › 智能协议 › 下载数据 › HTTP(S)
+tidme.chars: 870
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 38c40382cd304887
+tidme.id: se430f78b1366
+tidme.kind: topic
+tidme.level: 5
+tidme.merged: yes
+tidme.order: 000210
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/HTTPS-se430f78b1366
+type: text/vnd.tiddlywiki
+
+<p>抓取操作的握手需要两个 HTTP 请求。
+第一个是向和哑协议中相同的端点发送 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GET</code> 请求：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; GET $GIT_URL/info/refs?service=git-upload-pack
+001e# service=git-upload-pack
+00e7ca82a6dff817ec66f44342007202690a93763949 HEAD multi_ack thin-pack \
+	side-band side-band-64k ofs-delta shallow no-progress include-tag \
+	multi_ack_detailed no-done symref=HEAD:refs/heads/master \
+	agent=git/2:2.1.1+github-607-gfba4028
+003fca82a6dff817ec66f44342007202690a93763949 refs/heads/master
+0000</code></p>
+
+<p>这和通过 SSH 使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-upload-pack</code> 是非常相似的，但是第二个数据交换则是一个单独的请求：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>=&gt; POST $GIT_URL/git-upload-pack HTTP/1.0
+0032want 0a53e9ddeaddad63ad106860237bbf53411d11a7
+0032have 441b40d833fdfa93eb2908e52742248faf0ee993
+0000</code></p>
+
+<p>这个输出格式还是和前面一样的。
+这个请求的响应包含了所需要的包文件，并指明成功或失败。</p>
+<p><strong>协议总结</strong></p>
+
+<p><strong>协议总结</strong></p>
+<p>这一章节是传输协议的一个概貌。
+传输协议还有很多其它的特性，像是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">multi_ack</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">side-band</code>，但是这些内容已经超出了本书的范围。
+我们希望能给你展示客户端和服务端之间的基本交互过程；如果你需要更多的相关知识，你可以参阅 Git 的源代码。</p>
+<p><strong>维护与数据恢复</strong></p>
+
+<p><strong>维护与数据恢复</strong></p>
+<p>有的时候，你需要对仓库进行清理——使它的结构变得更紧凑，或是对导入的仓库进行清理，或是恢复丢失的内容。
+这个小节将会介绍这些情况中的一部分。</p>
+<p><strong>维护</strong></p>

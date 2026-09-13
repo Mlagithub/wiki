@@ -1,0 +1,109 @@
+caption: 修改 Pull Request 的状态
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub › 脚本 GitHub › 修改 Pull Request 的状态
+tidme.chars: 2071
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: ccfe44ae2f53a13c
+tidme.id: s358afc5a46e4
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000099
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/修改-Pull-Request-的状态-s358afc5a46e4
+type: text/vnd.tiddlywiki
+
+<p>我们要看最后一个例子在使用拉取请求时非常有用。
+每一个提交可以有一个或多个与它关联的状态，有 API 来添加与查询状态。</p>
+
+<p>大多数持续集成与测试服务通过测试推送的代码后使用这个 API 来回应，然后报告提交是否通过了全部测试。
+你也可以使用该接口来检查提交信息是否经过合适的格式化、提交者是否遵循了所有你的贡献准则、提交是否经过有效的签名 — 种种这类事情。</p>
+
+<p>假设在仓库中设置了一个 web 钩子访问一个用来检查提交信息中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Signed-off-by</code> 字符串的小的 web 服务。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>require <span style="font-style: italic">'httparty'</span>
+require <span style="font-style: italic">'sinatra'</span>
+require <span style="font-style: italic">'json'</span>
+
+post <span style="font-style: italic">'/payload'</span> <span style="font-weight: bold">do</span>
+  push = JSON.parse(request.body.read) <span style="font-style: italic"># parse the JSON</span>
+  repo_name = push[<span style="font-style: italic">'repository'</span>][<span style="font-style: italic">'full_name'</span>]
+
+  <span style="font-style: italic"># look through each commit message</span>
+  push[<span style="font-style: italic">"commits"</span>].each <span style="font-weight: bold">do</span> |commit|
+
+    <span style="font-style: italic"># look for a Signed-off-by string</span>
+    <span style="font-weight: bold">if</span> <span style="font-style: italic">/Signed-off-by/</span>.match commit[<span style="font-style: italic">'message'</span>]
+      state = <span style="font-style: italic">'success'</span>
+      description = <span style="font-style: italic">'Successfully signed off!'</span>
+    <span style="font-weight: bold">else</span>
+      state = <span style="font-style: italic">'failure'</span>
+      description = <span style="font-style: italic">'No signoff found.'</span>
+    <span style="font-weight: bold">end</span>
+
+    <span style="font-style: italic"># post status to GitHub</span>
+    sha = commit[<span style="font-style: italic">"id"</span>]
+    status_url = <span style="font-style: italic">"https://api.github.com/repos/</span><span style="font-weight: bold; font-style: italic">#{</span>repo_name<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">/statuses/</span><span style="font-weight: bold; font-style: italic">#{</span>sha<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">"</span>
+
+    status = {
+      <span style="font-style: italic">"state"</span>       =&gt; state,
+      <span style="font-style: italic">"description"</span> =&gt; description,
+      <span style="font-style: italic">"target_url"</span>  =&gt; <span style="font-style: italic">"http://example.com/how-to-signoff"</span>,
+      <span style="font-style: italic">"context"</span>     =&gt; <span style="font-style: italic">"validate/signoff"</span>
+    }
+    HTTParty.post(status_url,
+      <span style="font-style: italic">:body</span> =&gt; status.to_json,
+      <span style="font-style: italic">:headers</span> =&gt; {
+        <span style="font-style: italic">'Content-Type'</span>  =&gt; <span style="font-style: italic">'application/json'</span>,
+        <span style="font-style: italic">'User-Agent'</span>    =&gt; <span style="font-style: italic">'tonychacon/signoff'</span>,
+        <span style="font-style: italic">'Authorization'</span> =&gt; <span style="font-style: italic">"token </span><span style="font-weight: bold; font-style: italic">#{</span>ENV[<span style="font-style: italic">'TOKEN'</span>]<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">"</span> }
+    )
+  <span style="font-weight: bold">end</span>
+<span style="font-weight: bold">end</span></code></p>
+
+<p>希望这相当容易做。
+在这个 web 钩子处理器中我们浏览刚刚推送上来的每一个提交，在提交信息中查找字符串
+'Signed-off-by' 并且最终使用 HTTP 向 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">/repos/&lt;user&gt;/&lt;repo&gt;/statuses/&lt;commit_sha&gt;</code>
+API 接口发送一个带有状态的 POST 请求。</p>
+
+<p>在本例中可以发送一个状态（'success', 'failure', 'error'）、一个发生了什么的描述信息、
+一个用户可以了解更多信息的目标 URL 与一个 “context” 以防一个单独的提交有多个状态。
+例如，一个测试服务可以提供一个状态与一个类似这样的验证服务也可能提供一个状态 — “context” 字段是用来区别它们的。</p>
+
+<p>如果某人在 GitHub 中打开了一个新的拉取请求并且这个钩子已经设置，会看到类似 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_commit_status" href="#_commit_status" class="xref">通过 API 的提交状态</a> 的信息。</p>
+
+<figcaption>Figure 55. 通过 API 的提交状态</figcaption>
+
+<p>现在可以看到一个小的绿色对勾标记在提交信息中有 “Signed-off-by” 的提交旁边，红色的对勾标记在作者忘记签名的提交旁边。
+也可以看到 Pull Request 显示在那个分支上的最后提交的状态，如果失败的话会警告你。
+如果对测试结果使用这个 API 那么就不会不小心合并某些未通过测试的最新提交。</p>
+<p><strong>Octokit</strong></p>
+
+<p><strong>Octokit</strong></p>
+<p>尽管我们在这些例子中都是通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">curl</code> 与基本的 HTTP 请求来做几乎所有的事情，还有一些以更自然的方式利用 API 的开源库存在着。
+在写这篇文章的时候，被支持的语言包括 Go、Objective-C、Ruby 与 .NET。
+访问 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/octokit" class="link">https://github.com/octokit</a> 了解更多相关信息，它们帮你处理了更多 HTTP 相关的内容。</p>
+
+<p>希望这些工具能帮助你自定义与修改 GitHub 来更好地为特定的工作流程工作。
+关于全部 API 的完整文档与常见任务的指南，请查阅 <a xmlns="http://www.w3.org/1999/xhtml" href="https://docs.github.com/cn" class="link">https://docs.github.com/cn</a>。</p>
+<p><strong>总结</strong></p>
+
+<p><strong>总结</strong></p>
+<p>现在你已经是一名 GitHub 用户了。
+你知道了如何创建账户、管理组织、创建和推送版本库、向别人的项目提供贡献以及接受别人的贡献。
+在下一章中，你将学习更多强有力的工具，以及处理复杂情况的知识，这些将使你成为真正的 Git 大师。</p>

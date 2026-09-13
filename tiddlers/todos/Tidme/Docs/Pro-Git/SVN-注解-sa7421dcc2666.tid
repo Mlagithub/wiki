@@ -1,0 +1,129 @@
+caption: SVN 注解
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Subversion › Subversion 命令 › SVN 注解
+tidme.chars: 2832
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: c3fb8480adcf4ab8
+tidme.id: sa7421dcc2666
+tidme.kind: topic
+tidme.level: 5
+tidme.merged: yes
+tidme.order: 000177
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/SVN-注解-sa7421dcc2666
+type: text/vnd.tiddlywiki
+
+<p>类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn log</code> 命令离线模拟了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">svn log</code> 命令，你可以认为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn blame [FILE]</code> 离线模拟了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">svn annotate</code>。
+输出看起来像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git svn blame README.txt
+ 2   temporal Protocol Buffers - Google's data interchange format
+ 2   temporal Copyright 2008 Google Inc.
+ 2   temporal http://code.google.com/apis/protocolbuffers/
+ 2   temporal
+22   temporal C++ Installation - Unix
+22   temporal =======================
+ 2   temporal
+79    schacon Committing in git-svn.
+78    schacon
+ 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
+ 2   temporal Buffer compiler (protoc) execute the following:
+ 2   temporal</code></p>
+
+<p>重复一次，它并不显示你在 Git 中的本地提交，也不显示同一时间被推送到 Subversion 的其他提交。</p>
+<p><strong>SVN 服务器信息</strong></p>
+<p>可以通过运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn info</code> 得到与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">svn info</code> 相同种类的信息。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git svn info
+Path: .
+URL: https://schacon-test.googlecode.com/svn/trunk
+Repository Root: https://schacon-test.googlecode.com/svn
+Repository UUID: 4c93b258-373f-11de-be05-5f7a86268029
+Revision: 87
+Node Kind: directory
+Schedule: normal
+Last Changed Author: schacon
+Last Changed Rev: 87
+Last Changed Date: 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009)</code></p>
+
+<p>这就像是在你上一次和 Subversion 服务器通讯时同步了之后，离线运行的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">blame</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">log</code> 命令。</p>
+<p><strong>忽略 Subversion 所忽略的</strong></p>
+<p>如果克隆一个在任意一处设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">svn:ignore</code> 属性的 Subversion 仓库时，你也许会想要设置对应的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件，这样就不会意外的提交那些不该提交的文件。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn</code> 有两个命令来帮助解决这个问题。
+第一个是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn create-ignore</code>，它会为你自动地创建对应的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件，这样你的下次提交就能包含它们。</p>
+
+<p>第二个命令是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn show-ignore</code>，它会将你需要放在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件中的每行内容打印到标准输出，这样就可以将输出内容重定向到项目的例外文件中：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git svn show-ignore &gt; .git/info/exclude</code></p>
+
+<p>这样，你就不会由于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件而把项目弄乱。
+当你是 Subversion 团队中唯一的 Git 用户时这是一个好的选项，并且你的队友并不想要项目内存在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件。</p>
+<p><strong>Git-Svn 总结</strong></p>
+<p>当你不得不使用 Subversion 服务器或者其他必须运行一个 Subversion 服务器的开发环境时，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn</code> 工具很有用。
+你应该把它当做一个不完全的 Git，然而，你要是不用它的话，就会在做转换的过程中遇到很多麻烦的问题。
+为了不惹麻烦，尽量遵守这些准则：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">保持一个线性的 Git 历史，其中不能有 <code class="literal">git merge</code> 生成的合并提交。
+把你在主线分支外开发的全部工作变基到主线分支；而不要合并入主线分支。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">不要建立一个单独的 Git 服务器，也不要在 Git 服务器上协作。
+可以用一台 Git 服务器来帮助新来的开发者加速克隆，但是不要推送任何不包含 <code class="literal">git-svn-id</code> 条目的东西。
+你可能会需要增加一个 <code class="literal">pre-receive</code> 钩子来检查每一个提交信息是否包含 <code class="literal">git-svn-id</code> 并且拒绝任何未包含的提交。</span>
+</p>
+
+<p>如果你遵守了那些准则，忍受用一个 Subversion 服务器来工作可以更容易些。
+然而，如果有可能迁移到一个真正的 Git 服务器，那么迁移过去能使你的团队获得更多好处。</p>
+<p><strong>Git 与 Mercurial</strong></p>
+
+<p><strong>Git 与 Mercurial</strong></p>
+<p>
+
+DVCS 的宇宙里不只有 Git。
+实际上，在这个空间里有许多其他的系统。对于如何正确地进行分布式版本管理，每一个系统都有自己的视角。
+除了 Git，最流行的就是 Mercurial，并且它们两个在很多方面都很相似。</p>
+
+<p>好消息是，如果你更喜欢 Git 的客户端行为但是工作在源代码由 Mercurial 控制的项目中，有一种使用 Git 作为 Mercurial 托管仓库的客户端的方法。
+由于 Git 与服务器仓库是使用远程交互的，那么由远程助手实现的桥接方法就不会让人很惊讶。
+这个项目的名字是 git-remote-hg，可以在 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/felipec/git-remote-hg" class="link">https://github.com/felipec/git-remote-hg</a> 找到。</p>
+<p><strong>git-remote-hg</strong></p>
+<p>首先，需要安装 git-remote-hg。
+实际上需要将它的文件放在 PATH 变量的某个目录中，像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>curl -o ~/bin/git-remote-hg <span style="font-weight: bold; font-style: italic">\</span>
+  https://raw.githubusercontent.com/felipec/git-remote-hg/master/git-remote-hg
+<span style="font-weight: bold">$ </span>chmod +x ~/bin/git-remote-hg</code></p>
+
+<p>假定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~/bin</code> 在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$PATH</code> 变量中。
+Git-remote-hg 有一个其他的依赖：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">mercurial</code> Python 库。
+如果已经安装了 Python，安装它就像这样简单：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>pip install mercurial</code></p>
+
+<p>（如果未安装 Python，访问 <a xmlns="http://www.w3.org/1999/xhtml" href="https://www.python.org/" class="link">https://www.python.org/</a> 来获取它。）</p>
+
+<p>需要做的最后一件事是安装 Mercurial 客户端。
+如果还没有安装的话请访问 <a xmlns="http://www.w3.org/1999/xhtml" href="https://www.mercurial-scm.org/" class="link">https://www.mercurial-scm.org/</a> 来安装。</p>
+
+<p>现在已经准备好摇滚了。
+你所需要的一切就是一个你可以推送的 Mercurial 仓库。
+很幸运，每一个 Mercurial 仓库都可以这样做，所以我们只需要使用大家用来学习 Mercurial 的“hello world”仓库就可以了：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>hg clone http://selenic.com/repo/hello /tmp/hello</code></p>

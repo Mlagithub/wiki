@@ -1,0 +1,101 @@
+caption: 双点
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 在 Windows 上转义脱字符 › 提交区间 › 双点
+tidme.chars: 1491
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 03a2f06b9dca3cd9
+tidme.id: sc8492da72e73
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000105
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/双点-sc8492da72e73
+type: text/vnd.tiddlywiki
+
+<p>最常用的指明提交区间语法是双点。
+这种语法可以让 Git 选出在一个分支中而不在另一个分支中的提交。
+例如，假设你的提交历史类似于 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-double_dot" href="#double_dot" class="xref">区间选择的提交历史示例</a>。</p>
+
+<figcaption>Figure 1. 区间选择的提交历史示例</figcaption>
+
+<p>你想要查看 experiment 分支中还有哪些提交尚未被合并入 master 分支。
+你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master..experiment</code> 来让 Git 显示这些提交。也就是“在 experiment 分支中而不在 master 分支中的提交”。
+为了使例子简单明了，我使用了示意图中提交对象的字母来代替真实日志的输出，所以会显示：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log master..experiment
+D
+C</code></p>
+
+<p>反过来，如果你想查看在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支中而不在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">experiment</code> 分支中的提交，你只要交换分支名即可。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">experiment..master</code> 会显示在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支中而不在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">experiment</code> 分支中的提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log experiment..master
+F
+E</code></p>
+
+<p>这可以让你保持 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">experiment</code> 分支跟随最新的进度以及查看你即将合并的内容。
+另一个常用的场景是查看你即将推送到远端的内容：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log origin/master..HEAD</code></p>
+
+<p>这个命令会输出在你当前分支中而不在远程 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code> 中的提交。
+如果你执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push</code> 并且你的当前分支正在跟踪 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code>，由 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log origin/master..HEAD</code>
+所输出的提交就是会被传输到远端服务器的提交。如果你留空了其中的一边， Git 会默认为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code>。
+例如， <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log origin/master..</code> 将会输出与之前例子相同的结果 —— Git 使用 HEAD 来代替留空的一边。</p>
+<p><strong>多点</strong></p>
+<p>双点语法很好用，但有时候你可能需要两个以上的分支才能确定你所需要的修订，
+比如查看哪些提交是被包含在某些分支中的一个，但是不在你当前的分支上。
+Git 允许你在任意引用前加上 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">^</code> 字符或者 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--not</code> 来指明你不希望提交被包含其中的分支。
+因此下列三个命令是等价的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log refA..refB
+<span style="font-weight: bold">$ </span>git log ^refA refB
+<span style="font-weight: bold">$ </span>git log refB --not refA</code></p>
+
+<p>这个语法很好用，因为你可以在查询中指定超过两个的引用，这是双点语法无法实现的。
+比如，你想查看所有被 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refA</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refB</code> 包含的但是不被 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refC</code> 包含的提交，你可以使用以下任意一个命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log refA refB ^refC
+<span style="font-weight: bold">$ </span>git log refA refB --not refC</code></p>
+
+<p>这就构成了一个十分强大的修订查询系统，你可以通过它来查看你的分支里包含了哪些东西。</p>
+<p><strong>三点</strong></p>
+<p>最后一种主要的区间选择语法是三点，这个语法可以选择出被两个引用 <strong xmlns="http://www.w3.org/1999/xhtml">之一</strong> 包含但又不被两者同时包含的提交。
+再看看之前双点例子中的提交历史。
+如果你想看 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 或者 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">experiment</code> 中包含的但不是两者共有的提交，你可以执行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log master...experiment
+F
+E
+D
+C</code></p>
+
+<p>这和通常 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">log</code> 按日期排序的输出一样，仅仅给出了4个提交的信息。</p>
+
+<p>这种情形下，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">log</code> 命令的一个常用参数是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--left-right</code>，它会显示每个提交到底处于哪一侧的分支。
+这会让输出数据更加清晰。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --left-right master...experiment
+&lt; F
+&lt; E
+&gt; D
+&gt; C</code></p>
+
+<p>有了这些工具，你就可以十分方便地查看你 Git 仓库中的提交。</p>
+<p><strong>交互式暂存</strong></p>

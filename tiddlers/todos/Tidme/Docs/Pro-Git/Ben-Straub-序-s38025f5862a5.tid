@@ -1,0 +1,34 @@
+caption: Ben Straub 序
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Ben Straub 序
+tidme.chars: 232
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/_ben_straub_序.xhtml
+tidme.format: epub
+tidme.hash: f9118d0f22a917cd
+tidme.id: s38025f5862a5
+tidme.kind: topic
+tidme.level: 2
+tidme.order: 000002
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/Ben-Straub-序-s38025f5862a5
+type: text/vnd.tiddlywiki
+
+<p>本书的第一版就是将我与 Git 结下不解之缘的原因。书中采用的是我引进的做软件的风格，这种风格比我之前看到的任何事情都要自然。那时我已经做了好几年开发者了，但是这本书将我指引到一条更加精彩的道路上。</p>
+
+<p>几年之后的现在，我是 Git 的一个主要实现的贡献者，我在最大的 Git 托管公司工作，我已经环游世界教人们使用 Git。当 Scott 问我是否有兴趣在第二版上工作时，我甚至连想都没想就答应了。</p>
+
+<p>能在这本书上工作是一份巨大的快乐与荣耀。我希望它能像帮助我一样帮助你。</p>

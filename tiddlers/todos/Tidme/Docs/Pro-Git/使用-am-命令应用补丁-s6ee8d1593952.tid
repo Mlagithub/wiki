@@ -1,0 +1,130 @@
+caption: 使用 am 命令应用补丁
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 维护项目 › 应用来自邮件的补丁 › 使用 am 命令应用补丁
+tidme.chars: 3049
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: 3f4c43a784c458ce
+tidme.id: s6ee8d1593952
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000078
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/使用-am-命令应用补丁-s6ee8d1593952
+type: text/vnd.tiddlywiki
+
+<p>
+如果补丁的贡献者也是一个 Git 用户，并且其能熟练使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">format-patch</code> 命令来生成补丁，这样的话你的工作会变得更加轻松，因为这种补丁中包含了作者信息和提交信息供你参考。
+如果可能的话，请鼓励贡献者使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">format-patch</code> 而不是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">diff</code> 来为你生成补丁。
+而只有对老式的补丁，你才必须使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git apply</code> 命令。</p>
+
+<p>要应用一个由 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">format-patch</code> 命令生成的补丁，你应该使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 命令
+（该命令的名字 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">am</code> 表示它“应用（Apply）一系列来自邮箱（Mailbox）的补丁”）。
+从技术的角度看，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 是为了读取 mbox 文件而构建的，
+mbox 是一种用来在单个文本文件中存储一个或多个电子邮件消息的简单纯文本格式。
+其大致格式如下所示：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
+From: Jessica Smith &lt;jessica@example.com&gt;
+Date: Sun, 6 Apr 2008 10:17:23 -0700
+Subject: [PATCH 1/2] add limit to log function
+
+Limit log functionality to the first 20</code></p>
+
+<p>这其实就是你前面看到的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git format-patch</code> 命令输出的开始几行，
+而同时它也是有效的 mbox 电子邮件格式。
+如果有人使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git send-email</code> 命令将补丁以电子邮件的形式发送给你，
+你便可以将它下载为 mbox 格式的文件，之后将 git am 命令指向该文件，它会应用其中包含的所有补丁。
+如果你所使用的邮件客户端能够同时将多封邮件保存为 mbox 格式的文件，
+你甚至能够将一系列补丁打包为单个 mbox 文件，并利用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 命令将它们一次性全部应用。</p>
+
+<p>然而，如果贡献者将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git format-patch</code> 生成的补丁文件上传到工单系统或类似的任务处理系统，
+你可以先将其保存到本地，之后通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 来应用补丁：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git am 0001-limit-log-function.patch
+Applying: add limit to log function</code></p>
+
+<p>你会看到补丁被顺利地应用，并且为你自动创建了一个新的提交。
+其中的作者信息来自于电子邮件头部的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">From</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Date</code> 字段，提交消息则取自 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Subject</code> 和邮件正文中补丁之前的内容。
+比如，应用上面那个 mbox 示例后生成的提交是这样的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --pretty=fuller -1
+commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
+Author:     Jessica Smith &lt;jessica@example.com&gt;
+AuthorDate: Sun Apr 6 10:17:23 2008 -0700
+Commit:     Scott Chacon &lt;schacon@gmail.com&gt;
+CommitDate: Thu Apr 9 09:19:06 2009 -0700
+
+   add limit to log function
+
+   Limit log functionality to the first 20</code></p>
+
+<p>其中 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Commit</code> 信息表示的是应用补丁的人和应用补丁的时间。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">Author</code> 信息则表示补丁的原作者和原本的创建时间。</p>
+
+<p>但是，有时候无法顺利地应用补丁。
+这也许是因为你的主分支和创建补丁的分支相差较多，也有可能是因为这个补丁依赖于其他你尚未应用的补丁。
+这种情况下，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 进程将会报错并且询问你要做什么：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git am 0001-seeing-if-this-helps-the-gem.patch
+Applying: seeing if this helps the gem
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
+Patch failed at 0001.
+When you have resolved this problem run "git am --resolved".
+If you would prefer to skip this patch, instead run "git am --skip".
+To restore the original branch and stop patching run "git am --abort".</code></p>
+
+<p>该命令将会在所有出现问题的文件内加入冲突标记，就和发生冲突的合并或变基操作一样。
+而你解决问题的手段很大程度上也是一样的——即手动编辑那些文件来解决冲突，暂存新的文件，
+之后运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am --resolved</code> 继续应用下一个补丁：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>(fix the file)
+<span style="font-weight: bold">$ </span>git add ticgit.gemspec
+<span style="font-weight: bold">$ </span>git am --resolved
+Applying: seeing if this helps the gem</code></p>
+
+<p>如果你希望 Git 能够尝试以更加智能的方式解决冲突，你可以对其传递 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-3</code> 选项来使 Git 尝试进行三方合并。
+该选项默认并没有打开，因为如果用于创建补丁的提交并不在你的版本库内的话，这样做是没有用处的。
+而如果你确实有那个提交的话——比如补丁是基于某个公共提交的——那么通常 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-3</code> 选项对于应用有冲突的补丁是更加明智的选择。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git am -3 0001-seeing-if-this-helps-the-gem.patch
+Applying: seeing if this helps the gem
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
+Using index info to reconstruct a base tree...
+Falling back to patching base and 3-way merge...
+No changes -- Patch already applied.</code></p>
+
+<p>比如上面这种情况，如果没有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-3</code> 选项的话，这看起来就像是存在一个冲突。
+由于使用了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-3</code> 选项，该补丁就被干净地应用了</p>
+
+<p>如果你正在利用一个 mbox 文件应用多个补丁，也可以在交互模式下运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">am</code> 命令，
+这样在每个补丁之前，它会停住询问你是否要应用该补丁：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git am -3 -i mbox
+Commit Body is:
+--------------------------
+seeing if this helps the gem
+--------------------------
+Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all</code></p>
+
+<p>这在你保存的补丁较多时很好用，因为你可以在应用之前查看忘掉内容的补丁，并且跳过已经应用过的补丁。</p>
+
+<p>当与你的特性相关的所有补丁都被应用并提交到分支中之后，你就可以选择是否以及如何将其整合到更长期的分支中去了。</p>
+<p><strong>检出远程分支</strong></p>

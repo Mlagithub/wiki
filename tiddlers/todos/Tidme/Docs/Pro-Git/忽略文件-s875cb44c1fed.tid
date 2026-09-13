@@ -1,0 +1,102 @@
+caption: 忽略文件
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › 记录每次更新到仓库 › 忽略文件
+tidme.chars: 1321
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: 6ed54d58fa50c242
+tidme.id: s875cb44c1fed
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000017
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/忽略文件-s875cb44c1fed
+type: text/vnd.tiddlywiki
+
+<p>一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。
+通常都是些自动生成的文件，比如日志文件，或者编译过程中创建的临时文件等。
+在这种情况下，我们可以创建一个名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 的文件，列出要忽略的文件的模式。
+来看一个实际的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 例子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cat .gitignore
+*.[oa]
+*~</code></p>
+
+<p>第一行告诉 Git 忽略所有以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.o</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.a</code> 结尾的文件。一般这类对象文件和存档文件都是编译过程中出现的。
+第二行告诉 Git 忽略所有名字以波浪符（~）结尾的文件，许多文本编辑软件（比如 Emacs）都用这样的文件名保存副本。
+此外，你可能还需要忽略 log，tmp 或者 pid 目录，以及自动生成的文档等等。
+要养成一开始就为你的新仓库设置好 .gitignore 文件的习惯，以免将来误提交这类无用的文件。</p>
+
+<p>文件 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 的格式规范如下：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">所有空行或者以 <code class="literal">#</code> 开头的行都会被 Git 忽略。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">可以使用标准的 glob 模式匹配，它会递归地应用在整个工作区中。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">匹配模式可以以（<code class="literal">/</code>）开头防止递归。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">匹配模式可以以（<code class="literal">/</code>）结尾指定目录。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">要忽略指定模式以外的文件或目录，可以在模式前加上叹号（<code class="literal">!</code>）取反。</span>
+</p>
+
+<p>所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。
+星号（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">*</code>）匹配零个或多个任意字符；<code xmlns="http://www.w3.org/1999/xhtml" class="literal">[abc]</code> 匹配任何一个列在方括号中的字符
+（这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）；
+问号（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">?</code>）只匹配一个任意字符；如果在方括号中使用短划线分隔两个字符，
+表示所有在这两个字符范围内的都可以匹配（比如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">[0-9]</code> 表示匹配所有 0 到 9 的数字）。
+使用两个星号（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">**</code>）表示匹配任意中间目录，比如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">a/**/z</code> 可以匹配 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">a/z</code> 、 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">a/b/z</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">a/b/c/z</code> 等。</p>
+
+<p>我们再看一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件的例子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span># 忽略所有的 .a 文件
+*.a
+
+# 但跟踪所有的 lib.a，即便你在前面忽略了 .a 文件
+!lib.a
+
+# 只忽略当前目录下的 TODO 文件，而不忽略 subdir/TODO
+/TODO
+
+# 忽略任何目录下名为 build 的文件夹
+build/
+
+# 忽略 doc/notes.txt，但不忽略 doc/server/arch.txt
+doc/*.txt
+
+# 忽略 doc/ 目录及其所有子目录下的 .pdf 文件
+doc/**/*.pdf</code></p>
+
+<p>GitHub 有一个十分详细的针对数十种项目及语言的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件列表，
+你可以在 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/github/gitignore" class="link">https://github.com/github/gitignore</a> 找到它。</p>
+
+<p>在最简单的情况下，一个仓库可能只根目录下有一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件，它递归地应用到整个仓库中。
+然而，子目录下也可以有额外的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件。子目录中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件中的规则只作用于它所在的目录中。
+（Linux 内核的源码库拥有 206 个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件。）</p>
+
+<p>多个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件的具体细节超出了本书的范围，更多详情见 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">man gitignore</code> 。</p>
+<p><strong>查看已暂存和未暂存的修改</strong></p>

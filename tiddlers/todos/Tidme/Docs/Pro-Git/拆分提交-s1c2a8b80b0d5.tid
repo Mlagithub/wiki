@@ -1,0 +1,72 @@
+caption: 拆分提交
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 修补后的提交可能需要修补提交信息 › 拆分提交
+tidme.chars: 1320
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: ddacf02c3b86f9df
+tidme.id: s1c2a8b80b0d5
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000120
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/拆分提交-s1c2a8b80b0d5
+type: text/vnd.tiddlywiki
+
+<p>拆分一个提交会撤消这个提交，然后多次地部分地暂存与提交直到完成你所需次数的提交。
+例如，假设想要拆分三次提交的中间那次提交。
+想要将它拆分为两次提交：第一个 “updated README formatting”，第二个 “added blame” 来代替原来的 “updated README formatting and added blame”。
+可以通过修改 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">rebase -i</code> 的脚本来做到这点，将要拆分的提交的指令修改为 “edit”：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>pick f7f3f6d changed my name a bit
+edit 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file</code></p>
+
+<p>然后，当脚本带你进入到命令行时，重置那个提交，拿到被重置的修改，从中创建几次提交。
+当保存并退出编辑器时，Git 带你到列表中第一个提交的父提交，应用第一个提交（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">f7f3f6d</code>），
+应用第二个提交（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">310154e</code>），然后让你进入命令行。
+那里，可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset HEAD^</code> 做一次针对那个提交的混合重置，实际上将会撤消那次提交并将修改的文件取消暂存。
+现在可以暂存并提交文件直到有几个提交，然后当完成时运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase --continue</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git reset HEAD^
+<span style="font-weight: bold">$ </span>git add README
+<span style="font-weight: bold">$ </span>git commit -m <span style="font-style: italic">'updated README formatting'</span>
+<span style="font-weight: bold">$ </span>git add lib/simplegit.rb
+<span style="font-weight: bold">$ </span>git commit -m <span style="font-style: italic">'added blame'</span>
+<span style="font-weight: bold">$ </span>git rebase --continue</code></p>
+
+<p>Git 在脚本中应用最后一次提交（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">a5f4a0d</code>），历史记录看起来像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log -4 --pretty=format:<span style="font-style: italic">"%h %s"</span>
+1c002dd added cat-file
+9b29157 added blame
+35cfb2b updated README formatting
+f3cc40e changed my name a bit</code></p>
+
+<p>再次强调，这些改动了所有在列表中的提交的 SHA-1 校验和，所以要确保列表中的提交还没有推送到共享仓库中。</p>
+<p><strong>核武器级选项：filter-branch</strong></p>
+
+<p><strong>核武器级选项：filter-branch</strong></p>
+<p>有另一个历史改写的选项，如果想要通过脚本的方式改写大量提交的话可以使用它——例如，全局修改你的邮箱地址或从每一个提交中移除一个文件。
+这个命令是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">filter-branch</code>，它可以改写历史中大量的提交，除非你的项目还没有公开并且其他人没有基于要改写的工作的提交做的工作，否则你不应当使用它。
+然而，它可以很有用。
+你将会学习到几个常用的用途，这样就得到了它适合使用地方的想法。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git filter-branch</code> 有很多陷阱，不再推荐使用它来重写历史。
+请考虑使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-filter-repo</code>，它是一个 Python 脚本，相比大多数使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">filter-branch</code>
+的应用来说，它做得要更好。它的文档和源码可访问 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/newren/git-filter-repo" class="link">https://github.com/newren/git-filter-repo</a> 获取。</p>

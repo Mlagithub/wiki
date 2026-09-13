@@ -1,0 +1,54 @@
+caption: 服务器上的 Git
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 服务器上的 Git
+tidme.chars: 691
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch04-git-on-the-server.xhtml
+tidme.format: epub
+tidme.hash: b0915d386e3bd902
+tidme.id: seba08181bed1
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000056
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/服务器上的-Git-seba08181bed1
+type: text/vnd.tiddlywiki
+
+<p>
+到目前为止，你应该已经有办法使用 Git 来完成日常工作。
+然而，为了使用 Git 协作功能，你还需要有远程的 Git 仓库。
+尽管在技术上你可以从个人仓库进行推送（push）和拉取（pull）来修改内容，但不鼓励使用这种方法，因为一不留心就很容易弄混其他人的进度。
+此外，你希望你的合作者们即使在你的电脑未联机时亦能存取仓库 — 拥有一个更可靠的公用仓库十分有用。
+因此，与他人合作的最佳方法即是建立一个你与合作者们都有权利访问，且可从那里推送和拉取资料的共用仓库。</p>
+
+<p>架设一台 Git 服务器并不难。
+首先，选择你希望服务器使用的通讯协议。
+在本章第一节将介绍可用的协议以及各自优缺点。
+下面一节将解释使用那些协议的典型设置及如何在你的服务器上运行。
+最后，如果你不介意托管你的代码在其他人的服务器，且不想经历设置与维护自己服务器的麻烦，可以试试我们介绍的几个仓库托管服务。</p>
+
+<p>如果你对架设自己的服务器没兴趣，可以跳到本章最后一节去看看如何申请一个代码托管服务的帐户然后继续下一章，我们会在那里讨论分布式源码控制环境的林林总总。</p>
+
+<p>一个远程仓库通常只是一个裸仓库（bare repository）——即一个没有当前工作目录的仓库。
+因为该仓库仅仅作为合作媒介，不需要从磁盘检查快照；存放的只有 Git 的资料。
+简单的说，裸仓库就是你工程目录内的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 子目录内容，不包含其他资料。</p>
+<p><strong>协议</strong></p>
+
+<p><strong>协议</strong></p>
+<p>Git 可以使用四种不同的协议来传输资料：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议。
+在此，我们将会讨论那些协议及哪些情形应该使用（或避免使用）他们。</p>
+<p><strong>本地协议</strong></p>

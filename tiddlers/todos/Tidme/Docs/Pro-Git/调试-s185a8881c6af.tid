@@ -1,0 +1,108 @@
+caption: 调试
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › 环境变量 › 调试
+tidme.chars: 3810
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 9ce3f662ba101054
+tidme.id: s185a8881c6af
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000215
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/调试-s185a8881c6af
+type: text/vnd.tiddlywiki
+
+<p>想 <em xmlns="http://www.w3.org/1999/xhtml">真正地</em> 知道 Git 正在做什么?
+Git 内置了相当完整的跟踪信息，你需要做的就是把它们打开。
+这些变量的可用值如下：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">“true”“1” 或 “2”——跟踪类别写到标准错误输出。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">以 <code class="literal">/</code> 开头的绝对路径——跟踪输出会被写到那个文件。</span>
+</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_TRACE</code></strong> 控制常规跟踪，它并不适用于特殊情况。
+它跟踪的范围包括别名的展开和其他子程序的委托。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>GIT_TRACE=true git lga
+20:12:49.877982 git.c:554               trace: exec: 'git-lga'
+20:12:49.878369 run-command.c:341       trace: run_command: 'git-lga'
+20:12:49.879529 git.c:282               trace: alias expansion: lga =&gt; 'log' '--graph' '--pretty=oneline' '--abbrev-commit' '--decorate' '--all'
+20:12:49.879885 git.c:349               trace: built-in: git 'log' '--graph' '--pretty=oneline' '--abbrev-commit' '--decorate' '--all'
+20:12:49.899217 run-command.c:341       trace: run_command: 'less'
+20:12:49.899675 run-command.c:192       trace: exec: 'less'</code></p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_TRACE_PACK_ACCESS</code></strong> 控制访问打包文件的跟踪信息。
+第一个字段是被访问的打包文件，第二个是文件的偏移量：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>GIT_TRACE_PACK_ACCESS=true git status
+20:10:12.081397 sha1_file.c:2088        .git/objects/pack/pack-c3fa...291e.pack 12
+20:10:12.081886 sha1_file.c:2088        .git/objects/pack/pack-c3fa...291e.pack 34662
+20:10:12.082115 sha1_file.c:2088        .git/objects/pack/pack-c3fa...291e.pack 35175
+<span style="font-weight: bold"># </span>[…]
+20:10:12.087398 sha1_file.c:2088        .git/objects/pack/pack-e80e...e3d2.pack 56914983
+20:10:12.087419 sha1_file.c:2088        .git/objects/pack/pack-e80e...e3d2.pack 14303666
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working directory clean</code></p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_TRACE_PACKET</code></strong> 打开网络操作包级别的跟踪信息。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>GIT_TRACE_PACKET=true git ls-remote origin
+20:15:14.867043 pkt-line.c:46           packet:          git&lt; # service=git-upload-pack
+20:15:14.867071 pkt-line.c:46           packet:          git&lt; 0000
+20:15:14.867079 pkt-line.c:46           packet:          git&lt; 97b8860c071898d9e162678ea1035a8ced2f8b1f HEAD\0multi_ack thin-pack side-band side-band-64k ofs-delta shallow no-progress include-tag multi_ack_detailed no-done symref=HEAD:refs/heads/master agent=git/2.0.4
+20:15:14.867088 pkt-line.c:46           packet:          git&lt; 0f20ae29889d61f2e93ae00fd34f1cdb53285702 refs/heads/ab/add-interactive-show-diff-func-name
+20:15:14.867094 pkt-line.c:46           packet:          git&lt; 36dc827bc9d17f80ed4f326de21247a5d1341fbc refs/heads/ah/doc-gitk-config
+<span style="font-weight: bold"># </span>[…]</code></p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_TRACE_PERFORMANCE</code></strong> 控制性能数据的日志打印。
+输出显示了每个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git</code> 命令调用花费的时间。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>GIT_TRACE_PERFORMANCE=true git gc
+20:18:19.499676 trace.c:414             performance: 0.374835000 s: git command: 'git' 'pack-refs' '--all' '--prune'
+20:18:19.845585 trace.c:414             performance: 0.343020000 s: git command: 'git' 'reflog' 'expire' '--all'
+Counting objects: 170994, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (43413/43413), done.
+Writing objects: 100% (170994/170994), done.
+Total 170994 (delta 126176), reused 170524 (delta 125706)
+20:18:23.567927 trace.c:414             performance: 3.715349000 s: git command: 'git' 'pack-objects' '--keep-true-parents' '--honor-pack-keep' '--non-empty' '--all' '--reflog' '--unpack-unreachable=2.weeks.ago' '--local' '--delta-base-offset' '.git/objects/pack/.tmp-49190-pack'
+20:18:23.584728 trace.c:414             performance: 0.000910000 s: git command: 'git' 'prune-packed'
+20:18:23.605218 trace.c:414             performance: 0.017972000 s: git command: 'git' 'update-server-info'
+20:18:23.606342 trace.c:414             performance: 3.756312000 s: git command: 'git' 'repack' '-d' '-l' '-A' '--unpack-unreachable=2.weeks.ago'
+Checking connectivity: 170994, done.
+20:18:25.225424 trace.c:414             performance: 1.616423000 s: git command: 'git' 'prune' '--expire' '2.weeks.ago'
+20:18:25.232403 trace.c:414             performance: 0.001051000 s: git command: 'git' 'rerere' 'gc'
+20:18:25.233159 trace.c:414             performance: 6.112217000 s: git command: 'git' 'gc'</code></p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_TRACE_SETUP</code></strong> 显示 Git 发现的关于版本库和交互环境的信息。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>GIT_TRACE_SETUP=true git status
+20:19:47.086765 trace.c:315             setup: git_dir: .git
+20:19:47.087184 trace.c:316             setup: worktree: /Users/ben/src/git
+20:19:47.087191 trace.c:317             setup: cwd: /Users/ben/src/git
+20:19:47.087194 trace.c:318             setup: prefix: (null)
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working directory clean</code></p>
+<p><strong>其它</strong></p>

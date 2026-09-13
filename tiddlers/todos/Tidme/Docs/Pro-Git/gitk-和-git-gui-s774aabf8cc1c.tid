@@ -1,0 +1,76 @@
+caption: gitk 和 git-gui
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在其它环境中使用 Git › 图形界面 › gitk 和 git-gui
+tidme.chars: 1000
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/A-git-in-other-environments.xhtml
+tidme.format: epub
+tidme.hash: b673a709b5ac5693
+tidme.id: s774aabf8cc1c
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000218
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/gitk-和-git-gui-s774aabf8cc1c
+type: text/vnd.tiddlywiki
+
+<p>
+在安装 Git 的同时，你也装好了它提供的可视化工具，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">gitk</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-gui</code>。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">gitk</code> 是一个历史记录的图形化查看器。
+你可以把它当作是基于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git grep</code> 命令的一个强大的图形操作界面。
+当你需要查找过去发生的某次记录，或是可视化查看项目历史的时候，你将会用到这个工具。</p>
+
+<p>使用 Gitk 的最简单方法就是从命令行打开。
+只需 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">cd</code> 到一个 Git 仓库，然后键入：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>gitk [git log options]</code></p>
+
+<p>Gitk 可以接受很多命令行选项，其中的大部分都直接传给底层的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 去执行了。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">--all</code> 可能是这其中最有用的一个, 它告诉 gitk 去尽可能地从 <em xmlns="http://www.w3.org/1999/xhtml">任何</em> 引用查找提交并显示，而不仅仅是从 HEAD。
+Gitk 的界面看起来长这样：</p>
+
+<figcaption>Figure 1. <code xmlns="http://www.w3.org/1999/xhtml" class="literal">gitk</code> 历史查看器。</figcaption>
+
+<p>这张图看起来就和执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log --graph</code> 命令的输出差不多；每个点代表一次提交，线代表父子关系，而彩色的方块则用来标示一个个引用。
+黄点表示 HEAD，红点表示尚未提交的本地变动。
+下方的窗口用来显示当前选中的提交的具体信息；评论和补丁显示在左侧，摘要显示在右侧。
+中间则是一组用来搜索历史的控件。</p>
+
+<p>与之相比，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-gui</code> 则主要是一个用来制作提交的工具。
+打开它的最简单方法也是从命令行启动：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git gui</code></p>
+
+<p>它的界面长这个样子：</p>
+
+<figcaption>Figure 2. <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-gui</code> 提交工具。</figcaption>
+
+<p>左侧是索引区，未暂存的修改显示在上方，已暂存的修改显示在下方。
+你可以通过点击文件名左侧的图标来将该文件在暂存状态与未暂存状态之间切换，你也可以通过选中一个文件名来查看它的详情。</p>
+
+<p>右侧窗口的上方以 diff 格式来显示当前选中文件发生了变动的地方。
+你可以通过右击某一区块或行从而将这一区块或行放入暂存区。</p>
+
+<p>右侧窗口的下方是写日志和执行操作的地方。
+在文本框中键入日志然后点击“提交”就和执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 的效果差不多。
+如果你想要修订上一次提交, 可以选中“修订”按钮，上次一提交的内容就会显示在“暂存区”。
+然后你就可以简单的对修改进行暂存和取消暂存操作，更新提交日志，然后再次点击“提交”用这个新的提交来覆盖上一次提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">gitk</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-gui</code> 就是针对某种任务设计的工具的两个例子。
+它们分别为了不同的目的（即查看历史和制作提交）而进行了精简，略去了用不到的功能。</p>
+<p><strong>macOS 和 Windows 上的 GitHub 客户端</strong></p>

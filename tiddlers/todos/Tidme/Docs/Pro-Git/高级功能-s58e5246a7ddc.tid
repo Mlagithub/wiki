@@ -1,0 +1,66 @@
+caption: 高级功能
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在你的应用中嵌入 Git › go-git › 高级功能
+tidme.chars: 1183
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/B-embedding-git-in-your-applications.xhtml
+tidme.format: epub
+tidme.hash: 87c4191f3855e2ad
+tidme.id: s58e5246a7ddc
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000232
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/高级功能-s58e5246a7ddc
+type: text/vnd.tiddlywiki
+
+<p>go-git 几乎没有值得注意的高级功能，其中之一是可插拔存储系统，类似于 Libgit2 后端。
+默认实现是内存存储，速度非常快。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>r, err := git.Clone(memory.NewStorage(), <span style="font-weight: bold">nil</span>, &amp;git.CloneOptions{
+    URL: <span style="font-style: italic">"https://github.com/src-d/go-git"</span>,
+})</code></p>
+
+<p>可插拔存储提供了许多有趣的选项。
+例如，https://github.com/go-git/go-git/tree/master/_examples/storage[] 允许你在 Aerospike 数据库中存储引用、对象和配置。</p>
+
+<p>另一个特性是灵活的文件系统抽象。
+使用 <a xmlns="http://www.w3.org/1999/xhtml" href="https://godoc.org/github.com/src-d/go-billy#Filesystem" class="link">https://godoc.org/github.com/src-d/go-billy#Filesystem</a> 可以很容易以不同的方式存储所有文件，即通过将所有文件打包到磁盘上的单个归档文件或保存它们都在内存中。</p>
+
+<p>另一个高级用例包括一个可微调的 HTTP 客户端，例如 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/go-git/go-git/blob/master/_examples/custom_http/main.go" class="link">https://github.com/go-git/go-git/blob/master/_examples/custom_http/main.go</a> 中的案例。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>customClient := &amp;http.Client{
+	Transport: &amp;http.Transport{ <span style="font-style: italic">// 接受任何证书（可能对测试有用）</span>
+		TLSClientConfig: &amp;tls.Config{InsecureSkipVerify: <span style="font-weight: bold">true</span>},
+	},
+	Timeout: 15 * time.Second,  <span style="font-style: italic">// 15 秒超时</span>
+		CheckRedirect: <span style="font-weight: bold">func</span>(req *http.Request, via []*http.Request) <span style="font-weight: bold">error</span> {
+		<span style="font-weight: bold">return</span> http.ErrUseLastResponse <span style="font-style: italic">// 不要跟随重定向</span>
+	},
+}
+
+<span style="font-style: italic">// 覆盖 http(s) 默认协议以使用我们的自定义客户端</span>
+client.InstallProtocol(<span style="font-style: italic">"https"</span>, githttp.NewClient(customClient))
+
+<span style="font-style: italic">// 如果协议为 https://，则使用新客户端克隆存储库</span>
+r, err := git.Clone(memory.NewStorage(), <span style="font-weight: bold">nil</span>, &amp;git.CloneOptions{URL: url})</code></p>
+<p><strong>延伸阅读</strong></p>
+
+<p><strong>延伸阅读</strong></p>
+<p>对 go-git 功能的全面介绍超出了本书的范围。
+如果您想了解有关 go-git 的更多信息，请参阅 <a xmlns="http://www.w3.org/1999/xhtml" href="https://godoc.org/gopkg.in/src-d/go-git.v4" class="link">https://godoc.org/gopkg.in/src-d/go-git.v4</a> 上的 API 文档， 以及 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/go-git/go-git/tree/master/_examples" class="link">https://github.com/go-git/go-git/tree/master/_examples</a> 上的系列使用示例。</p>
+<p><strong>Dulwich</strong></p>

@@ -1,0 +1,96 @@
+caption: 确定引入了哪些东西
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 维护项目 › 确定引入了哪些东西
+tidme.chars: 1606
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: 214ab7477fb39ab1
+tidme.id: s52621901f3f8
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000080
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/确定引入了哪些东西-s52621901f3f8
+type: text/vnd.tiddlywiki
+
+<p>
+你已经有了一个包含其他人贡献的主题分支。
+现在你可以决定如何处理它们了。
+本节回顾了若干命令，以便于你检查若将其合并入主分支所引入的更改。</p>
+
+<p>一般来说，你应该对该分支中所有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支尚未包含的提交进行检查。
+通过在分支名称前加入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--not</code> 选项，你可以排除 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支中的提交。
+这和我们之前使用的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master..contrib</code> 格式是一样的。
+假设贡献者向你发送了两个补丁，为此你创建了一个名叫 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">contrib</code> 的分支并在其上应用补丁，你可以运行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log contrib --not master
+commit 5b6235bd297351589efc4d73316f0a68d484f118
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri Oct 24 09:53:59 2008 -0700
+
+    seeing if this helps the gem
+
+commit 7482e0d16d04bea79d0dba8988cc78df655f16a0
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Mon Oct 22 19:38:36 2008 -0700
+
+    updated the gemspec to hopefully work better</code></p>
+
+<p>如果要查看每次提交所引入的具体修改，你应该记得可以给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 命令传递 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-p</code> 选项，这样它会在每次提交后面附加对应的差异（diff）。</p>
+
+<p>而要查看将该主题分支与另一个分支合并的完整 diff，你可能需要使用一个有些奇怪的技巧来得到正确的结果。
+你可能会想到这种方式：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff master</code></p>
+
+<p>这个命令会输出一个 diff，但它可能并不是我们想要的。
+如果在你创建主题分支之后，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支向前移动了，你获得的结果就会显得有些不对。
+这是因为 Git 会直接将该主题分支与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支的最新提交快照进行比较。
+比如说你在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支中向某个文件添加了一行内容，那么直接比对最新快照的结果看上去就像是你在主题分支中将这一行删除了。</p>
+
+<p>如果 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支是你的主题分支的直接祖先，其实是没有任何问题的；
+但是一旦两个分支的历史产生了分叉，上述比对产生的 diff 看上去就像是将主题分支中所有的新东西加入，
+并且将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支所独有的东西删除。</p>
+
+<p>而你真正想要检查的东西，实际上仅仅是主题分支所添加的更改——也就是该分支与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支合并所要引入的工作。
+要达到此目的，你需要让 Git 对主题分支上最新的提交与该分支与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支的首个公共祖先进行比较。</p>
+
+<p>从技术的角度讲，你可以以手工的方式找出公共祖先，并对其显式运行 diff 命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge-base contrib master
+36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
+<span style="font-weight: bold">$ </span>git diff 36c7db</code></p>
+
+<p>或者，更简洁的形式：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff <span style="font-weight: bold">$(</span>git merge-base contrib master<span style="font-weight: bold">)</span></code></p>
+
+<p>然而，这种做法比较麻烦，所以 Git 提供了一种比较便捷的方式：三点语法。
+对于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 命令来说，你可以通过把 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">…​</code> 置于另一个分支名后来对该分支的最新提交与两个分支的共同祖先进行比较：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff master...contrib</code></p>
+
+<p>该命令仅会显示自当前主题分支与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支的共同祖先起，该分支中的工作。
+这个语法很有用，应该牢记。</p>
+<p><strong>将贡献的工作整合进来</strong></p>
+
+<p><strong>将贡献的工作整合进来</strong></p>
+<p>
+当主题分支中所有的工作都已经准备好整合进入更靠近主线的分支时，接下来的问题就是如何进行整合了。
+此外，还有一个问题是，你想使用怎样的总体工作流来维护你的项目？
+你的选择有很多，我们会介绍其中的一部分。</p>

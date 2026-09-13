@@ -1,0 +1,52 @@
+caption: 开始
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Perforce › Git-p4 › 开始
+tidme.chars: 783
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: ce81f518fa1c0dc3
+tidme.id: sd6e33b483889
+tidme.kind: topic
+tidme.level: 5
+tidme.order: 000186
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/开始-sd6e33b483889
+type: text/vnd.tiddlywiki
+
+<p>像在 Git 中的任何事情一样，第一个命令就是克隆：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git p4 clone //depot/www/live www-shallow
+Importing from //depot/www/live into www-shallow
+Initialized empty Git repository in /private/tmp/www-shallow/.git/
+Doing initial import of //depot/www/live/ from revision #head into refs/remotes/p4/master</code></p>
+
+<p>这样会创建出一种在 Git 中名为 “shallow” 的克隆；只有最新版本的 Perforce 被导入至 Git；记住，Perforce 并未被设计成给每一个用户一个版本。
+使用 Git 作为 Perforce 客户端这样就足够了，但是为了其他目的的话这样可能不够。</p>
+
+<p>完成之后，我们就有一个全功能的 Git 仓库：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cd myproject
+<span style="font-weight: bold">$ </span>git log --oneline --all --graph --decorate
+* 70eaf78 (HEAD, p4/master, p4/HEAD, master) Initial import of //depot/www/live/ from the state at revision #head</code></p>
+
+<p>注意有一个 “p4” 远程代表 Perforce 服务器，但是其他东西看起来就像是标准的克隆。
+实际上，这有一点误导：其实远程仓库并不存在。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote -v</code></p>
+
+<p>在当前仓库中并不存在任何远程仓库。
+Git-p4 创建了一些引用来代表服务器的状态，它们看起来类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 显示的远程引用，但是它们并不被 Git 本身管理，并且你无法推送它们。</p>

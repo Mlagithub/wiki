@@ -1,0 +1,60 @@
+caption: 检出远程分支
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 维护项目 › 检出远程分支
+tidme.chars: 906
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: 3e834b90294c666b
+tidme.id: sb9f13546038a
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000079
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/检出远程分支-sb9f13546038a
+type: text/vnd.tiddlywiki
+
+<p>
+如果你的贡献者建立了自己的版本库，并且向其中推送了若干修改，
+之后将版本库的 URL 和包含更改的远程分支发送给你，那么你可以将其添加为一个远程分支，并且在本地进行合并。</p>
+
+<p>比如 Jessica 向你发送了一封电子邮件，内容是在她的版本库中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ruby-client</code> 分支中有一个很不错的新功能，
+为了测试该功能，你可以将其添加为一个远程分支，并在本地检出：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote add jessica git://github.com/jessica/myproject.git
+<span style="font-weight: bold">$ </span>git fetch jessica
+<span style="font-weight: bold">$ </span>git checkout -b rubyclient jessica/ruby-client</code></p>
+
+<p>如果她再次发邮件说另一个分支中包含另一个优秀功能，因为之前已经设置好远程分支了，
+你就可以直接进行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">fetch</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 操作。</p>
+
+<p>这对于与他人长期合作工作来说很有用。
+而对于提交补丁频率较小的贡献者，相对于每个人维护自己的服务器，不断增删远程分支的做法，使用电子邮件来接收可能会比较省时。
+况且你也不会想要加入数百个只提供一两个补丁的远程分支。
+然而，脚本和托管服务在一定程度上可以简化这些工作——这很大程度上依赖于你和你的贡献者开发的方式。</p>
+
+<p>这种方式的另一种优点是你可以同时得到提交历史。
+虽然代码合并中可能会出现问题，但是你能获知他人的工作是基于你的历史中的具体哪一个位置；所以 Git 会默认进行三方合并，不需要提供 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-3</code> 选项，你也不需要担心补丁是基于某个你无法访问的提交生成的。</p>
+
+<p>对于非持续性的合作，如果你依然想要以这种方式拉取数据的话，你可以对远程版本库的 URL 调用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 命令。
+这会执行一个一次性的抓取，而不会将该 URL 存为远程引用：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git pull https://github.com/onetimeguy/project
+From https://github.com/onetimeguy/project
+ * branch            HEAD       -&gt; FETCH_HEAD
+Merge made by the 'recursive' strategy.</code></p>
+<p><strong>确定引入了哪些东西</strong></p>

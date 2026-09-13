@@ -1,0 +1,89 @@
+caption: 通过路径来重置
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 重置揭密 › 通过路径来重置
+tidme.chars: 1347
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 42a357e67f62b50d
+tidme.id: s425d3c33626c
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000123
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/通过路径来重置-s425d3c33626c
+type: text/vnd.tiddlywiki
+
+<p>前面讲述了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 基本形式的行为，不过你还可以给它提供一个作用路径。
+若指定了一个路径，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 将会跳过第 1 步，并且将它的作用范围限定为指定的文件或文件集合。
+这样做自然有它的道理，因为 HEAD 只是一个指针，你无法让它同时指向两个提交中各自的一部分。
+不过索引和工作目录 <em xmlns="http://www.w3.org/1999/xhtml">可以部分更新</em>，所以重置会继续进行第 2、3 步。</p>
+
+<p>现在，假如我们运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset file.txt</code>
+（这其实是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset --mixed HEAD file.txt</code> 的简写形式，因为你既没有指定一个提交的
+SHA-1 或分支，也没有指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--soft</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--hard</code>），它会：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">移动 HEAD 分支的指向 <em>（已跳过）</em></span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">让索引看起来像 HEAD <em>（到此处停止）</em></span>
+</p>
+
+<p>所以它本质上只是将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">file.txt</code> 从 HEAD 复制到索引中。</p>
+
+<p>它还有 <em xmlns="http://www.w3.org/1999/xhtml">取消暂存文件</em> 的实际效果。
+如果我们查看该命令的示意图，然后再想想 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 所做的事，就会发现它们正好相反。</p>
+
+<p>这就是为什么 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 命令的输出会建议运行此命令来取消暂存一个文件。
+（查看 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_unstaging" href="ch02-git-basics-chapter.xhtml#_unstaging" class="xref">取消暂存的文件</a> 来了解更多。）</p>
+
+<p>我们可以不让 Git 从 HEAD 拉取数据，而是通过具体指定一个提交来拉取该文件的对应版本。
+我们只需运行类似于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset eb43bf file.txt</code> 的命令即可。</p>
+
+<p>它其实做了同样的事情，也就是把工作目录中的文件恢复到 <strong xmlns="http://www.w3.org/1999/xhtml">v1</strong> 版本，运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 添加它，
+然后再将它恢复到 <strong xmlns="http://www.w3.org/1999/xhtml">v3</strong> 版本（只是不用真的过一遍这些步骤）。
+如果我们现在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code>，它就会记录一条“将该文件恢复到 <strong xmlns="http://www.w3.org/1999/xhtml">v1</strong> 版本”的更改，
+尽管我们并未在工作目录中真正地再次拥有它。</p>
+
+<p>还有一点同 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 一样，就是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 命令也可以接受一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--patch</code> 选项来一块一块地取消暂存的内容。
+这样你就可以根据选择来取消暂存或恢复内容了。</p>
+<p><strong>压缩</strong></p>
+
+<p><strong>压缩</strong></p>
+<p>我们来看看如何利用这种新的功能来做一些有趣的事情——压缩提交。</p>
+
+<p>假设你的一系列提交信息中有 “oops.”“WIP” 和 “forgot this file”，
+聪明的你就能使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 来轻松快速地将它们压缩成单个提交，也显出你的聪明。
+（<a xmlns="http://www.w3.org/1999/xhtml" id="xref-_squashing" href="#_squashing" class="xref">压缩提交</a> 展示了另一种方式，不过在本例中用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 更简单。）</p>
+
+<p>假设你有一个项目，第一次提交中有一个文件，第二次提交增加了一个新的文件并修改了第一个文件，第三次提交再次修改了第一个文件。
+由于第二次提交是一个未完成的工作，因此你想要压缩它。</p>
+
+<p>那么可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset --soft HEAD~2</code> 来将 HEAD 分支移动到一个旧一点的提交上（即你想要保留的最近的提交）：</p>
+
+<p>然后只需再次运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code>：</p>
+
+<p>现在你可以查看可到达的历史，即将会推送的历史，现在看起来有个 v1 版 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">file-a.txt</code> 的提交，
+接着第二个提交将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">file-a.txt</code> 修改成了 v3 版并增加了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">file-b.txt</code>。
+包含 v2 版本的文件已经不在历史中了。</p>
+<p><strong>检出</strong></p>
+
+<p><strong>检出</strong></p>
+<p>最后，你大概还想知道 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 之间的区别。
+和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 一样，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 也操纵三棵树，不过它有一点不同，这取决于你是否传给该命令一个文件路径。</p>

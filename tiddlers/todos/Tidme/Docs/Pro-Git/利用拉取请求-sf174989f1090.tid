@@ -1,0 +1,96 @@
+caption: 利用拉取请求
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub › 对项目做出贡献 › GitHub 流程 › 利用拉取请求
+tidme.chars: 1752
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: d3f55c2965558bc4
+tidme.id: sf174989f1090
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000087
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/利用拉取请求-sf174989f1090
+type: text/vnd.tiddlywiki
+
+<p>现在，项目的拥有者可以看到你的改动并合并它，拒绝它或是发表评论。
+在这里我们就当作他喜欢这个点子，但是他想要让灯熄灭的时间比点亮的时间稍长一些。</p>
+
+<p>接下来可能会通过电子邮件进行互动，就像我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git" href="ch05-distributed-git.xhtml" class="xref">分布式 Git</a>
+中提到的工作流程那样，但是在 GitHub，这些都在线上完成。
+项目的拥有者可以审查修改，只需要单击某一行，就可以对其发表评论。</p>
+
+<figcaption>Figure 12. 对拉取请求内的特定一行发表评论</figcaption>
+
+<p>当维护者发表评论后，提交拉取请求的人，以及所有正在关注（Watching）这个版本库的用户都会收到通知。
+我们待会儿将会告诉你如何修改这项设置。现在，如果 Tony 有开启电子邮件提醒，他将会收到这样的一封邮件：</p>
+
+<figcaption>Figure 13. 通过电子邮件发送的评论提醒</figcaption>
+
+<p>每个人都能在拉取请求中发表评论。在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_pr_discussion" href="#_pr_discussion" class="xref">拉取请求讨论页面</a> 里我们可以看到项目拥有者对某行代码发表评论，
+并在讨论区留下了一个普通评论。你可以看到被评论的代码也会在互动中显示出来。</p>
+
+<figcaption>Figure 14. 拉取请求讨论页面</figcaption>
+
+<p>现在贡献者可以看到如何做才能让他们的改动被接受。幸运的是，这也是一件轻松的事情。
+如果你使用的是电子邮件进行交流，你需要再次对代码进行修改并重新提交至邮件列表，
+这些修改会自动更新到拉取请求上。在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_pr_final" href="#_pr_final" class="xref">最终的拉取请求</a> 中，你也可以在更新后的拉取请求中看到已折叠的旧代码评论，
+因为它是在修改后的行上添加的评论。</p>
+
+<p>对现有的拉取请求添加提交并不会触发提醒，因此 Tony 在推送了他的修正后，
+还需要通过评论告知项目拥有者他完成了修改请求。</p>
+
+<figcaption>Figure 15. 最终的拉取请求</figcaption>
+
+<p>如果你点开拉取请求的“Files Changed”（更改的文件）选项卡，你将会看到“整理过的”差异表
+—— 也就是这个分支被合并到主分支之后将会产生的所有改动，
+其实就是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff master…​&lt;分支名&gt;</code> 命令的执行结果。
+你可以浏览 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_what_is_introduced" href="ch05-distributed-git.xhtml#_what_is_introduced" class="xref">确定引入了哪些东西</a> 来了解更多关于差异表的知识。</p>
+
+<p>你还会注意到，GitHub 会检查你的拉取请求是否能直接合并，如果可以，将会提供一个按钮来进行合并操作。
+这个按钮只在你对版本库有写入权限并且可以进行简洁合并时才会显示。
+你点击后 GitHub 将做出一个“非快进式”（non-fast-forward）合并，
+即使这个合并 <strong xmlns="http://www.w3.org/1999/xhtml">能够</strong> 快进式（fast-forward）合并，GitHub 依然会创建一个合并提交。</p>
+
+<p>如果你需要，你还可以将分支拉取并在本地合并。
+如果你将这个分支合并到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支中并推送到 GitHub，这个拉取请求会被自动关闭。</p>
+
+<p>这就是大部分 GitHub 项目使用的工作流程。创建分支，基于分支创建拉取请求，进行讨论，
+根据需要继续在分支上进行修改，最终关闭或合并拉取请求。</p>
+<p><strong>不必总是 Fork</strong></p>
+<p>有件很重要的事情：你可以在同一个版本库中不同的分支提交拉取请求。
+如果你正在和某人实现某个功能，而且你对项目有写权限，你可以推送分支到版本库，
+并在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支提交一个拉取请求并在此进行代码审查和讨论的操作。不需要进行“Fork”。</p>
+<p><strong>拉取请求的进阶用法</strong></p>
+
+<p><strong>拉取请求的进阶用法</strong></p>
+<p>目前，我们学到了如何在 GitHub 平台对一个项目进行最基础的贡献。现在我们会教给你一些小技巧，让你可以更加有效率地使用拉取请求。</p>
+<p><strong>将拉取请求制作成补丁</strong></p>
+<p>有一件重要的事情：和大部分通过邮件列表工作的项目对补丁贡献的看法一样，
+许多项目并不认为拉取请求可以作为补丁。
+大多数的 GitHub 项目将拉取请求的分支当作对改动的交流方式，并将变更集合起来统一进行合并。</p>
+
+<p>这是个重要的差异，因为一般来说改动会在代码完成前提出，这和基于邮件列表的补丁贡献有着天差地别。
+这使得维护者们可以更早的沟通，由社区中的力量能提出更好的方案。
+当有人从拉取请求提交了一些代码，并且维护者和社区提出了一些意见，这个补丁系列并不需要从头来过，
+只需要将改动重新提交并推送到分支中，这使得讨论的背景和过程可以齐头并进。</p>
+
+<p>举个例子，你可以回去看看 <a xmlns="http://www.w3.org/1999/xhtml" href="#_pr_final" class="xref">最终的拉取请求</a>，你会注意到贡献者没有变基他的提交再提交一个新的拉取请求，
+而是直接增加了新的提交并推送到已有的分支中。
+如果你之后再回去查看这个拉取请求，你可以轻松地找到这个修改的原因。
+点击网页上的“Merge”（合并）按钮后，会建立一个合并提交并指向这个拉取请求，你就可以很轻松的研究原来的讨论内容。</p>

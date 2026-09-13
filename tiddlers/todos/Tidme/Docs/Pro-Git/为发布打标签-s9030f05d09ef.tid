@@ -1,0 +1,136 @@
+caption: 为发布打标签
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 维护项目 › 为发布打标签
+tidme.chars: 2992
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: 5afd387b7e58066a
+tidme.id: s9030f05d09ef
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000084
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/为发布打标签-s9030f05d09ef
+type: text/vnd.tiddlywiki
+
+<p>
+当你决定进行一次发布时，你可能想要打一个标签，这样在之后的任何一个提交点都可以重新创建该发布。
+你在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter" href="ch02-git-basics-chapter.xhtml" class="xref">Git 基础</a> 中已经了解了创建新标签的过程。
+作为一个维护者，如果你决定要为标签签名的话，打标签的过程应该是这样子的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git tag -s v1.5 -m <span style="font-style: italic">'my signed 1.5 tag'</span>
+You need a passphrase to unlock the secret key for
+user: "Scott Chacon &lt;schacon@gmail.com&gt;"
+1024-bit DSA key, ID F721C45A, created 2009-02-09</code></p>
+
+<p>如果你为标签签名了，你可能会遇到分发用来签名的 PGP 公钥的问题。
+Git 项目的维护者已经解决了这一问题，其方法是在版本库中以 blob 对象的形式包含他们的公钥，并添加一个直接指向该内容的标签。
+要完成这一任务，首先你可以通过运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">gpg --list-keys</code> 找出你所想要的 key：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>gpg --list-keys
+/Users/schacon/.gnupg/pubring.gpg
+---------------------------------
+pub   1024D/F721C45A 2009-02-09 [expires: 2010-02-09]
+uid                  Scott Chacon &lt;schacon@gmail.com&gt;
+sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]</code></p>
+
+<p>之后你可以通过导出 key 并通过管道传递给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git hash-object</code> 来直接将 key 导入到 Git 的数据库中，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git hash-object</code> 命令会向 Git 中写入一个包含其内容的新 blob 对象，并向你返回该 blob 对象的 SHA-1 值：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>gpg -a --export F721C45A | git hash-object -w --stdin
+659ef797d181633c87ec71ac3f9ba29fe5775b92</code></p>
+
+<p>既然 Git 中已经包含你的 key 的内容了，你就可以通过指定由 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">hash-object</code> 命令给出的新 SHA-1 值来创建一个直接指向它的标签：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92</code></p>
+
+<p>如果你运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git push --tags</code> 命令，那么 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">maintainer-pgp-pub</code> 标签将会被共享给所有人。
+需要校验标签的人可以通过从数据库中直接拉取 blob 对象并导入到 GPG 中来导入 PGP key：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show maintainer-pgp-pub | gpg --import</code></p>
+
+<p>人们可以使用这个 key 来校验所有由你签名的标签。
+另外，如果你在标签信息中包含了一些操作说明，用户可以通过运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show &lt;tag&gt;</code> 来获取更多关于标签校验的说明。</p>
+<p><strong>生成一个构建号</strong></p>
+
+<p><strong>生成一个构建号</strong></p>
+<p>
+Git 中不存在随每次提交递增的“v123”之类的数字序列，如果你想要为提交附上一个可读的名称，
+可以对其运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git describe</code> 命令。作为回应，Git 将会生成一个字符串，
+它由最近的标签名、自该标签之后的提交数目和你所描述的提交的部分 SHA-1 值（前缀的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">g</code> 表示 Git）构成：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git describe master
+v1.6.2-rc1-20-g8c5b85c</code></p>
+
+<p>这样你在导出一个快照或构建时，可以给出一个便于人们理解的命名。
+实际上，如果你的 Git 是从 Git 自己的版本库克隆下来并构建的，那么 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git --version</code> 命令给出的结果是与此类似的。
+如果你所描述的提交自身就有一个标签，那么它将只会输出标签名，没有后面两项信息。</p>
+
+<p>默认情况下， <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git describe</code> 命令需要有注解的标签（即使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-a</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-s</code> 选项创建的标签）；
+如果你想使用轻量标签（无注解的标签），请在命令后添加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--tags</code> 选项。
+你也可以使用这个字符串来调用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show</code> 命令，
+但是这依赖于其末尾的简短 SHA-1 值，因此不一定一直有效。
+比如，最近 Linux 内核为了保证 SHA-1 值对象的唯一性，将其位数由 8 位扩展到了 10 位，
+导致以前的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git describe</code> 输出全部失效。</p>
+<p><strong>准备一次发布</strong></p>
+
+<p><strong>准备一次发布</strong></p>
+<p>
+现在你可以发布一个构建了。
+其中一件事情就是为那些不使用 Git 的可怜包们创建一个最新的快照归档。
+使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git archive</code> 命令完成此工作：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git archive master --prefix=<span style="font-style: italic">'project/'</span> | gzip &gt; <span style="font-style: italic">`</span>git describe master<span style="font-style: italic">`</span>.tar.gz
+<span style="font-weight: bold">$ </span>ls *.tar.gz
+v1.6.2-rc1-20-g8c5b85c.tar.gz</code></p>
+
+<p>如果有人将这个压缩包解压，他就可以在一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">project</code> 目录中得到你项目的最新快照。
+你也可以以类似的方式创建一个 zip 压缩包，但此时你应该向 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git archive</code> 命令传递 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--format=zip</code> 选项：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git archive master --prefix=<span style="font-style: italic">'project/'</span> --format=zip &gt; <span style="font-style: italic">`</span>git describe master<span style="font-style: italic">`</span>.zip</code></p>
+
+<p>现在你有了本次发布的一个 tar 包和一个 zip 包，可以将其上传到网站或以电子邮件的形式发送给人们。</p>
+<p><strong>制作提交简报</strong></p>
+
+<p><strong>制作提交简报</strong></p>
+<p>
+现在是时候通知邮件列表里那些好奇你的项目发生了什么的人了。
+使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git shortlog</code> 命令可以快速生成一份包含从上次发布之后项目新增内容的修改日志（changelog）类文档。
+它会对你给定范围内的所有提交进行总结；比如，你的上一次发布名称是 v1.0.1，那么下面的命令可以给出上次发布以来所有提交的总结：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git shortlog --no-merges master --not v1.0.1
+Chris Wanstrath (6):
+      Add support for annotated tags to Grit::Tag
+      Add packed-refs annotated tag support.
+      Add Grit::Commit#to_patch
+      Update version and History.txt
+      Remove stray `puts`
+      Make ls_tree ignore nils
+
+Tom Preston-Werner (4):
+      fix dates in history
+      dynamic version method
+      Version bump to 1.0.2
+      Regenerated gemspec for version 1.0.2</code></p>
+
+<p>这份整洁的总结包括了自 v1.0.1 以来的所有提交，并且已经按照作者分好组，你可以通过电子邮件将其直接发送到列表中。</p>
+<p><strong>总结</strong></p>
+
+<p><strong>总结</strong></p>
+<p>你现在能自如地使用 Git 为项目做出贡献、维护自己的项目或采纳其他用户的贡献了。
+恭喜你成为了一个高效的 Git 开发者！
+下一章中，你将会学到如何使用规模最大最流行的 Git 托管服务，GitHub。</p>

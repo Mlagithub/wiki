@@ -1,0 +1,68 @@
+caption: 提交工作流钩子
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › Git 钩子 › 客户端钩子 › 提交工作流钩子
+tidme.chars: 1120
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: 36e519d3c4c195cc
+tidme.id: s6ee0a46f2240
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000162
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/提交工作流钩子-s6ee0a46f2240
+type: text/vnd.tiddlywiki
+
+<p>前四个钩子涉及提交的过程。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-commit</code> 钩子在键入提交信息前运行。
+它用于检查即将提交的快照，例如，检查是否有所遗漏，确保测试运行，以及核查代码。
+如果该钩子以非零值退出，Git 将放弃此次提交，不过你可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit --no-verify</code> 来绕过这个环节。
+你可以利用该钩子，来检查代码风格是否一致（运行类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">lint</code> 的程序）、尾随空白字符是否存在（自带的钩子就是这么做的），或新方法的文档是否适当。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">prepare-commit-msg</code> 钩子在启动提交信息编辑器之前，默认信息被创建之后运行。
+它允许你编辑提交者所看到的默认信息。
+该钩子接收一些选项：存有当前提交信息的文件的路径、提交类型和修补提交的提交的 SHA-1 校验。
+它对一般的提交来说并没有什么用；然而对那些会自动产生默认信息的提交，如提交信息模板、合并提交、压缩提交和修订提交等非常实用。
+你可以结合提交模板来使用它，动态地插入信息。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">commit-msg</code> 钩子接收一个参数，此参数即上文提到的，存有当前提交信息的临时文件的路径。
+如果该钩子脚本以非零值退出，Git 将放弃提交，因此，可以用来在提交通过前验证项目状态或提交信息。
+在本章的最后一节，我们将展示如何使用该钩子来核对提交信息是否遵循指定的模板。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">post-commit</code> 钩子在整个提交过程完成后运行。
+它不接收任何参数，但你可以很容易地通过运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log -1 HEAD</code> 来获得最后一次的提交信息。
+该钩子一般用于通知之类的事情。</p>
+<p><strong>电子邮件工作流钩子</strong></p>
+<p>你可以给电子邮件工作流设置三个客户端钩子。
+它们都是由 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 命令调用的，因此如果你没有在你的工作流中用到这个命令，可以跳到下一节。
+如果你需要通过电子邮件接收由 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git format-patch</code> 产生的补丁，这些钩子也许用得上。</p>
+
+<p>第一个运行的钩子是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">applypatch-msg</code> 。
+它接收单个参数：包含请求合并信息的临时文件的名字。
+如果脚本返回非零值，Git 将放弃该补丁。
+你可以用该脚本来确保提交信息符合格式，或直接用脚本修正格式错误。</p>
+
+<p>下一个在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 运行期间被调用的是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-applypatch</code> 。
+有些难以理解的是，它正好运行于应用补丁 <em xmlns="http://www.w3.org/1999/xhtml">之后</em>，产生提交之前，所以你可以用它在提交前检查快照。
+你可以用这个脚本运行测试或检查工作区。
+如果有什么遗漏，或测试未能通过，脚本会以非零值退出，中断 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 的运行，这样补丁就不会被提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">post-applypatch</code> 运行于提交产生之后，是在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 运行期间最后被调用的钩子。
+你可以用它把结果通知给一个小组或所拉取的补丁的作者。
+但你没办法用它停止打补丁的过程。</p>

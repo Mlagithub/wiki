@@ -1,0 +1,86 @@
+caption: 凭证存储
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 凭证存储
+tidme.chars: 1325
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 865dbccd1be97434
+tidme.id: s3490a43f2e45
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000150
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/凭证存储-s3490a43f2e45
+type: text/vnd.tiddlywiki
+
+<p>
+
+如果你使用的是 SSH 方式连接远端，并且设置了一个没有口令的密钥，这样就可以在不输入用户名和密码的情况下安全地传输数据。
+然而，这对 HTTP 协议来说是不可能的 —— 每一个连接都是需要用户名和密码的。
+这在使用双重认证的情况下会更麻烦，因为你需要输入一个随机生成并且毫无规律的 token 作为密码。</p>
+
+<p>幸运的是，Git 拥有一个凭证系统来处理这个事情。
+下面有一些 Git 的选项：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">默认所有都不缓存。
+每一次连接都会询问你的用户名和密码。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">“cache” 模式会将凭证存放在内存中一段时间。
+密码永远不会被存储在磁盘中，并且在15分钟后从内存中清除。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">“store” 模式会将凭证用明文的形式存放在磁盘中，并且永不过期。
+这意味着除非你修改了你在 Git 服务器上的密码，否则你永远不需要再次输入你的凭证信息。
+这种方式的缺点是你的密码是用明文的方式存放在你的 home 目录下。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">如果你使用的是 Mac，Git 还有一种 “osxkeychain” 模式，它会将凭证缓存到你系统用户的钥匙串中。
+这种方式将凭证存放在磁盘中，并且永不过期，但是是被加密的，这种加密方式与存放 HTTPS 凭证以及 Safari 的自动填写是相同的。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">如果你使用的是 Windows，你可以安装一个叫做 “Git Credential Manager for Windows” 的辅助工具。
+这和上面说的 “osxkeychain” 十分类似，但是是使用 Windows Credential Store 来控制敏感信息。
+可以在 <a href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows" class="link">https://github.com/Microsoft/Git-Credential-Manager-for-Windows</a> 下载。</span>
+</p>
+
+<p>你可以设置 Git 的配置来选择上述的一种方式</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global credential.helper cache</code></p>
+
+<p>部分辅助工具有一些选项。
+“store” 模式可以接受一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--file &lt;path&gt;</code> 参数，可以自定义存放密码的文件路径（默认是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~/.git-credentials</code> ）。
+“cache” 模式有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--timeout &lt;seconds&gt;</code> 参数，可以设置后台进程的存活时间（默认是 “900”，也就是 15 分钟）。
+下面是一个配置 “store” 模式自定义路径的例子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global credential.helper <span style="font-style: italic">'store --file ~/.my-credentials'</span></code></p>
+
+<p>Git 甚至允许你配置多个辅助工具。
+当查找特定服务器的凭证时，Git 会按顺序查询，并且在找到第一个回答时停止查询。
+当保存凭证时，Git 会将用户名和密码发送给 <strong xmlns="http://www.w3.org/1999/xhtml">所有</strong> 配置列表中的辅助工具，它们会按自己的方式处理用户名和密码。
+如果你在闪存上有一个凭证文件，但又希望在该闪存被拔出的情况下使用内存缓存来保存用户名密码，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitconfig</code> 配置文件如下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">[credential]</span>
+    helper = <span style="font-style: italic">store --file /mnt/thumbdrive/.git-credentials</span>
+    helper = <span style="font-style: italic">cache --timeout 30000</span></code></p>
+<p><strong>底层实现</strong></p>

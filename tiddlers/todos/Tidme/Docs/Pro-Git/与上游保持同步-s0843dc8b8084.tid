@@ -1,0 +1,98 @@
+caption: 与上游保持同步
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub › 不必总是 Fork › 拉取请求的进阶用法 › 与上游保持同步
+tidme.chars: 1841
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: 5cc33a7b67ab435d
+tidme.id: s0843dc8b8084
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000088
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/与上游保持同步-s0843dc8b8084
+type: text/vnd.tiddlywiki
+
+<p>如果你的拉取请求由于过时或其他原因不能干净地合并，你需要进行修复才能让维护者对其进行合并。
+GitHub 会对每个提交进行测试，让你知道你的拉取请求能否简洁的合并。</p>
+
+<figcaption>Figure 16. 不能进行干净合并</figcaption>
+
+<p>如果你看到了像 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_pr_fail" href="#_pr_fail" class="xref">不能进行干净合并</a> 中的画面，你就需要修复你的分支让这个提示变成绿色，这样维护者就不需要再做额外的工作。</p>
+
+<p>你有两种方法来解决这个问题。你可以把你的分支变基到目标分支中去
+（通常是你派生出的版本库中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支），或者你可以合并目标分支到你的分支中去。</p>
+
+<p>GitHub 上的大多数的开发者会使用后一种方法，基于我们在上一节提到的理由：
+我们最看重的是历史记录和最后的合并，变基除了给你带来看上去简洁的历史记录，
+只会让你的工作变得更加困难且更容易犯错。</p>
+
+<p>如果你想要合并目标分支来让你的拉取请求变得可合并，你需要将源版本库添加为一个新的远端，并从远端抓取内容，合并主分支的内容到你的分支中去，修复所有的问题并最终重新推送回你提交拉取请求使用的分支。</p>
+
+<p>在这个例子中，我们再次使用之前的“tonychacon”用户来进行示范，源作者提交了一个改动，
+使得拉取请求和它产生了冲突。现在来看我们解决这个问题的步骤。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote add upstream https://github.com/schacon/blink <i class="conum" data-value="1">①</i>
+
+<span style="font-weight: bold">$ </span>git fetch upstream <i class="conum" data-value="2">②</i>
+remote: Counting objects: 3, done.
+remote: Compressing objects: 100% (3/3), done.
+Unpacking objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0)
+From https://github.com/schacon/blink
+ * [new branch]      master     -&gt; upstream/master
+
+<span style="font-weight: bold">$ </span>git merge upstream/master <i class="conum" data-value="3">③</i>
+Auto-merging blink.ino
+CONFLICT (content): Merge conflict in blink.ino
+Automatic merge failed; fix conflicts and then commit the result.
+
+<span style="font-weight: bold">$ </span>vim blink.ino <i class="conum" data-value="4">④</i>
+<span style="font-weight: bold">$ </span>git add blink.ino
+<span style="font-weight: bold">$ </span>git commit
+[slow-blink 3c8d735] Merge remote-tracking branch 'upstream/master' \
+    into slower-blink
+
+<span style="font-weight: bold">$ </span>git push origin slow-blink <i class="conum" data-value="5">⑤</i>
+Counting objects: 6, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 682 bytes | 0 bytes/s, done.
+Total 6 (delta 2), reused 0 (delta 0)
+To https://github.com/tonychacon/blink
+   ef4725c..3c8d735  slower-blink -&gt; slow-blink</code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="1">①</i> 将源版本库添加为一个远端，并命名为“upstream”（上游）</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="2">②</i> 从远端抓取最新的内容</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="3">③</i> 将该仓库的主分支的内容合并到你的分支中</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="4">④</i> 修复产生的冲突</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="5">⑤</i> 再推送回同一个分支</p>
+
+<p>你完成了上面的步骤后，拉取请求将会自动更新并重新检查是否能干净的合并。</p>
+
+<figcaption>Figure 17. 拉取请求现在可以干净地合并了</figcaption>
+
+<p>Git 的伟大之处就是你可以一直重复以上操作。如果你有一个运行了十分久的项目，
+你可以轻松地合并目标分支且只需要处理最近的一次冲突，这使得管理流程更加容易。</p>
+
+<p>如果你一定想对分支做变基并进行清理，你可以这么做，但是强烈建议你不要强行地提交到已经提交了拉取请求的分支。
+如果其他人拉取了这个分支并进行一些修改，你将会遇到 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_rebase_peril" href="ch03-git-branching.xhtml#_rebase_peril" class="xref">变基的风险</a> 中提到的问题。
+相对的，将变基后的分支推送到 GitHub 上的一个新分支中，并且创建一个全新的拉取请求引用旧的拉取请求，然后关闭旧的拉取请求。</p>

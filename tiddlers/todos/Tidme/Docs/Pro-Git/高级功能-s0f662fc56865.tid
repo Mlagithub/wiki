@@ -1,0 +1,144 @@
+caption: 高级功能
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在你的应用中嵌入 Git › Libgit2 › 高级功能
+tidme.chars: 2905
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/B-embedding-git-in-your-applications.xhtml
+tidme.format: epub
+tidme.hash: 12b16e24a897e8c2
+tidme.id: s0f662fc56865
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000227
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/高级功能-s0f662fc56865
+type: text/vnd.tiddlywiki
+
+<p>Libgit2 有几个超过核心 Git 的能力。
+例如它的可定制性：Libgit2 允许你为一些不同类型的操作自定义的“后端”，让你得以使用与原生 Git 不同的方式存储东西。
+Libgit2 允许为自定义后端指定配置、引用的存储以及对象数据库，</p>
+
+<p>我们来看一下它究竟是怎么工作的。
+下面的例子借用自 Libgit2 团队提供的后端样本集 （可以在 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/libgit2/libgit2-backends" class="link">https://github.com/libgit2/libgit2-backends</a> 上找到）。
+一个对象数据库的自定义后端是这样建立的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>git_odb *odb;
+<span style="font-weight: bold">int</span> error = git_odb_new(&amp;odb); <i class="conum" data-value="1">①</i>
+
+git_odb_backend *my_backend;
+error = git_odb_backend_mine(&amp;my_backend, <span style="font-style: italic">/*…*/</span>); <i class="conum" data-value="2">②</i>
+
+error = git_odb_add_backend(odb, my_backend, 1); <i class="conum" data-value="3">③</i>
+
+git_repository *repo;
+error = git_repository_open(&amp;repo, <span style="font-style: italic">"some-path"</span>);
+error = git_repository_set_odb(repo, odb); <i class="conum" data-value="4">④</i></code></p>
+
+<p><em xmlns="http://www.w3.org/1999/xhtml">（注意：这个错误被捕获了，但是没有被处理。我们希望你的代码比我们的更好。）</em></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="1">①</i> 初始化一个空的对象数据库（ ODB ）“前端”，它将被作为一个用来做真正的工作的“后端”的容器。</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="2">②</i> 初始化一个自定义 ODB 后端。</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="3">③</i> 为这个前端增加一个后端。</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="4">④</i> 打开一个版本库，并让它使用我们的 ODB 来寻找对象。</p>
+
+<p>但是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git_odb_backend_mine</code> 是个什么东西呢？
+嗯，那是一个你自己的 ODB 实现的构造器，并且你能在那里做任何你想做的事，前提是你能正确地填写 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git_odb_backend</code> 结构。
+它看起来_应该_是这样的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">typedef</span> <span style="font-weight: bold">struct</span> {
+    git_odb_backend parent;
+
+    <span style="font-style: italic">// 其它的一些东西</span>
+    <span style="font-weight: bold">void</span> *custom_context;
+} my_backend_struct;
+
+<span style="font-weight: bold">int</span> git_odb_backend_mine(git_odb_backend **backend_out, <span style="font-style: italic">/*…*/</span>)
+{
+    my_backend_struct *backend;
+
+    backend = calloc(1, <span style="font-weight: bold">sizeof</span> (my_backend_struct));
+
+    backend-&gt;custom_context = <span style="border: 1px solid #F00">…</span>;
+
+    backend-&gt;parent.read = &amp;my_backend__read;
+    backend-&gt;parent.read_prefix = &amp;my_backend__read_prefix;
+    backend-&gt;parent.read_header = &amp;my_backend__read_header;
+    <span style="font-style: italic">// ……</span>
+
+    *backend_out = (git_odb_backend *) backend;
+
+    <span style="font-weight: bold">return</span> GIT_SUCCESS;
+}</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">my_backend_struct</code> 的第一个成员必须是一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git_odb_backend</code> 结构，这是一个微妙的限制：这样就能确保内存布局是 Libgit2 的代码所期望的样子。
+其余都是随意的，这个结构的大小可以随心所欲。</p>
+
+<p>这个初始化函数为该结构分配内存，设置自定义的上下文，然后填写它支持的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">parent</code> 结构的成员。
+阅读 Libgit2 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">include/git2/sys/odb_backend.h</code> 源码以了解全部调用签名，你特定的使用环境会帮你决定使用哪一种调用签名。</p>
+<p><strong>其它绑定</strong></p>
+
+<p><strong>其它绑定</strong></p>
+<p>Libgit2 有很多种语言的绑定。
+在这篇文章中，我们展现了一个使用了几个更加完整的绑定包的小例子，这些库存在于许多种语言中，包括 C++、Go、Node.js、Erlang 以及 JVM ，它们的成熟度各不相同。
+官方的绑定集合可以通过浏览这个版本库得到： <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/libgit2" class="link">https://github.com/libgit2</a> 。
+我们写的代码将返回当前 HEAD 指向的提交的提交信息（就像 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log -1</code> 那样）。</p>
+<p><strong>LibGit2Sharp</strong></p>
+<p>
+如果你在编写一个 .NET 或者 Mono 应用，那么 LibGit2Sharp (<a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/libgit2/libgit2sharp" class="link">https://github.com/libgit2/libgit2sharp</a>) 就是你所需要的。
+这个绑定是用 C# 写成的，并且已经采取许多措施来用令人感到自然的 CLR API 包装原始的 Libgit2 的调用。
+我们的例子看起来就像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">new</span> Repository(<span style="font-style: italic">@"C:\path\to\repo"</span>).Head.Tip.Message;</code></p>
+
+<p>对于 Windows 桌面应用，一个叫做 NuGet 的包会让你快速上手。</p>
+<p><strong>objective-git</strong></p>
+<p>
+如果你的应用运行在一个 Apple 平台上，你很有可能使用 Objective-C 作为实现语言。
+Objective-Git (<a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/libgit2/objective-git" class="link">https://github.com/libgit2/objective-git</a>) 是这个环境下的 Libgit2 绑定。
+一个例子看起来类似这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>GTRepository *repo =
+    [[GTRepository alloc] initWithURL:[NSURL fileURLWithPath: <span style="font-style: italic">@"/path/to/repo"</span>] error:NULL];
+NSString *msg = [[[epo headReferenceWithError:NULL] resolvedTarget] message];</code></p>
+
+<p>Objective-git 与 Swift 完美兼容，所以你把 Objective-C 落在一边的时候不用恐惧。</p>
+<p><strong>pygit2</strong></p>
+<p>
+Python 的 Libgit2 绑定叫做 Pygit2 ，你可以在 <a xmlns="http://www.w3.org/1999/xhtml" href="https://www.pygit2.org/" class="link">https://www.pygit2.org/</a> 找到它。
+我们的示例程序：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>pygit2.Repository(<span style="font-style: italic">"/path/to/repo"</span>) <span style="font-style: italic"># 打开代码仓库</span>
+    .head                          <span style="font-style: italic"># 获取当前分支</span>
+    .peel(pygit2.Commit)           <span style="font-style: italic"># 找到对应的提交</span>
+    .message                       <span style="font-style: italic"># 读取提交信息</span></code></p>
+<p><strong>扩展阅读</strong></p>
+
+<p><strong>扩展阅读</strong></p>
+<p>当然，完全阐述 Libgit2 的能力已超出本书范围。
+如果你想了解更多关于 Libgit2 的信息，可以浏览它的 API 文档： <a xmlns="http://www.w3.org/1999/xhtml" href="https://libgit2.github.com/libgit2" class="link">https://libgit2.github.com/libgit2</a>, 以及一系列的指南： <a xmlns="http://www.w3.org/1999/xhtml" href="https://libgit2.github.com/docs" class="link">https://libgit2.github.com/docs</a>.
+对于其它的绑定，检查附带的 README 和测试文件，那里通常有简易教程，以及指向拓展阅读的链接。</p>
+<p><strong>JGit</strong></p>
+
+<p><strong>JGit</strong></p>
+<p>
+如果你想在一个 Java 程序中使用 Git ，有一个功能齐全的 Git 库，那就是 JGit 。
+JGit 是一个用 Java 写成的功能相对健全的 Git 的实现，它在 Java 社区中被广泛使用。
+JGit 项目由 Eclipse 维护，它的主页在 <a xmlns="http://www.w3.org/1999/xhtml" href="https://www.eclipse.org/jgit" class="link">https://www.eclipse.org/jgit</a> 。</p>
+<p><strong>起步</strong></p>

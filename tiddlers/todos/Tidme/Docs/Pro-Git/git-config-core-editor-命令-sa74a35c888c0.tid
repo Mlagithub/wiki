@@ -1,0 +1,219 @@
+caption: git config core.editor 命令
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 命令 › 设置与配置 › git config core.editor 命令
+tidme.chars: 3889
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/C-git-commands.xhtml
+tidme.format: epub
+tidme.hash: c42d8e11f34edb49
+tidme.id: sa74a35c888c0
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000235
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/git-config-core-editor-命令-sa74a35c888c0
+type: text/vnd.tiddlywiki
+
+<p>就像 <a xmlns="http://www.w3.org/1999/xhtml" href="ch01-getting-started.xhtml#_first_time" class="xref">初次运行 Git 前的配置</a> 里的设置指示，很多编辑器可以如下设置：</p>
+
+<caption>Table 1. 详细的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">core.editor</code> 设置命令列表</caption>
+
+<p>编辑器</p>
+
+<p>设置命令</p>
+
+<p>Atom</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "atom --wait"</code></p>
+
+<p>BBEdit (macOS, with command line tools)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "bbedit -w"</code></p>
+
+<p>Emacs</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor emacs</code></p>
+
+<p>Gedit (Linux)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "gedit --wait --new-window"</code></p>
+
+<p>Gvim (Windows 64-bit)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "'C:\Program Files\Vim\vim72\gvim.exe' --nofork '%*'"</code> (Also see note below)</p>
+
+<p>Helix</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "hx"</code></p>
+
+<p>Kate (Linux)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "kate --block"</code></p>
+
+<p>nano</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "nano -w"</code></p>
+
+<p>Notepad (Windows 64-bit)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config core.editor notepad</code></p>
+
+<p>Notepad++ (Windows 64-bit)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "'C:\Program Files\Notepad++\notepad++.exe' -multiInst -notabbar -nosession -noPlugin"</code> (Also see note below)</p>
+
+<p>Scratch (Linux)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "scratch-text-editor"</code></p>
+
+<p>Sublime Text (macOS)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl --new-window --wait"</code></p>
+
+<p>Sublime Text (Windows 64-bit)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "'C:\Program Files\Sublime Text 3\sublime_text.exe' -w"</code> (Also see note below)</p>
+
+<p>TextEdit (macOS)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "open --wait-apps --new -e"</code></p>
+
+<p>Textmate</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "mate -w"</code></p>
+
+<p>Textpad (Windows 64-bit)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "'C:\Program Files\TextPad 5\TextPad.exe' -m"</code> (Also see note below)</p>
+
+<p>UltraEdit (Windows 64-bit)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor Uedit32</code></p>
+
+<p>Vim</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "vim --nofork"</code></p>
+
+<p>Visual Studio Code</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "code --wait"</code></p>
+
+<p>VSCodium (Free/Libre Open Source Software Binaries of VSCode)</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "codium --wait"</code></p>
+
+<p>WordPad</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "'C:\Program Files\Windows NT\Accessories\wordpad.exe'"</code></p>
+
+<p>Xi</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor "xi --wait"</code></p>
+
+<p>如果你在 64 位 Windows 系统上安装了 32 位的编辑器，那么它会被安装在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C:\Program Files (x86)\</code> 而非上表中所写的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C:\Program Files\</code> 中。</p>
+<p><strong>git help</strong></p>
+
+<p><strong>git help</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git help</code> 命令用来显示任何命令的 Git 自带文档。
+但是我们仅会在此附录中提到大部分最常用的命令，对于每一个命令的完整的可选项及标志列表，你可以随时运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git help &lt;command&gt;</code> 命令来了解。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch01-getting-started--_git_help" href="ch01-getting-started.xhtml#_git_help" class="xref">获取帮助</a> 一节中介绍了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git help</code> 命令，同时在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch04-git-on-the-server--_setting_up_server" href="ch04-git-on-the-server.xhtml#_setting_up_server" class="xref">配置服务器</a> 一节中给你展示了如何使用它来查找更多关于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git shell</code> 的信息。</p>
+<p><strong>获取与创建项目</strong></p>
+
+<p><strong>获取与创建项目</strong></p>
+<p>有几种方式获取一个 Git 仓库。
+一种是从网络上或者其他地方拷贝一个现有的仓库，另一种就是在一个目录中创建一个新的仓库。</p>
+<p><strong>git init</strong></p>
+
+<p><strong>git init</strong></p>
+<p>你只需要简单地运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git init</code> 就可以将一个目录转变成一个 Git 仓库，这样你就可以开始对它进行版本管理了。</p>
+
+<p>我们一开始在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_getting_a_repo" href="ch02-git-basics-chapter.xhtml#_getting_a_repo" class="xref">获取 Git 仓库</a> 一节中介绍了如何创建一个新的仓库来开始工作。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_remote_branches" href="ch03-git-branching.xhtml#_remote_branches" class="xref">远程分支</a> 一节中我们简单的讨论了如何改变默认分支。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch04-git-on-the-server--_bare_repo" href="ch04-git-on-the-server.xhtml#_bare_repo" class="xref">把裸仓库放到服务器上</a> 一节中我们使用此命令来为一个服务器创建一个空的祼仓库。</p>
+
+<p>最后，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals--_plumbing_porcelain" href="ch10-git-internals.xhtml#_plumbing_porcelain" class="xref">底层命令与上层命令</a> 一节中介绍了此命令背后工作的原理的一些细节。</p>
+<p><strong>git clone</strong></p>
+
+<p><strong>git clone</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clone</code> 实际上是一个封装了其他几个命令的命令。
+它创建了一个新目录，切换到新的目录，然后 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git init</code> 来初始化一个空的 Git 仓库， 然后为你指定的 URL 添加一个（默认名称为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code> 的）远程仓库（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git remote add</code>），再针对远程仓库执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fetch</code>，最后通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code> 将远程仓库的最新提交检出到本地的工作目录。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clone</code> 命令在本书中多次用到，这里只列举几个有意思的地方。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_git_cloning" href="ch02-git-basics-chapter.xhtml#_git_cloning" class="xref">克隆现有的仓库</a> 一节中我们通过几个示例详细介绍了此命令。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch04-git-on-the-server--_getting_git_on_a_server" href="ch04-git-on-the-server.xhtml#_getting_git_on_a_server" class="xref">在服务器上搭建 Git</a> 一节中，我们使用了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--bare</code> 选项来创建一个没有任何工作目录的 Git 仓库副本。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_bundling" href="ch07-git-tools.xhtml#_bundling" class="xref">打包</a> 一节中我们使用它来解包一个打包好的 Git 仓库。</p>
+
+<p>最后，在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_cloning_submodules" href="ch07-git-tools.xhtml#_cloning_submodules" class="xref">克隆含有子模块的项目</a> 一节中我们学习了使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recursive</code> 选项来让克隆一个带有子模块的仓库变得简单。</p>
+
+<p>虽然在本书的其他地方都有用到此命令，但是上面这些用法是特例，或者使用方式有点特别。</p>
+<p><strong>快照基础</strong></p>
+
+<p><strong>快照基础</strong></p>
+<p>对于基本的暂存内容及提交到你的历史记录中的工作流，只有少数基本的命令。</p>
+<p><strong>git add</strong></p>
+
+<p><strong>git add</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 命令将内容从工作目录添加到暂存区（或称为索引（index）区），以备下次提交。
+当 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 命令执行时，默认情况下它只会检查暂存区域，因此 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 是用来确定下一次提交时快照的样子的。</p>
+
+<p>这个命令对于 Git 来说特别重要，所以在本书中被无数次地提及和使用。
+我们将快速地过一遍一些可以看到的独特的用法。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_tracking_files" href="ch02-git-basics-chapter.xhtml#_tracking_files" class="xref">跟踪新文件</a> 一节中介绍并详细解释了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 命令。</p>
+
+<p>然后，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_basic_merge_conflicts" href="ch03-git-branching.xhtml#_basic_merge_conflicts" class="xref">遇到冲突时的分支合并</a> 一节中提到了如何使用它来解决合并冲突。</p>
+
+<p>接下来，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_interactive_staging" href="ch07-git-tools.xhtml#_interactive_staging" class="xref">交互式暂存</a> 一章中使用它来交互式的暂存一个已修改文件的特定部分。</p>
+
+<p>最后，在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals--_tree_objects" href="ch10-git-internals.xhtml#_tree_objects" class="xref">树对象</a> 一节中我们在底层模拟了它的用法，以便你了解幕后发生了什么。</p>
+<p><strong>git status</strong></p>
+
+<p><strong>git status</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 命令会显示工作区及暂存区域中不同状态的文件。
+其中包含了已修改但未暂存，或已经暂存但没有提交的文件。
+在一般的显示形式中，它会给你一些如何在这些暂存区之间移动文件的提示。</p>
+
+<p>首先，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_checking_status" href="ch02-git-basics-chapter.xhtml#_checking_status" class="xref">检查当前文件状态</a> 一节中介绍了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">status</code> 的基本及简单的形式。
+虽然我们在全书中都有用到它，但是绝大部分的你能用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 做的事情都在这一章讲到了。</p>
+<p><strong>git diff</strong></p>
+
+<p><strong>git diff</strong></p>
+<p>当需要查看任意两棵树的差异时，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 命令。
+此命令可以查看你工作环境与你的暂存区的差异（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 默认的做法），你暂存区域与你最后提交之间的差异（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff --staged</code>），或者比较两个提交记录的差异（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff master branchB</code>）。</p>
+
+<p>首先，我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter--_git_diff_staged" href="ch02-git-basics-chapter.xhtml#_git_diff_staged" class="xref">查看已暂存和未暂存的修改</a> 一章中研究了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 的基本用法，在此节中我们展示了如何查看哪些变化已经暂存了，哪些没有。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_commit_guidelines" href="ch05-distributed-git.xhtml#_commit_guidelines" class="xref">提交准则</a> 一节中,我们在提交前使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--check</code> 选项来检查可能存在的空白字符问题。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_what_is_introduced" href="ch05-distributed-git.xhtml#_what_is_introduced" class="xref">确定引入了哪些东西</a> 一节中,了解了使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff A…​B</code> 语法来更有效地比较不同分支之间的差异。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_advanced_merging" href="ch07-git-tools.xhtml#_advanced_merging" class="xref">高级合并</a> 一节中我们使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-b</code> 选项来过滤掉空白字符的差异，及通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--theirs</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">--ours</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--base</code> 选项来比较不同暂存区冲突文件的差异。</p>
+
+<p>最后，在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_starting_submodules" href="ch07-git-tools.xhtml#_starting_submodules" class="xref">开始使用子模块</a> 一节中,我们使用此命令合 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--submodule</code> 选项来有效地比较子模块的变化。</p>
+<p><strong>git difftool</strong></p>
+
+<p><strong>git difftool</strong></p>
+<p>当你不想使用内置的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 命令时。<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git difftool</code> 可以用来简单地启动一个外部工具来为你展示两棵树之间的差异。</p>
+
+<p>我们只在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch02-git-basics-chapter.xhtml#_git_diff_staged" class="xref">查看已暂存和未暂存的修改</a> 一节中简单的提到了此命令。</p>
+<p><strong>git commit</strong></p>

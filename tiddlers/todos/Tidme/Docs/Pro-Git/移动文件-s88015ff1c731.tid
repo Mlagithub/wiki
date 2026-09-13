@@ -1,0 +1,63 @@
+caption: 移动文件
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › Git Diff 的插件版本 › 移动文件
+tidme.chars: 667
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: 610e371666c00943
+tidme.id: s88015ff1c731
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000022
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/移动文件-s88015ff1c731
+type: text/vnd.tiddlywiki
+
+<p>
+不像其它的 VCS 系统，Git 并不显式跟踪文件移动操作。
+如果在 Git 中重命名了某个文件，仓库中存储的元数据并不会体现出这是一次改名操作。
+不过 Git 非常聪明，它会推断出究竟发生了什么，至于具体是如何做到的，我们稍后再谈。</p>
+
+<p>既然如此，当你看到 Git 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">mv</code> 命令时一定会困惑不已。
+要在 Git 中对文件改名，可以这么做：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git mv file_from file_to</code></p>
+
+<p>它会恰如预期般正常工作。
+实际上，即便此时查看状态信息，也会明白无误地看到关于重命名操作的说明：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git mv README.md README
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    README.md -&gt; README</code></p>
+
+<p>其实，运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git mv</code> 就相当于运行了下面三条命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>mv README.md README
+<span style="font-weight: bold">$ </span>git rm README.md
+<span style="font-weight: bold">$ </span>git add README</code></p>
+
+<p>如此分开操作，Git 也会意识到这是一次重命名，所以不管何种方式结果都一样。
+两者唯一的区别在于，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git mv</code> 是一条命令而非三条命令，直接使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git mv</code> 方便得多。
+不过在使用其他工具重命名文件时，记得在提交前 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rm</code> 删除旧文件名，再 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code>
+添加新文件名。</p>
+<p><strong>查看提交历史</strong></p>

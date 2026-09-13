@@ -1,0 +1,111 @@
+caption: 二分查找
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 使用 Git 调试 › 二分查找
+tidme.chars: 2365
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 4cc7773f4addca20
+tidme.id: s8ccd0474ac4f
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000136
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/二分查找-s8ccd0474ac4f
+type: text/vnd.tiddlywiki
+
+<p>当你知道问题是在哪里引入的情况下文件标注可以帮助你查找问题。
+如果你不知道哪里出了问题，并且自从上次可以正常运行到现在已经有数十个或者上百个提交，
+这个时候你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git bisect</code> 来帮助查找。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">bisect</code> 命令会对你的提交历史进行二分查找来帮助你尽快找到是哪一个提交引入了问题。</p>
+
+<p>假设你刚刚在线上环境部署了你的代码，接着收到一些 bug 反馈，
+但这些 bug 在你之前的开发环境里没有出现过，这让你百思不得其解。
+你重新查看了你的代码，发现这个问题是可以被重现的，但是你不知道哪里出了问题。
+你可以用 <strong xmlns="http://www.w3.org/1999/xhtml">二分法</strong> 来找到这个问题。
+首先执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git bisect start</code> 来启动，接着执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git bisect bad</code> 来告诉系统当前你所在的提交是有问题的。
+然后你必须使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git bisect good &lt;good_commit&gt;</code>，告诉 bisect 已知的最后一次正常状态是哪次提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git bisect start
+<span style="font-weight: bold">$ </span>git bisect bad
+<span style="font-weight: bold">$ </span>git bisect good v1.0
+Bisecting: 6 revisions left to test after this
+[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling on repo</code></p>
+
+<p>Git 发现在你标记为正常的提交（v1.0）和当前的错误版本之间有大约12次提交，于是 Git 检出中间的那个提交。
+现在你可以执行测试，看看在这个提交下问题是不是还是存在。
+如果还存在，说明问题是在这个提交之前引入的；如果问题不存在，说明问题是在这个提交之后引入的。
+假设测试结果是没有问题的，你可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git bisect good</code> 来告诉 Git，然后继续寻找。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git bisect good
+Bisecting: 3 revisions left to test after this
+[b047b02ea83310a70fd603dc8cd7a6cd13d15c04] secure this thing</code></p>
+
+<p>现在你在另一个提交上了，这个提交是刚刚那个测试通过的提交和有问题的提交的中点。
+你再一次执行测试，发现这个提交下是有问题的，因此你可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git bisect bad</code> 告诉 Git：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git bisect bad
+Bisecting: 1 revisions left to test after this
+[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] drop exceptions table</code></p>
+
+<p>这个提交是正常的，现在 Git 拥有的信息已经可以确定引入问题的位置在哪里。
+它会告诉你第一个错误提交的 SHA-1 值并显示一些提交说明，以及哪些文件在那次提交里被修改过，这样你可以找出引入 bug 的根源：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git bisect good
+b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
+commit b047b02ea83310a70fd603dc8cd7a6cd13d15c04
+Author: PJ Hyett &lt;pjhyett@example.com&gt;
+Date:   Tue Jan 27 14:48:32 2009 -0800
+
+    secure this thing
+
+:040000 040000 40ee3e7821b895e52c1695092db9bdc4c61d1730
+f24d3c6ebcfc639b1a3814550e62d60b8e68a8e4 M  config</code></p>
+
+<p>当你完成这些操作之后，你应该执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git bisect reset</code> 重置你的 HEAD 指针到最开始的位置，
+否则你会停留在一个奇怪的状态：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git bisect reset</code></p>
+
+<p>这是一个可以帮助你在几分钟内从数百个提交中找到 bug 的强大工具。
+事实上，如果你有一个脚本在项目是正常的情况下返回 0，在不正常的情况下返回非 0，你可以使 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git bisect</code> 自动化这些操作。
+首先，你设定好项目正常以及不正常所在提交的二分查找范围。
+你可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">bisect start</code> 命令的参数来设定这两个提交，第一个参数是项目不正常的提交，第二个参数是项目正常的提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git bisect start HEAD v1.0
+<span style="font-weight: bold">$ </span>git bisect run test-error.sh</code></p>
+
+<p>Git 会自动在每个被检出的提交里执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">test-error.sh</code>，直到找到项目第一个不正常的提交。
+你也可以执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">make</code> 或者 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">make tests</code> 或者其他东西来进行自动化测试。</p>
+<p><strong>子模块</strong></p>
+
+<p><strong>子模块</strong></p>
+<p>有种情况我们经常会遇到：某个工作中的项目需要包含并使用另一个项目。
+也许是第三方库，或者你独立开发的，用于多个父项目的库。
+现在问题来了：你想要把它们当做两个独立的项目，同时又想在一个项目中使用另一个。</p>
+
+<p>我们举一个例子。
+假设你正在开发一个网站然后创建了 Atom 订阅。
+你决定使用一个库，而不是写自己的 Atom 生成代码。
+你可能不得不通过 CPAN 安装或 Ruby gem 来包含共享库中的代码，或者将源代码直接拷贝到自己的项目中。
+如果将这个库包含进来，那么无论用何种方式都很难定制它，部署则更加困难，因为你必须确保每一个客户端都包含该库。
+如果将代码复制到自己的项目中，那么你做的任何自定义修改都会使合并上游的改动变得困难。</p>
+
+<p>Git 通过子模块来解决这个问题。
+子模块允许你将一个 Git 仓库作为另一个 Git 仓库的子目录。
+它能让你将另一个仓库克隆到自己的项目中，同时还保持提交的独立。</p>
+<p><strong>开始使用子模块</strong></p>

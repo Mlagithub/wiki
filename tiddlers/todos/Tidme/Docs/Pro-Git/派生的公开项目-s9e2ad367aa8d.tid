@@ -1,0 +1,143 @@
+caption: 派生的公开项目
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 按我们说的去做，不要照着我们做的去做。 › 派生的公开项目
+tidme.chars: 2924
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: c9c32b31e5f72994
+tidme.id: s9e2ad367aa8d
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000074
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/派生的公开项目-s9e2ad367aa8d
+type: text/vnd.tiddlywiki
+
+<p>
+向公开项目做贡献有一点儿不同。
+因为没有权限直接更新项目的分支，你必须用其他办法将工作给维护者。
+第一个例子描述在支持简单派生的 Git 托管上使用派生来做贡献。
+许多托管站点支持这个功能（包括 GitHub、BitBucket、repo.or.cz 等等），许多项目维护者期望这种风格的贡献。
+下一节会讨论偏好通过邮件接受贡献补丁的项目。</p>
+
+<p>首先，你可能想要克隆主仓库，为计划贡献的补丁或补丁序列创建一个主题分支，然后在那儿做工作。
+顺序看起来基本像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone &lt;url&gt;
+<span style="font-weight: bold">$ </span>cd project
+<span style="font-weight: bold">$ </span>git checkout -b featureA
+  ... work ...
+<span style="font-weight: bold">$ </span>git commit
+  ... work ...
+<span style="font-weight: bold">$ </span>git commit</code></p>
+
+<p>你可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">rebase -i</code> 将工作压缩成一个单独的提交，或者重排提交中的工作使补丁更容易被维护者审核——
+查看 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_rewriting_history" class="xref">重写历史</a> 了解关于交互式变基的更多信息。</p>
+
+<p>当你的分支工作完成后准备将其贡献回维护者，去原始项目中然后点击“Fork”按钮，创建一份自己的可写的项目派生仓库。
+然后需要在本地仓库中将该仓库添加为一个新的远程仓库，在本例中称作 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">myfork</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote add myfork &lt;url&gt;</code></p>
+
+<p>然后需要推送工作到上面。
+相对于合并到主分支再推送上去，推送你正在工作的主题分支到仓库上更简单。
+原因是工作如果不被接受或者是被拣选的，就不必回退你的 master 分支
+（拣选操作 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">cherry-pick</code> 详见 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_rebase_cherry_pick" href="#_rebase_cherry_pick" class="xref">变基与拣选工作流</a>）。
+如果维护者合并、变基或拣选你的工作，不管怎样你最终会通过拉取他们的仓库找回来你的工作。</p>
+
+<p>在任何情况下，你都可以使用下面的命令推送你的工作：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git push -u myfork featureA</code></p>
+
+<p>
+当工作已经被推送到你的派生仓库后，你需要通知原项目的维护者你有想要他们合并的工作。
+这通常被称作一个 <strong xmlns="http://www.w3.org/1999/xhtml">拉取请求（Pull Request）</strong>，你通常可以通过网站生成它——
+GitHub 有它自己的 Pull Request 机制，我们将会在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch06-github" href="ch06-github.xhtml" class="xref">GitHub</a>
+介绍——也可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git request-pull</code> 命令然后将随后的输出通过电子邮件手动发送给项目维护者。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git request-pull</code> 命令接受一个要拉取主题分支的基础分支，以及它们要拉取的 Git 仓库的 URL，
+产生一个请求拉取的所有修改的摘要。
+例如，Jessica 想要发送给 John 一个拉取请求，她已经在刚刚推送的分支上做了两次提交。她可以运行这个：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git request-pull origin/master myfork
+The following changes since commit 1edee6b1d61823a2de3b09c160d7080b8d1b3a40:
+Jessica Smith (1):
+        added a new function
+
+are available in the git repository at:
+
+  git://githost/simplegit.git featureA
+
+Jessica Smith (2):
+      add limit to log function
+      change log output to 30 from 25
+
+ lib/simplegit.rb |   10 +++++++++-
+ 1 files changed, 9 insertions(+), 1 deletions(-)</code></p>
+
+<p>此输出可被发送给维护者——它告诉他们工作是从哪个分支开始的、提交的摘要、以及从哪里拉取这些工作。</p>
+
+<p>在一个你不是维护者的项目上，通常有一个总是跟踪 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code> 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支会很方便，在主题分支上做工作是因为如果它们被拒绝时你可以轻松地丢弃。
+如果同一时间主仓库移动了然后你的提交不再能干净地应用，那么使工作主题独立于主题分支也会使你变基（rebase）工作时更容易。
+例如，你想要提供第二个特性工作到项目，不要继续在刚刚推送的主题分支上工作——从主仓库的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支重新开始：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout -b featureB origin/master
+  ... work ...
+<span style="font-weight: bold">$ </span>git commit
+<span style="font-weight: bold">$ </span>git push myfork featureB
+<span style="font-weight: bold">$ </span>git request-pull origin/master myfork
+  ... email generated request pull to maintainer ...
+<span style="font-weight: bold">$ </span>git fetch origin</code></p>
+
+<p>现在，每一个特性都保存在一个贮藏库中——类似于补丁队列——可以重写、变基与修改而不会让特性互相干涉或互相依赖，像这样：</p>
+
+<figcaption>Figure 17. <code xmlns="http://www.w3.org/1999/xhtml" class="literal">featureB</code> 的初始提交历史</figcaption>
+
+<p>假设项目维护者已经拉取了一串其他补丁，然后尝试拉取你的第一个分支，但是没有干净地合并。
+在这种情况下，可以尝试变基那个分支到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code> 的顶部，为维护者解决冲突，然后重新提交你的改动：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout featureA
+<span style="font-weight: bold">$ </span>git rebase origin/master
+<span style="font-weight: bold">$ </span>git push -f myfork featureA</code></p>
+
+<p>这样会重写你的历史，现在看起来像是 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-psp_b" href="#psp_b" class="xref"><code class="literal">featureA</code> 工作之后的提交历史</a></p>
+
+<figcaption>Figure 18. <code xmlns="http://www.w3.org/1999/xhtml" class="literal">featureA</code> 工作之后的提交历史</figcaption>
+
+<p>因为你将分支变基了，所以必须为推送命令指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-f</code> 选项，这样才能将服务器上有一个不是它的后代的提交的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">featureA</code> 分支替换掉。
+一个替代的选项是推送这个新工作到服务器上的一个不同分支（可能称作 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">featureAv2</code>）。</p>
+
+<p>让我们看一个更有可能的情况：维护者看到了你的第二个分支上的工作并且很喜欢其中的概念，但是想要你修改一下实现的细节。
+你也可以利用这次机会将工作基于项目现在的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。
+你从现在的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin/master</code> 分支开始一个新分支，在那儿压缩 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">featureB</code> 的改动，解决任何冲突，改变实现，然后推送它为一个新分支。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout -b featureBv2 origin/master
+<span style="font-weight: bold">$ </span>git merge --squash featureB
+  ... change implementation ...
+<span style="font-weight: bold">$ </span>git commit
+<span style="font-weight: bold">$ </span>git push myfork featureBv2</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">--squash</code> 选项接受被合并的分支上的所有工作，并将其压缩至一个变更集，
+使仓库变成一个真正的合并发生的状态，而不会真的生成一个合并提交。
+这意味着你的未来的提交将会只有一个父提交，并允许你引入另一个分支的所有改动，
+然后在记录一个新提交前做更多的改动。同样 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--no-commit</code> 选项在默认合并过程中可以用来延迟生成合并提交。</p>
+
+<p>现在你可以给维护者发送一条消息，表示你已经做了要求的修改然后他们可以在你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">featureBv2</code> 分支上找到那些改动。</p>
+
+<figcaption>Figure 19. <code xmlns="http://www.w3.org/1999/xhtml" class="literal">featureBv2</code> 工作之后的提交历史</figcaption>
+<p><strong>通过邮件的公开项目</strong></p>

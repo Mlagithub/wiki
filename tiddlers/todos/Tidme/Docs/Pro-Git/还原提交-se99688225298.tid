@@ -1,0 +1,71 @@
+caption: 还原提交
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 高级合并 › 撤消合并 › 还原提交
+tidme.chars: 937
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 18b8d93069fcc1b7
+tidme.id: se99688225298
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000130
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/还原提交-se99688225298
+type: text/vnd.tiddlywiki
+
+<p>如果移动分支指针并不适合你，Git 给你一个生成一个新提交的选项，提交将会撤消一个已存在提交的所有修改。
+Git 称这个操作为“还原”，在这个特定的场景下，你可以像这样调用它：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git revert -m 1 HEAD
+[master b1d8379] Revert "Merge branch 'topic'"</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">-m 1</code> 标记指出 “mainline” 需要被保留下来的父结点。
+当你引入一个合并到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code>（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge topic</code>），新提交有两个父结点：第一个是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code>（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">C6</code>），第二个是将要合并入分支的最新提交（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">C4</code>）。
+在本例中，我们想要撤消所有由父结点 #2（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">C4</code>）合并引入的修改，同时保留从父结点 #1（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">C6</code>）开始的所有内容。</p>
+
+<p>有还原提交的历史看起来像这样：</p>
+
+<figcaption>Figure 4. 在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git revert -m 1</code> 后的历史</figcaption>
+
+<p>新的提交 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">^M</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C6</code> 有完全一样的内容，所以从这儿开始就像合并从未发生过，除了“现在还没合并”的提交依然在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD</code> 的历史中。
+如果你尝试再次合并 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">topic</code> 到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> Git 会感到困惑：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge topic
+Already up-to-date.</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">topic</code> 中并没有东西不能从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 中追踪到达。
+更糟的是，如果你在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">topic</code> 中增加工作然后再次合并，Git 只会引入被还原的合并 <em xmlns="http://www.w3.org/1999/xhtml">之后</em> 的修改。</p>
+
+<figcaption>Figure 5. 含有坏掉合并的历史</figcaption>
+
+<p>解决这个最好的方式是撤消还原原始的合并，因为现在你想要引入被还原出去的修改，<strong xmlns="http://www.w3.org/1999/xhtml">然后</strong> 创建一个新的合并提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git revert ^M
+[master 09f0126] Revert "Revert "Merge branch 'topic'""
+<span style="font-weight: bold">$ </span>git merge topic</code></p>
+
+<figcaption>Figure 6. 在重新合并一个还原合并后的历史</figcaption>
+
+<p>在本例中，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">M</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">^M</code> 抵消了。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">^^M</code> 事实上合并入了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C3</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C4</code> 的修改，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">C8</code> 合并了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C7</code> 的修改，所以现在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">topic</code> 已经完全被合并了。</p>
+<p><strong>其他类型的合并</strong></p>
+
+<p><strong>其他类型的合并</strong></p>
+<p>到目前为止我们介绍的都是通过一个叫作 “recursive” 的合并策略来正常处理的两个分支的正常合并。
+然而还有其他方式来合并两个分支到一起。
+让我们来快速介绍其中的几个。</p>

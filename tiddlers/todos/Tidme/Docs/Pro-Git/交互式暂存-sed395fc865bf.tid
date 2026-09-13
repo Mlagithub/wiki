@@ -1,0 +1,52 @@
+caption: 交互式暂存
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 交互式暂存
+tidme.chars: 614
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 205fa1f58d71c9a4
+tidme.id: sed395fc865bf
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000106
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/交互式暂存-sed395fc865bf
+type: text/vnd.tiddlywiki
+
+<p>本节中的几个交互式 Git 命令可以帮助你将文件的特定部分组合成提交。
+当你在修改了大量文件后，希望这些改动能拆分为若干提交而不是混杂在一起成为一个提交时，这几个工具会非常有用。
+通过这种方式，可以确保提交是逻辑上独立的变更集，同时也会使其他开发者在与你工作时很容易地审核。
+如果运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 时使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-i</code> 或者 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--interactive</code> 选项，Git 将会进入一个交互式终端模式，显示类似下面的东西：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git add -i
+           staged     unstaged path
+  1:    unchanged        +0/-1 TODO
+  2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+
+*** Commands ***
+  1: [s]tatus     2: [u]pdate      3: [r]evert     4: [a]dd untracked
+  5: [p]atch      6: [d]iff        7: [q]uit       8: [h]elp
+What now&gt;</code></p>
+
+<p>可以看到这个命令以和平时非常不同的视图显示了暂存区——基本上与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 是相同的信息，但是更简明扼要一些。
+它将暂存的修改列在左侧，未暂存的修改列在右侧。</p>
+
+<p>在这块区域后是“Commands”命令区域。
+在这里你可以做一些工作，包括暂存文件、取消暂存文件、暂存文件的一部分、添加未被追踪的文件、显示暂存内容的区别。</p>
+<p><strong>暂存与取消暂存文件</strong></p>

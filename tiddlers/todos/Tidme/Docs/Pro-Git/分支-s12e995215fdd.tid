@@ -1,0 +1,94 @@
+caption: 分支
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Perforce › Git-p4 › 分支
+tidme.chars: 2039
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: b8aef80887a5b7dd
+tidme.id: s12e995215fdd
+tidme.kind: topic
+tidme.level: 5
+tidme.merged: yes
+tidme.order: 000188
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/分支-s12e995215fdd
+type: text/vnd.tiddlywiki
+
+<p>如果你的 Perforce 项目有多个分支，你并不会不走运；git-p4 可以以一种类似 Git 的方式来处理那种情况。
+假定你的 Perforce 仓库平铺的时候像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>//depot
+  └── project
+      ├── main
+      └── dev</code></p>
+
+<p>并且假定你有一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dev</code> 分支，有一个视图规格像下面这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>//depot/project/main/... //depot/project/dev/...</code></p>
+
+<p>Git-p4 可以自动地检测到这种情形并做正确的事情：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git p4 clone --detect-branches //depot/project@all
+Importing from //depot/project@all into project
+Initialized empty Git repository in /private/tmp/project/.git/
+Importing revision 20 (50%)
+    Importing new branch project/dev
+
+    Resuming with change 20
+Importing revision 22 (100%)
+Updated branches: main dev
+<span style="font-weight: bold">$ </span>cd project; git log --oneline --all --graph --decorate
+* eae77ae (HEAD, p4/master, p4/HEAD, master) main
+| * 10d55fb (p4/project/dev) dev
+| * a43cfae Populate //depot/project/main/... //depot/project/dev/....
+|/
+* 2b83451 Project init</code></p>
+
+<p>注意在仓库路径中的 “@all” 说明符；那会告诉 git-p4 不仅仅只是克隆那个子树最新的变更集，更包括那些路径未接触的所有变更集。
+这有点类似于 Git 的克隆概念，但是如果你工作在一个具有很长历史的项目，那么它会花费一段时间。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">--detect-branches</code> 标记告诉 git-p4 使用 Perforce 的分支规范来映射到 Git 的引用中。
+如果这些映射不在 Perforce 服务器中（使用 Perforce 的一种完美有效的方式），你可以告诉 git-p4 分支映射是什么，然后你会得到同样的结果：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git init project
+Initialized empty Git repository in /tmp/project/.git/
+<span style="font-weight: bold">$ </span>cd project
+<span style="font-weight: bold">$ </span>git config git-p4.branchList main:dev
+<span style="font-weight: bold">$ </span>git clone --detect-branches //depot/project@all .</code></p>
+
+<p>设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-p4.branchList</code> 配置选项为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">main:dev</code> 告诉 git-p4 那个 “main” 与 “dev” 都是分支，第二个是第一个的子分支。</p>
+
+<p>如果我们现在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout -b dev p4/project/dev</code> 并且做一些提交，在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git p4 submit</code> 时 git-p4 会聪明地选择正确的分支。
+不幸的是，git-p4 不能混用 shallow 克隆与多个分支；如果你有一个巨型项目并且想要同时工作在不止一个分支上，可能不得不针对每一个你想要提交的分支运行一次 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git p4 clone</code>。</p>
+
+<p>为了创建与整合分支，你不得不使用一个 Perforce 客户端。
+Git-p4 只能同步或提交已有分支，并且它一次只能做一个线性的变更集。
+如果你在 Git 中合并两个分支并尝试提交新的变更集，所有这些会被记录为一串文件修改；关于哪个分支参与的元数据在整合中会丢失。</p>
+<p><strong>Git 与 Perforce 总结</strong></p>
+<p>Git-p4 将与 Perforce 服务器工作时使用 Git 工作流成为可能，并且它非常擅长这点。
+然而，需要记住的重要一点是 Perforce 负责源头，而你只是在本地使用 Git。
+在共享 Git 提交时要相当小心：如果你有一个其他人使用的远程仓库，不要在提交到 Perforce 服务器前推送任何提交。</p>
+
+<p>如果想要为源码管理自由地混合使用 Perforce 与 Git 作为客户端，可以说服服务器管理员安装 Git Fusion，Git Fusion 使 Git 作为 Perforce 服务器的首级版本管理客户端。</p>
+<p><strong>迁移到 Git</strong></p>
+
+<p><strong>迁移到 Git</strong></p>
+<p>
+如果你现在有一个正在使用其他 VCS 的代码库，但是你已经决定开始使用 Git，必须通过某种方式将你的项目迁移至 Git。
+这一部分会介绍一些通用系统的导入器，然后演示如何开发你自己定制的导入器。
+你将会学习如何从几个大型专业应用的 SCM 系统中导入数据，不仅因为它们是大多数想要转换的用户正在使用的系统，也因为获取针对它们的高质量工具很容易。</p>
+<p><strong>Subversion</strong></p>

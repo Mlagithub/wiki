@@ -1,0 +1,125 @@
+caption: 树对象
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › Git 对象 › 树对象
+tidme.chars: 3235
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 90fed10534c91ec1
+tidme.id: s95bab8a78090
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000197
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/树对象-s95bab8a78090
+type: text/vnd.tiddlywiki
+
+<p>接下来要探讨的 Git 对象类型是树对象（tree object），它能解决文件名保存的问题，也允许我们将多个文件组织到一起。
+Git 以一种类似于 UNIX 文件系统的方式存储内容，但作了些许简化。
+所有内容均以树对象和数据对象的形式存储，其中树对象对应了 UNIX 中的目录项，数据对象则大致上对应了 inodes 或文件内容。
+一个树对象包含了一条或多条树对象记录（tree entry），每条记录含有一个指向数据对象或者子树对象的 SHA-1 指针，以及相应的模式、类型、文件名信息。
+例如，某项目当前对应的最新树对象可能是这样的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file -p master^{tree}
+100644 blob a906cb2a4a904a152e80877d4088654daad0c859      README
+100644 blob 8f94139338f9404f26296befa88755fc2598c289      Rakefile
+040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0      lib</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">master^{tree}</code> 语法表示 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支上最新的提交所指向的树对象。
+请注意，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">lib</code> 子目录（所对应的那条树对象记录）并不是一个数据对象，而是一个指针，其指向的是另一个树对象：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
+100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb</code></p>
+
+<p>你可能会在某些 shell 中使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master^{tree}</code> 语法时遇到错误。</p>
+
+<p>在 Windows 的 CMD 中，字符 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">^</code> 被用于转义，因此你必须双写它以避免出现问题：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git cat-file -p master^^{tree}</code>。
+在 PowerShell 中使用字符 {} 时则必须用引号引起来，以此来避免参数解析错误：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git cat-file -p 'master^{tree}'</code>。</p>
+
+<p>在 ZSH 中，字符 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">^</code> 被用在通配模式（globbing）中，因此你必须将整个表达式用引号引起来：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git cat-file -p "master^{tree}"</code>。</p>
+
+<p>从概念上讲，Git 内部存储的数据有点像这样：</p>
+
+<figcaption>Figure 1. 简化版的 Git 数据模型。</figcaption>
+
+<p>你可以轻松创建自己的树对象。
+通常，Git 根据某一时刻暂存区（即 index 区域，下同）所表示的状态创建并记录一个对应的树对象，
+如此重复便可依次记录（某个时间段内）一系列的树对象。
+因此，为创建一个树对象，首先需要通过暂存一些文件来创建一个暂存区。
+可以通过底层命令 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git update-index</code> 为一个单独文件——我们的 test.txt 文件的首个版本——创建一个暂存区。
+利用该命令，可以把 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">test.txt</code> 文件的首个版本人为地加入一个新的暂存区。
+必须为上述命令指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--add</code> 选项，因为此前该文件并不在暂存区中（我们甚至都还没来得及创建一个暂存区呢）；
+同样必需的还有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--cacheinfo</code> 选项，因为将要添加的文件位于 Git 数据库中，而不是位于当前目录下。
+同时，需要指定文件模式、SHA-1 与文件名：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git update-index --add --cacheinfo 100644 <span style="font-weight: bold; font-style: italic">\</span>
+  83baae61804e65cc73a7201a7252750c76066a30 test.txt</code></p>
+
+<p>本例中，我们指定的文件模式为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">100644</code>，表明这是一个普通文件。
+其他选择包括：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">100755</code>，表示一个可执行文件；<code xmlns="http://www.w3.org/1999/xhtml" class="literal">120000</code>，表示一个符号链接。
+这里的文件模式参考了常见的 UNIX 文件模式，但远没那么灵活——上述三种模式即是
+Git 文件（即数据对象）的所有合法模式（当然，还有其他一些模式，但用于目录项和子模块）。</p>
+
+<p>现在，可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git write-tree</code> 命令将暂存区内容写入一个树对象。
+此处无需指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-w</code> 选项——如果某个树对象此前并不存在的话，当调用此命令时，
+它会根据当前暂存区状态自动创建一个新的树对象：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git write-tree
+d8329fc1cc938780ffdd9f94e0d364e0ea74f579
+<span style="font-weight: bold">$ </span>git cat-file -p d8329fc1cc938780ffdd9f94e0d364e0ea74f579
+100644 blob 83baae61804e65cc73a7201a7252750c76066a30      test.txt</code></p>
+
+<p>不妨用之前见过的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git cat-file</code> 命令验证一下它确实是一个树对象：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
+tree</code></p>
+
+<p>接着我们来创建一个新的树对象，它包括 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">test.txt</code> 文件的第二个版本，以及一个新的文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>echo <span style="font-style: italic">'new file'</span> &gt; new.txt
+<span style="font-weight: bold">$ </span>git update-index --add --cacheinfo 100644 <span style="font-weight: bold; font-style: italic">\</span>
+  1f7a7a472abf3dd9643fd615f6da379c4acb3e3a test.txt
+<span style="font-weight: bold">$ </span>git update-index --add new.txt</code></p>
+
+<p>暂存区现在包含了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">test.txt</code> 文件的新版本，和一个新文件：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">new.txt</code>。
+记录下这个目录树（将当前暂存区的状态记录为一个树对象），然后观察它的结构：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git write-tree
+0155eb4229851634a0f03eb265b69f5a2d56f341
+<span style="font-weight: bold">$ </span>git cat-file -p 0155eb4229851634a0f03eb265b69f5a2d56f341
+100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
+100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt</code></p>
+
+<p>我们注意到，新的树对象包含两条文件记录，同时 test.txt 的 SHA-1 值（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">1f7a7a</code>）是先前值的“第二版”。
+只是为了好玩：你可以将第一个树对象加入第二个树对象，使其成为新的树对象的一个子目录。
+通过调用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git read-tree</code> 命令，可以把树对象读入暂存区。
+本例中，可以通过对该命令指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--prefix</code> 选项，将一个已有的树对象作为子树读入暂存区：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git read-tree --prefix=bak d8329fc1cc938780ffdd9f94e0d364e0ea74f579
+<span style="font-weight: bold">$ </span>git write-tree
+3c4e9cd789d88d8d89c1073707c3585e41b0e614
+<span style="font-weight: bold">$ </span>git cat-file -p 3c4e9cd789d88d8d89c1073707c3585e41b0e614
+040000 tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579      bak
+100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
+100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt</code></p>
+
+<p>如果基于这个新的树对象创建一个工作目录，你会发现工作目录的根目录包含两个文件以及一个名为
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">bak</code> 的子目录，该子目录包含 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">test.txt</code> 文件的第一个版本。
+可以认为 Git 内部存储着的用于表示上述结构的数据是这样的：</p>
+
+<figcaption>Figure 2. 当前 Git 的数据内容结构。</figcaption>
+<p><strong>提交对象</strong></p>

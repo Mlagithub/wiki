@@ -1,0 +1,167 @@
+caption: 客户端钩子
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › 使用强制策略的一个例子 › 客户端钩子
+tidme.chars: 3255
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: 9375ab3c31126fbb
+tidme.id: s8381a341a7d8
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000167
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/客户端钩子-s8381a341a7d8
+type: text/vnd.tiddlywiki
+
+<p>这种方法的缺点在于，用户推送的提交遭到拒绝后无法避免的抱怨。
+辛辛苦苦写成的代码在最后时刻惨遭拒绝是十分让人沮丧且具有迷惑性的；更可怜的是他们不得不修改提交历史来解决问题，这个方法并不能让每一个人满意。</p>
+
+<p>逃离这种两难境地的法宝是给用户一些客户端的钩子，在他们犯错的时候给以警告。
+然后呢，用户们就能趁问题尚未变得更难修复，在提交前消除这个隐患。
+由于钩子本身不跟随克隆的项目副本分发，所以你必须通过其他途径把这些钩子分发到用户的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/hooks</code> 目录并设为可执行文件。
+虽然你可以在相同或单独的项目里加入并分发这些钩子，但是 Git 不会自动替你设置它。</p>
+
+<p>首先，你应该在每次提交前核查你的提交信息，这样才能确保服务器不会因为不合条件的提交信息而拒绝你的更改。
+为了达到这个目的，你可以增加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">commit-msg</code> 钩子。
+如果你使用该钩子来读取作为第一个参数传递的提交信息，然后与规定的格式作比较，你就可以使 Git 在提交信息格式不对的情况下拒绝提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-style: italic">#!/usr/bin/env ruby</span>
+message_file = ARGV[0]
+message = File.read(message_file)
+
+$regex = <span style="font-style: italic">/\[ref: (\d+)\]/</span>
+
+<span style="font-weight: bold">if</span> !$regex.match(message)
+  puts <span style="font-style: italic">"[POLICY] Your message is not formatted correctly"</span>
+  exit 1
+<span style="font-weight: bold">end</span></code></p>
+
+<p>如果这个脚本位于正确的位置（ <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/hooks/commit-msg</code> ）并且是可执行的，你提交信息的格式又是不正确的，你会看到：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'test'</span>
+[POLICY] Your message is not formatted correctly</code></p>
+
+<p>在这个示例中，提交没有成功。
+然而如果你的提交注释信息是符合要求的，Git 会允许你提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'test [ref: 132]'</span>
+[master e05c914] test [ref: 132]
+ 1 file changed, 1 insertions(+), 0 deletions(-)</code></p>
+
+<p>接下来我们要保证没有修改到 ACL 允许范围之外的文件。
+假如你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 目录下有前面使用过的那份 ACL 文件，那么以下的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-commit</code> 脚本将把里面的规定执行起来：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-style: italic">#!/usr/bin/env ruby</span>
+
+$user    = ENV[<span style="font-style: italic">'USER'</span>]
+
+<span style="font-style: italic"># [ 插入上文中的 get_acl_access_data 方法 ]</span>
+
+<span style="font-style: italic"># 仅允许特定用户修改项目中的特定子目录</span>
+<span style="font-weight: bold">def</span> check_directory_perms
+  access = get_acl_access_data(<span style="font-style: italic">'.git/acl'</span>)
+
+  files_modified = <span style="font-style: italic">`git diff-index --cached --name-only HEAD`</span>.split(<span style="font-style: italic">"</span><span style="font-weight: bold; font-style: italic">\n</span><span style="font-style: italic">"</span>)
+  files_modified.each <span style="font-weight: bold">do</span> |path|
+    <span style="font-weight: bold">next</span> <span style="font-weight: bold">if</span> path.size == 0
+    has_file_access = <span style="font-weight: bold">false</span>
+    access[$user].each <span style="font-weight: bold">do</span> |access_path|
+    <span style="font-weight: bold">if</span> !access_path || (path.index(access_path) == 0)
+      has_file_access = <span style="font-weight: bold">true</span>
+    <span style="font-weight: bold">end</span>
+    <span style="font-weight: bold">if</span> !has_file_access
+      puts <span style="font-style: italic">"[POLICY] You do not have access to push to </span><span style="font-weight: bold; font-style: italic">#{</span>path<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">"</span>
+      exit 1
+    <span style="font-weight: bold">end</span>
+  <span style="font-weight: bold">end</span>
+<span style="font-weight: bold">end</span>
+
+check_directory_perms</code></p>
+
+<p>这和服务器端的脚本几乎一样，除了两个重要区别。
+第一，ACL 文件的位置不同，因为这个脚本在当前工作目录运行，而非 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 目录。
+ACL 文件的路径必须从</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>access = get_acl_access_data(<span style="font-style: italic">'acl'</span>)</code></p>
+
+<p>修改成：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>access = get_acl_access_data(<span style="font-style: italic">'.git/acl'</span>)</code></p>
+
+<p>另一个重要区别是获取被修改文件列表的方式。
+在服务器端的时候使用了查看提交纪录的方式，可是目前的提交都还没被记录下来呢，所以这个列表只能从暂存区域获取。
+和原来的</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>files_modified = <span style="font-style: italic">`git log -1 --name-only --pretty=format:'' </span><span style="font-weight: bold; font-style: italic">#{</span>ref<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">`</span></code></p>
+
+<p>不同，现在要用</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>files_modified = <span style="font-style: italic">`git diff-index --cached --name-only HEAD`</span></code></p>
+
+<p>不同的就只有这两个——除此之外，该脚本完全相同。
+有一点要注意的是，它假定在本地运行的用户和推送到远程服务器端的相同。
+如果这二者不一样，则需要手动设置一下 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$user</code> 变量。</p>
+
+<p>在这里，我们还可以确保推送内容中不包含非快进（non-fast-forward）的引用。
+出现一个不是快进（fast-forward）的引用有两种情形，要么是在某个已经推送过的提交上作变基，要么是从本地推送一个错误的分支到远程分支上。</p>
+
+<p>假定为了执行这个策略，你已经在服务器上配置好了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">receive.denyDeletes</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">receive.denyNonFastForwards</code>，因而唯一还需要避免的是在某个已经推送过的提交上作变基。</p>
+
+<p>下面是一个检查这个问题的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pre-rebase</code> 脚本示例。
+它获取所有待重写的提交的列表，然后检查它们是否存在于远程引用中。
+一旦发现其中一个提交是在某个远程引用中可达的（reachable），它就终止此次变基：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-style: italic">#!/usr/bin/env ruby</span>
+
+base_branch = ARGV[0]
+<span style="font-weight: bold">if</span> ARGV[1]
+  topic_branch = ARGV[1]
+<span style="font-weight: bold">else</span>
+  topic_branch = <span style="font-style: italic">"HEAD"</span>
+<span style="font-weight: bold">end</span>
+
+target_shas = <span style="font-style: italic">`git rev-list </span><span style="font-weight: bold; font-style: italic">#{</span>base_branch<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">..</span><span style="font-weight: bold; font-style: italic">#{</span>topic_branch<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">`</span>.split(<span style="font-style: italic">"</span><span style="font-weight: bold; font-style: italic">\n</span><span style="font-style: italic">"</span>)
+remote_refs = <span style="font-style: italic">`git branch -r`</span>.split(<span style="font-style: italic">"</span><span style="font-weight: bold; font-style: italic">\n</span><span style="font-style: italic">"</span>).map { |r| r.strip }
+
+target_shas.each <span style="font-weight: bold">do</span> |sha|
+  remote_refs.each <span style="font-weight: bold">do</span> |remote_ref|
+    shas_pushed = <span style="font-style: italic">`git rev-list ^</span><span style="font-weight: bold; font-style: italic">#{</span>sha<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">^@ refs/remotes/</span><span style="font-weight: bold; font-style: italic">#{</span>remote_ref<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">`</span>
+    <span style="font-weight: bold">if</span> shas_pushed.split(<span style="font-style: italic">"</span><span style="font-weight: bold; font-style: italic">\n</span><span style="font-style: italic">"</span>).include?(sha)
+      puts <span style="font-style: italic">"[POLICY] Commit </span><span style="font-weight: bold; font-style: italic">#{</span>sha<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic"> has already been pushed to </span><span style="font-weight: bold; font-style: italic">#{</span>remote_ref<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">"</span>
+      exit 1
+    <span style="font-weight: bold">end</span>
+  <span style="font-weight: bold">end</span>
+<span style="font-weight: bold">end</span></code></p>
+
+<p>此脚本使用了 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_revision_selection" href="ch07-git-tools.xhtml#_revision_selection" class="xref">选择修订版本</a> 一章中不曾提到的语法。
+通过运行这个命令可以获得一系列之前推送过的提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-style: italic">`git rev-list ^</span><span style="font-weight: bold; font-style: italic">#{</span>sha<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">^@ refs/remotes/</span><span style="font-weight: bold; font-style: italic">#{</span>remote_ref<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">`</span></code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">SHA^@</code> 语法会被解析成该提交的所有父提交。
+该命令会列出在远程分支最新的提交中可达的，却在所有我们尝试推送的提交的
+SHA-1 值的所有父提交中不可达的提交——也就是快进的提交。</p>
+
+<p>这个解决方案主要的问题在于它有可能很慢而且常常没有必要——只要你不用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-f</code> 来强制推送，服务器就会自动给出警告并且拒绝接受推送。
+然而，这是个不错的练习，而且理论上能帮助你避免一次以后可能不得不回头修补的变基。</p>
+<p><strong>总结</strong></p>
+
+<p><strong>总结</strong></p>
+<p>我们已经阐述了大部分通过自定义 Git 客户端和服务端来适应自己工作流程和项目内容的方式。
+你已经学到各种各样的设置项、基于文件的选项和事件钩子，还建立了一个示例用的强制策略服务器。
+无论创造出了什么样的工作流程，你都能使 Git 与它珠联璧合。</p>

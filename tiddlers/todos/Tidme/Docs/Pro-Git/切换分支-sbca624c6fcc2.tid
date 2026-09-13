@@ -1,0 +1,123 @@
+caption: 切换分支
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 子模块 › 子模块的问题 › 切换分支
+tidme.chars: 2460
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: d4e39361d807f253
+tidme.id: sbca624c6fcc2
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000145
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/切换分支-sbca624c6fcc2
+type: text/vnd.tiddlywiki
+
+<p>例如，使用 Git 2.13 以前的版本时，在有子模块的项目中切换分支可能会造成麻烦。
+如果你创建一个新分支，在其中添加一个子模块，之后切换到没有该子模块的分支上时，你仍然会有一个还未跟踪的子模块目录。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git --version
+git version 2.12.2
+
+<span style="font-weight: bold">$ </span>git checkout -b add-crypto
+Switched to a new branch 'add-crypto'
+
+<span style="font-weight: bold">$ </span>git submodule add https://github.com/chaconinc/CryptoLibrary
+Cloning into 'CryptoLibrary'...
+...
+
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'adding crypto library'</span>
+[add-crypto 4445836] adding crypto library
+ 2 files changed, 4 insertions(+)
+ create mode 160000 CryptoLibrary
+
+<span style="font-weight: bold">$ </span>git checkout master
+warning: unable to rmdir CryptoLibrary: Directory not empty
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+	CryptoLibrary/
+
+nothing added to commit but untracked files present (use "git add" to track)</code></p>
+
+<p>移除那个目录并不困难，但是有一个目录在那儿会让人有一点困惑。
+如果你移除它然后切换回有那个子模块的分支，需要运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">submodule update --init</code> 来重新建立和填充。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clean -fdx
+Removing CryptoLibrary/
+
+<span style="font-weight: bold">$ </span>git checkout add-crypto
+Switched to branch 'add-crypto'
+
+<span style="font-weight: bold">$ </span>ls CryptoLibrary/
+
+<span style="font-weight: bold">$ </span>git submodule update --init
+Submodule path 'CryptoLibrary': checked out 'b8dda6aa182ea4464f3f3264b11e0268545172af'
+
+<span style="font-weight: bold">$ </span>ls CryptoLibrary/
+Makefile	includes	scripts		src</code></p>
+
+<p>再说一遍，这真的不难，只是会让人有点儿困惑。</p>
+
+<p>新版的 Git（&gt;= 2.13）通过为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code> 命令添加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code> 选项简化了所有这些步骤，
+它能为了我们要切换到的分支让子模块处于的正确状态。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git --version
+git version 2.13.3
+
+<span style="font-weight: bold">$ </span>git checkout -b add-crypto
+Switched to a new branch 'add-crypto'
+
+<span style="font-weight: bold">$ </span>git submodule add https://github.com/chaconinc/CryptoLibrary
+Cloning into 'CryptoLibrary'...
+...
+
+<span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'adding crypto library'</span>
+[add-crypto 4445836] adding crypto library
+ 2 files changed, 4 insertions(+)
+ create mode 160000 CryptoLibrary
+
+<span style="font-weight: bold">$ </span>git checkout --recurse-submodules master
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+nothing to commit, working tree clean</code></p>
+
+<p>当你在父级项目的几个分支上工作时，对 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code> 使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code> 选项也很有用，
+它能让你的子模块处于不同的提交上。确实，如果你在记录了子模块的不同提交的分支上切换，
+那么在执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 后子模块会显示为“已修改”并指出“新的提交”。
+这是因为子模块的状态默认不会在切换分支时保留。</p>
+
+<p>这点非常让人困惑，因此当你的项目中拥有子模块时，可以总是使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout --recurse-submodules</code>。
+（对于没有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code> 选项的旧版 Git，在检出之后可使用
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule update --init --recursive</code> 来让子模块处于正确的状态）。</p>
+
+<p>幸运的是，你可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config submodule.recurse true</code> 设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">submodule.recurse</code> 选项，
+告诉 Git（&gt;=2.14）总是使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code>。
+如上所述，这也会让 Git 为每个拥有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--recurse-submodules</code> 选项的命令（除了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clone</code>）
+总是递归地在子模块中执行。</p>

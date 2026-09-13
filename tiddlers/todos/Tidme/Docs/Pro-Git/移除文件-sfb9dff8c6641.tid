@@ -1,0 +1,85 @@
+caption: 移除文件
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › Git Diff 的插件版本 › 移除文件
+tidme.chars: 1286
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: a165d4d4bce45c1d
+tidme.id: sfb9dff8c6641
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000021
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/移除文件-sfb9dff8c6641
+type: text/vnd.tiddlywiki
+
+<p>
+要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。
+可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rm</code> 命令完成此项工作，并连带从工作目录中删除指定的文件，这样以后就不会出现在未跟踪文件清单中了。</p>
+
+<p>如果只是简单地从工作目录中手工删除文件，运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 时就会在
+“Changes not staged for commit” 部分（也就是 <em xmlns="http://www.w3.org/1999/xhtml">未暂存清单</em>）看到：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>rm PROJECTS.md
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add/rm &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+        deleted:    PROJECTS.md
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></p>
+
+<p>然后再运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rm</code> 记录此次移除文件的操作：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rm PROJECTS.md
+rm 'PROJECTS.md'
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    deleted:    PROJECTS.md</code></p>
+
+<p>下一次提交时，该文件就不再纳入版本管理了。
+如果要删除之前修改过或已经放到暂存区的文件，则必须使用强制删除选项 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-f</code>（译注：即 force 的首字母）。
+这是一种安全特性，用于防止误删尚未添加到快照的数据，这样的数据不能被 Git 恢复。</p>
+
+<p>另外一种情况是，我们想把文件从 Git 仓库中删除（亦即从暂存区域移除），但仍然希望保留在当前工作目录中。
+换句话说，你想让文件保留在磁盘，但是并不想让 Git 继续跟踪。
+当你忘记添加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件，不小心把一个很大的日志文件或一堆 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.a</code> 这样的编译生成文件添加到暂存区时，这一做法尤其有用。
+为达到这一目的，使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--cached</code> 选项：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rm --cached README</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rm</code> 命令后面可以列出文件或者目录的名字，也可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">glob</code> 模式。比如：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rm log/<span style="font-weight: bold; font-style: italic">\*</span>.log</code></p>
+
+<p>注意到星号 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">*</code> 之前的反斜杠 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">\</code>，
+因为 Git 有它自己的文件模式扩展匹配方式，所以我们不用 shell 来帮忙展开。
+此命令删除 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">log/</code> 目录下扩展名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.log</code> 的所有文件。
+类似的比如：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git rm <span style="font-weight: bold; font-style: italic">\*</span>~</code></p>
+
+<p>该命令会删除所有名字以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~</code> 结尾的文件。</p>
+<p><strong>移动文件</strong></p>

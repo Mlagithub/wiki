@@ -1,0 +1,116 @@
+caption: 清理工作目录
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 迁移到 git stash push › 清理工作目录
+tidme.chars: 1783
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: cf7b98a69856d74e
+tidme.id: s17336cb56799
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000112
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/清理工作目录-s17336cb56799
+type: text/vnd.tiddlywiki
+
+<p>对于工作目录中一些工作或文件，你想做的也许不是贮藏而是移除。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clean</code> 命令就是用来干这个的。</p>
+
+<p>清理工作目录有一些常见的原因，比如说为了移除由合并或外部工具生成的东西，
+或是为了运行一个干净的构建而移除之前构建的残留。</p>
+
+<p>你需要谨慎地使用这个命令，因为它被设计为从工作目录中移除未被追踪的文件。
+如果你改变主意了，你也不一定能找回来那些文件的内容。
+一个更安全的选项是运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git stash --all</code> 来移除每一样东西并存放在栈中。</p>
+
+<p>你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clean</code> 命令去除冗余文件或者清理工作目录。
+使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clean -f -d</code> 命令来移除工作目录中所有未追踪的文件以及空的子目录。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">-f</code> 意味着“强制（force）”或“确定要移除”，使用它需要 Git 配置变量 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">clean.requireForce</code> 没有显式设置为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">false</code>。</p>
+
+<p>如果只是想要看看它会做什么，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--dry-run</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-n</code> 选项来运行命令，
+这意味着“做一次演习然后告诉你 <strong xmlns="http://www.w3.org/1999/xhtml">将要</strong> 移除什么”。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clean -d -n
+Would remove test.o
+Would remove tmp/</code></p>
+
+<p>默认情况下，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clean</code> 命令只会移除没有忽略的未跟踪文件。
+任何与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 或其他忽略文件中的模式匹配的文件都不会被移除。
+如果你也想要移除那些文件，例如为了做一次完全干净的构建而移除所有由构建生成的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.o</code> 文件，
+可以给 clean 命令增加一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-x</code> 选项。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status -s
+ M lib/simplegit.rb
+?? build.TMP
+?? tmp/
+
+<span style="font-weight: bold">$ </span>git clean -n -d
+Would remove build.TMP
+Would remove tmp/
+
+<span style="font-weight: bold">$ </span>git clean -n -d -x
+Would remove build.TMP
+Would remove test.o
+Would remove tmp/</code></p>
+
+<p>如果不知道 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clean</code> 命令将会做什么，在将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-n</code> 改为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-f</code> 来真正做之前总是先用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-n</code> 来运行它做双重检查。
+另一个小心处理过程的方式是使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-i</code> 或 “interactive” 标记来运行它。</p>
+
+<p>这将会以交互模式运行 clean 命令。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clean -x -i
+Would remove the following items:
+  build.TMP  test.o
+*** Commands ***
+    1: clean                2: filter by pattern    3: select by numbers    4: ask each             5: quit
+    6: help
+What now&gt;</code></p>
+
+<p>这种方式下可以分别地检查每一个文件或者交互地指定删除的模式。</p>
+
+<p>在一种奇怪的情况下，可能需要格外用力才能让 Git 清理你的工作目录。
+如果你恰好在工作目录中复制或克隆了其他 Git 仓库（可能是子模块），那么即便是
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clean -fd</code> 都会拒绝删除这些目录。这种情况下，你需要加上第二个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-f</code> 选项来强调。</p>
+<p><strong>签署工作</strong></p>
+
+<p><strong>签署工作</strong></p>
+<p>Git 虽然是密码级安全的，但它不是万无一失的。
+如果你从因特网上的其他人那里拿取工作，并且想要验证提交是不是真正地来自于可信来源，
+Git 提供了几种通过 GPG 来签署和验证工作的方式。</p>
+<p><strong>GPG 介绍</strong></p>
+
+<p><strong>GPG 介绍</strong></p>
+<p>首先，在开始签名之前你需要先配置 GPG 并安装个人密钥。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>gpg --list-keys
+/Users/schacon/.gnupg/pubring.gpg
+---------------------------------
+pub   2048R/0A46826A 2014-06-04
+uid                  Scott Chacon (Git signing key) &lt;schacon@gmail.com&gt;
+sub   2048R/874529A9 2014-06-04</code></p>
+
+<p>如果你还没有安装一个密钥，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">gpg --gen-key</code> 生成一个。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>gpg --gen-key</code></p>
+
+<p>一旦你有一个可以签署的私钥，可以通过设置 Git 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">user.signingkey</code> 选项来签署。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global user.signingkey 0A46826A</code></p>
+
+<p>现在 Git 默认使用你的密钥来签署标签与提交。</p>
+<p><strong>签署标签</strong></p>

@@ -1,0 +1,52 @@
+caption: 远程引用
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › Git 引用 › 远程引用
+tidme.chars: 848
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 295ba93034b97e60
+tidme.id: sccf94365c7f2
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000203
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/远程引用-sccf94365c7f2
+type: text/vnd.tiddlywiki
+
+<p>我们将看到的第三种引用类型是远程引用（remote reference）。
+如果你添加了一个远程版本库并对其执行过推送操作，Git 会记录下最近一次推送操作时每一个分支所对应的值，并保存在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/remotes</code> 目录下。
+例如，你可以添加一个叫做 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code> 的远程版本库，然后把 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支推送上去：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote add origin git@github.com:schacon/simplegit-progit.git
+<span style="font-weight: bold">$ </span>git push origin master
+Counting objects: 11, done.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (7/7), 716 bytes, done.
+Total 7 (delta 2), reused 4 (delta 1)
+To git@github.com:schacon/simplegit-progit.git
+  a11bef0..ca82a6d  master -&gt; master</code></p>
+
+<p>此时，如果查看 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/remotes/origin/master</code> 文件，可以发现 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code> 远程版本库的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支所对应的 SHA-1 值，就是最近一次与服务器通信时本地 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支所对应的 SHA-1 值：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cat .git/refs/remotes/origin/master
+ca82a6dff817ec66f44342007202690a93763949</code></p>
+
+<p>远程引用和分支（位于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/heads</code> 目录下的引用）之间最主要的区别在于，远程引用是只读的。
+虽然可以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code> 到某个远程引用，但是 Git 并不会将 HEAD 引用指向该远程引用。因此，你永远不能通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">commit</code> 命令来更新远程引用。
+Git 将这些远程引用作为记录远程服务器上各分支最后已知位置状态的书签来管理。</p>
+<p><strong>包文件</strong></p>

@@ -1,0 +1,170 @@
+caption: 通过邮件的公开项目
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 按我们说的去做，不要照着我们做的去做。 › 通过邮件的公开项目
+tidme.chars: 3593
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: 48b19c7fc8ff35c4
+tidme.id: s4ed495c52c5e
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000075
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/通过邮件的公开项目-s4ed495c52c5e
+type: text/vnd.tiddlywiki
+
+<p>
+许多项目建立了接受补丁的流程——需要检查每一个项目的特定规则，因为它们之间有区别。
+因为有几个历史悠久的、大型的项目会通过一个开发者的邮件列表接受补丁，现在我们将会通过一个例子来演示。</p>
+
+<p>工作流程与之前的用例是类似的——你为工作的每一个补丁序列创建主题分支。
+区别是如何提交它们到项目中。
+生成每一个提交序列的电子邮件版本然后邮寄它们到开发者邮件列表，而不是派生项目然后推送到你自己的可写版本。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout -b topicA
+  ... work ...
+<span style="font-weight: bold">$ </span>git commit
+  ... work ...
+<span style="font-weight: bold">$ </span>git commit</code></p>
+
+<p>
+现在有两个提交要发送到邮件列表。
+使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git format-patch</code> 来生成可以邮寄到列表的 mbox 格式的文件——它将每一个提交转换为一封电子邮件，提交信息的第一行作为主题，剩余信息与提交引入的补丁作为正文。
+它有一个好处是使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">format-patch</code> 生成的一封电子邮件应用的提交正确地保留了所有的提交信息。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git format-patch -M origin/master
+0001-add-limit-to-log-function.patch
+0002-changed-log-output-to-30-from-25.patch</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">format-patch</code> 命令打印出它创建的补丁文件名字。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">-M</code> 开关告诉 Git 查找重命名。
+文件最后看起来像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cat 0001-add-limit-to-log-function.patch
+From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
+From: Jessica Smith &lt;jessica@example.com&gt;
+Date: Sun, 6 Apr 2008 10:17:23 -0700
+Subject: [PATCH 1/2] add limit to log function
+
+Limit log functionality to the first 20
+
+---
+ lib/simplegit.rb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index 76f47bc..f9815f1 100644
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
+@@ -14,7 +14,7 @@ class SimpleGit
+   end
+
+   def log(treeish = 'master')
+-    command("git log #{treeish}")
++    command("git log -n 20 #{treeish}")
+   end
+
+   def ls_tree(treeish = 'master')
+--
+2.1.0</code></p>
+
+<p>也可以编辑这些补丁文件为邮件列表添加更多不想要在提交信息中显示出来的信息。
+如果在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">---</code> 行与补丁开头（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">diff --git</code> 行）之间添加文本，那么开发者就可以阅读它，但是应用补丁时会忽略它。</p>
+
+<p>为了将其邮寄到邮件列表，你既可以将文件粘贴进电子邮件客户端，也可以通过命令行程序发送它。
+粘贴文本经常会发生格式化问题，特别是那些不会合适地保留换行符与其他空白的 “更聪明的” 客户端。
+幸运的是，Git 提供了一个工具帮助你通过 IMAP 发送正确格式化的补丁，这可能对你更容易些。
+我们将会演示如何通过 Gmail 发送一个补丁，它正好是我们所知最好的邮件代理；可以在之前提到的 Git 源代码中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Documentation/SubmittingPatches</code> 文件的最下面了解一系列邮件程序的详细指令。</p>
+
+<p>
+首先，需要在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~/.gitconfig</code> 文件中设置 imap 区块。
+可以通过一系列的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config</code> 命令来分别设置每一个值，或者手动添加它们，不管怎样最后配置文件应该看起来像这样：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">[imap]</span>
+  folder = <span style="font-style: italic">"[Gmail]/Drafts"</span>
+  host = <span style="font-style: italic">imaps://imap.gmail.com</span>
+  user = <span style="font-style: italic">user@gmail.com</span>
+  pass = <span style="font-style: italic">YX]8g76G_2^sFbd</span>
+  port = <span style="font-style: italic">993</span>
+  sslverify = <span style="font-style: italic">false</span></code></p>
+
+<p>如果 IMAP 服务器不使用 SSL，最后两行可能没有必要，host 的值会是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">imap://</code> 而不是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">imaps://</code>。
+当那些设置完成后，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git imap-send</code> 将补丁序列放在特定 IMAP 服务器的 Drafts 文件夹中：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cat *.patch |git imap-send
+Resolving imap.gmail.com... ok
+Connecting to [74.125.142.109]:993... ok
+Logging in...
+sending 2 messages
+100% (2/2) done</code></p>
+
+<p>此时，你可以到 Drafts 文件夹中，修改收件人字段为想要发送补丁的邮件列表，
+可能需要抄送给维护者或负责那个部分的人，然后发送。</p>
+
+<p>你也可以通过一个 SMTP 服务器发送补丁。
+同之前一样，你可以通过一系列的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config</code> 命令来分别设置选项，
+或者你可以手动地将它们添加到你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~/.gitconfig</code> 文件的 sendmail 区块：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">[sendemail]</span>
+  smtpencryption = <span style="font-style: italic">tls</span>
+  smtpserver = <span style="font-style: italic">smtp.gmail.com</span>
+  smtpuser = <span style="font-style: italic">user@gmail.com</span>
+  smtpserverport = <span style="font-style: italic">587</span></code></p>
+
+<p>当这完成后，你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git send-email</code> 发送你的补丁：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git send-email *.patch
+0001-added-limit-to-log-function.patch
+0002-changed-log-output-to-30-from-25.patch
+Who should the emails appear to be from? [Jessica Smith &lt;jessica@example.com&gt;]
+Emails will be sent from: Jessica Smith &lt;jessica@example.com&gt;
+Who should the emails be sent to? jessica@example.com
+Message-ID to be used as In-Reply-To for the first email? y</code></p>
+
+<p>然后，对于正在发送的每一个补丁，Git 会吐出这样的一串日志信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; from
+  \line 'From: Jessica Smith &lt;jessica@example.com&gt;'
+OK. Log says:
+Sendmail: /usr/sbin/sendmail -i jessica@example.com
+From: Jessica Smith &lt;jessica@example.com&gt;
+To: jessica@example.com
+Subject: [PATCH 1/2] added limit to log function
+Date: Sat, 30 May 2009 13:29:15 -0700
+Message-Id: &lt;1243715356-61726-1-git-send-email-jessica@example.com&gt;
+X-Mailer: git-send-email 1.6.2.rc1.20.g8c5b.dirty
+In-Reply-To: &lt;y&gt;
+References: &lt;y&gt;
+
+Result: OK</code></p>
+<p><strong>总结</strong></p>
+
+<p><strong>总结</strong></p>
+<p>这个部分介绍了处理可能会遇到的几个迥然不同类型的 Git 项目的一些常见的工作流程，
+介绍了帮助管理这个过程的一些新工具。
+接下来，你会了解到如何在贡献的另一面工作：维护一个 Git 项目。
+你将会学习如何成为一个仁慈的独裁者或整合管理者。</p>
+<p><strong>维护项目</strong></p>
+
+<p><strong>维护项目</strong></p>
+<p>
+除了如何有效地参与一个项目的贡献之外，你可能也需要了解如何维护项目。
+这包含接受并应用别人使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">format-patch</code> 生成并通过电子邮件发送过来的补丁，
+或对项目添加的远程版本库分支中的更改进行整合。
+但无论是管理版本库，还是帮忙验证、审核收到的补丁，都需要同其他贡献者约定某种长期可持续的工作方式。</p>
+<p><strong>在主题分支中工作</strong></p>

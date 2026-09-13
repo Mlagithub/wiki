@@ -1,0 +1,59 @@
+caption: 合并工作流
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 分布式 Git › 维护项目 › 将贡献的工作整合进来 › 合并工作流
+tidme.chars: 844
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch05-distributed-git.xhtml
+tidme.format: epub
+tidme.hash: 4fd408231e827ccc
+tidme.id: se911a5ea06eb
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000081
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/合并工作流-se911a5ea06eb
+type: text/vnd.tiddlywiki
+
+<p>
+一种基本的工作流就是将所有的工作直接合并到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。
+在这种情况下，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支包含的代码是基本稳定的。
+当你完成某个主题分支的工作，或审核通过了其他人所贡献的工作时，你会将其合并进入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支，之后将主题分支删除，如此反复。</p>
+
+<p>举例来说，如果我们的版本库包含类似 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-merwf_a" href="#merwf_a" class="xref">包含若干主题分支的提交历史。</a> 的两个名称分别为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ruby_client</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">php_client</code> 的分支，
+并且我们合并完 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ruby_client</code> 分支后，再合并 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">php_client</code> 分支，那么提交历史最后会变成 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-merwf_b" href="#merwf_b" class="xref">合并主题分支之后。</a> 的样子。</p>
+
+<figcaption>Figure 20. 包含若干主题分支的提交历史。</figcaption>
+
+<figcaption>Figure 21. 合并主题分支之后。</figcaption>
+
+<p>这也许是最简单的工作流了，但是当项目更大，或更稳定，你对自己所引入的工作更加在意时，它可能会带来问题。</p>
+
+<p>如果你的项目非常重要，你可能会使用两阶段合并循环。
+在这种情况下，你会维护两个长期分支，分别是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code>，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支只会在一个非常稳定的版本发布时才会更新，而所有的新代码会首先整合进入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code> 分支。
+你定期将这两个分支推送到公共版本库中。
+每次需要合并新的主题分支时（<a xmlns="http://www.w3.org/1999/xhtml" id="xref-merwf_c" href="#merwf_c" class="xref">合并主题分支前。</a>），你都应该合并进入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code> 分支（<a xmlns="http://www.w3.org/1999/xhtml" id="xref-merwf_d" href="#merwf_d" class="xref">合并主题分支后。</a>）；当打标签发布的时候，你会将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支快进到已经稳定的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code> 分支（<a xmlns="http://www.w3.org/1999/xhtml" id="xref-merwf_e" href="#merwf_e" class="xref">一次发布之后。</a>）。</p>
+
+<figcaption>Figure 22. 合并主题分支前。</figcaption>
+
+<figcaption>Figure 23. 合并主题分支后。</figcaption>
+
+<figcaption>Figure 24. 一次发布之后。</figcaption>
+
+<p>这样当人们克隆你项目的版本库后，既可以检出 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支以构建最新的稳定版本并保持更新，
+也可以检出包含更多前沿内容 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code> 分支。
+你也可以扩展这个概念，维护一个将所有工作合并到一起的整合分支。
+当该分支的代码稳定并通过测试之后，将其合并进入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">develop</code> 分支；
+经过一段时间，确认其稳定之后，将其以快进的形式并入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。</p>

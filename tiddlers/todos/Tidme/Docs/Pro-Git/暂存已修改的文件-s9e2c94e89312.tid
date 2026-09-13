@@ -1,0 +1,119 @@
+caption: 暂存已修改的文件
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › 记录每次更新到仓库 › 暂存已修改的文件
+tidme.chars: 2288
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: 756efa9f0222f4a4
+tidme.id: s9e2c94e89312
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000016
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/暂存已修改的文件-s9e2c94e89312
+type: text/vnd.tiddlywiki
+
+<p>现在我们来修改一个已被跟踪的文件。
+如果你修改了一个名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">CONTRIBUTING.md</code> 的已被跟踪的文件，然后运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 命令，会看到下面内容：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   README
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></p>
+
+<p>文件 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">CONTRIBUTING.md</code> 出现在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Changes not staged for commit</code> 这行下面，说明已跟踪文件的内容发生了变化，但还没有放到暂存区。
+要暂存这次更新，需要运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 命令。
+这是个多功能命令：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等。
+将这个命令理解为“精确地将内容添加到下一次提交中”而不是“将一个文件添加到项目中”要更加合适。
+现在让我们运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 将“CONTRIBUTING.md”放到暂存区，然后再看看 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 的输出：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git add CONTRIBUTING.md
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   README
+    modified:   CONTRIBUTING.md</code></p>
+
+<p>现在两个文件都已暂存，下次提交时就会一并记录到仓库。
+假设此时，你想要在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">CONTRIBUTING.md</code> 里再加条注释。
+重新编辑存盘后，准备好提交。
+不过且慢，再运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 看看：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>vim CONTRIBUTING.md
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   README
+    modified:   CONTRIBUTING.md
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></p>
+
+<p>怎么回事？
+现在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">CONTRIBUTING.md</code> 文件同时出现在暂存区和非暂存区。
+这怎么可能呢？
+好吧，实际上 Git 只不过暂存了你运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 命令时的版本。
+如果你现在提交，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">CONTRIBUTING.md</code> 的版本是你最后一次运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 命令时的那个版本，而不是你运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 时，在工作目录中的当前版本。
+所以，运行了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 之后又作了修订的文件，需要重新运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 把最新版本重新暂存起来：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git add CONTRIBUTING.md
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   README
+    modified:   CONTRIBUTING.md</code></p>
+<p><strong>状态简览</strong></p>
+
+<p><strong>状态简览</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 命令的输出十分详细，但其用语有些繁琐。
+Git 有一个选项可以帮你缩短状态命令的输出，这样可以以简洁的方式查看更改。
+如果你使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status -s</code> 命令或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status --short</code> 命令，你将得到一种格式更为紧凑的输出。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status -s
+ M README
+MM Rakefile
+A  lib/git.rb
+M  lib/simplegit.rb
+?? LICENSE.txt</code></p>
+
+<p>新添加的未跟踪文件前面有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">??</code> 标记，新添加到暂存区中的文件前面有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">A</code> 标记，修改过的文件前面有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">M</code> 标记。
+输出中有两栏，左栏指明了暂存区的状态，右栏指明了工作区的状态。例如，上面的状态报告显示：
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">README</code> 文件在工作区已修改但尚未暂存，而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">lib/simplegit.rb</code> 文件已修改且已暂存。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">Rakefile</code> 文件已修改，暂存后又作了修改，因此该文件的修改中既有已暂存的部分，又有未暂存的部分。</p>
+<p><strong>忽略文件</strong></p>

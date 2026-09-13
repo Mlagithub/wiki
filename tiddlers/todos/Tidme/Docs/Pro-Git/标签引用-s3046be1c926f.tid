@@ -1,0 +1,71 @@
+caption: 标签引用
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › Git 引用 › 标签引用
+tidme.chars: 1135
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 9724f57ee963e140
+tidme.id: s3046be1c926f
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000202
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/标签引用-s3046be1c926f
+type: text/vnd.tiddlywiki
+
+<p>前面我们刚讨论过 Git 的三种主要的对象类型（<strong xmlns="http://www.w3.org/1999/xhtml">数据对象</strong>、<strong xmlns="http://www.w3.org/1999/xhtml">树对象</strong> 和 <strong xmlns="http://www.w3.org/1999/xhtml">提交对象</strong> ），然而实际上还有第四种。
+<strong xmlns="http://www.w3.org/1999/xhtml">标签对象（tag object）</strong> 非常类似于一个提交对象——它包含一个标签创建者信息、一个日期、一段注释信息，以及一个指针。
+主要的区别在于，标签对象通常指向一个提交对象，而不是一个树对象。
+它像是一个永不移动的分支引用——永远指向同一个提交对象，只不过给这个提交对象加上一个更友好的名字罢了。</p>
+
+<p>正如 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter" href="ch02-git-basics-chapter.xhtml" class="xref">Git 基础</a> 中所讨论的那样，存在两种类型的标签：附注标签和轻量标签。
+可以像这样创建一个轻量标签：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d</code></p>
+
+<p>这就是轻量标签的全部内容——一个固定的引用。
+然而，一个附注标签则更复杂一些。
+若要创建一个附注标签，Git 会创建一个标签对象，并记录一个引用来指向该标签对象，而不是直接指向提交对象。
+可以通过创建一个附注标签来验证这个过程（使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-a</code> 选项）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 -m <span style="font-style: italic">'test tag'</span></code></p>
+
+<p>下面是上述过程所建标签对象的 SHA-1 值：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cat .git/refs/tags/v1.1
+9585191f37f7b0fb9444f35a9bf50de191beadc2</code></p>
+
+<p>现在对该 SHA-1 值运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git cat-file -p</code> 命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
+object 1a410efbd13591db07496601ebc7a059dd55cfe9
+type commit
+tag v1.1
+tagger Scott Chacon &lt;schacon@gmail.com&gt; Sat May 23 16:48:58 2009 -0700
+
+test tag</code></p>
+
+<p>我们注意到，object 条目指向我们打了标签的那个提交对象的 SHA-1 值。
+另外要注意的是，标签对象并非必须指向某个提交对象；你可以对任意类型的 Git 对象打标签。
+例如，在 Git 源码中，项目维护者将他们的 GPG 公钥添加为一个数据对象，然后对这个对象打了一个标签。
+可以克隆一个 Git 版本库，然后通过执行下面的命令来在这个版本库中查看上述公钥：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git cat-file blob junio-gpg-pub</code></p>
+
+<p>Linux 内核版本库同样有一个不指向提交对象的标签对象——首个被创建的标签对象所指向的是最初被引入版本库的那份内核源码所对应的树对象。</p>
+<p><strong>远程引用</strong></p>

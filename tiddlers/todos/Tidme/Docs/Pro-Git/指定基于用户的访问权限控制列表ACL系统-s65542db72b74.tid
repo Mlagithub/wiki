@@ -1,0 +1,118 @@
+caption: 指定基于用户的访问权限控制列表（ACL）系统
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › 使用强制策略的一个例子 › 服务器端钩子 › 指定基于用户的访问权限控制列表（ACL）系统
+tidme.chars: 2128
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: 83a75c35bc2cb33f
+tidme.id: s65542db72b74
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000165
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/指定基于用户的访问权限控制列表ACL系统-s65542db72b74
+type: text/vnd.tiddlywiki
+
+<p>假设你需要添加一个使用访问权限控制列表的机制，来指定哪些用户对项目的哪些部分有推送权限。
+某些用户具有全部的访问权，其他人只对某些子目录或者特定的文件具有推送权限。
+为了实现这一点，你要把相关的规则写入位于服务器原始 Git 仓库的 acl 文件中。
+你还需要让 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">update</code> 钩子检阅这些规则，审视推送的提交内容中被修改的所有文件，然后决定执行推送的用户是否对所有这些文件都有权限。</p>
+
+<p>先从写一个 ACL 文件开始吧。
+这里使用的格式和 CVS 的 ACL 机制十分类似：它由若干行构成，第一项内容是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">avail</code> 或者 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">unavail</code>，接着是逗号分隔的适用该规则的用户列表，最后一项是适用该规则的路径（该项空缺表示没有路径限制）。
+各项由管道符 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">|</code> 隔开。</p>
+
+<p>在本例中，你会有几个管理员，一些对 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">doc</code> 目录具有权限的文档作者，以及一位仅对 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">lib</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">tests</code> 目录具有权限的开发人员，相应的 ACL 文件如下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>avail|nickh,pjhyett,defunkt,tpw
+avail|usinclair,cdickens,ebronte|doc
+avail|schacon|lib
+avail|schacon|tests</code></p>
+
+<p>首先把这些数据读入你要用到的数据结构里。
+在本例中，为保持简洁，我们暂时只实现 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">avail</code> 的规则。
+下面这个方法生成一个关联数组，它的键是用户名，值是一个由该用户有写权限的所有目录组成的数组：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">def</span> get_acl_access_data(acl_file)
+  <span style="font-style: italic"># 读取 ACL 数据</span>
+  acl_file = File.read(acl_file).split(<span style="font-style: italic">"</span><span style="font-weight: bold; font-style: italic">\n</span><span style="font-style: italic">"</span>).reject { |line| line == <span style="font-style: italic">''</span> }
+  access = {}
+  acl_file.each <span style="font-weight: bold">do</span> |line|
+    avail, users, path = line.split(<span style="font-style: italic">'|'</span>)
+    <span style="font-weight: bold">next</span> <span style="font-weight: bold">unless</span> avail == <span style="font-style: italic">'avail'</span>
+    users.split(<span style="font-style: italic">','</span>).each <span style="font-weight: bold">do</span> |user|
+      access[user] ||= []
+      access[user] &lt;&lt; path
+    <span style="font-weight: bold">end</span>
+  <span style="font-weight: bold">end</span>
+  access
+<span style="font-weight: bold">end</span></code></p>
+
+<p>对于之前给出的 ACL 规则文件，这个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">get_acl_access_data</code> 方法返回的数据结构如下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>{<span style="font-style: italic">"defunkt"</span>=&gt;[<span style="font-weight: bold">nil</span>],
+ <span style="font-style: italic">"tpw"</span>=&gt;[<span style="font-weight: bold">nil</span>],
+ <span style="font-style: italic">"nickh"</span>=&gt;[<span style="font-weight: bold">nil</span>],
+ <span style="font-style: italic">"pjhyett"</span>=&gt;[<span style="font-weight: bold">nil</span>],
+ <span style="font-style: italic">"schacon"</span>=&gt;[<span style="font-style: italic">"lib"</span>, <span style="font-style: italic">"tests"</span>],
+ <span style="font-style: italic">"cdickens"</span>=&gt;[<span style="font-style: italic">"doc"</span>],
+ <span style="font-style: italic">"usinclair"</span>=&gt;[<span style="font-style: italic">"doc"</span>],
+ <span style="font-style: italic">"ebronte"</span>=&gt;[<span style="font-style: italic">"doc"</span>]}</code></p>
+
+<p>既然拿到了用户权限的数据，接下来你需要找出提交都修改了哪些路径，从而才能保证推送者对所有这些路径都有权限。</p>
+
+<p>使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--name-only</code> 选项（在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch02-git-basics-chapter" href="ch02-git-basics-chapter.xhtml" class="xref">Git 基础</a>
+一章中里简单地提过），我们可以轻而易举的找出一次提交里修改的文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log -1 --name-only --pretty=format:<span style="font-style: italic">''</span> 9f585d
+
+README
+lib/test.rb</code></p>
+
+<p>使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">get_acl_access_data</code> 返回的 ACL 结构来一一核对每次提交修改的文件列表，就能找出该用户是否有权限推送所有的提交内容：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-style: italic"># 仅允许特定用户修改项目中的特定子目录</span>
+<span style="font-weight: bold">def</span> check_directory_perms
+  access = get_acl_access_data(<span style="font-style: italic">'acl'</span>)
+
+  <span style="font-style: italic"># 检查是否有人在向他没有权限的地方推送内容</span>
+  new_commits = <span style="font-style: italic">`git rev-list </span><span style="font-weight: bold; font-style: italic">#{</span>$oldrev<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">..</span><span style="font-weight: bold; font-style: italic">#{</span>$newrev<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">`</span>.split(<span style="font-style: italic">"</span><span style="font-weight: bold; font-style: italic">\n</span><span style="font-style: italic">"</span>)
+  new_commits.each <span style="font-weight: bold">do</span> |rev|
+    files_modified = <span style="font-style: italic">`git log -1 --name-only --pretty=format:'' </span><span style="font-weight: bold; font-style: italic">#{</span>rev<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">`</span>.split(<span style="font-style: italic">"</span><span style="font-weight: bold; font-style: italic">\n</span><span style="font-style: italic">"</span>)
+    files_modified.each <span style="font-weight: bold">do</span> |path|
+      <span style="font-weight: bold">next</span> <span style="font-weight: bold">if</span> path.size == 0
+      has_file_access = <span style="font-weight: bold">false</span>
+      access[$user].each <span style="font-weight: bold">do</span> |access_path|
+        <span style="font-weight: bold">if</span> !access_path  <span style="font-style: italic"># 用户拥有完全访问权限</span>
+           || (path.start_with? access_path) <span style="font-style: italic"># 或者对此路径有访问权限</span>
+          has_file_access = <span style="font-weight: bold">true</span>
+        <span style="font-weight: bold">end</span>
+      <span style="font-weight: bold">end</span>
+      <span style="font-weight: bold">if</span> !has_file_access
+        puts <span style="font-style: italic">"[POLICY] You do not have access to push to </span><span style="font-weight: bold; font-style: italic">#{</span>path<span style="font-weight: bold; font-style: italic">}</span><span style="font-style: italic">"</span>
+        exit 1
+      <span style="font-weight: bold">end</span>
+    <span style="font-weight: bold">end</span>
+  <span style="font-weight: bold">end</span>
+<span style="font-weight: bold">end</span>
+
+check_directory_perms</code></p>
+
+<p>通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rev-list</code> 获取推送到服务器的所有提交。
+接着，对于每一个提交，找出它修改的文件，然后确保推送者具有这些文件的推送权限。</p>
+
+<p>现在你的用户没法推送带有不正确的提交信息的内容，也不能在准许他们访问范围之外的位置做出修改。</p>

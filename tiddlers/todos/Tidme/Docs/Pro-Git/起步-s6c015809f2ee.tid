@@ -1,0 +1,48 @@
+caption: 起步
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在你的应用中嵌入 Git › JGit › 起步
+tidme.chars: 631
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/B-embedding-git-in-your-applications.xhtml
+tidme.format: epub
+tidme.hash: 5b15c17f57ff7823
+tidme.id: s6c015809f2ee
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000228
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/起步-s6c015809f2ee
+type: text/vnd.tiddlywiki
+
+<p>有很多种方式可以让 JGit 连接你的项目，并依靠它去写代码。
+最简单的方式也许就是使用 Maven 。你可以通过在你的 pom.xml 文件里的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">&lt;dependencies&gt;</code> 标签中增加像下面这样的片段来完成这个整合。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">&lt;dependency&gt;</span>
+    <span style="font-weight: bold">&lt;groupId&gt;</span>org.eclipse.jgit<span style="font-weight: bold">&lt;/groupId&gt;</span>
+    <span style="font-weight: bold">&lt;artifactId&gt;</span>org.eclipse.jgit<span style="font-weight: bold">&lt;/artifactId&gt;</span>
+    <span style="font-weight: bold">&lt;version&gt;</span>3.5.0.201409260305-r<span style="font-weight: bold">&lt;/version&gt;</span>
+<span style="font-weight: bold">&lt;/dependency&gt;</span></code></p>
+
+<p>在你读到这段文字时 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">version</code> 很可能已经更新了，所以请浏览 <a xmlns="http://www.w3.org/1999/xhtml" href="https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit" class="link">https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit</a> 以获取最新的仓库信息。
+当这一步完成之后， Maven 就会自动获取并使用你所需要的 JGit 库。</p>
+
+<p>如果你想自己管理二进制的依赖包，那么你可以从 <a xmlns="http://www.w3.org/1999/xhtml" href="https://www.eclipse.org/jgit/download" class="link">https://www.eclipse.org/jgit/download</a> 获得预构建的 JGit 二进制文件。
+你可以像下面这样执行一个命令来将它们构建进你的项目。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>javac -cp .:org.eclipse.jgit-3.5.0.201409260305-r.jar App.java
+java -cp .:org.eclipse.jgit-3.5.0.201409260305-r.jar App</code></p>
+<p><strong>底层命令</strong></p>

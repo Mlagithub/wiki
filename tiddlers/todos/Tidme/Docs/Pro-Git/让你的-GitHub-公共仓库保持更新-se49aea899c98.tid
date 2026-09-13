@@ -1,0 +1,83 @@
+caption: 让你的 GitHub 公共仓库保持更新
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub › 不必总是 Fork › 让你的 GitHub 公共仓库保持更新
+tidme.chars: 1099
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: 6aa8c278bdd01a4c
+tidme.id: se49aea899c98
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000090
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/让你的-GitHub-公共仓库保持更新-se49aea899c98
+type: text/vnd.tiddlywiki
+
+<p>当你派生了一个 GitHub 仓库之后，你的仓库（即你的“派生”）会独立于原仓库而独立。
+特别地，当原仓库有新的提交时，GitHub 会通知你：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>This branch is 5 commits behind progit:master.
+（本分支落后 progit:master 5 个提交。）</code></p>
+
+<p>但你的 GitHub 仓库不会被 GitHub 自动更新，这件事必须由你自己来做。还好，这事儿很简单。</p>
+
+<p>第一种方法无需配置。例如，若你从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal"><a href="https://github.com/progit/progit2.git" class="link">https://github.com/progit/progit2.git</a></code> 派生了项目，
+你可以像这样更新你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout master <i class="conum" data-value="1">①</i>
+<span style="font-weight: bold">$ </span>git pull https://github.com/progit/progit2.git <i class="conum" data-value="2">②</i>
+<span style="font-weight: bold">$ </span>git push origin master <i class="conum" data-value="3">③</i></code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="1">①</i> 如果在另一个分支上，就切换到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="2">②</i> 从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal"><a href="https://github.com/progit/progit2.git" class="link">https://github.com/progit/progit2.git</a></code> 抓取更改后合并到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="3">③</i> 将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支推送到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code></p>
+
+<p>这虽然可行，但每次都要输入从哪个 URL 抓取有点麻烦。你可以稍微设置一下来自动完成它：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote add progit https://github.com/progit/progit2.git <i class="conum" data-value="1">①</i>
+<span style="font-weight: bold">$ </span>git branch --set-upstream-to=progit/master master <i class="conum" data-value="2">②</i>
+<span style="font-weight: bold">$ </span>git config --local remote.pushDefault origin <i class="conum" data-value="3">③</i></code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="1">①</i> 添加源仓库并取一个名字，这里叫它 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">progit</code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="2">②</i> 将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支设置为从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">progit</code> 远端抓取</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="3">③</i> 将默认推送仓库设置为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code></p>
+
+<p>搞定之后，工作流程为更加简单：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout master <i class="conum" data-value="1">①</i>
+<span style="font-weight: bold">$ </span>git pull <i class="conum" data-value="2">②</i>
+<span style="font-weight: bold">$ </span>git push <i class="conum" data-value="3">③</i></code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="1">①</i> 如果在另一个分支上，就切换到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="2">②</i> 从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">progit</code> 抓取更改后合并到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="3">③</i> 将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支推送到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code></p>
+
+<p>这种方法可能很有用，但也不是没有缺点。如果你向 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 提交，再从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">progit</code> 中拉取，然后推送到
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">origin</code>，Git 会很乐意安静地为您完成这项工作，但不会警告你——所有这些操作在以上设置下都是有效的。
+所以你必须注意永远不要直接提交到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code>，因为该分支实际上属于上游仓库。</p>
+<p><strong>维护项目</strong></p>
+
+<p><strong>维护项目</strong></p>
+<p>现在我们可以很方便地向一个项目贡献内容，来看一下另一个方面的内容：创建、维护和管理你自己的项目。</p>
+<p><strong>创建新的版本库</strong></p>

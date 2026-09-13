@@ -1,0 +1,85 @@
+caption: 提交更新
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › Git Diff 的插件版本 › 提交更新
+tidme.chars: 1296
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: e22dd7e3ea048228
+tidme.id: s97a8474fb9ff
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000019
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/提交更新-s97a8474fb9ff
+type: text/vnd.tiddlywiki
+
+<p>现在的暂存区已经准备就绪，可以提交了。
+在此之前，请务必确认还有什么已修改或新建的文件还没有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 过，
+否则提交的时候不会记录这些尚未暂存的变化。
+这些已修改但未暂存的文件只会保留在本地磁盘。
+所以，每次准备提交前，先用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 看下，你所需要的文件是不是都已暂存起来了，
+然后再运行提交命令 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git commit</code></p>
+
+<p>这样会启动你选择的文本编辑器来输入提交说明。</p>
+
+<p>启动的编辑器是通过 Shell 的环境变量 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">EDITOR</code> 指定的，一般为 vim 或 emacs。
+当然也可以按照 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch01-getting-started" href="ch01-getting-started.xhtml" class="xref">起步</a> 介绍的方式，
+使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global core.editor</code> 命令设置你喜欢的编辑器。
+</p>
+
+<p>编辑器会显示类似下面的文本信息（本例选用 Vim 的屏显方式展示）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   README
+#	modified:   CONTRIBUTING.md
+#
+~
+~
+~
+".git/COMMIT_EDITMSG" 9L, 283C</code></p>
+
+<p>可以看到，默认的提交消息包含最后一次运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 的输出，放在注释行里，另外开头还有一个空行，供你输入提交说明。
+你完全可以去掉这些注释行，不过留着也没关系，多少能帮你回想起这次更新的内容有哪些。</p>
+
+<p>更详细的内容修改提示可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-v</code> 选项查看，这会将你所作的更改的
+diff 输出呈现在编辑器中，以便让你知道本次提交具体作出哪些修改。</p>
+
+<p>退出编辑器时，Git 会丢弃注释行，用你输入的提交说明生成一次提交。</p>
+
+<p>另外，你也可以在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">commit</code> 命令后添加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-m</code> 选项，将提交信息与命令放在同一行，如下所示：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git commit -m <span style="font-style: italic">"Story 182: Fix benchmarks for speed"</span>
+[master 463dc4f] Story 182: Fix benchmarks for speed
+ 2 files changed, 2 insertions(+)
+ create mode 100644 README</code></p>
+
+<p>好，现在你已经创建了第一个提交！
+可以看到，提交后它会告诉你，当前是在哪个分支（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code>）提交的，本次提交的完整 SHA-1 校验和是什么（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">463dc4f</code>），以及在本次提交中，有多少文件修订过，多少行添加和删改过。</p>
+
+<p>请记住，提交时记录的是放在暂存区域的快照。
+任何还未暂存文件的仍然保持已修改状态，可以在下次提交时纳入版本管理。
+每一次运行提交操作，都是对你项目作一次快照，以后可以回到这个状态，或者进行比较。</p>
+<p><strong>跳过使用暂存区域</strong></p>

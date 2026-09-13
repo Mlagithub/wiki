@@ -1,0 +1,74 @@
+caption: 克隆现有的仓库
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › 获取 Git 仓库 › 克隆现有的仓库
+tidme.chars: 1368
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: 9eb99a5def07e8ef
+tidme.id: s1b48ebd755c5
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000014
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/克隆现有的仓库-s1b48ebd755c5
+type: text/vnd.tiddlywiki
+
+<p>如果你想获得一份已经存在了的 Git 仓库的拷贝，比如说，你想为某个开源项目贡献自己的一份力，这时就要用到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clone</code> 命令。
+如果你对其它的 VCS 系统（比如说 Subversion）很熟悉，请留心一下你所使用的命令是"clone"而不是"checkout"。
+这是 Git 区别于其它版本控制系统的一个重要特性，Git 克隆的是该 Git 仓库服务器上的几乎所有数据，而不是仅仅复制完成你的工作所需要文件。
+当你执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clone</code> 命令的时候，默认配置下远程 Git 仓库中的每一个文件的每一个版本都将被拉取下来。
+事实上，如果你的服务器的磁盘坏掉了，你通常可以使用任何一个克隆下来的用户端来重建服务器上的仓库
+（虽然可能会丢失某些服务器端的钩子（hook）设置，但是所有版本的数据仍在，详见 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch04-git-on-the-server--_getting_git_on_a_server" href="ch04-git-on-the-server.xhtml#_getting_git_on_a_server" class="xref">在服务器上搭建 Git</a> ）。</p>
+
+<p>克隆仓库的命令是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clone &lt;url&gt;</code> 。
+比如，要克隆 Git 的链接库 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">libgit2</code>，可以用下面的命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone https://github.com/libgit2/libgit2</code></p>
+
+<p>这会在当前目录下创建一个名为 “libgit2” 的目录，并在这个目录下初始化一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 文件夹，
+从远程仓库拉取下所有数据放入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 文件夹，然后从中读取最新版本的文件的拷贝。
+如果你进入到这个新建的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">libgit2</code> 文件夹，你会发现所有的项目文件已经在里面了，准备就绪等待后续的开发和使用。</p>
+
+<p>如果你想在克隆远程仓库的时候，自定义本地仓库的名字，你可以通过额外的参数指定新的目录名：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone https://github.com/libgit2/libgit2 mylibgit</code></p>
+
+<p>这会执行与上一条命令相同的操作，但目标目录名变为了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">mylibgit</code>。</p>
+
+<p>Git 支持多种数据传输协议。
+上面的例子使用的是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">https://</code> 协议，不过你也可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git://</code> 协议或者使用 SSH 传输协议，比如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">user@server:path/to/repo.git</code> 。
+<a xmlns="http://www.w3.org/1999/xhtml" href="ch04-git-on-the-server.xhtml#_getting_git_on_a_server" class="xref">在服务器上搭建 Git</a> 将会介绍所有这些协议在服务器端如何配置使用，以及各种方式之间的利弊。</p>
+<p><strong>记录每次更新到仓库</strong></p>
+
+<p><strong>记录每次更新到仓库</strong></p>
+<p>现在我们的机器上有了一个 <strong xmlns="http://www.w3.org/1999/xhtml">真实项目</strong> 的 Git 仓库，并从这个仓库中检出了所有文件的 <strong xmlns="http://www.w3.org/1999/xhtml">工作副本</strong>。
+通常，你会对这些文件做些修改，每当完成了一个阶段的目标，想要将记录下它时，就将它提交到仓库。</p>
+
+<p>请记住，你工作目录下的每一个文件都不外乎这两种状态：<strong xmlns="http://www.w3.org/1999/xhtml">已跟踪</strong> 或 <strong xmlns="http://www.w3.org/1999/xhtml">未跟踪</strong>。
+已跟踪的文件是指那些被纳入了版本控制的文件，在上一次快照中有它们的记录，在工作一段时间后，
+它们的状态可能是未修改，已修改或已放入暂存区。简而言之，已跟踪的文件就是 Git 已经知道的文件。</p>
+
+<p>工作目录中除已跟踪文件外的其它所有文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有被放入暂存区。
+初次克隆某个仓库的时候，工作目录中的所有文件都属于已跟踪文件，并处于未修改状态，因为 Git 刚刚检出了它们，
+而你尚未编辑过它们。</p>
+
+<p>编辑过某些文件之后，由于自上次提交后你对它们做了修改，Git 将它们标记为已修改文件。
+在工作时，你可以选择性地将这些修改过的文件放入暂存区，然后提交所有已暂存的修改，如此反复。</p>
+
+<figcaption>Figure 1. 文件的状态变化周期</figcaption>
+<p><strong>检查当前文件状态</strong></p>

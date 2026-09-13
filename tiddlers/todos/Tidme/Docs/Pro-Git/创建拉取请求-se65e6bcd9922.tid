@@ -1,0 +1,112 @@
+caption: 创建拉取请求
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub › 对项目做出贡献 › GitHub 流程 › 创建拉取请求
+tidme.chars: 2231
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: cdb0e09568485d55
+tidme.id: se65e6bcd9922
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000086
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/创建拉取请求-se65e6bcd9922
+type: text/vnd.tiddlywiki
+
+<p>Tony 在找一些能在他的 Arduino 微控制器上运行的代码，他觉得 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/schacon/blink" class="link">https://github.com/schacon/blink</a> 中的代码不错。</p>
+
+<figcaption>Figure 9. 他想要做出贡献的项目</figcaption>
+
+<p>但是有个问题，这个代码中的闪烁频率太高，我们觉得 3 秒一次比 1 秒一次更好一些。
+所以让我们来改进这个程序，并将修改后的代码提交给这个项目。</p>
+
+<p>首先，单击“Fork”按钮来获得这个项目的副本。
+我们使用的用户名是“tonychacon”，所以这个项目副本的访问地址是： <code xmlns="http://www.w3.org/1999/xhtml" class="literal"><a href="https://github.com/tonychacon/blink" class="link">https://github.com/tonychacon/blink</a></code> 。
+我们将它克隆到本地，创建一个分支，修改代码，最后再将改动推送到 GitHub。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone https://github.com/tonychacon/blink <i class="conum" data-value="1">①</i>
+Cloning into 'blink'...
+
+<span style="font-weight: bold">$ </span>cd blink
+<span style="font-weight: bold">$ </span>git checkout -b slow-blink <i class="conum" data-value="2">②</i>
+Switched to a new branch 'slow-blink'
+
+<span style="font-weight: bold">$ </span>sed -i <span style="font-style: italic">''</span> <span style="font-style: italic">'s/1000/3000/'</span> blink.ino (macOS) <i class="conum" data-value="3">③</i>
+<span style="font-weight: bold"># </span>If you<span style="font-style: italic">'re on a Linux system, do this instead:</span>
+<span style="font-weight: bold"># </span><span style="font-style: italic">$ sed -i '</span>s/1000/3000/<span style="border: 1px solid #F00">'</span> blink.ino <i class="conum" data-value="3">③</i>
+
+<span style="font-weight: bold">$ </span>git diff --word-diff <i class="conum" data-value="4">④</i>
+diff --git a/blink.ino b/blink.ino
+index 15b9911..a6cc5a5 100644
+--- a/blink.ino
++++ b/blink.ino
+@@ -18,7 +18,7 @@ void setup() {
+// the loop routine runs over and over again forever:
+void loop() {
+  digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
+  [-delay(1000);-]{+delay(3000);+}               // wait for a second
+  digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
+  [-delay(1000);-]{+delay(3000);+}               // wait for a second
+}
+
+<span style="font-weight: bold">$ </span>git commit -a -m <span style="font-style: italic">'three seconds is better'</span> <i class="conum" data-value="5">⑤</i>
+[slow-blink 5ca509d] three seconds is better
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+<span style="font-weight: bold">$ </span>git push origin slow-blink <i class="conum" data-value="6">⑥</i>
+Username for 'https://github.com': tonychacon
+Password for 'https://tonychacon@github.com':
+Counting objects: 5, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 340 bytes | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+To https://github.com/tonychacon/blink
+ * [new branch]      slow-blink -&gt; slow-blink</code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="1">①</i> 将派生出的副本克隆到本地</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="2">②</i> 创建出名称有意义的分支</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="3">③</i> 修改代码</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="4">④</i> 检查改动</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="5">⑤</i> 将改动提交到分支中</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="6">⑥</i> 将新分支推送到 GitHub 的副本中</p>
+
+<p>现在到 GitHub 上查看之前的项目副本，可以看到 GitHub 提示我们有新的分支，
+并且显示了一个大大的绿色按钮让我们可以检查我们的改动，并给源项目创建拉取请求。</p>
+
+<p>你也可以到“Branches”（分支）页面查看分支并创建拉取请求： <code xmlns="http://www.w3.org/1999/xhtml" class="literal">https://github.com/&lt;用户名&gt;/&lt;项目名&gt;/branches</code></p>
+
+<figcaption>Figure 10. 拉取请求按钮</figcaption>
+
+<p>
+如果我们点击那个绿色按钮，就会跳到一个新页面，在这里我们可以为拉取请求填写标题和描述。
+花点时间编写一个清晰有用的描述是非常值得的，这能让原项目拥有者明白你做了什么，
+为什么这个改动是正确的，以及接受此更改是否能够改进他的项目。</p>
+
+<p>同时我们也能看到比主分支中所“领先”（ahead）的提交（在这个例子中只有一个）以及所有将会被合并的改动与之前代码的对比。</p>
+
+<figcaption>Figure 11. 拉取请求创建页面</figcaption>
+
+<p>当你单击了“Create pull request”（创建拉取请求）的按钮后，这个项目的拥有者将会收到一条包含改动和拉取请求页面的链接的提醒。</p>
+
+<p>虽然拉取请求通常是在贡献者准备好在公开项目中提交改动的时候提交，但是也常被用在仍处于开发阶段的内部项目中。
+因为拉取请求在提交后 <strong xmlns="http://www.w3.org/1999/xhtml">依然可以加入新的改动</strong> ，它也经常被用来建立团队合作的环境，而不只是在最终阶段使用。</p>

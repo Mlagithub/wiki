@@ -1,0 +1,72 @@
+caption: macOS 和 Windows 上的 GitHub 客户端
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在其它环境中使用 Git › 图形界面 › macOS 和 Windows 上的 GitHub 客户端
+tidme.chars: 1157
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/A-git-in-other-environments.xhtml
+tidme.format: epub
+tidme.hash: 0fa6133699d775fa
+tidme.id: s98a92ea68ebd
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000219
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/macOS-和-Windows-上的-GitHub-客户端-s98a92ea68ebd
+type: text/vnd.tiddlywiki
+
+<p>
+GitHub 发布了两个面向工作流程的 Git 客户端：Windows 版，和 macOS 版。
+它们很好的展示了一个面向工作流程的工具应该是什么样子——专注于提升那些常用的功能及其协作的可用性，而不是实现 Git 的 <em xmlns="http://www.w3.org/1999/xhtml">所有</em> 功能.
+它们看起来长这个样子：</p>
+
+<figcaption>Figure 3. GitHub macOS 客户端。</figcaption>
+
+<figcaption>Figure 4. GitHub Windows 客户端。</figcaption>
+
+<p>我们在设计的时候就努力将二者的外观和操作体验都保持一致，因此本章会把他们当做同一个产品来介绍。
+我们并不会详细地介绍该工具的每一个功能（因为它们本身也有文档），但请快速了解一下“变更”窗口（你大部分时间都会花在使用该窗口上）的以下几点：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">左侧是正在追踪的仓库的列表；通过点击左上方的 “+” 图标，你可以添加一个需要追踪的仓库（既可以是通过 clone，也可以从本地添加）。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">中间是输入-提交区，你可以在这里输入提交日志，以及选择哪些文件需要被提交。
+（在 Windows 上，提交历史就显示在这个区域的下方；在 macOS 上，提交历史有一个单独的窗口）</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">右侧是修改查看区，它会告诉你工作目录里哪些东西被修改了（译注：修改模式），或选中的提交里包括了哪些修改（译注：历史模式）。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">最后需要熟悉的是右上角的 “Sync” 按钮，你主要通过这个按钮来进行网络上的交互。</span>
+</p>
+
+<p>你不需要注册 GitHub 账号也可以使用这些工具。
+尽管它们是按照 GitHub 推荐的工作流程来设计的，并突出提升了一些 GitHub 的服务体验，但它们可以在任何 Git 仓库上工作良好，也可以通过网络连接到任意 Git 主机。</p>
+<p><strong>安装</strong></p>
+<p>GitHub 的 Windows 客户端可以从 <a xmlns="http://www.w3.org/1999/xhtml" href="https://windows.github.com" class="link">https://windows.github.com</a> 下载，macOS 客户端可以从 <a xmlns="http://www.w3.org/1999/xhtml" href="https://mac.github.com" class="link">https://mac.github.com</a> 下载。
+第一次打开软件时，它会引导你进行一系列的首次使用设置，例如设置你的姓名和电子邮件，它还会智能地帮你调整一些常用的默认设置，例如凭证缓存和 CRLF 的处理方式。</p>
+
+<p>它们都是“绿色软件”——如果软件打开发现有更新，下载和安装升级包都是在后台完成的。
+为方便起见它们还打包了一份 Git，也就是说你一旦安装好就再也无需劳心升级的事情了。
+Windows 的客户端还提供了快捷方式，可以启动装了 Posh-git 插件的 Powershell，在本章的后面一节我们会详细介绍这方面的内容。</p>
+
+<p>接下来我们给它设置一些工作仓库。
+客户端会显示你在 GitHub 上有权限操作的仓库的列表，你可以选择一个然后一键克隆。
+如果你本地已经建立了仓库，只需要用鼠标把它从 Finder 或 Windows 资源管理器拖进 GitHub 客户端窗口，就可以把该仓库添加到左侧的仓库列表里面去了。</p>

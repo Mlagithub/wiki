@@ -1,0 +1,153 @@
+caption: 手动文件再合并
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 高级合并 › 合并冲突 › 手动文件再合并
+tidme.chars: 2704
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 028bd6906fec0336
+tidme.id: sf3b53ac3a979
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000126
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/手动文件再合并-sf3b53ac3a979
+type: text/vnd.tiddlywiki
+
+<p>虽然 Git 对空白的预处理做得很好，还有很多其他类型的修改，Git 也许无法自动处理，但是脚本可以处理它们。
+例如，假设 Git 无法处理空白修改因此我们需要手动处理。</p>
+
+<p>我们真正想要做的是对将要合并入的文件在真正合并前运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">dos2unix</code> 程序。
+所以如果那样的话，我们该如何做？</p>
+
+<p>首先，我们进入到了合并冲突状态。
+然后我们想要我的版本的文件，他们的版本的文件（从我们将要合并入的分支）和共同的版本的文件（从分支叉开时的位置）的拷贝。
+然后我们想要修复任何一边的文件，并且为这个单独的文件重试一次合并。</p>
+
+<p>获得这三个文件版本实际上相当容易。
+Git 在索引中存储了所有这些版本，在 “stages” 下每一个都有一个数字与它们关联。
+Stage 1 是它们共同的祖先版本，stage 2 是你的版本，stage 3 来自于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">MERGE_HEAD</code>，即你将要合并入的版本（“theirs”）。</p>
+
+<p>通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git show</code> 命令与一个特别的语法，你可以将冲突文件的这些版本释放出一份拷贝。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show :1:hello.rb &gt; hello.common.rb
+<span style="font-weight: bold">$ </span>git show :2:hello.rb &gt; hello.ours.rb
+<span style="font-weight: bold">$ </span>git show :3:hello.rb &gt; hello.theirs.rb</code></p>
+
+<p>如果你想要更专业一点，也可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ls-files -u</code> 底层命令来得到这些文件的 Git blob 对象的实际 SHA-1 值。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git ls-files -u
+100755 ac51efdc3df4f4fd328d1a02ad05331d8e2c9111 1	hello.rb
+100755 36c06c8752c78d2aff89571132f3bf7841a7b5c3 2	hello.rb
+100755 e85207e04dfdd5eb0a1e9febbc67fd837c44a1cd 3	hello.rb</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">:1:hello.rb</code> 只是查找那个 blob 对象 SHA-1 值的简写。</p>
+
+<p>既然在我们的工作目录中已经有这所有三个阶段的内容，我们可以手工修复它们来修复空白问题，然后使用鲜为人知的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge-file</code> 命令来重新合并那个文件。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>dos2unix hello.theirs.rb
+dos2unix: converting file hello.theirs.rb to Unix format ...
+
+<span style="font-weight: bold">$ </span>git merge-file -p <span style="font-weight: bold; font-style: italic">\</span>
+    hello.ours.rb hello.common.rb hello.theirs.rb &gt; hello.rb
+
+<span style="font-weight: bold">$ </span>git diff -b
+diff --cc hello.rb
+index 36c06c8,e85207e..0000000
+--- a/hello.rb
++++ b/hello.rb
+@@@ -1,8 -1,7 +1,8 @@@
+<span style="font-weight: bold">  #</span>! /usr/bin/env ruby
+
+ +# prints out a greeting
+  def hello
+-   puts 'hello world'
++   puts 'hello mundo'
+  end
+
+  hello()</code></p>
+
+<p>在这时我们已经漂亮地合并了那个文件。
+实际上，这比使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ignore-space-change</code> 选项要更好，因为在合并前真正地修复了空白修改而不是简单地忽略它们。
+在使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ignore-space-change</code> 进行合并操作后，我们最终得到了有几行是 DOS 行尾的文件，从而使提交内容混乱了。</p>
+
+<p>如果你想要在最终提交前看一下我们这边与另一边之间实际的修改，
+你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 来比较将要提交作为合并结果的工作目录与其中任意一个阶段的文件差异。
+让我们看看它们。</p>
+
+<p>要在合并前比较结果与在你的分支上的内容，换一句话说，看看合并引入了什么，可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff --ours</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff --ours
+* Unmerged path hello.rb
+diff --git a/hello.rb b/hello.rb
+index 36c06c8..44d0a25 100755
+--- a/hello.rb
++++ b/hello.rb
+@@ -2,7 +2,7 @@
+
+<span style="font-weight: bold"> # </span>prints out a greeting
+ def hello
+-  puts 'hello world'
++  puts 'hello mundo'
+ end
+
+ hello()</code></p>
+
+<p>这里我们可以很容易地看到在我们的分支上发生了什么，在这次合并中我们实际引入到这个文件的改动，是修改了其中一行。</p>
+
+<p>如果我们想要查看合并的结果与他们那边有什么不同，可以运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff --theirs</code>。
+在本例及后续的例子中，我们会使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-b</code> 来去除空白，因为我们将它与 Git 中的，
+而不是我们清理过的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">hello.theirs.rb</code> 文件比较。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff --theirs -b
+* Unmerged path hello.rb
+diff --git a/hello.rb b/hello.rb
+index e85207e..44d0a25 100755
+--- a/hello.rb
++++ b/hello.rb
+@@ -1,5 +1,6 @@
+<span style="font-weight: bold"> #</span>! /usr/bin/env ruby
+
++# prints out a greeting
+ def hello
+   puts 'hello mundo'
+ end</code></p>
+
+<p>最终，你可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff --base</code> 来查看文件在两边是如何改动的。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff --base -b
+* Unmerged path hello.rb
+diff --git a/hello.rb b/hello.rb
+index ac51efd..44d0a25 100755
+--- a/hello.rb
++++ b/hello.rb
+@@ -1,7 +1,8 @@
+<span style="font-weight: bold"> #</span>! /usr/bin/env ruby
+
++# prints out a greeting
+ def hello
+-  puts 'hello world'
++  puts 'hello mundo'
+ end
+
+ hello()</code></p>
+
+<p>在这时我们可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git clean</code> 命令来清理我们为手动合并而创建但不再有用的额外文件。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clean -f
+Removing hello.common.rb
+Removing hello.ours.rb
+Removing hello.theirs.rb</code></p>

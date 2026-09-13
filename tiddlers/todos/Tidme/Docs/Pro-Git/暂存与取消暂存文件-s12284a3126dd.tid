@@ -1,0 +1,119 @@
+caption: 暂存与取消暂存文件
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 交互式暂存 › 暂存与取消暂存文件
+tidme.chars: 2022
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 222de1bb0658c396
+tidme.id: s12284a3126dd
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000107
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/暂存与取消暂存文件-s12284a3126dd
+type: text/vnd.tiddlywiki
+
+<p>如果在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">What now&gt;</code> 提示符后键入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">u</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">2</code>（更新），它会问你想要暂存哪个文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>What now&gt; u
+           staged     unstaged path
+  1:    unchanged        +0/-1 TODO
+  2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+Update&gt;&gt;</code></p>
+
+<p>要暂存 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">TODO</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">index.html</code> 文件，可以输入数字：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>Update&gt;&gt; 1,2
+           staged     unstaged path
+* 1:    unchanged        +0/-1 TODO
+* 2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+Update&gt;&gt;</code></p>
+
+<p>每个文件前面的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">*</code> 意味着选中的文件将会被暂存。
+如果在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Update&gt;&gt;</code> 提示符后不输入任何东西并直接按回车，Git 将会暂存之前选择的文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>Update&gt;&gt;
+updated 2 paths
+
+*** Commands ***
+  1: [s]tatus     2: [u]pdate      3: [r]evert     4: [a]dd untracked
+  5: [p]atch      6: [d]iff        7: [q]uit       8: [h]elp
+What now&gt; s
+           staged     unstaged path
+  1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb</code></p>
+
+<p>现在可以看到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">TODO</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">index.html</code> 文件已经被暂存而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">simplegit.rb</code> 文件还未被暂存。
+如果这时想要取消暂存 TODO 文件，使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">r</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">3</code>（撤消）选项：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>*** Commands ***
+  1: [s]tatus     2: [u]pdate      3: [r]evert     4: [a]dd untracked
+  5: [p]atch      6: [d]iff        7: [q]uit       8: [h]elp
+What now&gt; r
+           staged     unstaged path
+  1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+Revert&gt;&gt; 1
+           staged     unstaged path
+* 1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+Revert&gt;&gt; [enter]
+reverted one path</code></p>
+
+<p>再次查看 Git 状态，可以看到已经取消暂存 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">TODO</code> 文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>*** Commands ***
+  1: [s]tatus     2: [u]pdate      3: [r]evert     4: [a]dd untracked
+  5: [p]atch      6: [d]iff        7: [q]uit       8: [h]elp
+What now&gt; s
+           staged     unstaged path
+  1:    unchanged        +0/-1 TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb</code></p>
+
+<p>如果想要查看已暂存内容的区别，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">d</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">6</code>（区别）命令。
+它会显示暂存文件的一个列表，可以从中选择想要查看的暂存区别。
+这跟你在命令行指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff --cached</code> 非常相似：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>*** Commands ***
+  1: [s]tatus     2: [u]pdate      3: [r]evert     4: [a]dd untracked
+  5: [p]atch      6: [d]iff        7: [q]uit       8: [h]elp
+What now&gt; d
+           staged     unstaged path
+  1:        +1/-1      nothing index.html
+Review diff&gt;&gt; 1
+diff --git a/index.html b/index.html
+index 4d07108..4335f49 100644
+--- a/index.html
++++ b/index.html
+@@ -16,7 +16,7 @@ Date Finder
+
+ &lt;p id="out"&gt;...&lt;/p&gt;
+
+-&lt;div id="footer"&gt;contact : support@github.com&lt;/div&gt;
++&lt;div id="footer"&gt;contact : email.support@github.com&lt;/div&gt;
+
+ &lt;script type="text/javascript"&gt;</code></p>
+
+<p>通过这些基本命令，可以使用交互式添加模式来轻松地处理暂存区。</p>
+<p><strong>暂存补丁</strong></p>

@@ -1,0 +1,80 @@
+caption: 生成 SSH 公钥
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 服务器上的 Git › 生成 SSH 公钥
+tidme.chars: 1797
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch04-git-on-the-server.xhtml
+tidme.format: epub
+tidme.hash: 188fd1592930f93b
+tidme.id: sb0db931def9c
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000060
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/生成-SSH-公钥-sb0db931def9c
+type: text/vnd.tiddlywiki
+
+<p>
+如前所述，许多 Git 服务器都使用 SSH 公钥进行认证。
+为了向 Git 服务器提供 SSH 公钥，如果某系统用户尚未拥有密钥，必须事先为其生成一份。
+这个过程在所有操作系统上都是相似的。
+首先，你需要确认自己是否已经拥有密钥。
+默认情况下，用户的 SSH 密钥存储在其 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~/.ssh</code> 目录下。
+进入该目录并列出其中内容，你便可以快速确认自己是否已拥有密钥：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cd ~/.ssh
+<span style="font-weight: bold">$ </span>ls
+authorized_keys2  id_dsa       known_hosts
+config            id_dsa.pub</code></p>
+
+<p>我们需要寻找一对以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">id_dsa</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">id_rsa</code> 命名的文件，其中一个带有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.pub</code> 扩展名。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">.pub</code> 文件是你的公钥，另一个则是与之对应的私钥。
+如果找不到这样的文件（或者根本没有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.ssh</code> 目录），你可以通过运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ssh-keygen</code> 程序来创建它们。
+在 Linux/macOS 系统中，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">ssh-keygen</code> 随 SSH 软件包提供；在 Windows 上，该程序包含于 MSysGit 软件包中。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>ssh-keygen -o
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/schacon/.ssh/id_rsa):
+Created directory '/home/schacon/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/schacon/.ssh/id_rsa.
+Your public key has been saved in /home/schacon/.ssh/id_rsa.pub.
+The key fingerprint is:
+d0:82:24:8e:d7:f1:bb:9b:33:53:96:93:49:da:9b:e3 schacon@mylaptop.local</code></p>
+
+<p>首先 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ssh-keygen</code> 会确认密钥的存储位置（默认是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.ssh/id_rsa</code>），然后它会要求你输入两次密钥口令。
+如果你不想在使用密钥时输入口令，将其留空即可。
+然而，如果你使用了密码，那么请确保添加了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-o</code> 选项，它会以比默认格式更能抗暴力破解的格式保存私钥。
+你也可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ssh-agent</code> 工具来避免每次都要输入密码。</p>
+
+<p>现在，进行了上述操作的用户需要将各自的公钥发送给任意一个 Git 服务器管理员
+（假设服务器正在使用基于公钥的 SSH 验证设置）。
+他们所要做的就是复制各自的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.pub</code> 文件内容，并将其通过邮件发送。
+公钥看起来是这样的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
+GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
+Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
+t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
+mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
+NrRFi9wrf+M7Q== schacon@mylaptop.local</code></p>
+
+<p>关于在多种操作系统中生成 SSH 密钥的更深入教程，请参阅 GitHub 的 SSH 密钥指南
+<a xmlns="http://www.w3.org/1999/xhtml" href="https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" class="link">https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent</a>。</p>
+<p><strong>配置服务器</strong></p>

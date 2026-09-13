@@ -1,0 +1,74 @@
+caption: 分支简介
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › 分支简介
+tidme.chars: 1097
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: 4da1603b97f73fa9
+tidme.id: s36c15ba383fd
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000037
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/分支简介-s36c15ba383fd
+type: text/vnd.tiddlywiki
+
+<p>为了真正理解 Git 处理分支的方式，我们需要回顾一下 Git 是如何保存数据的。</p>
+
+<p>或许你还记得 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch01-getting-started" href="ch01-getting-started.xhtml" class="xref">起步</a> 的内容，
+Git 保存的不是文件的变化或者差异，而是一系列不同时刻的 <strong xmlns="http://www.w3.org/1999/xhtml">快照</strong> 。</p>
+
+<p>在进行提交操作时，Git 会保存一个提交对象（commit object）。
+知道了 Git 保存数据的方式，我们可以很自然的想到——该提交对象会包含一个指向暂存内容快照的指针。
+但不仅仅是这样，该提交对象还包含了作者的姓名和邮箱、提交时输入的信息以及指向它的父对象的指针。
+首次提交产生的提交对象没有父对象，普通提交操作产生的提交对象有一个父对象，
+而由多个分支合并产生的提交对象有多个父对象，</p>
+
+<p>为了更加形象地说明，我们假设现在有一个工作目录，里面包含了三个将要被暂存和提交的文件。
+暂存操作会为每一个文件计算校验和（使用我们在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch01-getting-started.xhtml" class="xref">起步</a>
+中提到的 SHA-1 哈希算法），然后会把当前版本的文件快照保存到 Git 仓库中
+（Git 使用 <em xmlns="http://www.w3.org/1999/xhtml">blob</em> 对象来保存它们），最终将校验和加入到暂存区域等待提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git add README test.rb LICENSE
+<span style="font-weight: bold">$ </span>git commit -m <span style="font-style: italic">'The initial commit of my project'</span></code></p>
+
+<p>当使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 进行提交操作时，Git 会先计算每一个子目录（本例中只有项目根目录）的校验和，
+然后在 Git 仓库中这些校验和保存为树对象。随后，Git 便会创建一个提交对象，
+它除了包含上面提到的那些信息外，还包含指向这个树对象（项目根目录）的指针。
+如此一来，Git 就可以在需要的时候重现此次保存的快照。</p>
+
+<p>现在，Git 仓库中有五个对象：三个 <em xmlns="http://www.w3.org/1999/xhtml">blob</em> 对象（保存着文件快照）、一个 <strong xmlns="http://www.w3.org/1999/xhtml">树</strong> 对象
+（记录着目录结构和 blob 对象索引）以及一个 <strong xmlns="http://www.w3.org/1999/xhtml">提交</strong> 对象（包含着指向前述树对象的指针和所有提交信息）。</p>
+
+<figcaption>Figure 1. 首次提交对象及其树结构</figcaption>
+
+<p>做些修改后再次提交，那么这次产生的提交对象会包含一个指向上次提交对象（父对象）的指针。</p>
+
+<figcaption>Figure 2. 提交对象及其父对象</figcaption>
+
+<p>Git 的分支，其实本质上仅仅是指向提交对象的可变指针。
+Git 的默认分支名字是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code>。
+在多次提交操作之后，你其实已经有一个指向最后那个提交对象的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支会在每次提交时自动向前移动。</p>
+
+<p>Git 的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支并不是一个特殊分支。
+它就跟其它分支完全没有区别。
+之所以几乎每一个仓库都有 master 分支，是因为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git init</code> 命令默认创建它，并且大多数人都懒得去改动它。</p>
+
+<figcaption>Figure 3. 分支及其提交历史</figcaption>
+<p><strong>分支创建</strong></p>

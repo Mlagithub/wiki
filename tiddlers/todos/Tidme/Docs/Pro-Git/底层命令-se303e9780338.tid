@@ -1,0 +1,106 @@
+caption: 底层命令
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 在你的应用中嵌入 Git › JGit › 底层命令
+tidme.chars: 2484
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/B-embedding-git-in-your-applications.xhtml
+tidme.format: epub
+tidme.hash: 3cbf3b83be5477ba
+tidme.id: se303e9780338
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000229
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/底层命令-se303e9780338
+type: text/vnd.tiddlywiki
+
+<p>JGit 的 API 有两种基本的层次：底层命令和高层命令。
+这个两个术语都来自 Git ，并且 JGit 也被按照相同的方式粗略地划分：高层 API 是一个面向普通用户级别功能的友好的前端（一系列普通用户使用 Git 命令行工具时可能用到的东西），底层 API 则直接作用于低级的仓库对象。</p>
+
+<p>大多数 JGit 会话会以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Repository</code> 类作为起点，你首先要做的事就是创建一个它的实例。
+对于一个基于文件系统的仓库来说（嗯， JGit 允许其它的存储模型），用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">FileRepositoryBuilder</code> 完成它。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-style: italic">// 创建一个新仓库</span>
+Repository newlyCreatedRepo = FileRepositoryBuilder.create(
+    <span style="font-weight: bold">new</span> File(<span style="font-style: italic">"/tmp/new_repo/.git"</span>));
+newlyCreatedRepo.create();
+
+<span style="font-style: italic">// 打开一个存在的仓库</span>
+Repository existingRepo = <span style="font-weight: bold">new</span> FileRepositoryBuilder()
+    .setGitDir(<span style="font-weight: bold">new</span> File(<span style="font-style: italic">"my_repo/.git"</span>))
+    .build();</code></p>
+
+<p>无论你的程序是否知道仓库的确切位置，builder 中的那个流畅的 API 都可以提供给它寻找仓库所需所有信息。
+它可以使用环境变量 （<code xmlns="http://www.w3.org/1999/xhtml" class="literal">.readEnvironment()</code>） ，从工作目录的某处开始并搜索 （<code xmlns="http://www.w3.org/1999/xhtml" class="literal">.setWorkTree(…).findGitDir()</code>） , 或者仅仅只是像上面那样打开一个已知的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 目录。</p>
+
+<p>当你拥有一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Repository</code> 实例后，你就能对它做各种各样的事。
+下面是一个速览：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-style: italic">// 获取引用</span>
+Ref master = repo.getRef(<span style="font-style: italic">"master"</span>);
+
+<span style="font-style: italic">// 获取该引用所指向的对象</span>
+ObjectId masterTip = master.getObjectId();
+
+<span style="font-style: italic">// Rev-parse</span>
+ObjectId obj = repo.resolve(<span style="font-style: italic">"HEAD^{tree}"</span>);
+
+<span style="font-style: italic">// 装载对象原始内容</span>
+ObjectLoader loader = repo.open(masterTip);
+loader.copyTo(System.out);
+
+<span style="font-style: italic">// 创建分支</span>
+RefUpdate createBranch1 = repo.updateRef(<span style="font-style: italic">"refs/heads/branch1"</span>);
+createBranch1.setNewObjectId(masterTip);
+createBranch1.update();
+
+<span style="font-style: italic">// 删除分支</span>
+RefUpdate deleteBranch1 = repo.updateRef(<span style="font-style: italic">"refs/heads/branch1"</span>);
+deleteBranch1.setForceUpdate(<span style="font-weight: bold">true</span>);
+deleteBranch1.delete();
+
+<span style="font-style: italic">// 配置</span>
+Config cfg = repo.getConfig();
+String name = cfg.getString(<span style="font-style: italic">"user"</span>, <span style="font-weight: bold">null</span>, <span style="font-style: italic">"name"</span>);</code></p>
+
+<p>这里完成了一大堆事情，所以我们还是一次理解一段的好。</p>
+
+<p>第一行获取一个指向 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 引用的指针。
+JGit 自动抓取位于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/heads/master</code> 的 <em xmlns="http://www.w3.org/1999/xhtml">真正的</em> <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 引用，并返回一个允许你获取该引用的信息的对象。
+你可以获取它的名字 （<code xmlns="http://www.w3.org/1999/xhtml" class="literal">.getName()</code>） ，或者一个直接引用的目标对象 （<code xmlns="http://www.w3.org/1999/xhtml" class="literal">.getObjectId()</code>） ，或者一个指向该引用的符号指针 （<code xmlns="http://www.w3.org/1999/xhtml" class="literal">.getTarget()</code>） 。
+引用对象也经常被用来表示标签的引用和对象，所以你可以询问某个标签是否被“削除”了，或者说它指向一个标签对象的（也许很长的）字符串的最终目标。</p>
+
+<p>第二行获得以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 引用的目标，它返回一个 ObjectId 实例。
+不管是否存在于一个 Git 对象的数据库，ObjectId 都会代表一个对象的 SHA-1 哈希。
+第三行与此相似，但是它展示了 JGit 如何处理 rev-parse 语法（要了解更多，请看 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_branch_references" class="xref">分支引用</a> ），你可以传入任何 Git 了解的对象说明符，然后 JGit 会返回该对象的一个有效的 ObjectId ，或者 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">null</code> 。</p>
+
+<p>接下来两行展示了如何装载一个对象的原始内容。
+在这个例子中，我们调用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ObjectLoader.copyTo()</code> 直接向标准输出流输出对象的内容，除此之外 ObjectLoader 还带有读取对象的类型和长度并将它以字节数组返回的方法。
+对于一个（ <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.isLarge()</code> 返回 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">true</code> 的）大的对象，你可以调用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.openStream()</code> 来获得一个类似 InputStream 的对象，它可以在没有一次性将所有数据拉到内存的前提下读取对象的原始数据。</p>
+
+<p>接下来几行展现了如何创建一个新的分支。
+我们创建一个 RefUpdate 实例，配置一些参数，然后调用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.update()</code> 来确认这个更改。
+删除相同分支的代码就在这行下面。
+记住必须先 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.setForceUpdate(true)</code> 才能让它工作，否则调用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.delete()</code> 只会返回 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">REJECTED</code> ，然后什么都没有发生。</p>
+
+<p>最后一个例子展示了如何从 Git 配置文件中获取 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">user.name</code> 的值。
+这个 Config 实例使用我们先前打开的仓库做本地配置，但是它也会自动地检测并读取全局和系统的配置文件。</p>
+
+<p>这只是底层 API 的冰山一角，另外还有许多可以使用的方法和类。
+还有一个没有放在这里说明的，就是 JGit 是用异常机制来处理错误的。
+JGit API 有时使用标准的 Java 异常（例如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">IOException</code> ），但是它也提供了大量 JGit 自己定义的异常类型（例如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">NoRemoteRepositoryException</code>、 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">CorruptObjectException</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">NoMergeBaseException</code>）。</p>
+<p><strong>高层命令</strong></p>

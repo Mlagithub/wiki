@@ -1,0 +1,103 @@
+caption: 用变基解决变基
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › 变基 › 用变基解决变基
+tidme.chars: 1801
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: 9796ce8e6cd73b97
+tidme.id: se133687f4b15
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000055
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/用变基解决变基-se133687f4b15
+type: text/vnd.tiddlywiki
+
+<p>如果你 <strong xmlns="http://www.w3.org/1999/xhtml">真的</strong> 遭遇了类似的处境，Git 还有一些高级魔法可以帮到你。
+如果团队中的某人强制推送并覆盖了一些你所基于的提交，你需要做的就是检查你做了哪些修改，以及他们覆盖了哪些修改。</p>
+
+<p>实际上，Git 除了对整个提交计算 SHA-1 校验和以外，也对本次提交所引入的修改计算了校验和——即 “patch-id”。</p>
+
+<p>如果你拉取被覆盖过的更新并将你手头的工作基于此进行变基的话，一般情况下 Git 都能成功分辨出哪些是你的修改，并把它们应用到新分支上。</p>
+
+<p>举个例子，如果遇到前面提到的 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_pre_merge_rebase_work" href="#_pre_merge_rebase_work" class="xref">有人推送了经过变基的提交，并丢弃了你的本地开发所基于的一些提交</a> 那种情境，如果我们不是执行合并，而是执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase teamone/master</code>, Git 将会：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">检查哪些提交是我们的分支上独有的（C2，C3，C4，C6，C7）</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">检查其中哪些提交不是合并操作的结果（C2，C3，C4）</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">检查哪些提交在对方覆盖更新时并没有被纳入目标分支（只有 C2 和 C3，因为 C4 其实就是 C4'）</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">把查到的这些提交应用在 <code class="literal">teamone/master</code> 上面</span>
+</p>
+
+<p>从而我们将得到与 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_merge_rebase_work" href="#_merge_rebase_work" class="xref">你将相同的内容又合并了一次，生成了一个新的提交</a> 中不同的结果，如图 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_rebase_rebase_work" href="#_rebase_rebase_work" class="xref">在一个被变基然后强制推送的分支上再次执行变基</a> 所示。</p>
+
+<figcaption>Figure 40. 在一个被变基然后强制推送的分支上再次执行变基</figcaption>
+
+<p>要想上述方案有效，还需要对方在变基时确保 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C4'</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C4</code> 是几乎一样的。
+否则变基操作将无法识别，并新建另一个类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">C4</code> 的补丁（而这个补丁很可能无法整洁的整合入历史，因为补丁中的修改已经存在于某个地方了）。</p>
+
+<p>在本例中另一种简单的方法是使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull --rebase</code> 命令而不是直接 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code>。
+又或者你可以自己手动完成这个过程，先 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fetch</code>，再 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git rebase teamone/master</code>。</p>
+
+<p>如果你习惯使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> ，同时又希望默认使用选项 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--rebase</code>，你可以执行这条语句 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config --global pull.rebase true</code> 来更改 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">pull.rebase</code> 的默认配置。</p>
+
+<p>如果你只对不会离开你电脑的提交执行变基，那就不会有事。
+如果你对已经推送过的提交执行变基，但别人没有基于它的提交，那么也不会有事。
+如果你对已经推送至共用仓库的提交上执行变基命令，并因此丢失了一些别人的开发所基于的提交，
+那你就有大麻烦了，你的同事也会因此鄙视你。</p>
+
+<p>如果你或你的同事在某些情形下决意要这么做，请一定要通知每个人执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull --rebase</code> 命令，这样尽管不能避免伤痛，但能有所缓解。</p>
+<p><strong>变基 vs. 合并</strong></p>
+
+<p><strong>变基 vs. 合并</strong></p>
+<p>
+至此，你已在实战中学习了变基和合并的用法，你一定会想问，到底哪种方式更好。
+在回答这个问题之前，让我们退后一步，想讨论一下提交历史到底意味着什么。</p>
+
+<p>有一种观点认为，仓库的提交历史即是 <strong xmlns="http://www.w3.org/1999/xhtml">记录实际发生过什么</strong>。
+它是针对历史的文档，本身就有价值，不能乱改。
+从这个角度看来，改变提交历史是一种亵渎，你使用 <em xmlns="http://www.w3.org/1999/xhtml">谎言</em> 掩盖了实际发生过的事情。
+如果由合并产生的提交历史是一团糟怎么办？
+既然事实就是如此，那么这些痕迹就应该被保留下来，让后人能够查阅。</p>
+
+<p>另一种观点则正好相反，他们认为提交历史是 <strong xmlns="http://www.w3.org/1999/xhtml">项目过程中发生的事</strong>。
+没人会出版一本书的第一版草稿，软件维护手册也是需要反复修订才能方便使用。
+持这一观点的人会使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">rebase</code> 及 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">filter-branch</code> 等工具来编写故事，怎么方便后来的读者就怎么写。</p>
+
+<p>现在，让我们回到之前的问题上来，到底合并还是变基好？希望你能明白，这并没有一个简单的答案。
+Git 是一个非常强大的工具，它允许你对提交历史做许多事情，但每个团队、每个项目对此的需求并不相同。
+既然你已经分别学习了两者的用法，相信你能够根据实际情况作出明智的选择。</p>
+
+<p>总的原则是，只对尚未推送或分享给别人的本地修改执行变基操作清理历史，
+从不对已推送至别处的提交执行变基操作，这样，你才能享受到两种方式带来的便利。</p>
+<p><strong>总结</strong></p>
+
+<p><strong>总结</strong></p>
+<p>我们已经讲完了 Git 分支与合并的基础知识。
+你现在应该能自如地创建并切换至新分支、在不同分支之间切换以及合并本地分支。
+你现在应该也能通过推送你的分支至共享服务以分享它们、使用共享分支与他人协作以及在共享之前使用变基操作合并你的分支。
+下一章，我们将要讲到，如果你想要运行自己的 Git 仓库托管服务器，你需要知道些什么。</p>

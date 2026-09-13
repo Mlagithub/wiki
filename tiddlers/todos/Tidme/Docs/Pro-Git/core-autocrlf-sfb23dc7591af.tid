@@ -1,0 +1,52 @@
+caption: core.autocrlf
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 2
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › 配置 Git › 格式化与多余的空白字符 › core.autocrlf
+tidme.chars: 737
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: 53fdc2b6b3e8aba6
+tidme.id: sfb23dc7591af
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000157
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/core-autocrlf-sfb23dc7591af
+type: text/vnd.tiddlywiki
+
+<p>
+假如你正在 Windows 上写程序，而你的同伴用的是其他系统（或相反），你可能会遇到 CRLF 问题。
+这是因为 Windows 使用回车（CR）和换行（LF）两个字符来结束一行，而 macOS 和 Linux 只使用换行（LF）一个字符。
+虽然这是小问题，但它会极大地扰乱跨平台协作。许多 Windows 上的编辑器会悄悄把行尾的换行字符转换成回车和换行，
+或在用户按下 Enter 键时，插入回车和换行两个字符。</p>
+
+<p>Git 可以在你提交时自动地把回车和换行转换成换行，而在检出代码时把换行转换成回车和换行。
+你可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">core.autocrlf</code> 来打开此项功能。
+如果是在 Windows 系统上，把它设置成 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">true</code>，这样在检出代码时，换行会被转换成回车和换行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global core.autocrlf true</code></p>
+
+<p>如果使用以换行作为行结束符的 Linux 或 macOS，你不需要 Git 在检出文件时进行自动的转换；
+然而当一个以回车加换行作为行结束符的文件不小心被引入时，你肯定想让 Git 修正。
+你可以把 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">core.autocrlf</code> 设置成 input 来告诉 Git 在提交时把回车和换行转换成换行，检出时不转换：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global core.autocrlf input</code></p>
+
+<p>这样在 Windows 上的检出文件中会保留回车和换行，而在 macOS 和 Linux 上，以及版本库中会保留换行。</p>
+
+<p>如果你是 Windows 程序员，且正在开发仅运行在 Windows 上的项目，可以设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">false</code> 取消此功能，把回车保留在版本库中：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global core.autocrlf false</code></p>

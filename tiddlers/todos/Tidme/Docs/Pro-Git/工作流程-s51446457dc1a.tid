@@ -1,0 +1,122 @@
+caption: 工作流程
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 重置揭密 › 工作流程
+tidme.chars: 2056
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 32474fd0fe027af2
+tidme.id: s51446457dc1a
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000122
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/工作流程-s51446457dc1a
+type: text/vnd.tiddlywiki
+
+<p>经典的 Git 工作流程是通过操纵这三个区域来以更加连续的状态记录项目快照的。</p>
+
+<p>让我们来可视化这个过程：假设我们进入到一个新目录，其中有一个文件。
+我们称其为该文件的 <strong xmlns="http://www.w3.org/1999/xhtml">v1</strong> 版本，将它标记为蓝色。
+现在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git init</code>，这会创建一个 Git 仓库，其中的 HEAD 引用指向未创建的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支。</p>
+
+<p>此时，只有工作目录有内容。</p>
+
+<p>现在我们想要提交这个文件，所以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 来获取工作目录中的内容，并将其复制到索引中。</p>
+
+<p>接着运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code>，它会取得索引中的内容并将它保存为一个永久的快照，
+然后创建一个指向该快照的提交对象，最后更新 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 来指向本次提交。</p>
+
+<p>此时如果我们运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code>，会发现没有任何改动，因为现在三棵树完全相同。</p>
+
+<p>现在我们想要对文件进行修改然后提交它。
+我们将会经历同样的过程；首先在工作目录中修改文件。
+我们称其为该文件的 <strong xmlns="http://www.w3.org/1999/xhtml">v2</strong> 版本，并将它标记为红色。</p>
+
+<p>如果现在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code>，我们会看到文件显示在 “Changes not staged for commit”
+下面并被标记为红色，因为该条目在索引与工作目录之间存在不同。
+接着我们运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 来将它暂存到索引中。</p>
+
+<p>此时，由于索引和 HEAD 不同，若运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 的话就会看到 “Changes to be committed” 下的该文件变为绿色
+——也就是说，现在预期的下一次提交与上一次提交不同。
+最后，我们运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 来完成提交。</p>
+
+<p>现在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 会没有输出，因为三棵树又变得相同了。</p>
+
+<p>切换分支或克隆的过程也类似。
+当检出一个分支时，它会修改 <strong xmlns="http://www.w3.org/1999/xhtml">HEAD</strong> 指向新的分支引用，将 <strong xmlns="http://www.w3.org/1999/xhtml">索引</strong> 填充为该次提交的快照，
+然后将 <strong xmlns="http://www.w3.org/1999/xhtml">索引</strong> 的内容复制到 <strong xmlns="http://www.w3.org/1999/xhtml">工作目录</strong> 中。</p>
+<p><strong>重置的作用</strong></p>
+
+<p><strong>重置的作用</strong></p>
+<p>在以下情景中观察 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 命令会更有意义。</p>
+
+<p>为了演示这些例子，假设我们再次修改了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">file.txt</code> 文件并第三次提交它。
+现在的历史看起来是这样的：</p>
+
+<p>让我们跟着 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 看看它都做了什么。
+它以一种简单可预见的方式直接操纵这三棵树。
+它做了三个基本操作。</p>
+<p><strong>第 1 步：移动 HEAD</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 做的第一件事是移动 HEAD 的指向。
+这与改变 HEAD 自身不同（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 所做的）；<code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 移动 HEAD 指向的分支。
+这意味着如果 HEAD 设置为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支（例如，你正在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支上），
+运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset 9e5e6a4</code> 将会使 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 指向 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">9e5e6a4</code>。</p>
+
+<p>无论你调用了何种形式的带有一个提交的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code>，它首先都会尝试这样做。
+使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset --soft</code>，它将仅仅停在那儿。</p>
+
+<p>现在看一眼上图，理解一下发生的事情：它本质上是撤销了上一次 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 命令。
+当你在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 时，Git 会创建一个新的提交，并移动 HEAD 所指向的分支来使其指向该提交。
+当你将它 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 回 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HEAD~</code>（HEAD 的父结点）时，其实就是把该分支移动回原来的位置，而不会改变索引和工作目录。
+现在你可以更新索引并再次运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 来完成 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit --amend</code> 所要做的事情了（见 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_git_amend" href="#_git_amend" class="xref">修改最后一次提交</a>）。</p>
+<p><strong>第 2 步：更新索引（--mixed）</strong></p>
+<p>注意，如果你现在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 的话，就会看到新的 HEAD 和以绿色标出的它和索引之间的区别。</p>
+
+<p>接下来，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 会用 HEAD 指向的当前快照的内容来更新索引。</p>
+
+<p>如果指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--mixed</code> 选项，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 将会在这时停止。
+这也是默认行为，所以如果没有指定任何选项（在本例中只是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reset HEAD~</code>），这就是命令将会停止的地方。</p>
+
+<p>现在再看一眼上图，理解一下发生的事情：它依然会撤销上一次 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">提交</code>，但还会 <em xmlns="http://www.w3.org/1999/xhtml">取消暂存</em> 所有的东西。
+于是，我们回滚到了所有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 的命令执行之前。</p>
+<p><strong>第 3 步：更新工作目录（--hard）</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 要做的第三件事情就是让工作目录看起来像索引。
+如果使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--hard</code> 选项，它将会继续这一步。</p>
+
+<p>现在让我们回想一下刚才发生的事情。
+你撤销了最后的提交、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 命令 <strong xmlns="http://www.w3.org/1999/xhtml">以及</strong> 工作目录中的所有工作。</p>
+
+<p>必须注意，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">--hard</code> 标记是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 命令唯一的危险用法，它也是 Git 会真正地销毁数据的仅有的几个操作之一。
+其他任何形式的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 调用都可以轻松撤消，但是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--hard</code> 选项不能，因为它强制覆盖了工作目录中的文件。
+在这种特殊情况下，我们的 Git 数据库中的一个提交内还留有该文件的 <strong xmlns="http://www.w3.org/1999/xhtml">v3</strong> 版本，
+我们可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">reflog</code> 来找回它。但是若该文件还未提交，Git 仍会覆盖它从而导致无法恢复。</p>
+<p><strong>回顾</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">reset</code> 命令会以特定的顺序重写这三棵树，在你指定以下选项时停止：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">移动 HEAD 分支的指向 <em>（若指定了 <code class="literal">--soft</code>，则到此停止）</em></span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">使索引看起来像 HEAD <em>（若未指定 <code class="literal">--hard</code>，则到此停止）</em></span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">使工作目录看起来像索引</span>
+</p>
+<p><strong>通过路径来重置</strong></p>

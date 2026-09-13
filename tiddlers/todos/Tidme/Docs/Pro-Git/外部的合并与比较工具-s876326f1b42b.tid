@@ -1,0 +1,145 @@
+caption: 外部的合并与比较工具
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › 配置 Git › 外部的合并与比较工具
+tidme.chars: 2734
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: 615001752ec2040a
+tidme.id: s876326f1b42b
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000156
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/外部的合并与比较工具-s876326f1b42b
+type: text/vnd.tiddlywiki
+
+<p>
+虽然 Git 自己内置了一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">diff</code> 实现，而且到目前为止我们一直在使用它，但你能够用一个外部的工具替代它。
+除此以外，你还能设置一个图形化的工具来合并和解决冲突，从而不必自己手动解决。
+这里我们以一个不错且免费的工具 —— Perforce 图形化合并工具（P4Merge） —— 来展示如何用一个外部的工具来合并和解决冲突。</p>
+
+<p>P4Merge 可以在所有主流平台上运行，所以安装上应该没有什么困难。
+在这个例子中，我们使用的路径名可以直接应用在 macOS 和 Linux 上；
+在 Windows 上，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">/usr/local/bin</code> 需要被改为你的环境中可执行文件所在的目录路径。</p>
+
+<p>首先， <a xmlns="http://www.w3.org/1999/xhtml" href="https://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools" class="link">从Perforce 下载 P4Merge</a>。
+接下来，你要编写一个全局包装脚本来运行你的命令。
+我们会使用 Mac 上的路径来指定该脚本的位置，在其他系统上，它将是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">p4merge</code> 二进制文件所在的目录。
+创建一个名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">extMerge</code> 的脚本包装 merge 命令，让它把参数转发给 p4merge 二进制文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cat /usr/local/bin/extMerge
+<span style="font-weight: bold">#</span>!/bin/sh
+/Applications/p4merge.app/Contents/MacOS/p4merge $*</code></p>
+
+<p>包装 diff 命令的脚本首先确保传递了七个参数过来，随后把其中两个转发给包装了 merge 的脚本。
+默认情况下， Git 传递以下参数给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">diff</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>path old-file old-hex old-mode new-file new-hex new-mode</code></p>
+
+<p>由于你仅仅需要 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">old-file</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">new-file</code> 参数，由包装 diff 的脚本来转发它们吧。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cat /usr/local/bin/extDiff
+<span style="font-weight: bold">#</span>!/bin/sh
+[ $# -eq 7 ] &amp;&amp; /usr/local/bin/extMerge "$2" "$5"</code></p>
+
+<p>你也需要确保这些脚本具有可执行权限：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>sudo chmod +x /usr/local/bin/extMerge
+<span style="font-weight: bold">$ </span>sudo chmod +x /usr/local/bin/extDiff</code></p>
+
+<p>现在你可以修改配置文件来使用你自定义的合并和比较工具了。
+这将涉及许多自定义设置：<code xmlns="http://www.w3.org/1999/xhtml" class="literal">merge.tool</code> 通知 Git 该使用哪个合并工具， <code xmlns="http://www.w3.org/1999/xhtml" class="literal">mergetool.&lt;tool&gt;.cmd</code> 规定命令运行的方式，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">mergetool.&lt;tool&gt;.trustExitCode</code> 会通知 Git 程序的返回值是否表示合并操作成功，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">diff.external</code> 通知 Git 该用什么命令做比较。
+因此，你可以运行以下四条配置命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global merge.tool extMerge
+<span style="font-weight: bold">$ </span>git config --global mergetool.extMerge.cmd <span style="font-weight: bold; font-style: italic">\</span>
+  <span style="font-style: italic">'extMerge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"'</span>
+<span style="font-weight: bold">$ </span>git config --global mergetool.extMerge.trustExitCode false
+<span style="font-weight: bold">$ </span>git config --global diff.external extDiff</code></p>
+
+<p>或编辑你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~/.gitconfig</code> 文件，添加以下各行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">[merge]</span>
+  tool = <span style="font-style: italic">extMerge</span>
+<span style="font-weight: bold">[mergetool "extMerge"]</span>
+  cmd = <span style="font-style: italic">extMerge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"</span>
+  trustExitCode = <span style="font-style: italic">false</span>
+<span style="font-weight: bold">[diff]</span>
+  external = <span style="font-style: italic">extDiff</span></code></p>
+
+<p>待一切设置妥当后，如果你像这样运行 diff 命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff 32d1776b1^ 32d1776b1</code></p>
+
+<p>Git 将启动 P4Merge，而不是在命令行输出比较的结果，就像这样：</p>
+
+<figcaption>Figure 1. P4Merge.</figcaption>
+
+<p>如果你尝试合并两个分支，随后遇到了合并冲突，运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git mergetool</code>，Git 会调用 P4Merge 让你通过图形界面来解决冲突。</p>
+
+<p>设置包装脚本的好处在于大大降低了改变 diff 和 merge 工具的工作量。
+举个例子，想把 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">extDiff</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">extMerge</code> 的工具改成 KDiff3，你要做的仅仅是编辑 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">extMerge</code> 脚本文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cat /usr/local/bin/extMerge
+<span style="font-weight: bold">#</span>!/bin/sh
+/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*</code></p>
+
+<p>现在，Git 将使用 KDiff3 作为查看比较和解决合并冲突的工具。</p>
+
+<p>Git 预设了许多其他的合并和解决冲突的工具，无需特别的设置你就能用上它们。
+要想看到它支持的工具列表，试一下这个：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git mergetool --tool-help
+'git mergetool --tool=&lt;tool&gt;' may be set to one of the following:
+        emerge
+        gvimdiff
+        gvimdiff2
+        opendiff
+        p4merge
+        vimdiff
+        vimdiff2
+
+The following tools are valid, but not currently available:
+        araxis
+        bc3
+        codecompare
+        deltawalker
+        diffmerge
+        diffuse
+        ecmerge
+        kdiff3
+        meld
+        tkdiff
+        tortoisemerge
+        xxdiff
+
+Some of the tools listed above only work in a windowed
+environment. If run in a terminal-only session, they will fail.</code></p>
+
+<p>如果你不想用到 KDiff3 的所有功能，只是想用它来合并，那么 kdiff3 正符合你的要求，运行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git config --global merge.tool kdiff3</code></p>
+
+<p>如果运行了以上命令，而没有设置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">extMerge</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">extDiff</code> 文件，Git 会用 KDiff3 做合并，让内置的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">diff</code> 来做比较。</p>
+<p><strong>格式化与多余的空白字符</strong></p>
+
+<p><strong>格式化与多余的空白字符</strong></p>
+<p>
+格式化与多余的空白字符是许多开发人员在协作时，特别是在跨平台情况下，不时会遇到的令人头疼的琐碎的问题。
+由于编辑器的不同或者文件行尾的换行符在 Windows 下被替换了，一些细微的空格变化会不经意地混入提交的补丁或其它协作成果中。
+不用怕，Git 提供了一些配置项来帮助你解决这些问题。</p>

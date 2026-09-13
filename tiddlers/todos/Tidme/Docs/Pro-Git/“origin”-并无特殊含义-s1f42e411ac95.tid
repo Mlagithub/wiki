@@ -1,0 +1,63 @@
+caption: “origin” 并无特殊含义
+difficulty: 0
+due: 20260916060435032
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060435032
+reps: 1
+scheduled_days: 3
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › “origin” 并无特殊含义
+tidme.chars: 994
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: 3ee5b2653d717b91
+tidme.id: s1f42e411ac95
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000047
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/“origin”-并无特殊含义-s1f42e411ac95
+type: text/vnd.tiddlywiki
+
+远程仓库名字 “origin” 与分支名字 “master” 一样，在 Git 中并没有任何特别的含义一样。
+同时 “master” 是当你运行 git init 时默认的起始分支名字，原因仅仅是它的广泛使用，
+“origin” 是当你运行 git clone 时默认的远程仓库名字。
+如果你运行 git clone -o booyah，那么你默认的远程分支名字将会是 booyah/master。
+
+Figure 22. 克隆之后的服务器与本地仓库
+
+如果你在本地的 master 分支做了一些工作，在同一段时间内有其他人推送提交到
+git.ourcompany.com 并且更新了它的 master 分支，这就是说你们的提交历史已走向不同的方向。
+即便这样，只要你保持不与 origin 服务器连接（并拉取数据），你的 origin/master 指针就不会移动。
+
+Figure 23. 本地与远程的工作可以分叉
+
+如果要与给定的远程仓库同步数据，运行 git fetch  命令（在本例中为 git fetch origin）。
+这个命令查找 “origin” 是哪一个服务器（在本例中，它是 git.ourcompany.com），
+从中抓取本地没有的数据，并且更新本地数据库，移动 origin/master 指针到更新之后的位置。
+
+Figure 24. git fetch 更新你的远程跟踪分支
+
+为了演示有多个远程仓库与远程分支的情况，我们假定你有另一个内部 Git 服务器，仅服务于你的某个敏捷开发团队。
+这个服务器位于 git.team1.ourcompany.com。
+你可以运行 git remote add 命令添加一个新的远程仓库引用到当前的项目，这个命令我们会在
+Git 基础 中详细说明。
+将这个远程仓库命名为 teamone，将其作为完整 URL 的缩写。
+
+Figure 25. 添加另一个远程仓库
+
+现在，可以运行 git fetch teamone 来抓取远程仓库 teamone 有而本地没有的数据。
+因为那台服务器上现有的数据是 origin 服务器上的一个子集，
+所以 Git 并不会抓取数据而是会设置远程跟踪分支 teamone/master 指向 teamone 的 master 分支。
+
+Figure 26. 远程跟踪分支 teamone/master
+''推送''

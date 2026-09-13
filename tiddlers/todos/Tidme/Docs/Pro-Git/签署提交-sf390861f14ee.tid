@@ -1,0 +1,109 @@
+caption: 签署提交
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 签署工作 › 签署提交
+tidme.chars: 2264
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: d9df40372777adfb
+tidme.id: sf390861f14ee
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000115
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/签署提交-sf390861f14ee
+type: text/vnd.tiddlywiki
+
+<p>在最新版本的 Git 中（v1.7.9 及以上），也可以签署个人提交。
+如果相对于标签而言你对直接签署到提交更感兴趣的话，所有要做的只是增加一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-S</code> 到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> 命令。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git commit -a -S -m <span style="font-style: italic">'signed commit'</span>
+
+You need a passphrase to unlock the secret key for
+user: "Scott Chacon (Git signing key) &lt;schacon@gmail.com&gt;"
+2048-bit RSA key, ID 0A46826A, created 2014-06-04
+
+[master 5c3386c] signed commit
+ 4 files changed, 4 insertions(+), 24 deletions(-)
+ rewrite Rakefile (100%)
+ create mode 100644 lib/git.rb</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 也有一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--show-signature</code> 选项来查看及验证这些签名。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --show-signature -1
+commit 5c3386cf54bba0a33a32da706aa52bc0155503c2
+gpg: Signature made Wed Jun  4 19:49:17 2014 PDT using RSA key ID 0A46826A
+gpg: Good signature from "Scott Chacon (Git signing key) &lt;schacon@gmail.com&gt;"
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Wed Jun 4 19:49:17 2014 -0700
+
+    signed commit</code></p>
+
+<p>另外，也可以配置 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 来验证任何找到的签名并将它们以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">%G?</code> 格式列在输出中。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --pretty=<span style="font-style: italic">"format:%h %G? %aN  %s"</span>
+
+5c3386c G Scott Chacon  signed commit
+ca82a6d N Scott Chacon  changed the version number
+085bb3b N Scott Chacon  removed unnecessary test code
+a11bef0 N Scott Chacon  first commit</code></p>
+
+<p>这里我们可以看到只有最后一次提交是签署并有效的，而之前的提交都不是。</p>
+
+<p>在 Git 1.8.3 及以后的版本中，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code> 与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull</code> 可以使用
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">--verify-signatures</code> 选项来检查并拒绝没有携带可信 GPG 签名的提交。</p>
+
+<p>如果使用这个选项来合并一个包含未签名或有效的提交的分支时，合并不会生效。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge --verify-signatures non-verify
+fatal: Commit ab06180 does not have a GPG signature.</code></p>
+
+<p>如果合并包含的只有有效的签名的提交，合并命令会提示所有的签名它已经检查过了然后会继续向前。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge --verify-signatures signed-branch
+Commit 13ad65e has a good GPG signature by Scott Chacon (Git signing key) &lt;schacon@gmail.com&gt;
+Updating 5c3386c..13ad65e
+Fast-forward
+ README | 2 ++
+ 1 file changed, 2 insertions(+)</code></p>
+
+<p>也可以给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git merge</code> 命令附加 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-S</code> 选项来签署自己生成的合并提交。
+下面的例子演示了验证将要合并的分支的每一个提交都是签名的并且签署最后生成的合并提交。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git merge --verify-signatures -S  signed-branch
+Commit 13ad65e has a good GPG signature by Scott Chacon (Git signing key) &lt;schacon@gmail.com&gt;
+
+You need a passphrase to unlock the secret key for
+user: "Scott Chacon (Git signing key) &lt;schacon@gmail.com&gt;"
+2048-bit RSA key, ID 0A46826A, created 2014-06-04
+
+Merge made by the 'recursive' strategy.
+ README | 2 ++
+ 1 file changed, 2 insertions(+)</code></p>
+<p><strong>每个人必须签署</strong></p>
+
+<p><strong>每个人必须签署</strong></p>
+<p>签署标签与提交很棒，但是如果决定在正常的工作流程中使用它，你必须确保团队中的每一个人都理解如何这样做。
+如果没有，你将会花费大量时间帮助其他人找出并用签名的版本重写提交。
+在采用签署成为标准工作流程的一部分前，确保你完全理解 GPG 及签署带来的好处。</p>
+<p><strong>搜索</strong></p>
+
+<p><strong>搜索</strong></p>
+<p>无论仓库里的代码量有多少，你经常需要查找一个函数是在哪里调用或者定义的，或者显示一个方法的变更历史。
+Git 提供了两个有用的工具来快速地从它的数据库中浏览代码和提交。
+我们来简单的看一下。</p>
+<p><strong>Git Grep</strong></p>

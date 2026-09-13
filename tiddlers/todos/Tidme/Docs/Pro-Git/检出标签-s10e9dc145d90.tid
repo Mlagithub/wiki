@@ -1,0 +1,61 @@
+caption: 检出标签
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › git push 推送两种标签 › 检出标签
+tidme.chars: 1043
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: 56abdf61a62279ed
+tidme.id: s10e9dc145d90
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000034
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/检出标签-s10e9dc145d90
+type: text/vnd.tiddlywiki
+
+<p>如果你想查看某个标签所指向的文件版本，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout</code> 命令，
+虽然这会使你的仓库处于“分离头指针（detached HEAD）”的状态——这个状态有些不好的副作用：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout 2.0.0
+Note: checking out '2.0.0'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b &lt;new-branch&gt;
+
+HEAD is now at 99ada87... Merge pull request #89 from schacon/appendix-final
+
+<span style="font-weight: bold">$ </span>git checkout 2.0-beta-0.1
+Previous HEAD position was 99ada87... Merge pull request #89 from schacon/appendix-final
+HEAD is now at df3f601... add atlas.json and cover image</code></p>
+
+<p>在“分离头指针”状态下，如果你做了某些更改然后提交它们，标签不会发生变化，
+但你的新提交将不属于任何分支，并且将无法访问，除非通过确切的提交哈希才能访问。
+因此，如果你需要进行更改，比如你要修复旧版本中的错误，那么通常需要创建一个新分支：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git checkout -b version2 v2.0.0
+Switched to a new branch 'version2'</code></p>
+
+<p>如果在这之后又进行了一次提交，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">version2</code> 分支就会因为这个改动向前移动，
+此时它就会和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">v2.0.0</code> 标签稍微有些不同，这时就要当心了。</p>
+<p><strong>Git 别名</strong></p>

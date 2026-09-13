@@ -1,0 +1,86 @@
+caption: 检查当前文件状态
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › 记录每次更新到仓库 › 检查当前文件状态
+tidme.chars: 1372
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: afdb0775946bbff9
+tidme.id: s3794bd3d0cc1
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000015
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/检查当前文件状态-s3794bd3d0cc1
+type: text/vnd.tiddlywiki
+
+<p>可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 命令查看哪些文件处于什么状态。
+如果在克隆仓库后立即使用此命令，会看到类似这样的输出：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working directory clean</code></p>
+
+<p>这说明你现在的工作目录相当干净。换句话说，所有已跟踪文件在上次提交后都未被更改过。
+此外，上面的信息还表明，当前目录下没有出现任何处于未跟踪状态的新文件，否则 Git 会在这里列出来。
+最后，该命令还显示了当前所在分支，并告诉你这个分支同远程服务器上对应的分支没有偏离。
+现在，分支名是“master”，这是默认的分支名。
+我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching" href="ch03-git-branching.xhtml" class="xref">Git 分支</a> 中会详细讨论分支和引用。</p>
+
+<p>现在，让我们在项目下创建一个新的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">README</code> 文件。
+如果之前并不存在这个文件，使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 命令，你将看到一个新的未跟踪文件：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>echo <span style="font-style: italic">'My Project'</span> &gt; README
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    README
+
+nothing added to commit but untracked files present (use "git add" to track)</code></p>
+
+<p>在状态报告中可以看到新建的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">README</code> 文件出现在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Untracked files</code> 下面。
+未跟踪的文件意味着 Git 在之前的快照（提交）中没有这些文件；Git 不会自动将之纳入跟踪范围，除非你明明白白地告诉它“我需要跟踪该文件”。
+这样的处理让你不必担心将生成的二进制文件或其它不想被跟踪的文件包含进来。
+不过现在的例子中，我们确实想要跟踪管理 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">README</code> 这个文件。</p>
+<p><strong>跟踪新文件</strong></p>
+
+<p><strong>跟踪新文件</strong></p>
+<p>使用命令 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 开始跟踪一个文件。
+所以，要跟踪 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">README</code> 文件，运行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git add README</code></p>
+
+<p>此时再运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 命令，会看到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">README</code> 文件已被跟踪，并处于暂存状态：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+
+    new file:   README</code></p>
+
+<p>只要在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">Changes to be committed</code> 这行下面的，就说明是已暂存状态。
+如果此时提交，那么该文件在你运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 时的版本将被留存在后续的历史记录中。
+你可能会想起之前我们使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git init</code> 后就运行了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add &lt;files&gt;</code> 命令，开始跟踪当前目录下的文件。
+
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 命令使用文件或目录的路径作为参数；如果参数是目录的路径，该命令将递归地跟踪该目录下的所有文件。</p>
+<p><strong>暂存已修改的文件</strong></p>

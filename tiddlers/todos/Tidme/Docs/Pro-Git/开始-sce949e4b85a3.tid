@@ -1,0 +1,97 @@
+caption: 开始
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 与其他系统 › 作为客户端的 Git › Git 与 Subversion › 开始
+tidme.chars: 2705
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch09-git-and-other-systems.xhtml
+tidme.format: epub
+tidme.hash: f907a4650ad85caf
+tidme.id: sce949e4b85a3
+tidme.kind: topic
+tidme.level: 4
+tidme.order: 000170
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/开始-sce949e4b85a3
+type: text/vnd.tiddlywiki
+
+<p>既然已经有了一个有写入权限的 Subversion 仓库，那么你可以开始一个典型的工作流程。
+可以从 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn clone</code> 命令开始，它会将整个 Subversion 仓库导入到一个本地 Git 仓库。
+需要牢记的一点是如果是从一个真正托管的 Subversion 仓库中导入，需要将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">file:///tmp/test-svn</code> 替换为你的 Subversion 仓库的 URL：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
+Initialized empty Git repository in /private/tmp/progit/test-svn/.git/
+r1 = dcbfb5891860124cc2e8cc616cded42624897125 (refs/remotes/origin/trunk)
+    A	m4/acx_pthread.m4
+    A	m4/stl_hash.m4
+    A	java/src/test/java/com/google/protobuf/UnknownFieldSetTest.java
+    A	java/src/test/java/com/google/protobuf/WireFormatTest.java
+…
+r75 = 556a3e1e7ad1fde0a32823fc7e4d046bcfd86dae (refs/remotes/origin/trunk)
+Found possible branch point: file:///tmp/test-svn/trunk =&gt; file:///tmp/test-svn/branches/my-calc-branch, 75
+Found branch parent: (refs/remotes/origin/my-calc-branch) 556a3e1e7ad1fde0a32823fc7e4d046bcfd86dae
+Following parent with do_switch
+Successfully followed parent
+r76 = 0fb585761df569eaecd8146c71e58d70147460a2 (refs/remotes/origin/my-calc-branch)
+Checked out HEAD:
+  file:///tmp/test-svn/trunk r75</code></p>
+
+<p>这相当于运行了两个命令—— <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn init</code> 以及紧接着的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn fetch</code> ——你提供的 URL。
+这会花费一些时间。例如，如果测试项目只有 75 个左右的提交并且代码库并不是很大，
+但是 Git 必须一次一个地检出一个版本同时单独地提交它。
+对于有成百上千个提交的项目，这真的可能会花费几小时甚至几天来完成。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">-T trunk -b branches -t tags</code> 部分告诉 Git Subversion 仓库遵循基本的分支与标签惯例。
+如果你命名了不同的主干、分支或标签，可以修改这些参数。
+因为这是如此地常见，所以能用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-s</code> 来替代整个这部分，这表示标准布局并且指代所有那些选项。
+下面的命令是相同的：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git svn clone file:///tmp/test-svn -s</code></p>
+
+<p>至此，应该得到了一个已经导入了分支与标签的有效的 Git 仓库：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git branch -a
+* master
+  remotes/origin/my-calc-branch
+  remotes/origin/tags/2.0.2
+  remotes/origin/tags/release-2.0.1
+  remotes/origin/tags/release-2.0.2
+  remotes/origin/tags/release-2.0.2rc1
+  remotes/origin/trunk</code></p>
+
+<p>注意这个工具是如何将 Subversion 标签作为远程引用来管理的。
+
+让我们近距离看一下 Git 的底层命令 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">show-ref</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show-ref
+556a3e1e7ad1fde0a32823fc7e4d046bcfd86dae refs/heads/master
+0fb585761df569eaecd8146c71e58d70147460a2 refs/remotes/origin/my-calc-branch
+bfd2d79303166789fc73af4046651a4b35c12f0b refs/remotes/origin/tags/2.0.2
+285c2b2e36e467dd4d91c8e3c0c0e1750b3fe8ca refs/remotes/origin/tags/release-2.0.1
+cbda99cb45d9abcb9793db1d4f70ae562a969f1e refs/remotes/origin/tags/release-2.0.2
+a9f074aa89e826d6f9d30808ce5ae3ffe711feda refs/remotes/origin/tags/release-2.0.2rc1
+556a3e1e7ad1fde0a32823fc7e4d046bcfd86dae refs/remotes/origin/trunk</code></p>
+
+<p>Git 在从 Git 服务器克隆时并不这样做；下面是在刚刚克隆完成的有标签的仓库的样子：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git show-ref
+c3dcbe8488c6240392e8a5d7553bbffcb0f94ef0 refs/remotes/origin/master
+32ef1d1c7cc8c603ab78416262cc421b80a8c2df refs/remotes/origin/branch-1
+75f703a3580a9b81ead89fe1138e6da858c5ba18 refs/remotes/origin/branch-2
+23f8588dde934e8f33c263c6d8359b2ae095f863 refs/tags/v0.1.0
+7064938bd5e7ef47bfd79a685a62c1e2649e2ce7 refs/tags/v0.2.0
+6dcb09b5b57875f334f61aebed695e2e4193db5e refs/tags/v1.0.0</code></p>
+
+<p>Git 直接将标签抓取至 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">refs/tags</code>，而不是将它们看作分支。</p>

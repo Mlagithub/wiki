@@ -1,0 +1,78 @@
+caption: 测试一下
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 自定义 Git › 使用强制策略的一个例子 › 服务器端钩子 › 测试一下
+tidme.chars: 1422
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch08-customizing-git.xhtml
+tidme.format: epub
+tidme.hash: b5c67969db047b81
+tidme.id: s3b31b10e444a
+tidme.kind: topic
+tidme.level: 4
+tidme.merged: yes
+tidme.order: 000166
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/测试一下-s3b31b10e444a
+type: text/vnd.tiddlywiki
+
+<p>如果已经把上面的代码放到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/hooks/update</code> 文件里了，运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">chmod u+x .git/hooks/update</code>，然后尝试推送一个不符合格式的提交，你会得到以下的提示：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git push -f origin master
+Counting objects: 5, done.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 323 bytes, done.
+Total 3 (delta 1), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+Enforcing Policies...
+<span style="font-weight: bold">(refs/heads/master)</span> (8338c5) (c5b616)
+[POLICY] Your message is not formatted correctly
+error: hooks/update exited with error code 1
+error: hook declined to update refs/heads/master
+To git@gitserver:project.git
+ ! [remote rejected] master -&gt; master (hook declined)
+error: failed to push some refs to 'git@gitserver:project.git'</code></p>
+
+<p>这里有几个有趣的信息。
+首先，我们可以看到钩子运行的起点。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>Enforcing Policies...
+<span style="font-weight: bold">(refs/heads/master)</span> (fb8c72) (c56860)</code></p>
+
+<p>注意这是从 update 脚本开头输出到标准输出的。
+所有从脚本输出到标准输出的内容都会转发给客户端。</p>
+
+<p>下一个值得注意的部分是错误信息。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>[POLICY] Your message is not formatted correctly
+error: hooks/update exited with error code 1
+error: hook declined to update refs/heads/master</code></p>
+
+<p>第一行是我们的脚本输出的，剩下两行是 Git 在告诉我们 update 脚本退出时返回了非零值因而推送遭到了拒绝。
+最后一点：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>To git@gitserver:project.git
+ ! [remote rejected] master -&gt; master (hook declined)
+error: failed to push some refs to 'git@gitserver:project.git'</code></p>
+
+<p>你会看到每个被你的钩子拒之门外的引用都收到了一个 remote rejected 信息，它告诉你正是钩子无法成功运行导致了推送的拒绝。</p>
+
+<p>又或者某人想修改一个自己不具备权限的文件然后推送了一个包含它的提交，他将看到类似的提示。
+比如，一个文档作者尝试推送一个修改到 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">lib</code> 目录的提交，他会看到</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>[POLICY] You do not have access to push to lib/test.rb</code></p>
+
+<p>从今以后，只要 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">update</code> 脚本存在并且可执行，我们的版本库中永远都不会包含不符合格式的提交信息，并且用户都会待在沙箱里面。</p>
+<p><strong>客户端钩子</strong></p>

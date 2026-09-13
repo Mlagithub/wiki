@@ -1,0 +1,143 @@
+caption: 底层实现
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 凭证存储 › 底层实现
+tidme.chars: 2047
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: 998ef887ebcf02c8
+tidme.id: s557066f3a265
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000151
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/底层实现-s557066f3a265
+type: text/vnd.tiddlywiki
+
+<p>这些是如何实现的呢？
+Git 凭证辅助工具系统的命令是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git credential</code>，这个命令接收一个参数，并通过标准输入获取更多的参数。</p>
+
+<p>举一个例子更容易理解。
+我们假设已经配置好一个凭证辅助工具，这个辅助工具保存了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">mygithost</code> 的凭证信息。
+下面是一个使用 “fill” 命令的会话，当 Git 尝试寻找一个服务器的凭证时就会被调用。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git credential fill <i class="conum" data-value="1">①</i>
+protocol=https <i class="conum" data-value="2">②</i>
+host=mygithost
+ <i class="conum" data-value="3">③</i>
+protocol=https <i class="conum" data-value="4">④</i>
+host=mygithost
+username=bob
+password=s3cre7
+<span style="font-weight: bold">$ </span>git credential fill <i class="conum" data-value="5">⑤</i>
+protocol=https
+host=unknownhost
+
+Username for 'https://unknownhost': bob
+Password for 'https://bob@unknownhost':
+protocol=https
+host=unknownhost
+username=bob
+password=s3cre7</code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="1">①</i> 这是开始交互的命令。</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="2">②</i> Git-credential 接下来会等待标准输入。
+我们提供我们所知道的信息：协议和主机名。</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="3">③</i> 一个空行代表输入已经完成，凭证系统应该输出它所知道的信息。</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="4">④</i> 接下来由 Git-credential 接管，并且将找到的信息打印到标准输出。</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="5">⑤</i> 如果没有找到对应的凭证，Git 会询问用户的用户名和密码，我们将这些信息输入到在标准输出的地方（这个例子中是同一个控制台）。</p>
+
+<p>凭证系统实际调用的程序和 Git 本身是分开的；具体是哪一个以及如何调用与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">credential.helper</code> 配置的值有关。
+这个配置有多种格式：</p>
+
+<p>配置值</p>
+
+<p>行为</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">foo</code></p>
+
+<p>执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-credential-foo</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">foo -a --opt=bcd</code></p>
+
+<p>执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-credential-foo -a --opt=bcd</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">/absolute/path/foo -xyz</code></p>
+
+<p>执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">/absolute/path/foo -xyz</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">!f() { echo "password=s3cre7"; }; f</code></p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">!</code> 后面的代码会在 shell 执行</p>
+
+<p>上面描述的辅助工具可以被称做 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-credential-cache</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-credential-store</code> 之类，我们可以配置它们来接受命令行参数。
+通常的格式是 “git-credential-foo [args] &lt;action&gt;”
+标准输入/输出协议和 git-credential 一样，但它们使用的是一套稍微不太一样的行为：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal"><code class="literal">get</code> 是请求输入一对用户名和密码。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal"><code class="literal">store</code> 是请求保存一个凭证到辅助工具的内存。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal"><code class="literal">erase</code> 会将给定的证书从辅助工具内存中清除。</span>
+</p>
+
+<p>对于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">store</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">erase</code> 两个行为是不需要返回数据的（Git 也会忽略掉）。
+然而对于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">get</code>，Git 对辅助工具的返回信息十分感兴趣。
+如果辅助工具并不知道任何有用的信息，它就会直接退出而没有任何输出，但如果知道的话，
+它就会在已存储信息的基础上扩充所提供的信息。
+它的输出可看做一系列赋值语句，提供的任何内容都会取代 Git 已知的内容。</p>
+
+<p>如果辅助工具没有任何有用的信息，它可以直接退出而不需要输出任何东西，但如果它有这些信息，它在提供的信息后面增加它所拥有的信息。
+这些输出会被视为一系列的赋值语句；每一个提供的数据都会将 Git 已有的数据替换掉。</p>
+
+<p>这有一个和上面一样的例子，但是跳过了 git-credential 这一步，直接到 git-credential-store:</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git credential-store --file ~/git.store store <i class="conum" data-value="1">①</i>
+protocol=https
+host=mygithost
+username=bob
+password=s3cre7
+<span style="font-weight: bold">$ </span>git credential-store --file ~/git.store get <i class="conum" data-value="2">②</i>
+protocol=https
+host=mygithost
+
+username=bob <i class="conum" data-value="3">③</i>
+password=s3cre7</code></p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="1">①</i> 我们告诉 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-credential-store</code> 去保存凭证：当访问 <code xmlns="http://www.w3.org/1999/xhtml" class="literal"><a href="https://mygithost" class="link">https://mygithost</a></code> 时使用用户名 “bob”，密码是 “s3cre7”。</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="2">②</i> 现在我们取出这个凭证。
+我们提供连接这部分的信息（<code xmlns="http://www.w3.org/1999/xhtml" class="literal"><a href="https://mygithost" class="link">https://mygithost</a></code>）以及一个空行。</p>
+
+<p><i xmlns="http://www.w3.org/1999/xhtml" class="conum" data-value="3">③</i> <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-credential-store</code> 输出我们之前保存的用户名和密码。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">~/git.store</code> 文件的内容类似：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>https:<span style="font-style: italic">//bob:s3cre7@mygithost</span></code></p>
+
+<p>仅仅是一系列包含凭证信息 URL 组成的行。
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">osxkeychain</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">wincred</code> 辅助工具使用它们后端存储的原生格式，而 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">cache</code> 使用它的内存格式（其他进程无法读取）。</p>
+<p><strong>自定义凭证缓存</strong></p>

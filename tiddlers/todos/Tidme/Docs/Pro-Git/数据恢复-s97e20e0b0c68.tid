@@ -1,0 +1,125 @@
+caption: 数据恢复
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › 维护与数据恢复 › 数据恢复
+tidme.chars: 2987
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 0a549579cf9e9eae
+tidme.id: s97e20e0b0c68
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000212
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/数据恢复-s97e20e0b0c68
+type: text/vnd.tiddlywiki
+
+<p>在你使用 Git 的时候，你可能会意外丢失一次提交。
+通常这是因为你强制删除了正在工作的分支，但是最后却发现你还需要这个分支，
+亦或者硬重置了一个分支，放弃了你想要的提交。
+如果这些事情已经发生，该如何找回你的提交呢？</p>
+
+<p>下面的例子将硬重置你的测试仓库中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支到一个旧的提交，以此来恢复丢失的提交。
+首先，让我们看看你的仓库现在在什么地方：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --pretty=oneline
+ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
+484a59275031909e19aadb7c92262719cfcdf19a added repo.rb
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit</code></p>
+
+<p>现在，我们将 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支硬重置到第三次提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git reset --hard 1a410efbd13591db07496601ebc7a059dd55cfe9
+HEAD is now at 1a410ef third commit
+<span style="font-weight: bold">$ </span>git log --pretty=oneline
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit</code></p>
+
+<p>现在顶部的两个提交已经丢失了——没有分支指向这些提交。
+你需要找出最后一次提交的 SHA-1 然后增加一个指向它的分支。
+窍门就是找到最后一次的提交的 SHA-1 ——但是估计你记不起来了，对吗？</p>
+
+<p>最方便，也是最常用的方法，是使用一个名叫 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reflog</code> 的工具。
+当你正在工作时，Git 会默默地记录每一次你改变 HEAD 时它的值。
+每一次你提交或改变分支，引用日志都会被更新。
+引用日志（reflog）也可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git update-ref</code> 命令更新，我们在
+<a xmlns="http://www.w3.org/1999/xhtml" id="xref-_git_refs" href="#_git_refs" class="xref">Git 引用</a> 有提到使用这个命令而不是是直接将 SHA-1 的值写入引用文件中的原因。
+你可以在任何时候通过执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reflog</code> 命令来了解你曾经做过什么：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git reflog
+1a410ef HEAD@{0}: reset: moving to 1a410ef
+ab1afef HEAD@{1}: commit: modified repo.rb a bit
+484a592 HEAD@{2}: commit: added repo.rb</code></p>
+
+<p>这里可以看到我们已经检出的两次提交，然而并没有足够多的信息。
+为了使显示的信息更加有用，我们可以执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log -g</code>，这个命令会以标准日志的格式输出引用日志。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log -g
+commit 1a410efbd13591db07496601ebc7a059dd55cfe9
+Reflog: HEAD@{0} (Scott Chacon &lt;schacon@gmail.com&gt;)
+Reflog message: updating HEAD
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri May 22 18:22:37 2009 -0700
+
+		third commit
+
+commit ab1afef80fac8e34258ff41fc1b867c702daa24b
+Reflog: HEAD@{1} (Scott Chacon &lt;schacon@gmail.com&gt;)
+Reflog message: updating HEAD
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri May 22 18:15:24 2009 -0700
+
+       modified repo.rb a bit</code></p>
+
+<p>看起来下面的那个就是你丢失的提交，你可以通过创建一个新的分支指向这个提交来恢复它。
+例如，你可以创建一个名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">recover-branch</code> 的分支指向这个提交（ab1afef）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git branch recover-branch ab1afef
+<span style="font-weight: bold">$ </span>git log --pretty=oneline recover-branch
+ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
+484a59275031909e19aadb7c92262719cfcdf19a added repo.rb
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit</code></p>
+
+<p>不错，现在有一个名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">recover-branch</code> 的分支是你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">master</code> 分支曾经指向的地方，
+再一次使得前两次提交可到达了。接下来，假设你丢失的提交因为某些原因不在引用日志中，
+那么我们可以通过移除 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">recover-branch</code> 分支并删除引用日志来模拟这种情况。
+现在前两次提交又不被任何分支指向了：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git branch -D recover-branch
+<span style="font-weight: bold">$ </span>rm -Rf .git/logs/</code></p>
+
+<p>由于引用日志数据存放在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/logs/</code> 目录中，现在你已经没有引用日志了。
+这时该如何恢复那次提交？
+一种方式是使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fsck</code> 实用工具，将会检查数据库的完整性。
+如果使用一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--full</code> 选项运行它，它会向你显示出所有没有被其他对象指向的对象：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git fsck --full
+Checking object directories: 100% (256/256), done.
+Checking objects: 100% (18/18), done.
+dangling blob d670460b4b4aece5915caf5c68d12f560a9fe3e4
+dangling commit ab1afef80fac8e34258ff41fc1b867c702daa24b
+dangling tree aea790b9a58f6cf6f2804eeac9f0abbe9631e4c9
+dangling blob 7108f7ecb345ee9d0084193f147cdad4d2998293</code></p>
+
+<p>在这个例子中，你可以在 “dangling commit” 后看到你丢失的提交。
+现在你可以用和之前相同的方法恢复这个提交，也就是添加一个指向这个提交的分支。</p>
+<p><strong>移除对象</strong></p>

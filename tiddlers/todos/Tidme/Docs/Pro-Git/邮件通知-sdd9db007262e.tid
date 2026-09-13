@@ -1,0 +1,151 @@
+caption: 邮件通知
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub › 维护项目 › 邮件通知
+tidme.chars: 2621
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: 877c390f5bcb1caf
+tidme.id: sdd9db007262e
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000094
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/邮件通知-sdd9db007262e
+type: text/vnd.tiddlywiki
+
+<p>邮件通知是你处理 GitHub 通知的另一种方式。
+如果你打开这个选项，每当有通知时，你会收到一封邮件。
+我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_email_notification" href="#_email_notification" class="xref">通过电子邮件发送的评论提醒</a> 和 <a xmlns="http://www.w3.org/1999/xhtml" href="#_email_pr" class="xref">新的合并请求的邮件通知.</a> 看到了一些例子。
+邮件也会被合适地按话题组织在一起，如果你使用一个具有会话功能的邮件客户端那会很方便。</p>
+
+<p>GitHub 在发送给你的邮件头中附带了很多元数据，这对于设置过滤器和邮件规则非常有帮助。</p>
+
+<p>举个例子，我们来看一看在 <a xmlns="http://www.w3.org/1999/xhtml" href="#_email_pr" class="xref">新的合并请求的邮件通知.</a> 中发给 Tony 的一封真实邮件的头部，我们会看到下面这些：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span>To: tonychacon/fade &lt;fade@noreply.github.com&gt;
+Message-ID: &lt;tonychacon/fade/pull/1@github.com&gt;
+Subject: [fade] Wait longer to see the dimming effect better (#1)
+X-GitHub-Recipient: tonychacon
+List-ID: tonychacon/fade &lt;fade.tonychacon.github.com&gt;
+List-Archive: https://github.com/tonychacon/fade
+List-Post: &lt;mailto:reply+i-4XXX@reply.github.com&gt;
+List-Unsubscribe: &lt;mailto:unsub+i-XXX@reply.github.com&gt;，...
+X-GitHub-Recipient-Address: tchacon@example.com</code></p>
+
+<p>这里有一些有趣的东西。如果你想高亮或者转发这个项目甚至这个合并请求相关的邮件，
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">Message-ID</code> 中的信息会以`&lt;user&gt;/&lt;project&gt;/&lt;type&gt;/&lt;id&gt;` 的格式展现所有的数据。
+例如，如果这是一个问题（issue），那么 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">&lt;type&gt;</code> 字段就会是 “issues” 而不是 “pull” 。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">List-Post</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">List-Unsubscribe</code> 字段表示如果你的邮件客户端能够处理这些，那么你可以很容易地在列表中发贴或取消对这个相关帖子的订阅。
+那会很有效率，就像在页面中点击静音按钮或在问题/合并请求页面点击 “Unsubscribe” 一样。</p>
+
+<p>值得注意的是，如果你同时打开了邮件和网页通知，那么当你在邮件客户端允许加载图片的情况下阅读邮件通知时，对应的网页通知也将会同时被标记为已读。</p>
+<p><strong>特殊文件</strong></p>
+
+<p><strong>特殊文件</strong></p>
+<p>如果你的版本库中有一些特殊文件，GitHub 会提醒你。</p>
+<p><strong>README</strong></p>
+
+<p><strong>README</strong></p>
+<p>第一个就是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">README</code> 文件，可以是几乎任何 GitHub 可以识别的格式。
+例如，它可以是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">README</code> ，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">README.md</code> ， <code xmlns="http://www.w3.org/1999/xhtml" class="literal">README.asciidoc</code> 。
+如果 GitHub 在你的版本库中找到 README 文件，会把它在项目的首页渲染出来。</p>
+
+<p>很多团队在这个文件里放版本库或项目新人需要了解的所有相关的信息。
+它一般包含这些内容：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">该项目的作用</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">如何配置与安装</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">有关如何使用和运行的例子</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">项目的许可证</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">如何向项目贡献力量</span>
+</p>
+
+<p>因为 GitHub 会渲染这个文件，你可以在文件里植入图片或链接让它更容易理解。</p>
+<p><strong>贡献 CONTRIBUTING</strong></p>
+
+<p><strong>贡献 CONTRIBUTING</strong></p>
+<p>另一个 GitHub 可以识别的特殊文件是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">CONTRIBUTING</code> 。
+如果你有一个任意扩展名的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">CONTRIBUTING</code> 文件，当有人开启一个合并请求时 GitHub 会显示 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_contrib_file" href="#_contrib_file" class="xref">开启合并请求时有 CONTRIBUTING 文件存在.</a>。</p>
+
+<figcaption>Figure 42. 开启合并请求时有 CONTRIBUTING 文件存在.</figcaption>
+
+<p>这个的作用就是你可以在这里指出对于你的项目开启的合并请求你想要的／不想要的各种事情。
+这样别人在开启合并请求之前可以读到这些指导方针。</p>
+<p><strong>项目管理</strong></p>
+
+<p><strong>项目管理</strong></p>
+<p>对于一个单个项目其实没有很多管理事务要做，但也有几点有趣的。</p>
+<p><strong>改变默认分支</strong></p>
+<p>如果你想用 “master” 之外的分支作为你的默认分支，其他人将默认会在这个分支上开启合并请求或进行浏览，你可以在你版本库的设置页面的 "options" 标签下修改。</p>
+
+<figcaption>Figure 43. 改变项目的默认分支.</figcaption>
+
+<p>简单地改变默认分支下拉列表中的选项，它就会作为所有主要操作的默认分支，他人进行克隆时该分支也将被默认检出。</p>
+<p><strong>移交项目</strong></p>
+<p>如果你想把一个项目移交给 GitHub 中的另一个人或另一个组织，还是设置页面的这个 “options” 标签下有一个 “Transfer ownership” 选项可以用来干这个。</p>
+
+<figcaption>Figure 44. 把项目移交给另一个 GitHub 用户或组织。</figcaption>
+
+<p>当你正准备放弃一个项目且正好有别人想要接手时，或者你的项目壮大了想把它移到一个组织里时，这就管用了。</p>
+
+<p>这么做不仅会把版本库连带它所有的关注者和星标数都移到另一个地方，它还会将你的 URL 重定向到新的位置。
+它也重定向了来自 Git 的克隆和抓取，而不仅仅是网页端请求。</p>
+<p><strong>管理组织</strong></p>
+
+<p><strong>管理组织</strong></p>
+<p>
+除了个人帐户之外，GitHub 还提供被称为组织（Organizations）的帐户。
+组织账户和个人账户一样都有一个用于存放所拥有项目的命名空间，但是许多其他的东西都是不同的。
+组织帐户代表了一组共同拥有多个项目的人，同时也提供一些工具用于对成员进行分组管理。
+通常，这种账户被用于开源群组（例如：“perl”或者“rails”），或者公司（例如：“google”或者“twitter”）。</p>
+<p><strong>组织的基本知识</strong></p>
+
+<p><strong>组织的基本知识</strong></p>
+<p>我们可以很简单地创建一个组织，只需要点击任意 GitHub 页面右上角的“+”图标，在菜单中选择“New organization”即可。</p>
+
+<figcaption>Figure 45. “New organization”菜单项</figcaption>
+
+<p>首先你必须提供组织的名称和组织的主要联系邮箱。
+然后，如果你希望的话，也可以邀请其他用户作为共同拥有人。</p>
+
+<p>完成以上步骤后，你就会拥有一个全新的组织。
+类似于个人帐户，如果组织的所有内容都是开源的，那么你就可以免费使用这个组织。</p>
+
+<p>作为一个组织的拥有者，当你在派生一个版本库的时候，你可以选择把它派生到你的组织的命名空间内。
+当你新建版本库时，你可以把它存放到你的个人帐户或你拥有的组织内。
+同时，你也会自动地“关注”所有这些组织内的新版本库。</p>
+
+<p>就像<a xmlns="http://www.w3.org/1999/xhtml" id="xref-_personal_avatar" href="#_personal_avatar" class="xref">头像</a>，你可以为你的组织上传头像，使它更个性化。
+同时，也和个人帐户类似，组织会有一个着陆页（landing page），用于列出该组织所有的版本库，并且该页面可供所有人浏览。</p>
+
+<p>下面我们来说一些组织和个人帐户不同的地方。</p>
+<p><strong>团队</strong></p>

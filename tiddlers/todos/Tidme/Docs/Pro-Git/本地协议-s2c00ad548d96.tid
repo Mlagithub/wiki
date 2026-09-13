@@ -1,0 +1,99 @@
+caption: 本地协议
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › 服务器上的 Git › 协议 › 本地协议
+tidme.chars: 1936
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch04-git-on-the-server.xhtml
+tidme.format: epub
+tidme.hash: fdbbebb7ba5d0af7
+tidme.id: s2c00ad548d96
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000057
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/本地协议-s2c00ad548d96
+type: text/vnd.tiddlywiki
+
+<p>
+最基本的就是 <em xmlns="http://www.w3.org/1999/xhtml">本地协议（Local protocol）</em> ，其中的远程版本库就是同一主机上的另一个目录。
+这常见于团队每一个成员都对一个共享的文件系统（例如一个挂载的 NFS）拥有访问权，或者比较少见的多人共用同一台电脑的情况。
+后者并不理想，因为你的所有代码版本库如果长存于同一台电脑，更可能发生灾难性的损失。</p>
+
+<p>如果你使用共享文件系统，就可以从本地版本库克隆（clone）、推送（push）以及拉取（pull）。
+像这样去克隆一个版本库或者增加一个远程到现有的项目中，使用版本库路径作为 URL。
+例如，克隆一个本地版本库，可以执行如下的命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone /srv/git/project.git</code></p>
+
+<p>或你可以执行这个命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git clone file:///srv/git/project.git</code></p>
+
+<p>如果在 URL 开头明确的指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">file://</code>，那么 Git 的行为会略有不同。
+如果仅是指定路径，Git 会尝试使用硬链接（hard link）或直接复制所需要的文件。
+如果指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">file://</code>，Git 会触发平时用于网路传输资料的进程，那样传输效率会更低。
+指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">file://</code> 的主要目的是取得一个没有外部参考（extraneous references）
+或对象（object）的干净版本库副本——通常是在从其他版本控制系统导入后或一些类似情况需要这么做
+（关于维护任务可参见 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals" href="ch10-git-internals.xhtml" class="xref">Git 内部原理</a> ）。
+在此我们将使用普通路径，因为这样通常更快。</p>
+
+<p>要增加一个本地版本库到现有的 Git 项目，可以执行如下的命令：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git remote add local_proj /srv/git/project.git</code></p>
+
+<p>然后，就可以通过新的远程仓库名 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">local_proj</code> 像在网络上一样从远端版本库推送和拉取更新了。</p>
+<p><strong>优点</strong></p>
+<p>基于文件系统的版本库的优点是简单，并且直接使用了现有的文件权限和网络访问权限。
+如果你的团队已经有共享文件系统，建立版本库会十分容易。
+只需要像设置其他共享目录一样，把一个裸版本库的副本放到大家都可以访问的路径，并设置好读/写的权限，就可以了，
+我们会在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_getting_git_on_a_server" href="#_getting_git_on_a_server" class="xref">在服务器上搭建 Git</a> 讨论如何导出一个裸版本库。</p>
+
+<p>这也是快速从别人的工作目录中拉取更新的方法。
+如果你和别人一起合作一个项目，他想让你从版本库中拉取更新时，运行类似
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git pull /home/john/project</code> 的命令比推送到服务器再抓取回来简单多了。</p>
+<p><strong>缺点</strong></p>
+<p>这种方法的缺点是，通常共享文件系统比较难配置，并且比起基本的网络连接访问，这不方便从多个位置访问。
+如果你想从家里推送内容，必须先挂载一个远程磁盘，相比网络连接的访问方式，配置不方便，速度也慢。</p>
+
+<p>值得一提的是，如果你使用的是类似于共享挂载的文件系统时，这个方法不一定是最快的。
+访问本地版本库的速度与你访问数据的速度是一样的。
+在同一个服务器上，如果允许 Git 访问本地硬盘，一般的通过 NFS 访问版本库要比通过 SSH 访问慢。</p>
+
+<p>最终，这个协议并不保护仓库避免意外的损坏。
+每一个用户都有“远程”目录的完整 shell 权限，没有方法可以阻止他们修改或删除 Git 内部文件和损坏仓库。</p>
+<p><strong>HTTP 协议</strong></p>
+
+<p><strong>HTTP 协议</strong></p>
+<p>Git 通过 HTTP 通信有两种模式。
+在 Git 1.6.6 版本之前只有一个方式可用，十分简单并且通常是只读模式的。
+Git 1.6.6 版本引入了一种新的、更智能的协议，让 Git 可以像通过 SSH 那样智能的协商和传输数据。
+之后几年，这个新的 HTTP 协议因为其简单、智能变的十分流行。
+新版本的 HTTP 协议一般被称为 <strong xmlns="http://www.w3.org/1999/xhtml">智能</strong> HTTP 协议，旧版本的一般被称为 <strong xmlns="http://www.w3.org/1999/xhtml">哑</strong> HTTP 协议。
+我们先了解一下新的智能 HTTP 协议。</p>
+<p><strong>智能 HTTP 协议</strong></p>
+<p>
+智能 HTTP 的运行方式和 SSH 及 Git 协议类似，只是运行在标准的 HTTP/S 端口上并且可以使用各种 HTTP 验证机制，
+这意味着使用起来会比 SSH 协议简单的多，比如可以使用 HTTP 协议的用户名/密码授权，免去设置 SSH 公钥。</p>
+
+<p>智能 HTTP 协议或许已经是最流行的使用 Git 的方式了，它既支持像 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git://</code> 协议一样设置匿名服务，
+也可以像 SSH 协议一样提供传输时的授权和加密。
+而且只用一个 URL 就可以都做到，省去了为不同的需求设置不同的 URL。
+如果你要推送到一个需要授权的服务器上（一般来讲都需要），服务器会提示你输入用户名和密码。
+从服务器获取数据时也一样。</p>
+
+<p>事实上，类似 GitHub 的服务，你在网页上看到的 URL（比如 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/schacon/simplegit" class="link">https://github.com/schacon/simplegit</a>），
+和你在克隆、推送（如果你有权限）时使用的是一样的。</p>

@@ -1,0 +1,195 @@
+caption: GitHub
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › GitHub
+tidme.chars: 3129
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch06-github.xhtml
+tidme.format: epub
+tidme.hash: 15c0496f315992c1
+tidme.id: s7b3ce0a371c8
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000085
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/GitHub-s7b3ce0a371c8
+type: text/vnd.tiddlywiki
+
+<p>
+GitHub 是最大的 Git 版本库托管商，是成千上万的开发者和项目能够合作进行的中心。
+大部分 Git 版本库都托管在 GitHub，很多开源项目使用 GitHub 实现 Git 托管、问题追踪、代码审查以及其它事情。
+所以，尽管这不是 Git 开源项目的直接部分，但如果想要专业地使用 Git，你将不可避免地与 GitHub 打交道，所以这依然是一个绝好的学习机会。</p>
+
+<p>本章将讨论如何高效地使用 GitHub。
+我们将学习如何注册和管理账户、创建和使用 Git 版本库、向已有项目贡献的通用流程以及如何接受别人向你自己项目的贡献、GitHub 的编程接口和很多能够让这些操作更简单的小提示。</p>
+
+<p>如果你对如何使用 GitHub 托管自己的项目，或者与已经托管在 GitHub 上面的项目进行合作没有兴趣，可以直接跳到 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools" href="ch07-git-tools.xhtml" class="xref">Git 工具</a> 这一章。</p>
+<p><strong>接口的改变</strong></p>
+<p>需要注意一点，同很多活跃的网站一样，书中截取的界面会随时间而改变。
+希望我们试图表达的核心思想一直是不变的，但是，如果你想要这些截图的更新版本，本书的在线版本或许有更新的截图。</p>
+<p><strong>账户的创建和配置</strong></p>
+
+<p><strong>账户的创建和配置</strong></p>
+<p>
+你所需要做的第一件事是创建一个免费账户。
+直接访问 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com" class="link">https://github.com</a>，选择一个未被占用的用户名，提供一个电子邮件地址和密码，点击写着“Sign up for GitHub”的绿色大按钮即可。</p>
+
+<figcaption>Figure 1. GitHub 注册表单。</figcaption>
+
+<p>你将看到的下一个页面是升级计划的价格页面，目前我们可以直接忽略这个页面。
+GitHub 会给你提供的邮件地址发送一封验证邮件。
+尽快到你的邮箱进行验证，这是非常重要的（我们会在后面了解到这点）。</p>
+
+<p>GitHub 为免费账户提供了几乎所有的功能，除了一些高级的特性。</p>
+
+<p>GitHub 的付费计划包含一些高级工具和功能，不过本书将不涉及这部分内容。
+关于可选方案及其对比的更多信息见 <a xmlns="http://www.w3.org/1999/xhtml" href="https://github.com/pricing" class="link">https://github.com/pricing</a>。</p>
+
+<p>点击屏幕左上角的章鱼猫（Octocat）图标，你将来到控制面板页面。
+现在，你已经做好了使用 GitHub 的准备工作。</p>
+<p><strong>SSH 访问</strong></p>
+
+<p><strong>SSH 访问</strong></p>
+<p>
+现在，你完全可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">https://</code> 协议，通过你刚刚创建的用户名和密码访问 Git 版本库。
+但是，如果仅仅克隆公有项目，你甚至不需要注册——刚刚我们创建的账户是为了以后 fork 其它项目，以及推送我们自己的修改。</p>
+
+<p>如果你习惯使用 SSH 远程，你需要配置一个公钥。
+（如果你没有公钥，参考 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch04-git-on-the-server--_generate_ssh_key" href="ch04-git-on-the-server.xhtml#_generate_ssh_key" class="xref">生成 SSH 公钥</a>。）
+使用窗口右上角的链接打开你的账户设置：</p>
+
+<figcaption>Figure 2. “Account settings”链接。</figcaption>
+
+<p>然后在左侧选择“SSH keys”部分。</p>
+
+<figcaption>Figure 3. “SSH keys”链接。</figcaption>
+
+<p>在这个页面点击“<code xmlns="http://www.w3.org/1999/xhtml" class="literal">Add an SSH key</code>”按钮，给你的公钥起一个名字，将你的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~/.ssh/id_rsa.pub</code>
+（或者自定义的其它名字）公钥文件的内容粘贴到文本区，然后点击“Add key”。</p>
+
+<p>确保给你的 SSH 密钥起一个能够记得住的名字。
+你可以为每一个密钥起名字（例如，“我的笔记本电脑”或者“工作账户”等），以便以后需要吊销密钥时能够方便地区分。</p>
+<p><strong>头像</strong></p>
+
+<p><strong>头像</strong></p>
+<p>下一步，如果愿意的话，你可以将生成的头像换成你喜欢的图片。
+首先，来到“Profile”标签页（在“SSH Keys”标签页上方），点击“Upload new picture”。</p>
+
+<figcaption>Figure 4. “Profile”链接。</figcaption>
+
+<p>我们选择了本地磁盘上的一个 Git 图标，上传之后还可以对其进行裁剪。</p>
+
+<figcaption>Figure 5. 裁剪头像</figcaption>
+
+<p>现在，在网站任意有你参与的位置，人们都可以在你的用户名旁边看到你的头像。</p>
+
+<p>如果你已经把头像上传到了流行的 Gravatar 托管服务（Wordpress 账户经常使用），默认就会使用这个头像，因此，你就不需要进行这一步骤了。</p>
+<p><strong>邮件地址</strong></p>
+
+<p><strong>邮件地址</strong></p>
+<p>GitHub 使用用户邮件地址区分 Git 提交。
+如果你在自己的提交中使用了多个邮件地址，希望 GitHub 可以正确地将它们连接起来，
+你需要在管理页面的 Emails 部分添加你拥有的所有邮箱地址。</p>
+
+<figcaption>Figure 6. 添加邮件地址</figcaption>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-_add_email_addresses" href="#_add_email_addresses" class="xref">添加邮件地址</a> 中我们可以看到一些不同的状态。
+顶部的地址是通过验证的，并且被设置为主要地址，这意味着该地址会接收到所有的通知和回复。
+第二个地址是通过验证的，如果愿意的话，可以将其设置为主要地址。
+最后一个地址是未通过验证的，这意味着你不能将其设置为主要地址。
+当 GitHub 发现任意版本库中的任意提交信息包含了这些地址，它就会将其链接到你的账户。</p>
+<p><strong>两步验证</strong></p>
+
+<p><strong>两步验证</strong></p>
+<p>最后，为了额外的安全性，你绝对应当设置两步验证，简写为 “2FA”。
+两步验证是一种用于降低因你的密码被盗而带来的账户风险的验证机制，现在已经变得越来越流行。
+开启两步验证，GitHub 会要求你用两种不同的验证方法，这样，即使其中一个被攻破，攻击者也不能访问你的账户。</p>
+
+<p>你可以在 Account settings 页面的 Security 标签页中找到 Two-factor Authentication 设置。</p>
+
+<figcaption>Figure 7. Security 标签页中的 2FA</figcaption>
+
+<p>点击“Set up two-factor authentication”按钮，会跳转到设置页面。该页面允许你选择是要在登录时使用手机 app 生成辅助码（一种“基于时间的一次性密码”），还是要 GitHub 通过 SMS 发送辅助码。</p>
+
+<p>选择合适的方法后，按照提示步骤设置 2FA，你的账户会变得更安全，每次登录 GitHub 时都需要提供除密码以外的辅助码。</p>
+<p><strong>对项目做出贡献</strong></p>
+
+<p><strong>对项目做出贡献</strong></p>
+<p>账户已经建立好了，现在我们来了解一些能帮助你对现有的项目做出贡献的知识。</p>
+<p><strong>派生项目</strong></p>
+
+<p><strong>派生项目</strong></p>
+<p>
+如果你想要参与某个项目，但是并没有推送权限，这时可以对这个项目进行“派生（Fork）”。
+当你“派生”一个项目时，GitHub 会在你的空间中创建一个完全属于你的项目副本，且你对其具有推送权限。</p>
+
+<p>在以前，“fork”是一个贬义词，指的是某个人使开源项目向不同的方向发展，或者创建一个竞争项目，使得原项目的贡献者分裂。
+在 GitHub，“fork”指的是你自己的空间中创建的项目副本，这个副本允许你以一种更开放的方式对其进行修改。</p>
+
+<p>通过这种方式，项目的管理者不再需要忙着把用户添加到贡献者列表并给予他们推送权限。
+人们可以派生这个项目，将修改推送到派生出的项目副本中，并通过创建拉取请求（Pull Request，简称 PR）来让他们的改动进入源版本库，下文我们会详细说明。
+创建了拉取请求后，就会开启一个可供审查代码的板块，项目的拥有者和贡献者可以在此讨论相关修改，直到项目拥有者对其感到满意，并且认为这些修改可以被合并到版本库。</p>
+
+<p>你可以通过点击项目页面右上角的“Fork”按钮，来派生这个项目。</p>
+
+<figcaption>Figure 8. “Fork”按钮</figcaption>
+
+<p>稍等片刻，你将被转到新项目页面，该项目包含可写的代码副本。</p>
+<p><strong>GitHub 流程</strong></p>
+
+<p><strong>GitHub 流程</strong></p>
+<p>
+GitHub 设计了一个以拉取请求为中心的特殊合作流程。
+它基于我们在 &lt;<a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching--_topic_branch" href="ch03-git-branching.xhtml#_topic_branch" class="xref">主题分支</a> 的 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch03-git-branching" href="ch03-git-branching.xhtml" class="xref">Git 分支</a> 中提到的工作流程。
+不管你是在一个紧密的团队中使用单独的版本库，或者使用许多的“Fork”来为一个由陌生人组成的国际企业或网络做出贡献，这种合作流程都能应付。</p>
+
+<p>流程通常如下：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">派生一个项目</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">从 <code class="literal">master</code> 分支创建一个新分支</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">提交一些修改来改进项目</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">将这个分支推送到 GitHub 上</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">创建一个拉取请求</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">讨论，根据实际情况继续修改</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">项目的拥有者合并或关闭你的拉取请求</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">将更新后的 <code class="literal">master</code> 分支同步到你的派生中</span>
+</p>
+
+<p>这基本和 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_integration_manager" href="ch05-distributed-git.xhtml#_integration_manager" class="xref">集成管理者工作流</a> 中的一体化管理流程差不多，但是团队可以使用 GitHub 提供的网页工具替代电子邮件来交流和审查修改。</p>
+
+<p>现在我们来看一个使用这个流程的例子。</p>

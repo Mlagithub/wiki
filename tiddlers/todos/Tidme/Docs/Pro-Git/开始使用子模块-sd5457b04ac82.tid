@@ -1,0 +1,120 @@
+caption: 开始使用子模块
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 工具 › 子模块 › 开始使用子模块
+tidme.chars: 2262
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch07-git-tools.xhtml
+tidme.format: epub
+tidme.hash: d33abb75bf1948e3
+tidme.id: sd5457b04ac82
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000137
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/开始使用子模块-sd5457b04ac82
+type: text/vnd.tiddlywiki
+
+<p>我们将要演示如何在一个被分成一个主项目与几个子项目的项目上开发。</p>
+
+<p>我们首先将一个已存在的 Git 仓库添加为正在工作的仓库的子模块。
+你可以通过在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git submodule add</code> 命令后面加上想要跟踪的项目的相对或绝对 URL 来添加新的子模块。
+在本例中，我们将会添加一个名为 “DbConnector” 的库。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git submodule add https://github.com/chaconinc/DbConnector
+Cloning into 'DbConnector'...
+remote: Counting objects: 11, done.
+remote: Compressing objects: 100% (10/10), done.
+remote: Total 11 (delta 0), reused 11 (delta 0)
+Unpacking objects: 100% (11/11), done.
+Checking connectivity... done.</code></p>
+
+<p>默认情况下，子模块会将子项目放到一个与仓库同名的目录中，本例中是 “DbConnector”。
+如果你想要放到其他地方，那么可以在命令结尾添加一个不同的路径。</p>
+
+<p>如果这时运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code>，你会注意到几件事。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+	new file:   .gitmodules
+	new file:   DbConnector</code></p>
+
+<p>首先应当注意到新的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitmodules</code> 文件。
+该配置文件保存了项目 URL 与已经拉取的本地目录之间的映射：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">[submodule "DbConnector"]</span>
+	path = <span style="font-style: italic">DbConnector</span>
+	url = <span style="font-style: italic">https://github.com/chaconinc/DbConnector</span></code></p>
+
+<p>如果有多个子模块，该文件中就会有多条记录。
+要重点注意的是，该文件也像 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件一样受到（通过）版本控制。
+它会和该项目的其他部分一同被拉取推送。
+这就是克隆该项目的人知道去哪获得子模块的原因。</p>
+
+<p>由于 .gitmodules 文件中的 URL 是人们首先尝试克隆/拉取的地方，因此请尽可能确保你使用的 URL 大家都能访问。
+例如，若你要使用的推送 URL 与他人的拉取 URL 不同，那么请使用他人能访问到的 URL。
+你也可以根据自己的需要，通过在本地执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git config submodule.DbConnector.url &lt;私有URL&gt;</code> 来覆盖这个选项的值。
+如果可行的话，一个相对路径会很有帮助。</p>
+
+<p>在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 输出中列出的另一个是项目文件夹记录。
+如果你运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code>，会看到类似下面的信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff --cached DbConnector
+diff --git a/DbConnector b/DbConnector
+new file mode 160000
+index 0000000..c3f01dc
+--- /dev/null
++++ b/DbConnector
+@@ -0,0 +1 @@
++Subproject commit c3f01dc8862123d317dd46284b05b6892c7b29bc</code></p>
+
+<p>虽然 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">DbConnector</code> 是工作目录中的一个子目录，但 Git 还是会将它视作一个子模块。当你不在那个目录中时，Git 并不会跟踪它的内容，
+而是将它看作子模块仓库中的某个具体的提交。</p>
+
+<p>如果你想看到更漂亮的差异输出，可以给 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 传递 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--submodule</code> 选项。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff --cached --submodule
+diff --git a/.gitmodules b/.gitmodules
+new file mode 100644
+index 0000000..71fc376
+--- /dev/null
++++ b/.gitmodules
+@@ -0,0 +1,3 @@
++[submodule "DbConnector"]
++       path = DbConnector
++       url = https://github.com/chaconinc/DbConnector
+Submodule DbConnector 0000000...c3f01dc (new submodule)</code></p>
+
+<p>当你提交时，会看到类似下面的信息：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git commit -am <span style="font-style: italic">'added DbConnector module'</span>
+[master fb9093c] added DbConnector module
+ 2 files changed, 4 insertions(+)
+ create mode 100644 .gitmodules
+ create mode 160000 DbConnector</code></p>
+
+<p>注意 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">DbConnector</code> 记录的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">160000</code> 模式。
+这是 Git 中的一种特殊模式，它本质上意味着你是将一次提交记作一项目录记录的，而非将它记录成一个子目录或者一个文件。</p>
+
+<p>最后，推送这些更改：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git push origin master</code></p>
+<p><strong>克隆含有子模块的项目</strong></p>

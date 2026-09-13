@@ -1,0 +1,84 @@
+caption: Git 基础
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础
+tidme.chars: 932
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: d3ec31b48fdfa030
+tidme.id: s3982a35fedc6
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000013
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/Git-基础-s3982a35fedc6
+type: text/vnd.tiddlywiki
+
+<p>如果你只想通过阅读一章来学习 Git，那么本章将是你的不二选择。
+本章涵盖了你在使用 Git 完成各种工作时将会用到的各种基本命令。
+在学习完本章之后，你应该能够配置并初始化一个仓库（repository）、开始或停止跟踪（track）文件、暂存（stage）或提交（commit）更改。
+本章也将向你演示了如何配置 Git 来忽略指定的文件和文件模式、如何迅速而简单地撤销错误操作、如何浏览你的项目的历史版本以及不同提交（commits）之间的差异、如何向你的远程仓库推送（push）以及如何从你的远程仓库拉取（pull）文件。</p>
+<p><strong>获取 Git 仓库</strong></p>
+
+<p><strong>获取 Git 仓库</strong></p>
+<p>通常有两种获取 Git 项目仓库的方式：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">将尚未进行版本控制的本地目录转换为 Git 仓库；</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">从其它服务器 <strong>克隆</strong> 一个已存在的 Git 仓库。</span>
+</p>
+
+<p>两种方式都会在你的本地机器上得到一个工作就绪的 Git 仓库。</p>
+<p><strong>在已存在目录中初始化仓库</strong></p>
+
+<p><strong>在已存在目录中初始化仓库</strong></p>
+<p>如果你有一个尚未进行版本控制的项目目录，想要用 Git 来控制它，那么首先需要进入该项目目录中。
+如果你还没这样做过，那么不同系统上的做法有些不同：</p>
+
+<p>在 Linux 上：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cd /home/user/my_project</code></p>
+
+<p>在 macOS 上：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cd /Users/user/my_project</code></p>
+
+<p>在 Windows 上：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>cd /c/user/my_project</code></p>
+
+<p>之后执行：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git init</code></p>
+
+<p>该命令将创建一个名为 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 的子目录，这个子目录含有你初始化的 Git 仓库中所有的必须文件，这些文件是 Git 仓库的骨干。
+但是，在这个时候，我们仅仅是做了一个初始化的操作，你的项目里的文件还没有被跟踪。
+(参见 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals" href="ch10-git-internals.xhtml" class="xref">Git 内部原理</a> 来了解更多关于到底 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 文件夹中包含了哪些文件的信息。)</p>
+
+<p>如果在一个已存在文件的文件夹（而非空文件夹）中进行版本控制，你应该开始追踪这些文件并进行初始提交。
+可以通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add</code> 命令来指定所需的文件来进行追踪，然后执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git commit</code> ：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git add *.c
+<span style="font-weight: bold">$ </span>git add LICENSE
+<span style="font-weight: bold">$ </span>git commit -m <span style="font-style: italic">'initial project version'</span></code></p>
+
+<p>稍后我们再逐一解释这些指令的行为。
+现在，你已经得到了一个存在被追踪文件与初始提交的 Git 仓库。</p>
+<p><strong>克隆现有的仓库</strong></p>

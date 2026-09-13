@@ -1,0 +1,165 @@
+caption: 环境变量
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 内部原理 › 环境变量
+tidme.chars: 2789
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch10-git-internals.xhtml
+tidme.format: epub
+tidme.hash: 1162336be5b71d35
+tidme.id: s8f061f5f4fa1
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000214
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/环境变量-s8f061f5f4fa1
+type: text/vnd.tiddlywiki
+
+
+<p><strong>环境变量</strong></p>
+<p>Git 总是在一个 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">bash</code> shell 中运行，并借助一些 shell 环境变量来决定它的运行方式。
+有时候，知道它们是什么以及它们如何让 Git 按照你想要的方式去运行会很有用。
+这里不会列出所有的 Git 环境变量，但我们会涉及最有用的那部分。</p>
+<p><strong>全局行为</strong></p>
+
+<p><strong>全局行为</strong></p>
+<p>像通常的程序一样，Git 的常规行为依赖于环境变量。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_EXEC_PATH</code></strong> 决定 Git 到哪找它的子程序 （像 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-commit</code>, <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-diff</code> 等等）。
+  你可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git --exec-path</code> 来查看当前设置。</p>
+
+<p>通常不会考虑修改 <strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">HOME</code></strong> 这个变量（太多其它东西都依赖它），这是 Git 查找全局配置文件的地方。
+  如果你想要一个包括全局配置的真正的便携版 Git， 你可以在便携版 Git 的 shell 配置中覆盖 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">HOME</code> 设置。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">PREFIX</code></strong> 也类似，除了用于系统级别的配置。
+  Git 在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">$PREFIX/etc/gitconfig</code> 查找此文件。</p>
+
+<p>如果设置了 <strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_CONFIG_NOSYSTEM</code></strong>，就禁用系统级别的配置文件。
+  这在系统配置影响了你的命令，而你又无权限修改的时候很有用。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_PAGER</code></strong> 控制在命令行上显示多页输出的程序。
+如果这个没有设置，就会用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">PAGER</code> 。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_EDITOR</code></strong> 当用户需要编辑一些文本（比如提交信息）时， Git 会启动这个编辑器。
+如果没设置，就会用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">EDITOR</code> 。</p>
+<p><strong>版本库位置</strong></p>
+
+<p><strong>版本库位置</strong></p>
+<p>Git 用了几个变量来确定它如何与当前版本库交互。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_DIR</code></strong> 是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 目录的位置。
+如果这个没有设置， Git 会按照目录树逐层向上查找 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 目录，直到到达 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">~</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">/</code>。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_CEILING_DIRECTORIES</code></strong> 控制查找 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git</code> 目录的行为。
+如果你访问加载很慢的目录（如那些磁带机上的或通过网络连接访问的），你可能会想让 Git 早点停止尝试，尤其是 shell 构建时调用了 Git 。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_WORK_TREE</code></strong> 是非空版本库的工作目录的根路径。
+如果指定了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--git-dir</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GIT_DIR</code> 但未指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--work-tree</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">GIT_WORK_TREE</code> 或
+<code xmlns="http://www.w3.org/1999/xhtml" class="literal">core.worktree</code>，那么当前工作目录就会视作工作树的顶级目录。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_INDEX_FILE</code></strong> 是索引文件的路径（只有非空版本库有）。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_OBJECT_DIRECTORY</code></strong> 用来指定 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.git/objects</code> 目录的位置。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_ALTERNATE_OBJECT_DIRECTORIES</code></strong> 一个冒号分割的列表（格式类似 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">/dir/one:/dir/two:…</code>）用来告诉 Git 到哪里去找不在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GIT_OBJECT_DIRECTORY</code> 目录中的对象。
+如果你有很多项目有相同内容的大文件，这个可以用来避免存储过多备份。</p>
+<p><strong>路径规则</strong></p>
+
+<p><strong>路径规则</strong></p>
+<p>所谓 “pathspec” 是指你在 Git 中如何指定路径，包括通配符的使用。
+它们会在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.gitignore</code> 文件中用到，命令行里也会用到（<code xmlns="http://www.w3.org/1999/xhtml" class="literal">git add *.c</code>）。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_GLOB_PATHSPECS</code></strong> 和 <strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_NOGLOB_PATHSPECS</code></strong> 控制通配符在路径规则中的默认行为。
+如果 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GIT_GLOB_PATHSPECS</code> 设置为 1, 通配符表现为通配符（这是默认设置）; 如果 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GIT_NOGLOB_PATHSPECS</code> 设置为 1,通配符仅匹配字面。意思是 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">*.c</code> 只会匹配 <em xmlns="http://www.w3.org/1999/xhtml">文件名是</em> “*.c” 的文件，而不是以 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">.c</code> 结尾的文件。
+你可以在各个路径规范中用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">:(glob)</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">:(literal)</code> 开头来覆盖这个配置，如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">:(glob)*.c</code> 。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_LITERAL_PATHSPECS</code></strong> 禁用上面的两种行为；通配符将不能用，前缀覆盖也不能用。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_ICASE_PATHSPECS</code></strong> 让所有的路径规范忽略大小写。</p>
+<p><strong>提交</strong></p>
+
+<p><strong>提交</strong></p>
+<p>Git 提交对象的创建通常最后是由 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-commit-tree</code> 来完成， <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git-commit-tree</code> 用这些环境变量作主要的信息源。 仅当这些值不存在才回退到预置的值。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_AUTHOR_NAME</code></strong> 是 “author” 字段的可读名字。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_AUTHOR_EMAIL</code></strong> 是 “author” 字段的邮件。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_AUTHOR_DATE</code></strong> 是 “author” 字段的时间戳。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_COMMITTER_NAME</code></strong> 是 “committer” 字段的可读名字。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_COMMITTER_EMAIL</code></strong> 是 “committer” 字段的邮件。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_COMMITTER_DATE</code></strong> 是 “committer” 字段的时间戳。</p>
+
+<p>如果 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">user.email</code> 没有配置， 就会用到 <strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">EMAIL</code></strong> 指定的邮件地址。
+如果 <em xmlns="http://www.w3.org/1999/xhtml">这个</em> 也没有设置， Git 继续回退使用系统用户和主机名。</p>
+<p><strong>网络</strong></p>
+
+<p><strong>网络</strong></p>
+<p>Git 使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">curl</code> 库通过 HTTP 来完成网络操作， 所以 <strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_CURL_VERBOSE</code></strong> 告诉 Git 显示所有由那个库产生的消息。
+这跟在命令行执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">curl -v</code> 差不多。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_SSL_NO_VERIFY</code></strong> 告诉 Git 不用验证 SSL 证书。
+这在有些时候是需要的， 例如你用一个自己签名的证书通过 HTTPS 来提供 Git 服务， 或者你正在搭建 Git 服务器，还没有安装完全的证书。</p>
+
+<p>如果 Git 操作在网速低于 <strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_HTTP_LOW_SPEED_LIMIT</code></strong> 字节／秒，并且持续 <strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_HTTP_LOW_SPEED_TIME</code></strong> 秒以上的时间，Git 会终止那个操作。
+这些值会覆盖 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">http.lowSpeedLimit</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">http.lowSpeedTime</code> 配置的值。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_HTTP_USER_AGENT</code></strong> 设置 Git 在通过 HTTP 通讯时用到的 user-agent。
+默认值类似于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git/2.0.0</code> 。</p>
+<p><strong>比较和合并</strong></p>
+
+<p><strong>比较和合并</strong></p>
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_DIFF_OPTS</code></strong> 这个有点起错名字了。
+有效值仅支持 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-u&lt;n&gt;</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--unified=&lt;n&gt;</code>，用来控制在 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 命令中显示的内容行数。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_EXTERNAL_DIFF</code></strong> 用来覆盖 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">diff.external</code> 配置的值。
+如果设置了这个值， 当执行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 时，Git 会调用该程序。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_DIFF_PATH_COUNTER</code></strong> 和 <strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_DIFF_PATH_TOTAL</code></strong> 对于 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">GIT_EXTERNAL_DIFF</code> 或 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">diff.external</code> 指定的程序有用。
+前者表示在一系列文件中哪个是被比较的（从 1 开始），后者表示每批文件的总数。</p>
+
+<p><strong xmlns="http://www.w3.org/1999/xhtml"><code class="literal">GIT_MERGE_VERBOSITY</code></strong> 控制递归合并策略的输出。
+允许的值有下面这些：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">0 什么都不输出，除了可能会有一个错误信息。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">1 只显示冲突。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">2 还显示文件改变。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">3 显示因为没有改变被跳过的文件。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">4 显示处理的所有路径。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">5 显示详细的调试信息。</span>
+</p>
+
+<p>默认值是 2。</p>
+<p><strong>调试</strong></p>

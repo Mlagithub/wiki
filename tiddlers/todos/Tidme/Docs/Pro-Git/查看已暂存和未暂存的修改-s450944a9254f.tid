@@ -1,0 +1,144 @@
+caption: 查看已暂存和未暂存的修改
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.4
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 基础 › 记录每次更新到仓库 › 查看已暂存和未暂存的修改
+tidme.chars: 3448
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch02-git-basics-chapter.xhtml
+tidme.format: epub
+tidme.hash: 8511f07a0e10bcd3
+tidme.id: s450944a9254f
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000018
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/查看已暂存和未暂存的修改-s450944a9254f
+type: text/vnd.tiddlywiki
+
+<p>如果 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 命令的输出对于你来说过于简略，而你想知道具体修改了什么地方，可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 命令。
+稍后我们会详细介绍 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code>，你通常可能会用它来回答这两个问题：当前做的哪些更新尚未暂存？
+有哪些更新已暂存并准备好下次提交？
+虽然 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 已经通过在相应栏下列出文件名的方式回答了这个问题，但 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code>
+能通过文件补丁的格式更加具体地显示哪些行发生了改变。</p>
+
+<p>假如再次修改 README 文件后暂存，然后编辑 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">CONTRIBUTING.md</code> 文件后先不暂存，
+运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">status</code> 命令将会看到：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   README
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></p>
+
+<p>要查看尚未暂存的文件更新了哪些部分，不加参数直接输入 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code>：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 8ebb991..643e24f 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -65,7 +65,8 @@ branch directly, things can get messy.
+ Please include a nice description of your changes when you submit your PR;
+ if we have to read the whole diff to figure out why you're contributing
+ in the first place, you're less likely to get feedback and have your change
+-merged in.
++merged in. Also, split your changes into comprehensive chunks if your patch is
++longer than a dozen lines.
+
+ If you are starting to work on a particular area, feel free to submit a PR
+ that highlights your work in progress (and note in the PR title that it's</code></p>
+
+<p>此命令比较的是工作目录中当前文件和暂存区域快照之间的差异。
+也就是修改之后还没有暂存起来的变化内容。</p>
+
+<p>若要查看已暂存的将要添加到下次提交里的内容，可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff --staged</code> 命令。
+这条命令将比对已暂存文件与最后一次提交的文件差异：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff --staged
+diff --git a/README b/README
+new file mode 100644
+index 0000000..03902a1
+--- /dev/null
++++ b/README
+@@ -0,0 +1 @@
++My Project</code></p>
+
+<p>请注意，git diff 本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。
+所以有时候你一下子暂存了所有更新过的文件，运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 后却什么也没有，就是这个原因。</p>
+
+<p>像之前说的，暂存 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">CONTRIBUTING.md</code> 后再编辑，可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git status</code> 查看已被暂存的修改或未被暂存的修改。
+如果我们的环境（终端输出）看起来如下：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git add CONTRIBUTING.md
+<span style="font-weight: bold">$ </span>echo <span style="font-style: italic">'# test line'</span> &gt;&gt; CONTRIBUTING.md
+<span style="font-weight: bold">$ </span>git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   CONTRIBUTING.md
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></p>
+
+<p>现在运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 看暂存前后的变化：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 643e24f..87f08c8 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -119,3 +119,4 @@ at the
+<span style="font-weight: bold"> #</span><span style="font-style: italic"># Starter Projects</span>
+
+ See our [projects list](https://github.com/libgit2/libgit2/blob/development/PROJECTS.md).
++# test line</code></p>
+
+<p>然后用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff --cached</code> 查看已经暂存起来的变化（ <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--staged</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--cached</code> 是同义词）：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git diff --cached
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 8ebb991..643e24f 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -65,7 +65,8 @@ branch directly, things can get messy.
+ Please include a nice description of your changes when you submit your PR;
+ if we have to read the whole diff to figure out why you're contributing
+ in the first place, you're less likely to get feedback and have your change
+-merged in.
++merged in. Also, split your changes into comprehensive chunks if your patch is
++longer than a dozen lines.
+
+ If you are starting to work on a particular area, feel free to submit a PR
+ that highlights your work in progress (and note in the PR title that it's</code></p>
+<p><strong>Git Diff 的插件版本</strong></p>
+<p>在本书中，我们使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 来分析文件差异。
+但是你也可以使用图形化的工具或外部 diff 工具来比较差异。
+可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git difftool</code> 命令来调用 emerge 或 vimdiff 等软件（包括商业软件）输出 diff 的分析结果。
+使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git difftool --tool-help</code> 命令来看你的系统支持哪些 Git Diff 插件。</p>
+<p><strong>提交更新</strong></p>

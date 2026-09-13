@@ -1,0 +1,145 @@
+caption: git revert
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 命令 › 补丁 › git revert
+tidme.chars: 2148
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/C-git-commands.xhtml
+tidme.format: epub
+tidme.hash: 1ddf4e66b1d89f79
+tidme.id: sb8e907b16995
+tidme.kind: topic
+tidme.level: 3
+tidme.merged: yes
+tidme.order: 000238
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/git-revert-sb8e907b16995
+type: text/vnd.tiddlywiki
+
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git revert</code> 命令本质上就是一个逆向的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git cherry-pick</code> 操作。
+它将你提交中的变更的以完全相反的方式的应用到一个新创建的提交中，本质上就是撤销或者倒转。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_reverse_commit" href="ch07-git-tools.xhtml#_reverse_commit" class="xref">还原提交</a> 一节中使用此命令来撤销一个合并提交。</p>
+<p><strong>邮件</strong></p>
+
+<p><strong>邮件</strong></p>
+<p>很多 Git 项目，包括 Git 本身，基本是通过邮件列表来维护的。
+从方便地生成邮件补丁到从一个邮箱中应用这些补丁,Git 都有工具来让这些操作变得简单。</p>
+<p><strong>git apply</strong></p>
+
+<p><strong>git apply</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git apply</code> 命令应用一个通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git diff</code> 或者甚至使用 GNU diff 命令创建的补丁。
+它跟补丁命令做了差不多的工作，但还是有一些小小的差别。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_patches_from_email" href="ch05-distributed-git.xhtml#_patches_from_email" class="xref">应用来自邮件的补丁</a> 一节中演示了它的使用及什么环境下你可能会用到它。</p>
+<p><strong>git am</strong></p>
+
+<p><strong>git am</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 命令用来应用来自邮箱的补丁。特别是那些被 mbox 格式化过的。
+这对于通过邮件接受补丁并将他们轻松地应用到你的项目中很有用。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_git_am" href="ch05-distributed-git.xhtml#_git_am" class="xref">使用 <code class="literal">am</code> 命令应用补丁</a> 命令中提到了它的用法及工作流，包括使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--resolved</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">-i</code> 及 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">-3</code> 选项。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch08-customizing-git--_email_hooks" href="ch08-customizing-git.xhtml#_email_hooks" class="xref">电子邮件工作流钩子</a> 也提到了几条 hooks，你可以用来辅助与 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git am</code> 相关工作流。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch06-github--_email_notifications" href="ch06-github.xhtml#_email_notifications" class="xref">邮件通知</a> 一节中我们也将用此命令来应用 格式化的 GitHub 的推送请求的变更。</p>
+<p><strong>git format-patch</strong></p>
+
+<p><strong>git format-patch</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git format-patch</code> 命令用来以 mbox 的格式来生成一系列的补丁以便你可以发送到一个邮件列表中。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch05-distributed-git--_project_over_email" href="ch05-distributed-git.xhtml#_project_over_email" class="xref">通过邮件的公开项目</a> 一节中研究了一个使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git format-patch</code> 工具为一个项目做贡献的示例。</p>
+<p><strong>git imap-send</strong></p>
+
+<p><strong>git imap-send</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git imap-send</code> 将一个由 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git format-patch</code> 生成的邮箱上传至 IMAP 草稿文件夹。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch05-distributed-git.xhtml#_project_over_email" class="xref">通过邮件的公开项目</a> 一节中见过一个通过使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git imap-send</code> 工具向一个项目发送补丁进行贡献的例子。</p>
+<p><strong>git send-email</strong></p>
+
+<p><strong>git send-email</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git send-mail</code> 命令用来通过邮件发送那些使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git format-patch</code> 生成的补丁。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch05-distributed-git.xhtml#_project_over_email" class="xref">通过邮件的公开项目</a> 一节中研究了一个使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git send-email</code> 工具发送补丁来为一个项目做贡献的示例。</p>
+<p><strong>git request-pull</strong></p>
+
+<p><strong>git request-pull</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git request-pull</code> 命令只是简单的用来生成一个可通过邮件发送给某个人的示例信息体。
+如果你在公共服务器上有一个分支，并且想让别人知道如何集成这些变更，而不用通过邮件发送补丁，你就可以执行此命令的输出发送给这个你想拉取变更的人。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch05-distributed-git.xhtml#_public_project" class="xref">派生的公开项目</a> 一节中演示了如何使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git request-pull</code> 来生成一个推送消息。</p>
+<p><strong>外部系统</strong></p>
+
+<p><strong>外部系统</strong></p>
+<p>Git 有一些可以与其他的版本控制系统集成的命令。</p>
+<p><strong>git svn</strong></p>
+
+<p><strong>git svn</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git svn</code> 可以使 Git 作为一个客户端来与 Subversion 版本控制系统通信。
+这意味着你可以使用 Git 来检出内容，或者提交到 Subversion 服务器。</p>
+
+<p><a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch09-git-and-other-systems--_git_svn" href="ch09-git-and-other-systems.xhtml#_git_svn" class="xref">Git 与 Subversion</a> 一章深入讲解了此命令。</p>
+<p><strong>git fast-import</strong></p>
+
+<p><strong>git fast-import</strong></p>
+<p>对于其他版本控制系统或者从其他任何的格式导入，你可以使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fast-import</code> 快速地将其他格式映射到 Git 可以轻松记录的格式。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch09-git-and-other-systems--_custom_importer" href="ch09-git-and-other-systems.xhtml#_custom_importer" class="xref">一个自定义的导入器</a> 一节中深入讲解了此命令。</p>
+<p><strong>管理</strong></p>
+
+<p><strong>管理</strong></p>
+<p>如果你正在管理一个 Git 仓库，或者需要通过一个复杂的方法来修复某些东西，Git 提供了一些管理命令来帮助你。</p>
+<p><strong>git gc</strong></p>
+
+<p><strong>git gc</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git gc</code> 命令在你的仓库中执行 “garbage collection”，删除数据库中不需要的文件和将其他文件打包成一种更有效的格式。</p>
+
+<p>此命令一般在背后为你工作，虽然你可以手动执行它-如果你想的话。
+我们在<a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals--_git_gc" href="ch10-git-internals.xhtml#_git_gc" class="xref">维护</a> 一节中研究此命令的几个示例。</p>
+<p><strong>git fsck</strong></p>
+
+<p><strong>git fsck</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git fsck</code> 命令用来检查内部数据库的问题或者不一致性。</p>
+
+<p>我们只在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals--_data_recovery" href="ch10-git-internals.xhtml#_data_recovery" class="xref">数据恢复</a> 这一节中快速使用了一次此命令来搜索所有的悬空对象（dangling object）。</p>
+<p><strong>git reflog</strong></p>
+
+<p><strong>git reflog</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git reflog</code> 命令分析你所有分支的头指针的日志来查找出你在重写历史上可能丢失的提交。</p>
+
+<p>我们主要在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_git_reflog" class="xref">引用日志</a> 一节中提到了此命令，并在展示了一般用法，及如何使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log -g</code> 来通过 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 的输出来查看同样的信息。</p>
+
+<p>我们同样在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch10-git-internals.xhtml#_data_recovery" class="xref">数据恢复</a> 一节中研究了一个恢复丢失的分支的实例。</p>
+<p><strong>git filter-branch</strong></p>
+
+<p><strong>git filter-branch</strong></p>
+<p><code xmlns="http://www.w3.org/1999/xhtml" class="literal">git filter-branch</code> 命令用来根据某些规则来重写大量的提交记录，例如从任何地方删除文件，或者通过过滤一个仓库中的一个单独的子目录以提取出一个项目。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_removing_file_every_commit" href="ch07-git-tools.xhtml#_removing_file_every_commit" class="xref">从每一个提交中移除一个文件</a> 一节中，我们解释了此命令，并探究了其他几个选项，例如 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--commit-filter</code>，<code xmlns="http://www.w3.org/1999/xhtml" class="literal">--subdirectory-filter</code> 及 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">--tree-filter</code> 。</p>
+
+<p>在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch09-git-and-other-systems--_git_p4" href="ch09-git-and-other-systems.xhtml#_git_p4" class="xref">Git-p4</a> 的章节中我们使用它来修复已经导入的外部仓库。</p>
+<p><strong>底层命令</strong></p>
+
+<p><strong>底层命令</strong></p>
+<p>在本书中我们也遇到了不少底层的命令。</p>
+
+<p>我们遇到的第一个底层命令是在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch06-github.xhtml#_pr_refs" class="xref">合并请求引用</a> 中的 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ls-remote</code> 命令。我们用它来查看服务端的原始引用。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#_manual_remerge" class="xref">手动文件再合并</a>、 <a xmlns="http://www.w3.org/1999/xhtml" href="ch07-git-tools.xhtml#ef_rerere" class="xref">Rerere</a> 及 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_the_index" href="ch07-git-tools.xhtml#_the_index" class="xref">索引</a> 章节中使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">ls-files</code> 来查看暂存区的更原始的样子。</p>
+
+<p>我们同样在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch07-git-tools--_branch_references" href="ch07-git-tools.xhtml#_branch_references" class="xref">分支引用</a> 一节中提到了 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">rev-parse</code> 命令，它可以接受任意字符串，并将其转成一个对象的 SHA-1 值。</p>
+
+<p>我们在 <a xmlns="http://www.w3.org/1999/xhtml" id="xref--ch10-git-internals" href="ch10-git-internals.xhtml" class="xref">Git 内部原理</a> 一章中对大部分的底层命令进行了介绍，这差不多正是这一章的重点所在。
+我们尽量避免了在本书的其他部分使用这些命令。</p>

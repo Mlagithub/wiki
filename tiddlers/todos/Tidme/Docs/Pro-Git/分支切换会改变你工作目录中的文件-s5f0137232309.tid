@@ -1,0 +1,106 @@
+caption: 分支切换会改变你工作目录中的文件
+difficulty: 0
+due: 20260913060036553
+elapsed_days: 0
+lapses: 0
+last_review: 20260913060036553
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.afactor: 1.6
+tidme.author: Scott Chacon
+tidme.breadcrumb: Pro Git › Git 分支 › 分支切换会改变你工作目录中的文件
+tidme.chars: 1407
+tidme.doc: da2a233c9
+tidme.docpage: Tidme/Docs/Pro-Git
+tidme.file: OEBPS/ch03-git-branching.xhtml
+tidme.format: epub
+tidme.hash: 9229f52f2ffd4bb3
+tidme.id: s5f0137232309
+tidme.kind: topic
+tidme.level: 2
+tidme.merged: yes
+tidme.order: 000039
+tidme.priority: 53
+tidme.source: Pro Git
+tidme.subkind: section
+title: Tidme/Docs/Pro-Git/分支切换会改变你工作目录中的文件-s5f0137232309
+type: text/vnd.tiddlywiki
+
+<p>在切换分支时，一定要注意你工作目录里的文件会被改变。
+如果是切换到一个较旧的分支，你的工作目录会恢复到该分支最后一次提交时的样子。
+如果 Git 不能干净利落地完成这个任务，它将禁止切换分支。</p>
+
+<p>我们不妨再稍微做些修改并提交：</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>vim test.rb
+<span style="font-weight: bold">$ </span>git commit -a -m <span style="font-style: italic">'made other changes'</span></code></p>
+
+<p>现在，这个项目的提交历史已经产生了分叉（参见 <a xmlns="http://www.w3.org/1999/xhtml" id="xref-divergent_history" href="#divergent_history" class="xref">项目分叉历史</a>）。
+因为刚才你创建了一个新分支，并切换过去进行了一些工作，随后又切换回 master 分支进行了另外一些工作。
+上述两次改动针对的是不同分支：你可以在不同分支间不断地来回切换和工作，并在时机成熟时将它们合并起来。
+而所有这些工作，你需要的命令只有 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">branch</code>、<code xmlns="http://www.w3.org/1999/xhtml" class="literal">checkout</code> 和 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">commit</code>。</p>
+
+<figcaption>Figure 9. 项目分叉历史</figcaption>
+
+<p>你可以简单地使用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log</code> 命令查看分叉历史。
+运行 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git log --oneline --decorate --graph --all</code> ，它会输出你的提交历史、各个分支的指向以及项目的分支分叉情况。</p>
+
+<p><code xmlns="http://www.w3.org/1999/xhtml"><span></span><span style="font-weight: bold">$ </span>git log --oneline --decorate --graph --all
+* c2b9e (HEAD, master) made other changes
+| * 87ab2 (testing) made a change
+|/
+* f30ab add feature #32 - ability to add new formats to the
+* 34ac2 fixed bug #1328 - stack overflow under certain conditions
+* 98ca9 initial commit of my project</code></p>
+
+<p>由于 Git 的分支实质上仅是包含所指对象校验和（长度为 40 的 SHA-1 值字符串）的文件，所以它的创建和销毁都异常高效。
+创建一个新分支就相当于往一个文件中写入 41 个字节（40 个字符和 1 个换行符），如此的简单能不快吗？</p>
+
+<p>这与过去大多数版本控制系统形成了鲜明的对比，它们在创建分支时，将所有的项目文件都复制一遍，并保存到一个特定的目录。
+完成这样繁琐的过程通常需要好几秒钟，有时甚至需要好几分钟。所需时间的长短，完全取决于项目的规模。
+而在 Git 中，任何规模的项目都能在瞬间创建新分支。
+同时，由于每次提交都会记录父对象，所以寻找恰当的合并基础（译注：即共同祖先）也是同样的简单和高效。
+这些高效的特性使得 Git 鼓励开发人员频繁地创建和使用分支。</p>
+
+<p>接下来，让我们看看你为什么应该这样做。</p>
+<p><strong>创建新分支的同时切换过去</strong></p>
+<p>通常我们会在创建一个新分支后立即切换过去，这可以用 <code xmlns="http://www.w3.org/1999/xhtml" class="literal">git checkout -b &lt;newbranchname&gt;</code> 一条命令搞定。</p>
+<p><strong>分支的新建与合并</strong></p>
+
+<p><strong>分支的新建与合并</strong></p>
+<p>让我们来看一个简单的分支新建与分支合并的例子，实际工作中你可能会用到类似的工作流。
+你将经历如下步骤：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">开发某个网站。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">为实现某个新的用户需求，创建一个分支。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">在这个分支上开展工作。</span>
+</p>
+
+<p>正在此时，你突然接到一个电话说有个很严重的问题需要紧急修补。
+你将按照如下方式来处理：</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">切换到你的线上分支（production branch）。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">为这个紧急任务新建一个分支，并在其中修复它。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">在测试通过之后，切换回线上分支，然后合并这个修补分支，最后将改动推送到线上分支。</span>
+</p>
+
+<p>
+<span xmlns="http://www.w3.org/1999/xhtml" class="principal">切换回你最初工作的分支上，继续工作。</span>
+</p>
+<p><strong>新建分支</strong></p>
