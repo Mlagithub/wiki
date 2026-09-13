@@ -1,0 +1,25 @@
+caption: 系统架构设计师教程
+difficulty: 0
+due: 20260913093905653
+elapsed_days: 0
+lapses: 0
+last_review: 20260913093905653
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: tidme-doc
+tidme.afactor: 1.3
+tidme.asset: Tidme/Assets/系统架构设计师教程
+tidme.breadcrumb: 系统架构设计师教程
+tidme.doc: d4a176483
+tidme.docpage: Tidme/Docs/系统架构设计师教程
+tidme.format: pdf
+tidme.kind: topic
+tidme.pages-total: 728
+tidme.priority: 50
+tidme.structure: continuous
+title: Tidme/Docs/系统架构设计师教程
+type: text/vnd.tiddlywiki
+
+<$tidme-pdf-reader/>
