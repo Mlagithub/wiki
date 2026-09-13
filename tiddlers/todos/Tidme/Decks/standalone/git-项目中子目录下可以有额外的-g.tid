@@ -1,0 +1,22 @@
+caption: git 项目中子目录下可以有额外的 .gitignore 文件吗？
+difficulty: 0
+due: 20260913075952094
+elapsed_days: 0
+lapses: 0
+last_review: 20260913075952094
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: git
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/git-项目中子目录下可以有额外的-g
+type: text/vnd.tiddlywiki
+
+git 项目中子目录下可以有额外的 .gitignore 文件吗？
+
+是的。

@@ -1,0 +1,23 @@
+caption: 用Git管理的项目中的文件只可能有哪三种状态
+created: 20260913073342376
+difficulty: 0
+due: 20260913073126609
+elapsed_days: 0
+lapses: 0
+last_review: 20260913073126609
+modified: 20260913073354283
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/用Git管理的项目中的文件只可能有哪三种
+type: text/vnd.tiddlywiki
+
+用Git管理的项目中的文件只可能有哪三种状态
+
+已提交，已修改，已暂存

@@ -1,0 +1,22 @@
+caption: Linux 上所有用户的git通用配置文件是
+difficulty: 0
+due: 20260913074024953
+elapsed_days: 0
+lapses: 0
+last_review: 20260913074024953
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: git
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/Linux-上所有用户的git通用配置文
+type: text/vnd.tiddlywiki
+
+Linux 上所有用户的git通用配置文件是
+
+/etc/gitconfig

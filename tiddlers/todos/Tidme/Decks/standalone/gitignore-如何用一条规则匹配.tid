@@ -1,0 +1,22 @@
+caption: .gitignore 如何用一条规则匹配 a/z 、 a/b/z 或 a/b/c
+difficulty: 0
+due: 20260913075655999
+elapsed_days: 0
+lapses: 0
+last_review: 20260913075655999
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: git
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/gitignore-如何用一条规则匹配
+type: text/vnd.tiddlywiki
+
+.gitignore 如何用一条规则匹配 a/z 、 a/b/z 或 a/b/c/z 等
+
+a/**/z

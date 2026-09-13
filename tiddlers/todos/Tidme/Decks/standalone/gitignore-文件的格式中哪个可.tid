@@ -1,0 +1,22 @@
+caption: .gitignore 文件的格式中哪个可以防止递归匹配
+difficulty: 0
+due: 20260913075316028
+elapsed_days: 0
+lapses: 0
+last_review: 20260913075316028
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: git
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/gitignore-文件的格式中哪个可
+type: text/vnd.tiddlywiki
+
+.gitignore 文件的格式中哪个可以防止递归匹配
+
+/

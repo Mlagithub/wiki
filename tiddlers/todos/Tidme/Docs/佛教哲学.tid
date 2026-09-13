@@ -1,0 +1,25 @@
+caption: 佛教哲学
+difficulty: 0
+due: 20260913080702596
+elapsed_days: 0
+lapses: 0
+last_review: 20260913080702596
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: tidme-doc
+tidme.afactor: 1.3
+tidme.asset: Tidme/Assets/佛教哲学
+tidme.breadcrumb: 佛教哲学
+tidme.doc: d73fcc92c
+tidme.docpage: Tidme/Docs/佛教哲学
+tidme.format: pdf
+tidme.kind: topic
+tidme.pages-total: 258
+tidme.priority: 50
+tidme.structure: continuous
+title: Tidme/Docs/佛教哲学
+type: text/vnd.tiddlywiki
+
+<$tidme-pdf-reader/>

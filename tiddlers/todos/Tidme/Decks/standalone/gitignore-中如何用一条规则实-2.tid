@@ -1,0 +1,21 @@
+caption: .gitignore 中如何用一条规则实现忽略 doc/ 目录及其所有子目录下的
+difficulty: 0
+due: 20260913075842552
+elapsed_days: 0
+lapses: 0
+last_review: 20260913075842552
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/gitignore-中如何用一条规则实-2
+type: text/vnd.tiddlywiki
+
+.gitignore 中如何用一条规则实现忽略 doc/ 目录及其所有子目录下的 .pdf 文件
+
+doc/**/*.pdf

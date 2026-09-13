@@ -1,0 +1,21 @@
+caption: 使用Git时，如果要浏览项目的历史信息，需要联网吗？
+difficulty: 0
+due: 20260913072834613
+elapsed_days: 0
+lapses: 0
+last_review: 20260913072834613
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/使用Git时,如果要浏览项目的历史信息,
+type: text/vnd.tiddlywiki
+
+使用Git时，如果要浏览项目的历史信息，需要联网吗？
+
+不需要

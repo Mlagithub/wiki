@@ -1,0 +1,22 @@
+caption: 什么是Git的工作区？
+difficulty: 0
+due: 20260913073728608
+elapsed_days: 0
+lapses: 0
+last_review: 20260913073728608
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: git
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/什么是Git的工作区
+type: text/vnd.tiddlywiki
+
+什么是Git的工作区？
+
+从数据库中提取出来的某一个版本，供查看也修改

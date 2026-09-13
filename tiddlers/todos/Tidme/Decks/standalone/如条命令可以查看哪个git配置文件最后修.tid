@@ -1,0 +1,22 @@
+caption: 如条命令可以查看哪个git配置文件最后修改了 rerere.autoUpdate
+difficulty: 0
+due: 20260913074705655
+elapsed_days: 0
+lapses: 0
+last_review: 20260913074705655
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: git
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/如条命令可以查看哪个git配置文件最后修
+type: text/vnd.tiddlywiki
+
+如条命令可以查看哪个git配置文件最后修改了 rerere.autoUpdate
+
+git config --show-origin rerere.autoUpdate
