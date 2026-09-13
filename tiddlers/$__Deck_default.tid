@@ -6,7 +6,7 @@ description: {{$:/language/tidme/defaulttip}}
 exclude_action: {{$:/plugins/keepone/tidme/review/buttons/action/exclude}}
 leech_action: {{$:/plugins/keepone/tidme/review/buttons/action/exclude}}
 leech_threshold: 8
-order: random
+order: due-new
 order_due: [sort[due]]
 order_learn: [sort[due]]
 order_new: [sortan[title]]
