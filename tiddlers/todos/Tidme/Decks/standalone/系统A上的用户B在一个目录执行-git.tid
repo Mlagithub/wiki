@@ -1,17 +1,18 @@
+annotate-colour: green
 caption: 系统A上的用户B在一个目录执行 git init 后，什么用户有权限对这个仓库进
-difficulty: 0
-due: 20260913065713325
+difficulty: 4.93
+due: 20260914073516950
 elapsed_days: 0
 lapses: 0
-last_review: 20260913065713325
-reps: 0
+last_review: 20260914072516950
+reps: 1
 scheduled_days: 0
-stability: 0
-state: 0
+stability: 2.4
+state: 1
 tidme.breadcrumb: standalone
 tidme.deck: standalone
 tidme.kind: item
-tidme.priority: 50
+tidme.priority: 55
 tidme.subkind: qa
 title: Tidme/Decks/standalone/系统A上的用户B在一个目录执行-git
 type: text/vnd.tiddlywiki
