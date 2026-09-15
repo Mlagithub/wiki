@@ -1,13 +1,16 @@
+annotate-colour: red
 caption: 架构设计的五个作用
-difficulty: 0
-due: 20260914073420603
+created: 20260915031024036
+difficulty: 6.81
+due: 20260915030037211
 elapsed_days: 0
 lapses: 0
-last_review: 20260914073420603
-reps: 0
+last_review: 20260915025937211
+modified: 20260915031209334
+reps: 1
 scheduled_days: 0
-stability: 0
-state: 0
+stability: 0.4
+state: 1
 tags: 系统架构
 tidme.breadcrumb: standalone
 tidme.deck: standalone
@@ -17,7 +20,7 @@ tidme.subkind: qa
 title: Tidme/Decks/standalone/架构设计的五个作用
 type: text/vnd.tiddlywiki
 
-架构设计的五个作用
+架构设计的五个作用（谐音记忆：需知（质）长集业）
 
 * 解决相对复杂的需求分析问题
 * 解决非功能属性在系统占据重要位置的设计问题

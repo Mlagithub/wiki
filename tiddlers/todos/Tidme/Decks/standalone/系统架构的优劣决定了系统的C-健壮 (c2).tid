@@ -10,6 +10,7 @@ stability: 0
 state: 0
 tags: 系统架构
 tidme.breadcrumb: standalone
+tidme.buried: 20260915
 tidme.deck: standalone
 tidme.kind: item
 tidme.parent: Tidme/Decks/standalone/系统架构的优劣决定了系统的C-健壮

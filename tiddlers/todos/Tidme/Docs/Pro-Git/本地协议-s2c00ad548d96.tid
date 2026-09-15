@@ -14,6 +14,7 @@ tidme.breadcrumb: Pro Git › 服务器上的 Git › 协议 › 本地协议
 tidme.chars: 1936
 tidme.doc: da2a233c9
 tidme.docpage: Tidme/Docs/Pro-Git
+tidme.done: yes
 tidme.file: OEBPS/ch04-git-on-the-server.xhtml
 tidme.format: epub
 tidme.hash: fdbbebb7ba5d0af7

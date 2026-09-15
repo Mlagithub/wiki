@@ -1,0 +1,22 @@
+caption: 如何用命令查看 README.md 这个文件在某一次提交时（6fe6a）的内容
+difficulty: 0
+due: 20260915024953100
+elapsed_days: 0
+lapses: 0
+last_review: 20260915024953100
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: git
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/如何用命令查看-README-md-这个
+type: text/vnd.tiddlywiki
+
+如何用命令查看 README.md 这个文件在某一次提交时（6fe6a）的内容
+
+git cat-file -p 6fe6a:README.md

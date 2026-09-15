@@ -1,19 +1,19 @@
 annotate-colour: green
 caption: 哪条命令可以用来克隆一个仓库 example.git 并重命名到文件夹 new_
 difficulty: 4.93
-due: 20260914071111492
-elapsed_days: 0
+due: 20260917025556346
+elapsed_days: 0.8296858101851852
 lapses: 0
-last_review: 20260914070111492
-reps: 1
-scheduled_days: 0
+last_review: 20260915025556346
+reps: 2
+scheduled_days: 2
 stability: 2.4
-state: 1
+state: 2
 tags: git
 tidme.breadcrumb: standalone
 tidme.deck: standalone
 tidme.kind: item
-tidme.priority: 55
+tidme.priority: 60
 tidme.subkind: qa
 title: Tidme/Decks/standalone/哪条命令可以用来克隆一个仓库-examp
 type: text/vnd.tiddlywiki

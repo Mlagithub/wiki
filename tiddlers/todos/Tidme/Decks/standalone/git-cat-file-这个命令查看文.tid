@@ -1,0 +1,22 @@
+caption: git cat-file 这个命令查看文件内容、文件类型、文件大小分别用哪些命令
+difficulty: 0
+due: 20260915025109114
+elapsed_days: 0
+lapses: 0
+last_review: 20260915025109114
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: git
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/git-cat-file-这个命令查看文
+type: text/vnd.tiddlywiki
+
+git cat-file 这个命令查看文件内容、文件类型、文件大小分别用哪些命令？
+
+-p -t -s

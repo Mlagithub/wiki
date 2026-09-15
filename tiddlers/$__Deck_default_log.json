@@ -6,5 +6,19 @@
     "20260914070205464": "{\"rating\":2,\"elapsed_days\":0,\"scheduled_days\":0,\"review\":\"20260914070205464\",\"state\":0}",
     "20260914072505423": "{\"rating\":3,\"elapsed_days\":0,\"scheduled_days\":0,\"review\":\"20260914072505423\",\"state\":0}",
     "20260914072516950": "{\"rating\":3,\"elapsed_days\":0,\"scheduled_days\":0,\"review\":\"20260914072516950\",\"state\":0}",
-    "20260914072529363": "{\"rating\":4,\"elapsed_days\":0,\"scheduled_days\":6,\"review\":\"20260914072529363\",\"state\":0}"
+    "20260914072529363": "{\"rating\":4,\"elapsed_days\":0,\"scheduled_days\":6,\"review\":\"20260914072529363\",\"state\":0}",
+    "20260915022920642": "{\"rating\":3,\"elapsed_days\":0.8109363194444444,\"scheduled_days\":1,\"review\":\"20260915022920642\",\"state\":1}",
+    "20260915022942857": "{\"rating\":3,\"elapsed_days\":0.8108494560185185,\"scheduled_days\":1,\"review\":\"20260915022942857\",\"state\":1}",
+    "20260915022949601": "{\"rating\":3,\"elapsed_days\":0.8119648726851851,\"scheduled_days\":2,\"review\":\"20260915022949601\",\"state\":1}",
+    "20260915022955215": "{\"rating\":3,\"elapsed_days\":0.811961400462963,\"scheduled_days\":2,\"review\":\"20260915022955215\",\"state\":1}",
+    "20260915025556346": "{\"rating\":3,\"elapsed_days\":0.8296858101851852,\"scheduled_days\":2,\"review\":\"20260915025556346\",\"state\":1}",
+    "20260915025600665": "{\"rating\":4,\"elapsed_days\":0.813139363425926,\"scheduled_days\":4,\"review\":\"20260915025600665\",\"state\":1}",
+    "20260915025607159": "{\"rating\":4,\"elapsed_days\":0.8130811226851852,\"scheduled_days\":3,\"review\":\"20260915025607159\",\"state\":1}",
+    "20260915025614150": "{\"rating\":3,\"elapsed_days\":0,\"scheduled_days\":0,\"review\":\"20260915025614150\",\"state\":0}",
+    "20260915025837997": "{\"rating\":2,\"elapsed_days\":0,\"scheduled_days\":0,\"review\":\"20260915025837997\",\"state\":0}",
+    "20260915025937211": "{\"rating\":1,\"elapsed_days\":0,\"scheduled_days\":0,\"review\":\"20260915025937211\",\"state\":0}",
+    "20260915025949473": "{\"rating\":3,\"elapsed_days\":0,\"scheduled_days\":0,\"review\":\"20260915025949473\",\"state\":0}",
+    "20260915030002921": "{\"rating\":3,\"elapsed_days\":0,\"scheduled_days\":0,\"review\":\"20260915030002921\",\"state\":0}",
+    "20260915030010555": "{\"rating\":3,\"elapsed_days\":0,\"scheduled_days\":0,\"review\":\"20260915030010555\",\"state\":0}",
+    "20260915030354430": "{\"rating\":1,\"elapsed_days\":0,\"scheduled_days\":0,\"review\":\"20260915030354430\",\"state\":0}"
 }
