@@ -1,0 +1,26 @@
+caption: 用模块化方法进行软件架构设计时，应该遵循哪五条原则
+difficulty: 0
+due: 20260915113439318
+elapsed_days: 0
+lapses: 0
+last_review: 20260915113439318
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: 软考
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/用模块化方法进行软件架构设计时,应该遵循
+type: text/vnd.tiddlywiki
+
+用模块化方法进行软件架构设计时，应该遵循哪五条原则
+
+* (1)最高模块内聚。也就是在一个模块内部的元素最大限度地关联，只实现一种功能的模块是高内聚的，具有三种以上功能的模块则是低内聚的。
+* (2)最低耦合。也就是不同模块之间的关系尽可能弱，以利于软件的升级和扩展。
+* (3)模块大小适度。颗粒过大会造成模块内部维护困难，而颗粒过小又会导致模块间的耦合增加。
+* (4)模块调用链的深度(嵌套层次)不可过多。
+* (5)接口简单、精炼(扇入扇出数不宜太大),具有信息隐蔽能力。(6)尽可能地复用已有模块。

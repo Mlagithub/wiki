@@ -1,11 +1,11 @@
 annotate-colour: red
 caption: 系统架构的优劣决定了系统的健壮性和生命周期的长短。（c1）
 difficulty: 6.81
-due: 20260915030454430
-elapsed_days: 0
+due: 20260915113515990
+elapsed_days: 0.3516384259259259
 lapses: 0
-last_review: 20260915030354430
-reps: 1
+last_review: 20260915113015990
+reps: 2
 scheduled_days: 0
 stability: 0.4
 state: 1

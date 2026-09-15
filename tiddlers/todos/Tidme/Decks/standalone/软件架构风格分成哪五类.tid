@@ -1,0 +1,26 @@
+caption: 软件架构风格分成哪五类
+difficulty: 0
+due: 20260915114202216
+elapsed_days: 0
+lapses: 0
+last_review: 20260915114202216
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: 软考
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/软件架构风格分成哪五类
+type: text/vnd.tiddlywiki
+
+软件架构风格分成哪五类
+
+* 数据流风格
+* 调用/返回风格
+* 独立组件风格
+* 虚拟机风格
+* 仓库风格

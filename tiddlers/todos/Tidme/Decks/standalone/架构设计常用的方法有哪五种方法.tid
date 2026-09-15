@@ -1,0 +1,26 @@
+caption: 架构设计常用的方法有哪五种方法
+difficulty: 0
+due: 20260915114016709
+elapsed_days: 0
+lapses: 0
+last_review: 20260915114016709
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: 软考
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/架构设计常用的方法有哪五种方法
+type: text/vnd.tiddlywiki
+
+架构设计常用的方法有哪五种方法
+
+* 从工件描述中提取架构描述的工件驱动 (artifact-driven) 方法；
+* 从用例导出架构抽象的用例驱动 (use-case-driven); 
+* 从模式导出架构抽象的模式驱动 (pattern-driven) 方法；
+* 从领域模型导出架构抽象的域驱动 (domain-driven) 方法；
+* 从设计过程中获得架构质量属性需求的属性驱动设计(attribute-driven design) 方法
