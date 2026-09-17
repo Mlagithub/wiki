@@ -1,7 +1,7 @@
 annotate-colour: green
 caption: 哪条命令可以用来克隆一个仓库 example.git 并重命名到文件夹 new_
 difficulty: 4.93
-due: 20260917025556346
+due: 20260924031910151
 elapsed_days: 0.8296858101851852
 lapses: 0
 last_review: 20260915025556346
