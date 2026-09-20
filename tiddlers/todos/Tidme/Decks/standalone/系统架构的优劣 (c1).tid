@@ -1,0 +1,21 @@
+caption: 系统架构的优劣（c1）
+difficulty: 0
+due: 20260920030949473
+elapsed_days: 0
+lapses: 0
+last_review: 20260920030949473
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: 软考
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.parent: Tidme/Decks/standalone/系统架构的优劣
+tidme.priority: 50
+tidme.subkind: cloze
+title: Tidme/Decks/standalone/系统架构的优劣 (c1)
+type: text/vnd.tiddlywiki
+
+系统架构的优劣决定了系统的<<C "健壮性" "c1" "">>和生命周期的长短

@@ -1,14 +1,14 @@
-annotate-colour: green
+annotate-colour: red
 caption: 如条命令可以查看哪个git配置文件最后修改了 rerere.autoUpdate
-difficulty: 6.81
-due: 20260916022920642
-elapsed_days: 0.8109363194444444
-lapses: 0
-last_review: 20260915022920642
-reps: 2
-scheduled_days: 1
-stability: 0.4
-state: 2
+difficulty: 8.494
+due: 20260920031656671
+elapsed_days: 5.02958369212963
+lapses: 1
+last_review: 20260920031156671
+reps: 3
+scheduled_days: 0
+stability: 0.500307586456461
+state: 3
 tags: git
 tidme.breadcrumb: standalone
 tidme.deck: standalone

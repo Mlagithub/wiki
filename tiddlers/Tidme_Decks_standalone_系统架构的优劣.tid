@@ -1,0 +1,6 @@
+tidme.cloze-note: yes
+tidme.deck: standalone
+title: Tidme/Decks/standalone/系统架构的优劣
+type: text/vnd.tiddlywiki
+
+系统架构的优劣决定了系统的<<C "健壮性" "c1" "">>和<<C "生命周期的长短" "c2" "">>
