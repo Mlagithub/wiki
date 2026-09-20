@@ -1,0 +1,25 @@
+caption: 软件的非功能性需求
+difficulty: 0
+due: 20261004131004405
+elapsed_days: 0
+lapses: 0
+last_review: 20260920130452832
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tidme.anchor: {"section":"Tidme/Decks/standalone/架构设计师的概念","snippet":"软件的可维护性、性能、复用性、可靠性、有效性和可测试性等"}
+tidme.author: 
+tidme.breadcrumb: standalone › Q&A
+tidme.doc: 
+tidme.kind: item
+tidme.parent: Tidme/Decks/standalone/架构设计师的概念
+tidme.priority: 50
+tidme.source: 
+tidme.subkind: qa
+title: Tidme/Decks/standalone/TidmeDecksstandalone架构设计师的概念--qa
+type: text/vnd.tiddlywiki
+
+软件的非功能性需求
+
+软件的可维护性、性能、复用性、可靠性、有效性和可测试性等
