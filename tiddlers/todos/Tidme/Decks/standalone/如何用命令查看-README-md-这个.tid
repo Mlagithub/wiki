@@ -1,19 +1,19 @@
-annotate-colour: red
+annotate-colour: green
 caption: 如何用命令查看 README.md 这个文件在某一次提交时（6fe6a）的内容
 difficulty: 6.81
-due: 20260920113016004
-elapsed_days: 0
+due: 20260921122215897
+elapsed_days: 0.03680431712962963
 lapses: 0
-last_review: 20260920112916004
-reps: 1
-scheduled_days: 0
+last_review: 20260920122215897
+reps: 2
+scheduled_days: 1
 stability: 0.4
-state: 1
+state: 2
 tags: git
 tidme.breadcrumb: standalone
 tidme.deck: standalone
 tidme.kind: item
-tidme.priority: 50
+tidme.priority: 55
 tidme.subkind: qa
 title: Tidme/Decks/standalone/如何用命令查看-README-md-这个
 type: text/vnd.tiddlywiki

@@ -1,0 +1,27 @@
+caption: 架构设计师的概念
+difficulty: 0
+due: 20260920123147637
+elapsed_days: 0
+lapses: 0
+last_review: 20260920123147637
+reps: 0
+scheduled_days: 0
+stability: 0
+state: 0
+tags: 软考
+tidme.breadcrumb: standalone
+tidme.deck: standalone
+tidme.kind: item
+tidme.priority: 50
+tidme.subkind: qa
+title: Tidme/Decks/standalone/架构设计师的概念
+type: text/vnd.tiddlywiki
+
+架构设计师的概念
+
+* 是系统或产品线的设计责任人
+* 是一个负责理解和管理并最终确认和评估非功能性系统需求(如软件的可维护性、性能、复用性、可靠性、有效性和可测试性等)
+* 给出开发规范
+* 搭建系统实现的核心构架
+* 对整个软件架构、关键构件和接口进行总体设计并澄清关键技术细节的
+* 高级技术人
