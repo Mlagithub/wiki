@@ -1,19 +1,19 @@
-annotate-colour: red
+annotate-colour: green
 caption: 如条命令可以查看哪个git配置文件最后修改了 rerere.autoUpdate
 difficulty: 8.494
-due: 20260920031656671
-elapsed_days: 5.02958369212963
+due: 20260921112501714
+elapsed_days: 0.34241949074074074
 lapses: 1
-last_review: 20260920031156671
-reps: 3
-scheduled_days: 0
+last_review: 20260920112501714
+reps: 4
+scheduled_days: 1
 stability: 0.500307586456461
-state: 3
+state: 2
 tags: git
 tidme.breadcrumb: standalone
 tidme.deck: standalone
 tidme.kind: item
-tidme.priority: 55
+tidme.priority: 60
 tidme.subkind: qa
 title: Tidme/Decks/standalone/如条命令可以查看哪个git配置文件最后修
 type: text/vnd.tiddlywiki

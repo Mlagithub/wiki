@@ -1,0 +1,32 @@
+created: 20260920113357163
+modified: 20260920114139530
+tags: 
+title: RemNote 核心设计架构
+type: text/vnd.tiddlywiki
+
+$$$text/vnd.tiddlywiki.mermaid
+flowchart TD
+    subgraph UI ["表现层 (React + Editor)"]
+        Reader["双栏文献阅读器 (PDF / Web)"]
+        Outliner["层级大纲树 (Hierarchy Editor)"]
+        Queue["复习会话 (FSRS / SM2 / Exponential)"]
+    end
+
+    subgraph DataModel ["领域核心层 (WASM Graph Engine)"]
+        Rem["统一基元: Rem (一切皆 Rem)"]
+        Cards["卡片派生: WrappedCardType (Concept / Cloze / Occlusion)"]
+        Graph["拓扑图缓存: wasmGraph (快速计算树后代与牌组归属)"]
+    end
+
+    subgraph Storage ["持久化层 (Electron + SQLite Server)"]
+        SQLite["SQLite (better-sqlite3 + WAL模式)"]
+        FTS["FTS5 + libsimple 中文结巴分词"]
+        Backup["自动化轮转备份 (按日/周压缩 zip)"]
+    end
+
+    Reader --> Rem
+    Outliner --> Rem
+    Rem --> Cards
+    Cards --> Queue
+    Rem --> Graph
+    Graph --> SQLite

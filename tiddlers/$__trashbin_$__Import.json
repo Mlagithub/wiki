@@ -1,0 +1,12 @@
+{
+    "created": "20260920113301379",
+    "title": "$:/Import",
+    "text": "{\n    \"tiddlers\": {\n        \"Untitled\": {\n            \"title\": \"Untitled\",\n            \"text\": \"http://efurlanm.github.io/mermaid-tw5\"\n        }\n    }\n}",
+    "type": "application/json",
+    "status": "pending",
+    "revision": "2",
+    "bag": "default",
+    "plugin-type": "import",
+    "popup-Untitled": "yes",
+    "modified": "20260920113301379"
+}
