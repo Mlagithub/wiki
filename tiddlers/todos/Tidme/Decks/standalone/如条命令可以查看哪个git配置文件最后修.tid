@@ -1,7 +1,7 @@
 annotate-colour: green
 caption: 如条命令可以查看哪个git配置文件最后修改了 rerere.autoUpdate
 difficulty: 8.494
-due: 20260921112501714
+due: 20260928121910748
 elapsed_days: 0.34241949074074074
 lapses: 1
 last_review: 20260920112501714
