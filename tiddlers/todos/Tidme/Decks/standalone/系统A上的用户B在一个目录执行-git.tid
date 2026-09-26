@@ -1,7 +1,7 @@
 annotate-colour: dodgerblue
 caption: 系统A上的用户B在一个目录执行 git init 后，什么用户有权限对这个仓库进
 difficulty: 4.93
-due: 20260925025651128
+due: 20261002031911298
 elapsed_days: 0.8130811226851852
 lapses: 0
 last_review: 20260915025607159
